@@ -1,0 +1,74 @@
+\name{magbar}
+\alias{magbar}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Pretty colour bar
+}
+\description{
+This function is a high level interface to the plotrix 'color.legend' function. It makes reasonable assumptions on the plottin window to place the colour and allows the user to specify log spacing for the colour gradient and labels, as well as add a title.
+}
+\usage{
+magbar(position = "topright", range = c(0, 1), orient = "v", log = FALSE,
+col = hsv(h = seq(2/3, 0, len = 100)), scale = c(1/4, 1/20), inset = 1/40,
+labN = 5, title = "", titleshift = 0, centrealign = "rb")
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{position}{
+Relative position of the colour bar. This argument is used like the 'legend' function. Specify one of 'bottom', 'bottomleft', 'left', 'topleft', 'top', 'topright', 'right', 'bottomright' and 'centre'.
+}
+  \item{range}{
+The text label limits used to label the colour bar.
+}
+  \item{orient}{
+Orientation. Allowed options are 'v' for vertical and 'h' for horizontal.
+}
+  \item{log}{
+Should the colour spacing and labelling be log spaced.
+}
+  \item{col}{
+Colour palette to use for the colouring of the bar.
+}
+  \item{scale}{
+The relative (to the plot window) length and width of the colour bar.
+}
+  \item{inset}{
+Relative (to the plot window) inset of the colour bar.
+}
+  \item{labN}{
+The number of text labels to draw on the colour bar.
+}
+  \item{title}{
+Optional title (or axis label for the labels) to add to the colour bar.
+}
+  \item{titleshift}{
+Extra shift to apply to the 'title' position.
+}
+  \item{centrealign}{
+Option to control the labeling position used when the position='centre'.
+}
+}
+\details{
+This function creates pretty default colour bars by assessing the current plot window. It is a higher level implementation of the plotrix 'color.legend' function.
+}
+\value{
+Called for the side effect of plotting a colour bar.
+}
+
+\author{
+Aaron Robotham
+}
+
+\seealso{
+\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magmap}},\code{\link{magrun}}
+}
+
+\examples{
+magplot(sin)
+magbar('top')
+magbar('right',title='Just looking',titleshift=0.5)
+magbar('topleft',orient='h',title='Hello!')
+}
+\keyword{bar}
+\keyword{legend}
+

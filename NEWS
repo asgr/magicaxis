@@ -1,0 +1,82 @@
+v1.0
+
+Not released on CRAN.
+
+v1.1
+
+CRAN legal- passed all checks.
+
+v1.2
+
+Bug Fixes:
+
+x and y axis limits can now be reversed without error
+
+New Features:
+
+magplot parses better to plot, allowing generic plotting of plot.density plot.histogram etc.
+
+Improved the behaviour of tick labelling by making use of the axis function (which tries hard to avoid text collisions).
+
+Generalised the labelling system with a mid level function maglab. This makes it easier for the end user to cope with specific scenarios where the default behaviour is not desired.
+
+Added more flexibility to control the outcome from magplot, meaning users should not need to access magaxis and maglab in most scenarios.
+
+v1.3
+
+Bug Fixes:
+
+When labels were FALSE plotting ticks alone wasn't working, now fixed.
+
+Changed code to use mtext instead of title for axis labels- this means labels are plotted when using layout.
+
+I've fixed a couple of plot label formatting issues. This fixes some situations where expressions were not being used, and changes 0x10^0 to 0.
+
+New Features:
+
+Allowed nice printing of smaller dynamic ranges in log plots by using powers of 10 times 1, 2 and 5 when the range covered is less than or equal to 50.
+
+v1.4
+
+Bug Fixes:
+
+Clarified some help entries, and fixed some typos.
+
+Fixed bug with logpretty in magaxis that meant it wasn't dealing with vector arguments correctly.
+
+New Features:
+
+Added vector support for majorn minorn so they can be defined separately for each axis.
+
+Added option to define the pretty gap to aim for (useful for degrees which are 45/90 rather than 50/100). This is prettybase- as an example this can be set to 45 for plotting degrees nicely.
+
+v1.5
+
+Added option for fully Hershey font output.
+
+Added magerr error bar plotting function.
+
+Added magmap variable mapping functions to allow for pretty and easy colour scaling.
+
+Added a hard trim option to maglab to ensure no values fall outside of original range.
+
+Fixed some help entries (nothing serious).
+
+Fixed bug in usemultloc that extended the range beyond that desired.
+
+v1.6
+
+Added the magrun plotting feature, which allows for easy generation of running medians and other quantiles.
+
+Fixed some help file entries
+
+Added pretty in-plot colour bar. This makes 'magic' use of the plotrix version, i.e. it works hard to produce a useful output painlessly.
+
+v 1.7
+
+Fixed error in magmap that meant flip was always from 0 -> range[2]-range[1], not from range[1] -> range[2]
+
+TO DO:
+
+Add better in-plot legends.
+
