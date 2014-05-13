@@ -58,7 +58,7 @@ This function is a mid level routine for producing nice ticks and text, with par
     Location of proposed label locations (not necessarily the same as major-tick locations).
 }
     \item{exp}{
-    Expressions to be used at lbael locations.
+    Expressions to be used at label locations.
 }
 }
 

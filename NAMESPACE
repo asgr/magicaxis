@@ -2,3 +2,4 @@ exportPattern("^[[:alpha:]]+")
 
 import("MASS")
 import('plotrix')
+import("sm")

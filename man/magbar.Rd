@@ -10,7 +10,7 @@ This function is a high level interface to the plotrix 'color.legend' function. 
 \usage{
 magbar(position = "topright", range = c(0, 1), orient = "v", log = FALSE,
 col = hsv(h = seq(2/3, 0, len = 100)), scale = c(1/4, 1/20), inset = 1/40,
-labN = 5, title = "", titleshift = 0, centrealign = "rb")
+labN = 5, title = "", titleshift = 0, centrealign = "rb", clip='')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,6 +47,9 @@ Extra shift to apply to the 'title' position.
   \item{centrealign}{
 Option to control the labeling position used when the position='centre'.
 }
+  \item{clip}{
+Setting clip='bg' will set values outside the 'range' values to be blank on the magbar (i.e. you can see through to the background).
+}
 }
 \details{
 This function creates pretty default colour bars by assessing the current plot window. It is a higher level implementation of the plotrix 'color.legend' function.
@@ -68,6 +71,9 @@ magplot(sin)
 magbar('top')
 magbar('right',title='Just looking',titleshift=0.5)
 magbar('topleft',orient='h',title='Hello!')
+magbar('bottom',range=c(0.3,30),orient='h',log=TRUE,title='Log test col')
+magbar('bottomleft',range=c(0.3,30),orient='v',log=TRUE,title='Log test bg',clip='bg')
+
 }
 \keyword{bar}
 \keyword{legend}

@@ -24,13 +24,11 @@ Added more flexibility to control the outcome from magplot, meaning users should
 
 v1.3
 
-Bug Fixes:
-
-When labels were FALSE plotting ticks alone wasn't working, now fixed.
+Fixed: when labels were FALSE plotting ticks alone wasn't working
 
 Changed code to use mtext instead of title for axis labels- this means labels are plotted when using layout.
 
-I've fixed a couple of plot label formatting issues. This fixes some situations where expressions were not being used, and changes 0x10^0 to 0.
+Fixed: a couple of plot label formatting issues. This fixes some situations where expressions were not being used, and changes 0x10^0 to 0.
 
 New Features:
 
@@ -42,7 +40,7 @@ Bug Fixes:
 
 Clarified some help entries, and fixed some typos.
 
-Fixed bug with logpretty in magaxis that meant it wasn't dealing with vector arguments correctly.
+Fixed: bug with logpretty in magaxis that meant it wasn't dealing with vector arguments correctly.
 
 New Features:
 
@@ -60,23 +58,53 @@ Added magmap variable mapping functions to allow for pretty and easy colour scal
 
 Added a hard trim option to maglab to ensure no values fall outside of original range.
 
-Fixed some help entries (nothing serious).
+Fixed: some help entries (nothing serious).
 
-Fixed bug in usemultloc that extended the range beyond that desired.
+Fixed: bug in usemultloc that extended the range beyond that desired.
 
 v1.6
 
 Added the magrun plotting feature, which allows for easy generation of running medians and other quantiles.
 
-Fixed some help file entries
+Fixed: some help file entries
 
 Added pretty in-plot colour bar. This makes 'magic' use of the plotrix version, i.e. it works hard to produce a useful output painlessly.
 
 v 1.7
 
-Fixed error in magmap that meant flip was always from 0 -> range[2]-range[1], not from range[1] -> range[2]
+Fixed: error in magmap that meant flip was always from 0 -> range[2]-range[1], not from range[1] -> range[2]
+
+v 1.8
+
+FEATURE: MagCon now has capability for xlim/ylim calls. This is useful for viewing a subset of your data and/or having inverted axes.
+
+FEATURE: Added 'weights' option to magcon
+
+Fixed: Various documentation typos.
+
+Fixed: passing error where the 'main' argument wasn't being correctly passed to magplot, so was being ignored when the user had x and y objects.
+
+Fixed: how the 'bad' flag in magmap works
+
+Fixed: documentation error in magcon- description was cut short by '%' rather than using '\%'
+
+Fixed: magbar didn’t seem to function as expected when being overlaid on a plot with logged axes.
+
+Fixed:   magbar colour bar changed range depending on how many intervals you request. i.e. the same bar settings called with labN=5 has different limits when called with labN=3. magbar now pads out the extremes of the mapping if the pretty plotting chooses to extend beyond the requested range (which it gneerally will).
+
+v 1.9 (in progress, not on CRAN yet)
+
+Feature: magmap can now output NA outside of the desired range.
+
+Fixed: log scaling had issues with magbar when the pretty scale went outside the nominal range.
+
+Fixed: Changed colour of default region outside magbar range to white. (to do)
+
+Fixed: Various documentation typos.
+
+--
 
 TO DO:
 
-Add better in-plot legends.
+FEATURE: Add better in-plot legends.
 

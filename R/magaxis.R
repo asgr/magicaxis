@@ -87,8 +87,8 @@ for(i in 1:length(side)){
   		if(usemultloc==F){
   		minors = minors[-c(1,length(minors))]
   		minor.ticks = c(outer(minors, major.ticks, `+`))
-		if(logged){axis(currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE)}
-		else axis(currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE)
+		if(logged){axis(currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE,...)}
+		else axis(currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,...)
 		}
     if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline)}
     if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline)}  

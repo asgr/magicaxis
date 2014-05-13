@@ -5,13 +5,14 @@
 2D quantile images and contours
 }
 \description{
-This function generates pretty images and contours that reflect the 2D quantile levels of the data. This means the user can immediately assess the 2D regime that contains an arbitrary percentage of the data. This function was designed particularly with the output of MCMC posteriors in mind, where visualising the location of the 68% and 95% 2D quantiles for covariant parameters is a necessary part of the post MCMC analysis.
+This function generates pretty images and contours that reflect the 2D quantile levels of the data. This means the user can immediately assess the 2D regime that contains an arbitrary percentage of the data. This function was designed particularly with the output of MCMC posteriors in mind, where visualising the location of the 68\% and 95\% 2D quantiles for covariant parameters is a necessary part of the post MCMC analysis.
 }
 \usage{
 magcon(x, y, h, doim = TRUE, docon = TRUE, dobar = TRUE, n = 100, add = FALSE,
 xlab='', ylab='', imcol = rev(rainbow(1000, start = 0, end = 2/3)),
 conlevels = c(0.5, pnorm(1) - pnorm(-1), 0.95), barposition = "topright",
-barorient = "v",bartitle = "Contained \%", bartitleshift=0,...)
+barorient = "v",bartitle = "Contained \%", bartitleshift=0,xlim=NULL,ylim=NULL,
+weights=NA,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -61,7 +62,16 @@ The orientation to use for magbar. See magbar help for more details.
 Title to use for magbar.
 }
   \item{bartitleshift}{
-control of how far the magbar title is shifted away from its default position.
+Control of how far the magbar title is shifted away from its default position.
+}
+  \item{xlim}{
+The x limits to use for the data. Default of NULL caculates the range based on the provided x data vector. Data will be clipped between the extremes given. If xlim[1]>xlim[2] plotted axes will be flipped compared to default.
+}
+  \item{ylim}{
+The y limits to use for the data. Default of NULL caculates the range based on the provided y data vector. Data will be clipped between the extremes given. If ylim[1]>ylim[2] plotted axes will be flipped compared to default.
+}
+  \item{weights}{
+A vector of weights to pass onto sm.density (that does the 2D density estimate). This must be the same length as the x and y vectors if specified.
 }
   \item{\dots}{
 Other arguments to pass to the contour function, e.g. lty=c(2,1,3).

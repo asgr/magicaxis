@@ -6,9 +6,13 @@ if(log & usemultloc==F){lims=log10(lims)}
 if(usemultloc==F){if(missing(n)){labloc=pretty(lims)}else{labloc=pretty(lims,n)}}
 if(log){
     if(usemultloc==F){
-	labloc=labloc+log10(prettybase/10)
-	labloc=labloc[round(labloc -log10(prettybase/10),10) %% 1==0];labloc=round(labloc,10)
-    	labloc=10^labloc;tickloc=labloc
+	    labloc=labloc+log10(prettybase/10)
+	    labloc=labloc[round(labloc -log10(prettybase/10),10) %% 1==0]
+      if(min(labloc)>lims[1]){labloc=c(min(labloc)-1,labloc)}
+	    if(max(labloc)<lims[2]){labloc=c(labloc,max(labloc)+1)}
+      labloc=round(labloc,10)
+      labloc=10^labloc
+      tickloc=labloc
 	}
     if(usemultloc){
         labloc={}

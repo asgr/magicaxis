@@ -9,18 +9,18 @@ This function allows the use to remap a vector of values onto a different system
 }
 \usage{
 magmap(data, lo = 0, hi = 1, flip = FALSE, range = c(0, 2/3), type = "quan",
-log = FALSE, bad = NA)
+log = FALSE, bad = NA, clip='')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
-A vector of values. This can contain bad values (NA, NaN, infinite), but these will be ignored during mapping and set to the value of input paramter 'bad'.
+A vector of values. This can contain bad values (NA, NaN, infinite), but these will be ignored during mapping and set to the value of input parameter 'bad'.
 }
   \item{lo}{
-The low limit to clip the data at (what this means varies depending on the 'type' option.
+The low limit to clip the data at (what this means varies depending on the 'type' option).
 }
   \item{hi}{
-The high limit to clip the data at (what this means varies depending on the 'type' option.
+The high limit to clip the data at (what this means varies depending on the 'type' option).
 }
   \item{flip}{
 Should the scaling be flipped. This allows numbers from 0 to 10 to be mapped from 1 to 0 (so ordered back to front with respect to the input).
@@ -35,7 +35,10 @@ The type of mapping attempted. Options are 'quan' (default), 'num', 'sig' and 'r
 If TRUE log mapping is used. If range is 1 and 100 and log=FALSE the midpoint in the mapping will be 50.5, if log=TRUE the midpoint becomes 10. This enhances the local dynamic range of the mapping for data that has a logarithmic distribution.
 }
   \item{bad}{
-Sets the value that NA, NaN and infinite input data should be set to.
+Sets the value that NA, NaN and infinite input data should be set to in the final map output.
+}
+  \item{clip}{
+By default clipped values inherit the nearest lo/hi value (depending on which side they are clipped). Setting clip='NA' will set values outside the 'lo' and 'hi' values to be NA (currently this is the only other clip option).
 }
 }
 
@@ -50,10 +53,10 @@ The a vector of the low and high limits actually applied to the data. Unless typ
 The output range (same is the requested input range, but included for book-keeping).
 }
     \item{loclip}{
-The number of objects clipped from the input data at the low end.
+The fraction of objects clipped from the input data at the low end.
 }
     \item{hiclip}{
-The number of objects clipped from the input data at the high end.
+The fraction of objects clipped from the input data at the high end.
 }
 }
 
