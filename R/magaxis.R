@@ -93,6 +93,6 @@ for(i in 1:length(side)){
     if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline)}
     if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline)}  
 }
-if(box){box()}
+if(box){box(bty=par()$bty)}
 par(family=currentfamily)
 }

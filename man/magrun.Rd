@@ -43,7 +43,7 @@ A two element vector containing optional lower and upper y limits to apply to th
 Specify axes that should be logged. Allowed arguments are 'x'
 }
   \item{Nscale}{
-Sets whether the quantile ranges and standard deviations calculated will reduced with respect to the median by the square root of the number of contributing data within each bin. The result of setting Nscale to TRUE is to scale the data like you are calculating the error in the mean, rather than the scatter. For describing he 'significance' of trends in scatter data this is often what you want to show.
+Sets whether the quantile ranges and standard deviations calculated are reduced with respect to the median by the square-root of the number of contributing data within each bin. The result of setting Nscale to TRUE is to scale the data like you are calculating the error-in-the-mean, rather than the scatter. For describing he 'significance' of trends in scatter data this is often what you want to show.
 }
   \item{diff}{
 Should the output quantiles and standard deviations be expressed as differences from the chosen type of running avergage (TRUE) or the actual values (default, FALSE). The advantage of the former is plotting the results as errorbars using magerr, which expects differences (so error like values). If set to TRUE then the output of 'xsd' and 'ysd' is a 1D vector rather than a data.frame with x/y-sd and x/y+sd columns. See the examples below for usage guidance.
