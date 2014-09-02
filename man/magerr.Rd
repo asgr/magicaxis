@@ -8,8 +8,8 @@ Error bar plotting
 A function to dd x and y error bars to plots. Low and high error bars can be generated.
 }
 \usage{
-magerr(x, y, xlo = FALSE, ylo = FALSE, xhi = xlo, yhi = ylo, log = "",
-length=0.02, ...)
+magerr(x, y, xlo = FALSE, ylo = FALSE, xhi = xlo, yhi = ylo, corxy,
+log = "", length = 0.02, col = 'black',fill=FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,14 +31,23 @@ Error on the high side for x values. This can be positive or negative- the absol
   \item{yhi}{
 Error on the high side for y values. This can be positive or negative- the absolute vaue is used. By default this will inherit the ylo value.
 }
+  \item{corxy}{
+If this paramter exists then error ellipses will be drawn instead of error bars. It takes the value of the sigma_x sigma_y correlation, i.e. corxy=covxy/(xlo*ylo).  
+}
   \item{log}{
 Set which axes are logged. Allowed values are 'x', 'y', 'xy', 'yx' or '' (default, which means axes are not logged). This is not strictly required, but it is used to catch errors that drop below 0, setting them instead to a very small value that will ensure a bar is still drawn.
 }
   \item{length}{
 Length of error bar ends.
 }
+  \item{col}{
+Either the colour of the error bars or the outline colour of the error ellipses.  
+}
+  \item{fill}{
+If fill=TRUE then the error ellipses will be filled, if FALSE then only the border will be drawn.
+}
   \item{\dots}{
-Further arguments to be passed to the arrows function used to draw the error bars.
+Further arguments to be passed to the arrows / draw.ellipse functions used to draw the error bars / error ellipses.
 }
 }
 
@@ -56,12 +65,19 @@ Aaron Robotham
 
 \examples{
 # Basic x and y errors added to plot
-temp=cbind(runif(10),runif(10),runif(10,0.05,0.2),runif(10,0.1,0.3))
+temp=cbind(x=runif(10),y=runif(10),xerr=runif(10,0.05,0.2),yerr=runif(10,0.1,0.3),corxy=runif(10,-1,1))
 magplot(temp[,1:2])
 magerr(x=temp[,1],y=temp[,2],xlo=temp[,3],ylo=temp[,4])
 # Example of errors on plots wityh log axes
 magplot(temp[,1:2],log='xy')
 magerr(x=temp[,1],y=temp[,2],xlo=temp[,3],ylo=temp[,4],log='xy')
+
+#Example of error ellipses
+
+magplot(temp[,1:2])
+magerr(x=temp[,1],y=temp[,2],xlo=temp[,3],ylo=temp[,4])
+magerr(x=temp[,1],y=temp[,2],xlo=temp[,3],ylo=temp[,4],corxy=temp[,5])
+
 }
 \keyword{error}
 

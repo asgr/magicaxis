@@ -92,18 +92,30 @@ Fixed: magbar didn’t seem to function as expected when being overlaid on a plo
 
 Fixed:   magbar colour bar changed range depending on how many intervals you request. i.e. the same bar settings called with labN=5 has different limits when called with labN=3. magbar now pads out the extremes of the mapping if the pretty plotting chooses to extend beyond the requested range (which it generally will).
 
-v 1.9 (in progress, not on CRAN yet)
+v 1.9 (latest CRAN version)
 
 Feature: magmap can now output NA outside of the desired range.
 
-Feature: magbar can now simply show the back ground outside the clipped range (previously padded out the extreme colour, which might not always be the most meaningful thing to do).
+Feature: magbar can now simply show the background outside the clipped range (previously padded out the extreme colour, which might not always be the most meaningful thing to do).
 
 Fixed: log scaling had issues in magbar when the pretty scale went outside the nominal range (the mapping was not correct in some circumstances).
 
-Fixed:  box in magaxis now inherits the bty type from par.
+Fixed: box function in magaxis now inherits the bty type from par.
 
 Fixed: Various documentation typos.
 
+
+v 1.9.1
+
+Fixed: magplot now has side option to create segments of the plot axes. This is instead of using bty in par (which only affects the box in plot, not the axis labelling). I prefer my behaviour, i.e. you can generate ticks and tick labels on the side you want straight from magplot (which isn't possible with plot). This does mean magplot behaves slightly differently to plot, but this is unavoidable for the high level plotting I desire.
+
+v 1.9.2
+
+Added error ellispe option in magerr function.
+
+v 1.9.3 (in progress, not on CRAN yet)
+
+Added stretch option to magmap, which now takes arguments 'lin' for linear, 'log' for log, 'atanh' for atanh and 'asinh' for asinh. The option 'log' no longer exists in magmap, which could break code written prior to magicaxis v1.9.3.
 --
 
 TO DO:

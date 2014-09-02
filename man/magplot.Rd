@@ -10,7 +10,7 @@ Makes scientific plots based on magaxis axes. Particularly designed for log plot
 \usage{
 magplot(x, y, log='', xlab=NULL, ylab=NULL, unlog='Auto', majorn=5, minorn=5,
 main='', labels=TRUE, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE,
-family='sans',...)
+family='sans',side=1:2,frame.plot=TRUE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -59,13 +59,21 @@ magaxis will return back to the current plotting family after the function has e
   \item{family}{
 Specifies the plotting family to be used. Allowed options are 'sans' and 'serif'. Depending on whether hersh is TRUE or FALSE these otions are either applied to the Hershey vector fonts (hersh=TRUE) or the default R Helvetica font (hersh=FALSE). magaxis will return back to the current plotting family after the function has executed.
 }
+  \item{side}{
+The side to be used for axis labelling in the same sense as the base axis function. Multiple entries are allowed. If blank all 4 axes are drawn.
+}
+  \item{frame.plot}{
+A logical indicating whether a box should be drawn around the plot.
+}
   \item{\dots}{
 Further arguments to be passed to base plot.
 }
 }
+
 \details{
 This is a simple function that just turns off most of the plotting output of base plot, and replaces where possible those present in magaxis.
 }
+
 \value{
 No output. Run for the side effect of producing nice plotting axes.
 }
@@ -85,9 +93,11 @@ magplot(log10(x),y,unlog='x')
 
 magplot(x,y,log='x')
 
-magplot(x,y,log='x',minorn=c(10,10,5,5))
+#Not ideal to have two decades between major labels
 
-magplot(x,y,log='xy',minorn=c(10,5,5,5))
+magplot(x,y,log='x',majorn=c(10,5))
+
+magplot(x,y,log='xy',majorn=c(10,5,5,5),side=1:4)
 
 #Some astronomy related examples:
 

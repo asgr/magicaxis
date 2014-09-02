@@ -51,8 +51,7 @@ if(orient=='v' & align=='lt'){text(xl-(1+titleshift)*xdiff/20,(yt+yb)/2,labels=t
 if(orient=='v' & align=='rb'){text(xr+(1+titleshift)*xdiff/20,(yt+yb)/2,labels=title,adj=c(0.5,0.5),srt=-90)}
 if(orient=='h' & align=='lt'){text((xl+xr)/2,yt+(1+titleshift)*ydiff/20,labels=title,adj=c(0.5,0.5),srt=0)}
 if(orient=='h' & align=='rb'){text((xl+xr)/2,yb-(1+titleshift)*ydiff/20,labels=title,adj=c(0.5,0.5),srt=0)}
-#if(xlog){par(usr=c(10^(par()$usr[1:2]),par()$usr[3:4]));par(xlog=TRUE)}
-#if(ylog){par(usr=c(par()$usr[1:2],10^(par()$usr[3:4])));par(ylog=TRUE)}
+
 par(xlog=xlogcheck)
 par(ylog=ylogcheck)
 par(usr=usercoord)
