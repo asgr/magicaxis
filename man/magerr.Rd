@@ -8,8 +8,8 @@ Error bar plotting
 A function to dd x and y error bars to plots. Low and high error bars can be generated.
 }
 \usage{
-magerr(x, y, xlo = FALSE, ylo = FALSE, xhi = xlo, yhi = ylo, corxy,
-log = "", length = 0.02, col = 'black',fill=FALSE,...)
+magerr(x, y, xlo, ylo, xhi = xlo, yhi = ylo, corxy, length = 0.02,
+col = 'black',fill=FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,9 +33,6 @@ Error on the high side for y values. This can be positive or negative- the absol
 }
   \item{corxy}{
 If this paramter exists then error ellipses will be drawn instead of error bars. It takes the value of the sigma_x sigma_y correlation, i.e. corxy=covxy/(xlo*ylo).  
-}
-  \item{log}{
-Set which axes are logged. Allowed values are 'x', 'y', 'xy', 'yx' or '' (default, which means axes are not logged). This is not strictly required, but it is used to catch errors that drop below 0, setting them instead to a very small value that will ensure a bar is still drawn.
 }
   \item{length}{
 Length of error bar ends.
@@ -70,7 +67,7 @@ magplot(temp[,1:2])
 magerr(x=temp[,1],y=temp[,2],xlo=temp[,3],ylo=temp[,4])
 # Example of errors on plots wityh log axes
 magplot(temp[,1:2],log='xy')
-magerr(x=temp[,1],y=temp[,2],xlo=temp[,3],ylo=temp[,4],log='xy')
+magerr(x=temp[,1],y=temp[,2],xlo=temp[,3],ylo=temp[,4])
 
 #Example of error ellipses
 

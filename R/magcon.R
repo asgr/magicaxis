@@ -15,11 +15,18 @@ convfunc=approxfun(tempsum,temp)
 levelmap=approxfun(convfunc(seq(0,1,len=1000)*max(tempsum)),seq(0,1,len=1000))
 tempcon$z=matrix(levelmap(tempcon$z),nrow=n)
 tempcon$z[is.na(tempcon$z)]=min(tempcon$z,na.rm=TRUE)
-if(doim){image(tempcon,col=imcol,axes=FALSE,add=add,xlim=xlim,ylim=ylim)}
+if(doim){
+  if(add==FALSE){
+    plot.new()
+    plot.window(xlim=xlim,ylim=ylim)
+    usrlims=par()$usr
+    rect(usrlims[1],usrlims[3],usrlims[2],usrlims[4],col=imcol[1])
+  }
+  image(tempcon,col=imcol,axes=FALSE,add=TRUE,xlim=xlim,ylim=ylim)
+}
 if(doim & docon){contour(tempcon,levels=conlevels,add=TRUE,drawlabels=F,axes=FALSE,...)}
 if(doim==FALSE & docon){contour(tempcon,levels=conlevels,add=add,drawlabels=F,axes=FALSE,xlim=xlim,ylim=ylim,...)}
 if(add==FALSE){magaxis(xlab=xlab,ylab=ylab)}
 if(doim & dobar){magbar(position=barposition,range=c(0,100),orient=barorient,col=rev(imcol),title=bartitle,titleshift=bartitleshift)}
 return=tempcon
 }
-

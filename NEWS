@@ -116,6 +116,11 @@ Added error ellispe option in magerr function.
 v 1.9.3 (in progress, not on CRAN yet)
 
 Added stretch option to magmap, which now takes arguments 'lin' for linear, 'log' for log, 'atanh' for atanh and 'asinh' for asinh. The option 'log' no longer exists in magmap, which could break code written prior to magicaxis v1.9.3.
+
+The background colour of the magcon image now extends beyond the limits of the data if necessary. 
+
+magerr now picks up the log state automatically, so log argument is no longer required.
+
 --
 
 TO DO:
