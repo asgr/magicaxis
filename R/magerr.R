@@ -9,9 +9,17 @@ if(missing(corxy)){
   	sel=which(xlodraw<=0)
   	xlodraw[sel]=1e-300
   }
+  if(doxhi & par()$xlog){
+    sel=which(xhidraw>0 & x<0)
+    x[sel]=1e-300
+  }
   if(doylo & par()$ylog){
   	sel=which(ylodraw<=0)
   	ylodraw[sel]=1e-300
+  }
+  if(doyhi & par()$ylog){
+    sel=which(yhidraw>0 & y<0)
+    y[sel]=1e-300
   }
 
   if(doxlo & any(is.finite(xlodraw))){arrows(x,y,xlodraw,y,angle=90,length=length,col=col,...)}
