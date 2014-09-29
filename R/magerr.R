@@ -37,11 +37,13 @@ if(missing(corxy)){
   b = rep(0,n)
   angle = rep(0,n)
   for(i in 1:n){
-    Cov = matrix(c(xlo[i]^2,xlo[i]*ylo[i]*corxy[i],xlo[i]*ylo[i]*corxy[i],ylo[i]^2),2)
-    E = eigen(Cov)
-    a[i] = sqrt(E$values[1])
-    b[i] = sqrt(E$values[2])
-    angle[i] = atan2(E$vector[2,1],E$vector[1,1])*180/pi
+    if(xlo[i]>0 & ylo[i]>0){
+      Cov = matrix(c(xlo[i]^2,xlo[i]*ylo[i]*corxy[i],xlo[i]*ylo[i]*corxy[i],ylo[i]^2),2)
+      E = eigen(Cov)
+      a[i] = sqrt(E$values[1])
+      b[i] = sqrt(E$values[2])
+      angle[i] = atan2(E$vector[2,1],E$vector[1,1])*180/pi
+    }
   }
   if(fill){draw.ellipse(x,y,a=a,b=b,angle=angle,border=col,col=col,...)}else{draw.ellipse(x,y,a=a,b=b,angle=angle,border=col,col=NULL,...)}
 }
