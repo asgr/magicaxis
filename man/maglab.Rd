@@ -52,13 +52,13 @@ This function is a mid level routine for producing nice ticks and text, with par
 }
 \value{
    \item{tickat}{
-    Location of proposed major-tick marks.
+   Location of proposed major-tick marks.
 }
    \item{labat}{
-    Location of proposed label locations (not necessarily the same as major-tick locations).
+   Location of proposed label locations (not necessarily the same as major-tick locations).
 }
-    \item{exp}{
-    Expressions to be used at label locations.
+   \item{exp}{
+   Expressions to be used at label locations.
 }
 }
 

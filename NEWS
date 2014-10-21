@@ -76,9 +76,9 @@ Fixed: error in magmap that meant flip was always from 0 -> range[2]-range[1], n
 
 v 1.8
 
-FEATURE: MagCon now has capability for xlim/ylim calls. This is useful for viewing a subset of your data and/or having inverted axes.
+Feature: MagCon now has capability for xlim/ylim calls. This is useful for viewing a subset of your data and/or having inverted axes.
 
-FEATURE: Added 'weights' option to magcon
+Feature: Added 'weights' option to magcon
 
 Fixed: Various documentation typos.
 
@@ -111,16 +111,23 @@ Fixed: magplot now has side option to create segments of the plot axes. This is 
 
 v 1.9.2
 
-Added error ellispe option in magerr function.
+Feature:  Added error ellispe option in magerr function.
 
-v 1.9.3 (in progress, not on CRAN yet)
+v 1.9.3 (on CRAN)
 
-Added stretch option to magmap, which now takes arguments 'lin' for linear, 'log' for log, 'atanh' for atanh and 'asinh' for asinh. The option 'log' no longer exists in magmap, which could break code written prior to magicaxis v1.9.3.
+Feature:  Added stretch option to magmap, which now takes arguments 'lin' for linear, 'log' for log, 'atanh' for atanh and 'asinh' for asinh. The option 'log' no longer exists in magmap, which could break code written prior to magicaxis v1.9.3.
 
-The background colour of the magcon image now extends beyond the limits of the data if necessary. 
+Feature:  The background colour of the magcon image now extends beyond the limits of the data if necessary. 
 
-magerr now picks up the log state automatically, so log argument is no longer required.
+Feature:  magerr now picks up the log state automatically, so log argument is no longer required.
 
+v 1.9.4 (in progress, not on CRAN yet)
+
+Feature:  Changed magmap behaviour so that when bad=lo or bad=hi it will scale the extreme by stretchscale and the stretch type, i.e. if bad=lo and stretch='atan' and stretchscale=3 then bad is internally converted to bad=atan(lo*3).
+
+Fixed:  magerr now only attempts to plot error ellipses when the ellipse has area, i.e. both xlo and xhi must be above 0. Before it would plot lots of ellipses with 0 area, i.e. a point, and this could take a lot of unnecessary time.
+
+Feature: magerr will now draw an error bar when xlo or xhi is 0 and corxy has been provided, i.e. since it can't draw an ellipse with width 0 it draws an error bar instead.
 --
 
 TO DO:

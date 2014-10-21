@@ -24,20 +24,36 @@ if(type=='rank'){
 }
 if(stretch=='log' & lo==0){stop('lo value is 0 and stretch=\'log\'- this is not allowed!')}
 if(stretch=='log' & hi==0){stop('hi value is 0 and stretch=\'log\'- this is not allowed!')}
-data=data*stretchscale
 if(lo>hi){stop('lo>hi is not allowed')}
 if(lo==hi){data=rep((range[2]+range[1])/2,length(data))}
 if(lo<hi){
-	if(stretch=='log'){data=suppressWarnings(log10(data));lo=log10(lo);hi=log10(hi)}
-  if(stretch=='atan'){data=atan(data);lo=atan(lo);hi=atan(hi)}
-	if(stretch=='asinh'){data=asinh(data);lo=asinh(lo);hi=asinh(hi)}
+	if(stretch=='log'){
+	  lo=log10(lo)
+	  hi=log10(hi)
+    data=suppressWarnings(log10(data))
+	}
+  if(stretch=='atan'){
+    lo=atan(lo*stretchscale)
+    hi=atan(hi*stretchscale)
+    data=atan(data*stretchscale)
+  }
+	if(stretch=='asinh'){
+	  lo=asinh(lo*stretchscale)
+	  hi=asinh(hi*stretchscale)
+    data=asinh(data)
+	}
   losel=data<lo; hisel=data>hi
 	data[losel]=lo; data[hisel]=hi
 	data=data-lo
 	data=range[1]+(data*(range[2]-range[1])/(hi-lo))
 	if(flip){data=range[2]-data+range[1]}
   if(clip=='NA'){data[losel]=NA;data[hisel]=NA}
-	if(stretch=='log'){lo=10^lo;hi=10^hi}
+	if(is.finite(bad)){
+    bad=bad-lo
+    bad=range[1]+(bad*(range[2]-range[1])/(hi-lo))
+    if(bad<range[1]){bad=range[1]}
+    if(bad>range[2]){bad=range[2]}
+	}
 }
 data[! good]=bad
 return(list(map=data,datalim=c(lo,hi),maplim=range,loclip=length(which(data[good]==range[1]))/length(data[good]),hiclip=length(which(data[good]==range[2]))/length(data[good])))

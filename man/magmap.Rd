@@ -38,7 +38,7 @@ If stretch='lin' linear output mapping is used. If stretch='log' logarithmic map
 A number to multiply the data by before applying the stretch. This only has a user impact for stretch='atan' and stretch='atanh' since it controls what parts of the data is in the linear or logarithmic regime of the stretch procedure.
 }
   \item{bad}{
-Sets the value that NA, NaN and infinite input data should be set to in the final map output.
+Sets the value that NA, NaN and infinite input data should be set to in the final map output. If bad is numeric then it will be converted in exactly the same manner as the data argument, hence setting bad=lo or bad=hi will automatically set bad values to be at the lower or upper extreme of the output mapping.
 }
   \item{clip}{
 By default clipped values inherit the nearest lo/hi value (depending on which side they are clipped). Setting clip='NA' will set values outside the 'lo' and 'hi' values to be NA (currently this is the only other clip option).
@@ -56,7 +56,7 @@ If range is between 1 and 100 and stretch='lin' the midpoint in the mapping will
 The remapped data. This is the same length and order as the input data.
 }
    \item{datalim}{
-The a vector of the low and high limits actually applied to the data. Unless type='num' this will probably be different to 'lo' and 'hi'.
+The a vector of the low and high limits actually applied to the data. Unless type='num' this will probably be different to the lo and hi arguments provided.
 }
     \item{maplim}{
 The output range (same is the requested input range, but included for book-keeping).
@@ -97,6 +97,11 @@ magplot(temp[,1:2],col=hsv(h=magmap(temp[,4],stretch='asinh')$map))
 temp=cbind(temp,temp[,4]-10)
 magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='atan')$map))
 magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='asinh')$map))
+#effect of stretchscale
+magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='atan',stretchscale=0.5)$map))
+magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='atan',stretchscale=2)$map))
+magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='asinh',stretchscale=0.5)$map))
+magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='asinh',stretchscale=2)$map))
 
 #Combination of mapping:
 magplot(temp[,1:2],col=hsv(h=magmap(temp[,4],stretch='log')$map),
