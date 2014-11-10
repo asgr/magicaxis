@@ -103,9 +103,16 @@ magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='atan',stretchscale=2)$map)
 magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='asinh',stretchscale=0.5)$map))
 magplot(temp[,1:2],col=hsv(h=magmap(temp[,5],stretch='asinh',stretchscale=2)$map))
 
-#Combination of mapping:
+#Using multiple mappings for plots:
 magplot(temp[,1:2],col=hsv(h=magmap(temp[,4],stretch='log')$map),
 cex=magmap(temp[,3],lo=0.5,hi=1,range=c(1,6),type='num')$map)
+
+#Different combinations of mapping options:
+magmap(c(-1,0.1,1,NA,0.3,3),lo=0,hi=2.5,type='num',stretch='lin',bad=2)$map
+magmap(c(-1,0.1,1,NA,0.3,3),lo=0.1,hi=0.9,type='quan',stretch='log',bad=2)$map
+magmap(c(-1,0.1,1,NA,0.3,3),lo=-1,hi=1,type='sig',stretch='asinh',bad=2,stretchscale=2)$map
+magmap(c(-1,0.1,1,NA,0.3,3),type='rank',stretch='atan',bad=2,stretchscale=2)$map
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
