@@ -31,19 +31,19 @@ if(lo<hi){
 	  lo=log10(lo)
 	  hi=log10(hi)
     data=suppressWarnings(log10(data))
-	  if(is.finite(bad)){bad=log10(bad)}
+	  #if(is.finite(bad)){bad=log10(bad)}
 	}
   if(stretch=='atan'){
     lo=atan(lo*stretchscale)
     hi=atan(hi*stretchscale)
     data=atan(data*stretchscale)
-    if(is.finite(bad)){bad=atan(bad*stretchscale)}
+    #if(is.finite(bad)){bad=atan(bad*stretchscale)}
   }
 	if(stretch=='asinh'){
 	  lo=asinh(lo*stretchscale)
 	  hi=asinh(hi*stretchscale)
     data=asinh(data*stretchscale)
-	  if(is.finite(bad)){bad=asinh(bad*stretchscale)}
+	  #if(is.finite(bad)){bad=asinh(bad*stretchscale)}
 	}
   losel=data<lo; hisel=data>hi
 	data[losel]=lo; data[hisel]=hi
@@ -51,13 +51,13 @@ if(lo<hi){
 	data=range[1]+(data*(range[2]-range[1])/(hi-lo))
 	if(flip){data=range[2]-data+range[1]}
   if(clip=='NA'){data[losel]=NA;data[hisel]=NA}
-	if(is.finite(bad)){
-    bad=bad-lo
-    bad=range[1]+(bad*(range[2]-range[1])/(hi-lo))
-    if(bad<range[1]){bad=range[1]}
-    if(bad>range[2]){bad=range[2]}
-    if(flip){bad=range[2]-bad+range[1]}
-	}
+	#if(is.finite(bad)){
+  #  bad=bad-lo
+  #  bad=range[1]+(bad*(range[2]-range[1])/(hi-lo))
+  #  if(bad<range[1]){bad=range[1]}
+  #  if(bad>range[2]){bad=range[2]}
+  #  if(flip){bad=range[2]-bad+range[1]}
+	#}
 }
 data[! good]=bad
 return(list(map=data,datalim=c(lo,hi),maplim=range,loclip=length(which(data[good]==range[1]))/length(data[good]),hiclip=length(which(data[good]==range[2]))/length(data[good])))

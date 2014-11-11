@@ -38,7 +38,7 @@ If stretch='lin' linear output mapping is used. If stretch='log' logarithmic map
 A number to multiply the data by before applying the stretch. This only has a user impact for stretch='atan' and stretch='atanh' since it controls what parts of the data is in the linear or logarithmic regime of the stretch procedure.
 }
   \item{bad}{
-Sets the value that NA, NaN and infinite input data should be set to in the final map output. If bad is numeric then it will be converted in exactly the same manner as the data argument, hence setting bad=lo or bad=hi will automatically set bad values to be at the lower or upper extreme of the output mapping.
+Sets the value that NA, NaN and infinite input data should be set to in the final map output. This should be thought of in the context of the range argument, i.e. if bad=range[1] then bad values will be the low range value and if bad=range[2] bad values will be the high range value.
 }
   \item{clip}{
 By default clipped values inherit the nearest lo/hi value (depending on which side they are clipped). Setting clip='NA' will set values outside the 'lo' and 'hi' values to be NA (currently this is the only other clip option).
@@ -108,10 +108,10 @@ magplot(temp[,1:2],col=hsv(h=magmap(temp[,4],stretch='log')$map),
 cex=magmap(temp[,3],lo=0.5,hi=1,range=c(1,6),type='num')$map)
 
 #Different combinations of mapping options:
-magmap(c(-1,0.1,1,NA,0.3,3),lo=0,hi=2.5,type='num',stretch='lin',bad=2)$map
-magmap(c(-1,0.1,1,NA,0.3,3),lo=0.1,hi=0.9,type='quan',stretch='log',bad=2)$map
-magmap(c(-1,0.1,1,NA,0.3,3),lo=-1,hi=1,type='sig',stretch='asinh',bad=2,stretchscale=2)$map
-magmap(c(-1,0.1,1,NA,0.3,3),type='rank',stretch='atan',bad=2,stretchscale=2)$map
+magmap(c(-1,0.1,1,NA,0.3,3),lo=0,hi=2.5,type='num',stretch='lin',bad=0.5)$map
+magmap(c(-1,0.1,1,NA,0.3,3),lo=0.1,hi=0.9,type='quan',stretch='log',bad=0.8)$map
+magmap(c(-1,0.1,1,NA,0.3,3),lo=-1,hi=1,type='sig',stretch='asinh',bad=0,stretchscale=2)$map
+magmap(c(-1,0.1,1,NA,0.3,3),type='rank',stretch='atan',bad=NA,stretchscale=2)$map
 
 #Example showing using asinh to generate a different axis mapping:
 datastretch=cbind(runif(1e3),10^runif(1e3,0,4)-10^runif(1e3,0,4))
