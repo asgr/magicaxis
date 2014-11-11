@@ -113,6 +113,21 @@ magmap(c(-1,0.1,1,NA,0.3,3),lo=0.1,hi=0.9,type='quan',stretch='log',bad=2)$map
 magmap(c(-1,0.1,1,NA,0.3,3),lo=-1,hi=1,type='sig',stretch='asinh',bad=2,stretchscale=2)$map
 magmap(c(-1,0.1,1,NA,0.3,3),type='rank',stretch='atan',bad=2,stretchscale=2)$map
 
+#Example showing using asinh to generate a different axis mapping:
+datastretch=cbind(runif(1e3),10^runif(1e3,0,4)-10^runif(1e3,0,4))
+#This isn't a very helpful view of the data
+magplot(datastretch[,1:2])
+#This only shows the positive half of the data:
+magplot(datastretch[,1:2],log='y')
+#We can do a better job by remapping using the asinh option in magmap:
+datastretch=cbind(datastretch,magmap(datastretch[,2],lo=-1e4,hi=1e4,range=c(0,1),
+type='num',stretch='asinh')$map)
+asinhticks=magmap(c(-10^(4:0),0,10^(0:4)),lo=-1e4,hi=1e4,range=c(0,1),type='num',
+stretch='asinh')$map
+magplot(datastretch[,1],datastretch[,3],side=1)
+axis(2,asinhticks,labels=c(-10^(4:0),0,10^(0:4)))
+abline(h=magmap(0,lo=-1e4,hi=1e4,range=c(0,1),type='num',stretch='asinh')$map)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
