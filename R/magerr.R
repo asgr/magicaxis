@@ -1,4 +1,5 @@
-magerr=function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='black',fill=FALSE,...){
+magerr <-
+function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='black',fill=FALSE,...){
 if(length(col)==1){col=rep(col,length(x))}
 if(!missing(corxy)){
   errbarsel=which(xlo==0 | ylo==0)

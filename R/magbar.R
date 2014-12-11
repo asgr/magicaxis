@@ -1,4 +1,5 @@
-magbar=function(position='topright',range=c(0,1),orient='v',log=FALSE,col=hsv(h=seq(2/3,0,len=100)),scale=c(1/4,1/20),inset=1/40,labN=5,title='',titleshift=0,centrealign='rb',clip=''){
+magbar <-
+function(position='topright',range=c(0,1),orient='v',log=FALSE,col=hsv(h=seq(2/3,0,len=100)),scale=c(1/4,1/20),inset=1/40,labN=5,title='',titleshift=0,centrealign='rb',clip=''){
 usercoord=par()$usr
 xlogcheck=FALSE;ylogcheck=FALSE
 if(par()$xlog){par(xlog=FALSE);par(usr=c(log10(par()$usr[1:2]),par()$usr[3:4]));xlogcheck=TRUE}

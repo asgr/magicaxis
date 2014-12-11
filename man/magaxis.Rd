@@ -8,14 +8,14 @@ Magically pretty axes
 This function generates nicely arranged axes for scientific plots, including minor tick marks. It supports log settings and can unclog axes that have been logged inline by the user. When the dynamic range is 50 or less and axis is logged, axis range factors of 10 times 1, 2 and 5 are used instead of powers of 10 alone.
 }
 \usage{
-magaxis(side=1:4, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE,
-unlog='Auto', tline=0.5, mtline=2, xlab=NULL, ylab=NULL, box=FALSE,
-crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans',...)
+magaxis(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE,
+unlog='Auto', tline=0.5, mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE,
+prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{side}{
-The side to be used for axis labelling in the same sense as the base axis function. Multiple entries are allowed. If blank all 4 axes are drawn.
+The side to be used for axis labelling in the same sense as the base axis function. Multiple entries are allowed. By default, bottom and left axes are drawn.
 }
   \item{majorn}{
 The target number of major-axis sub-divisions for pretty plotting. If length is 1 and length of side is longer than this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. Obvious reason for varying this is different pretty labelling between a and y axes.
@@ -47,9 +47,6 @@ x axis name.
   \item{ylab}{
 y axis name.
 }
-  \item{box}{
-Should a box be added around the plotting region.
-}
   \item{crunch}{
 In cases where the scientific text would be written as 1x10^8, should the 1x be removed so it reads 10^8. TRUE by default. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side.
 }
@@ -64,6 +61,9 @@ To determines whether all plot text should be passed using Hershey vector fonts.
 magaxis will return back to the current plotting family after the function has executed.}
   \item{family}{
 Specifies the plotting family to be used. Allowed options are 'sans' and 'serif'. Depending on whether hersh is TRUE or FALSE these otions are either applied to the Hershey vector fonts (hersh=TRUE) or the default R Helvetica font (hersh=FALSE). magaxis will return back to the current plotting family after the function has executed.
+}
+  \item{frame.plot}{
+A logical indicating whether a box should be drawn around the plot.
 }
   \item{\dots}{
 Other arguments to be passed to base axis function.

@@ -1,5 +1,5 @@
-magaxis<-
-function(side=1:4, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', tline=0.5, mtline=2, xlab=NULL, ylab=NULL, box=FALSE, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans',...){
+magaxis <-
+function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', tline=0.5, mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, ...){
 majornlist=majorn
 minornlist=minorn
 unloglist=unlog
@@ -93,6 +93,6 @@ for(i in 1:length(side)){
     if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline)}
     if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline)}  
 }
-if(box){box()}
+if(frame.plot){box()}
 par(family=currentfamily)
 }

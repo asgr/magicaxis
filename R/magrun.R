@@ -1,4 +1,5 @@
-magrun=function(x,y,bins=10,type='median',ranges=pnorm(c(-1,1)),binaxis='x',equalN=TRUE,xcut,ycut,log='',Nscale=FALSE,diff=FALSE){
+magrun <-
+function(x,y,bins=10,type='median',ranges=pnorm(c(-1,1)),binaxis='x',equalN=TRUE,xcut,ycut,log='',Nscale=FALSE,diff=FALSE){
 if(missing(y)){if(length(dim(x))>1){y=x[,2];x=x[,1]}else{stop('Illegal x/y data format.')}}
 if(length(ranges)>0){
 	if(ranges[1]!='sd' & (any(ranges<0) | any(ranges>1))){stop('Illegal probabilities in ranges, outside [0,1]!')}

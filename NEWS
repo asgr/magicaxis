@@ -128,6 +128,8 @@ Feature:  Changed magmap behaviour so that when bad=lo or bad=hi it will scale t
 Fixed:  magerr now only attempts to plot error ellipses when the ellipse has area, i.e. both xlo and xhi must be above 0. Before it would plot lots of ellipses with 0 area, i.e. a point, and this could take a lot of unnecessary time.
 
 Feature: magerr will now draw an error bar when xlo or xhi is 0 and corxy has been provided, i.e. since it can't draw an ellipse with width 0 it draws an error bar instead.
+
+Fixes: All magaxis options now passed onto magplot. This was suggested by Raphael Felber, and was a change I had long been meaning to make.
 --
 
 TO DO:

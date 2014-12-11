@@ -1,4 +1,5 @@
-magcon=function(x,y,h,doim=TRUE,docon=TRUE,dobar=TRUE,n=100,add=FALSE,xlab='',ylab='',imcol=rev(rainbow(1000,start=0,end=2/3)),conlevels=c(0.5,pnorm(1)-pnorm(-1),0.95), barposition='topright', barorient='v',bartitle='Contained %',bartitleshift=0,xlim=NULL,ylim=NULL,weights=NA,...){
+magcon <-
+function(x,y,h,doim=TRUE,docon=TRUE,dobar=TRUE,n=100,add=FALSE,xlab='',ylab='',imcol=rev(rainbow(1000,start=0,end=2/3)),conlevels=c(0.5,pnorm(1)-pnorm(-1),0.95), barposition='topright', barorient='v',bartitle='Contained %',bartitleshift=0,xlim=NULL,ylim=NULL,weights=NA,...){
 if(is.null(xlim)){xlim=range(x,na.rm=TRUE)}
 if(is.null(ylim)){ylim=range(y,na.rm=TRUE)}
 use=x>=min(xlim) & x<=max(xlim) & y>=min(ylim) & y<=max(ylim)
