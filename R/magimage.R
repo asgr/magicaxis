@@ -1,4 +1,4 @@
-magimage<-function(mat, astr=NULL, main="", xlab=ifelse(is.null(astr),"X (pix)","RA (deg)"), ylab=ifelse(is.null(astr),"Y (pix)","Dec (deg)"), side=1:4, ...) {
+magimage<-function(mat, astr=NULL, main="", xlab=ifelse(is.null(astr),"X (pix)","RA (deg)"), ylab=ifelse(is.null(astr),"Y (pix)","Dec (deg)"), side=1:4,labels=c(T,T,F,F),...) {
   if (!is.null(astr)) {
     lims<-.xy2ad(c(1,length(mat[,1])),c(1,length(mat[1,])),astr)
     asp<-1/cos(mean(lims[c(3,4)], na.rm=TRUE)*pi/180)
@@ -15,7 +15,7 @@ magimage<-function(mat, astr=NULL, main="", xlab=ifelse(is.null(astr),"X (pix)",
   image(x=seq(min(lims[,1]),max(lims[,1]),length=ncol),
         y=seq(min(lims[,2]),max(lims[,2]),length=nrow),
   z=matrix(1:length(mat), ncol=ncol)[nrow:1,],col=col, axes=FALSE, add=TRUE, useRaster=TRUE)
-  magaxis(main=main, xlab=xlab,ylab=ylab,labels=c(T,T,F,F))
+  magaxis(main=main, xlab=xlab,ylab=ylab,labels=labels,side=side)
 }
 .xy2ad <-
 function(x,y,astr) {

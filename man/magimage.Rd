@@ -11,7 +11,7 @@ parameters, and uses this to make accurate plot limits (useful when imaging
 astronomical photometry), assuming a TAN Gnomonic projection.
 }
 \usage{
-magimage<-function(mat, astr=NULL, main="", xlab=ifelse(is.null(astr),"X (pix)","RA (deg)"), ylab=ifelse(is.null(astr),"Y (pix)","Dec (deg)"), side=1:4, ...) {
+magimage<-function(mat, astr=NULL, main="", xlab=ifelse(is.null(astr),"X (pix)","RA (deg)"), ylab=ifelse(is.null(astr),"Y (pix)","Dec (deg)"), side=1:4, labels=c(T,T,F,F), ...) {
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,7 +20,8 @@ magimage<-function(mat, astr=NULL, main="", xlab=ifelse(is.null(astr),"X (pix)",
 \item{main}{ The main title for the plot }
 \item{xlab}{ The x-axis label for the plot. Default is to use RA when astrometry is provided, otherwise use X }
 \item{ylab}{ The y-axis label for the plot. Default is to use Dec when astrometry is provided, otherwise use Y }
-\item{side}{ The magaxis side argument; which sides to plot axes labels on }
+\item{side}{ The magaxis side argument; which sides to plot axes on }
+\item{labels}{ The magaxis labels argument; which sides to plot axes labels on }
 \item{...}{ Arguments to be passed to the magmap function }
 
 }
