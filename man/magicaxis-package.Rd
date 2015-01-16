@@ -15,6 +15,6 @@ Type: \tab Package\cr
 Version: \tab 1.9.4\cr
 Date: \tab 2014-09-29\cr
 License: \tab GPL-2 \cr
-Depends: \tab MASS, plotrix \cr
+Depends: \tab MASS, plotrix, sm \cr
 }
 }
