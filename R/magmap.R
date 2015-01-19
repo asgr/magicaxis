@@ -2,8 +2,10 @@ magmap<-
 function(data, lo=0, hi=1, flip=FALSE, range=c(0,2/3), type='quan', stretch='lin', stretchscale=1, bad=NA, clip=''){
 if(stretch=='log'){
 	good=is.na(data)==FALSE & is.nan(data)==FALSE & is.infinite(data)==FALSE & is.null(data)==FALSE & data>0
+	if(length(which(good))==0){stop('There is no numeric data with a value greater than 0!')}
 	}else{
 	good=is.na(data)==FALSE & is.nan(data)==FALSE & is.infinite(data)==FALSE & is.null(data)==FALSE
+	if(length(which(good))==0){stop('There is no numeric data!')}
 	}
 if(type=='quan'){
 	lo=quantile(data[good],lo)
