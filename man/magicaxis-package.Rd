@@ -1,6 +1,6 @@
 \name{magicaxis-package}
 \alias{magicaxis-package}
-\alias{mag}
+\alias{magicaxis}
 \docType{package}
 \title{
 Pretty scientific plotting with minor-tick and log minor-tick support
@@ -13,8 +13,8 @@ Functions to make pretty axes (major and minor) on scientific plots. Particularl
 Package: \tab magicaxis\cr
 Type: \tab Package\cr
 Version: \tab 1.9.4\cr
-Date: \tab 2014-09-29\cr
-License: \tab GPL-2 \cr
+Date: \tab 2015-06-10\cr
+License: \tab GPL-3 \cr
 Depends: \tab MASS, plotrix, sm \cr
 }
 }

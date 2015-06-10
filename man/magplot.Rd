@@ -9,9 +9,9 @@ Makes scientific plots based on magaxis axes. Particularly designed for log plot
 }
 \usage{
 magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 5, tcl = 0.5,
-ratio = 0.5, labels = TRUE, unlog = "Auto", tline = 0.5, mtline = 2, xlab = NULL,
+ratio = 0.5, labels = TRUE, unlog = "Auto", mgp = c(2,0.5,0), mtline = 2, xlab = NULL,
 ylab = NULL, crunch = TRUE, logpretty = TRUE, prettybase = 10, hersh = FALSE,
-family = "sans", frame.plot = TRUE, ...) 
+family = "sans", frame.plot = TRUE, usepar=FALSE, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,7 +28,7 @@ log axis arguments to be passed to plot. E.g. use 'x', 'y', 'xy' or 'yx' as appr
 Title for the plot. Default is no title.
 }
   \item{side}{
-The side to be used for axis labelling in the same sense as the base axis function. Multiple entries are allowed. By default, bottom and left axes are drawn.
+The side to be used for axis labelling in the same sense as the base axis function (1=bottom, 2=left, 3=top, 4=right). A vector of multiple entries is allowed. By default, bottom and left axes are drawn (i.e. side 1 and 2). If side=FALSE then no sides or labels will be drawn at all.
 }
   \item{majorn}{
 The target number of major-axis sub-divisions for pretty plotting. If length is 1 and length of side is longer than this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. Obvious reason for varying this is different pretty labelling between a and y axes.
@@ -37,7 +37,7 @@ The target number of major-axis sub-divisions for pretty plotting. If length is 
 The target number of minor-axis sub-divisions for pretty plotting. If length is 1 and length of side is longer than this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. Obvious reason for varying this is different pretty labelling between a and y axes.
 }
   \item{tcl}{
-The length of major ticks. By default these face into the plot (in common with scientific plotting).
+The length of major tick marks as a fraction of the height of a line of text. By default these face into the plot (in common with scientific plotting) with a value of 0.5, rather than the R default of -0.5. It is possible to force magaxis to inherit directly from par by setting usepar=TRUE (see below). See \code{\link{par}} for more details.
 }
   \item{ratio}{
 Ratio of minor to major tick mark lengths.
@@ -48,8 +48,8 @@ Specifies whether major-axis ticks should be labelled for each axis. If length i
   \item{unlog}{
 Determines if axis labels should be unlogged. If axis is found to be logged in par('usr') then the minor ticks are automatically log spaced, however "unlog" still controls how the labelling is done: either logged form (FALSE) or exponent form (TRUE). If axis has been explicitly logged (e.g. log10(x)) then this will can produce exponential axis marking/ labelling if set to TRUE. This case will also produce log minor tick marks. If length of unlog is 1 and length of side is longer than 1 then the assigned unlog value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. Can also take the text argument 'x', 'y', 'xy' or 'yx', where these refer to which axes have been logged. If left at the default of `Auto' then unlog is assumed to be true when the axis in question is logged, and false otherwise.
 }
-  \item{tline}{
-Number of lines separating labels from axis.
+  \item{mgp}{
+The margin line (in mex units) for the axis title, axis labels and axis line. This has different (i.e. prettier) defaults than R of c(2,0.5,0) rather than c(3,1,0). This pushes the numbers and labels nearer to the plot compared to the defaults. It is possible to force magaxis to inherit directly from par by setting usepar=TRUE (see below). See \code{\link{par}} for more details.
 }
   \item{mtline}{
 Number of lines separating axis name from axis.
@@ -76,7 +76,10 @@ magaxis will return back to the current plotting family after the function has e
 Specifies the plotting family to be used. Allowed options are 'sans' and 'serif'. Depending on whether hersh is TRUE or FALSE these otions are either applied to the Hershey vector fonts (hersh=TRUE) or the default R Helvetica font (hersh=FALSE). magaxis will return back to the current plotting family after the function has executed.
 }
   \item{frame.plot}{
-A logical indicating whether a box should be drawn around the plot.
+Logical indicating whether a box should be drawn around the plot.
+}
+  \item{usepar}{
+Logical indicating whether tcl and mgp should be forced to inherit the global par values. This might be preferred when you want to define global plot settings at the start of a script.
 }
   \item{\dots}{
 Further arguments to be passed to base plot.

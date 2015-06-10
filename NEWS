@@ -121,15 +121,22 @@ Feature:  The background colour of the magcon image now extends beyond the limit
 
 Feature:  magerr now picks up the log state automatically, so log argument is no longer required.
 
-v 1.9.4 (in progress, not on CRAN yet)
+v 1.9.4 (on CRAN)
 
-Feature:  Changed magmap behaviour so that when bad=lo or bad=hi it will scale the extreme by stretchscale and the stretch type, i.e. if bad=lo and stretch='atan' and stretchscale=3 then bad is internally converted to bad=atan(lo*3).
+WARNING! Argument change: tline no longer exists as an option for magplot or magaxis, instead the user defines the full mgp vector, where it has "pretty" defaults of c(2,0.5,0).
+
+Feature: Added usepar option to magplot and magaxis. Setting this to TRUE forces both of these functions to use the global par setting for tcl and mgp, rather than the function level arguments (they become over-ridden). This should allow users to change settings globally, which is preferred for scripting uses.
 
 Fixed:  magerr now only attempts to plot error ellipses when the ellipse has area, i.e. both xlo and xhi must be above 0. Before it would plot lots of ellipses with 0 area, i.e. a point, and this could take a lot of unnecessary time.
 
 Feature: magerr will now draw an error bar when xlo or xhi is 0 and corxy has been provided, i.e. since it can't draw an ellipse with width 0 it draws an error bar instead.
 
-Fixes: All magaxis options now passed onto magplot. This was suggested by Raphael Felber, and was a change I had long been meaning to make.
+Fixes: All magplot options now passed onto magaxis. This was suggested by Raphael Felber, and was a change I had long been meaning to make.
+
+Feature: side=FALSE in magplot will now not plot any sides (in this case the user could just have used plot, but adding this option makes scripting easier)
+
+License: Changed to GPL-3 after a user request.
+
 --
 
 TO DO:

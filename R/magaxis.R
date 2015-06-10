@@ -1,5 +1,5 @@
 magaxis <-
-function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', tline=0.5, mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, ...){
+function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, ...){
 majornlist=majorn
 minornlist=minorn
 unloglist=unlog
@@ -31,6 +31,11 @@ if(hersh & family=='serif'){par(family='HersheySerif')}
 if(hersh & family=='sans'){par(family='HersheySans')}
 if(hersh==F & family=='serif'){par(family='serif')}
 if(hersh==F & family=='sans'){par(family='sans')}
+
+if(usepar){
+  tcl=par()$tcl
+  mgp=par()$mgp
+}
 
 for(i in 1:length(side)){
 		currentside=side[i]
@@ -76,12 +81,12 @@ for(i in 1:length(side)){
   		minors = pretty(major.ticks[1:2],minorn+2)-major.ticks[1]
  		}
 
- 		if(logged){axis(side=currentside,at=10^major.ticks,tcl=tcl,labels=FALSE,mgp=c(2,tline,0),...)}
- 		else axis(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=c(2,tline,0),...)
+ 		if(logged){axis(side=currentside,at=10^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,...)}
+ 		else axis(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,...)
  		
   		if(labels){
-  		    if(logged){axis(side=currentside,at=10^labloc,tick=F,labels=uselabels,mgp=c(2,tline,0),...)}
-  		    else axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=c(2,tline,0),...)
+  		    if(logged){axis(side=currentside,at=10^labloc,tick=F,labels=uselabels,mgp=mgp,...)}
+  		    else axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,...)
   		}
   		
   		if(usemultloc==F){
