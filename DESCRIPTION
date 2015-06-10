@@ -1,7 +1,7 @@
 Package: magicaxis
 Type: Package
-Title: Pretty scientific plotting with minor-tick and log minor-tick support
-Version: 1.9.4
+Title: Pretty Scientific Plotting with Minor-Tick and Log Minor-Tick Support
+Version: 1.9.5
 Date: 2015-06-10
 Author: Aaron Robotham
 Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>

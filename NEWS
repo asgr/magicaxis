@@ -113,7 +113,7 @@ v 1.9.2
 
 Feature:  Added error ellispe option in magerr function.
 
-v 1.9.3 (on CRAN)
+v 1.9.3
 
 Feature:  Added stretch option to magmap, which now takes arguments 'lin' for linear, 'log' for log, 'atanh' for atanh and 'asinh' for asinh. The option 'log' no longer exists in magmap, which could break code written prior to magicaxis v1.9.3.
 
@@ -136,6 +136,8 @@ Fixes: All magplot options now passed onto magaxis. This was suggested by Raphae
 Feature: side=FALSE in magplot will now not plot any sides (in this case the user could just have used plot, but adding this option makes scripting easier)
 
 License: Changed to GPL-3 after a user request.
+
+v 1.9.5 ( not on CRAN)
 
 --
 
