@@ -37,9 +37,11 @@ if(binaxis=='y'){checkvec=y}
 	breaks=bins
         bins=length(bins)-1
     }
-
+  Nbins={}
     for(i in 1:bins){
 	binsel=which(checkvec>=breaks[i] & checkvec<=breaks[i+1])
+  Nbin=length(binsel)
+  Nbins=c(Nbins,Nbin)
 #First running average stuff
 	if(type=='median'){
 	    xmtemp=median(x[binsel],na.rm=TRUE)
@@ -70,8 +72,8 @@ if(binaxis=='y'){checkvec=y}
 	    if(Nscale){
 		diffx=xqtemp-xmtemp
 		diffy=yqtemp-ymtemp
-		xqtemp=xmtemp+diffx/sqrt(length(binsel))
-		yqtemp=ymtemp+diffy/sqrt(length(binsel))
+		xqtemp=xmtemp+diffx/sqrt(Nbin)
+		yqtemp=ymtemp+diffy/sqrt(Nbin)
 	    }
 	    if(diff){
 		xqtemp=xqtemp-xmtemp
@@ -83,16 +85,16 @@ if(binaxis=='y'){checkvec=y}
 #Now running standard deviation stuff
 	if(diff){
 	    if(Nscale){
-                xsd=c(xsd,sd(x[binsel])/sqrt(length(binsel)))
-                ysd=c(ysd,sd(y[binsel])/sqrt(length(binsel)))
+                xsd=c(xsd,sd(x[binsel])/sqrt(Nbin))
+                ysd=c(ysd,sd(y[binsel])/sqrt(Nbin))
 	    }else{
 	        xsd=c(xsd,sd(x[binsel]))
                 ysd=c(ysd,sd(y[binsel]))
 	    }
 	}else{
 	    if(Nscale){
-                xsd=rbind(xsd,c(xmtemp-sd(x[binsel])/sqrt(length(binsel)),xmtemp+sd(x[binsel])/sqrt(length(binsel))))
-                ysd=rbind(ysd,c(ymtemp-sd(y[binsel])/sqrt(length(binsel)),ymtemp+sd(y[binsel])/sqrt(length(binsel))))
+                xsd=rbind(xsd,c(xmtemp-sd(x[binsel])/sqrt(Nbin),xmtemp+sd(x[binsel])/sqrt(Nbin)))
+                ysd=rbind(ysd,c(ymtemp-sd(y[binsel])/sqrt(Nbin),ymtemp+sd(y[binsel])/sqrt(Nbin)))
 	    }else{
                 xsd=rbind(xsd,c(xmtemp-sd(x[binsel]),xmtemp+sd(x[binsel])))
                 ysd=rbind(ysd,c(ymtemp-sd(y[binsel]),ymtemp+sd(y[binsel])))
@@ -106,5 +108,5 @@ if(missing(log)==F){
     if(log=='xy' | log=='yx'){xmid=10^xmid;ymid=10^ymid;if(length(ranges)>0){xquan=10^xquan;yquan=10^yquan}}
 }
 
-return=list(x=xmid,y=ymid,xquan=xquan,yquan=yquan,xsd=xsd,ysd=ysd,bincens=bincens,binlims=breaks)
+return=list(x=xmid,y=ymid,xquan=xquan,yquan=yquan,xsd=xsd,ysd=ysd,bincens=bincens,binlims=breaks,Nbins=Nbins)
 }

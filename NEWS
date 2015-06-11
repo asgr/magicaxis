@@ -139,6 +139,10 @@ License: Changed to GPL-3 after a user request.
 
 v 1.9.5 ( not on CRAN)
 
+Feature: Added Nbins output to magrun. This effectively produces a histogram counts output for the final bin limits.
+
+Feature: magplot dots (...) now also get sent to magaxis -> axis, previously they only went to plot.
+
 --
 
 TO DO:

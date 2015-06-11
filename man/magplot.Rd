@@ -82,7 +82,7 @@ Logical indicating whether a box should be drawn around the plot.
 Logical indicating whether tcl and mgp should be forced to inherit the global par values. This might be preferred when you want to define global plot settings at the start of a script.
 }
   \item{\dots}{
-Further arguments to be passed to base plot.
+Further arguments to be passed to base plot and also to magaxis -> axis.
 }
 }
 

@@ -77,6 +77,9 @@ The bin centres used in the chosen binning direction.
   \item{binlim}{
 The bin limits used in the chosen binning direction.
 }
+  \item{Nbins}{
+The number of items contributing to each running bin. This effectively produces a histogram counts output for the final bin limits.
+}
 }
 \author{
 Aaron Robotham
