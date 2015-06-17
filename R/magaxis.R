@@ -1,5 +1,10 @@
 magaxis <-
 function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, ...){
+dots=list(...)
+dotskeep=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'lwd.ticks')
+if(length(dots)>0){
+  dots=dots[names(dots) %in% dotskeep]
+}
 majornlist=majorn
 minornlist=minorn
 unloglist=unlog
@@ -67,37 +72,52 @@ for(i in 1:length(side)){
         }
  		}
  		if(logged & unlog==F){
- 		sci.tick=maglab(10^lims,n=majorn,log=T,exptext=F,crunch=crunch,logpretty=logpretty,usemultloc=usemultloc,prettybase=prettybase, hersh=hersh)
- 		major.ticks = log10(sci.tick$tickat)
+ 		  sci.tick=maglab(10^lims, n=majorn, log=T, exptext=F, crunch=crunch, logpretty=logpretty,usemultloc=usemultloc, prettybase=prettybase, hersh=hersh)
+ 		  major.ticks = log10(sci.tick$tickat)
   		uselabels = sci.tick$exp
   		labloc = log10(sci.tick$labat)
- 		if(usemultloc==F){minors = log10(pretty(10^major.ticks[1:2],minorn+2))-major.ticks[1]}
+ 		  if(usemultloc==F){minors = log10(pretty(10^major.ticks[1:2],minorn+2))-major.ticks[1]}
  		}
+
  		if(logged==F & unlog==F){
- 		sci.tick=maglab(lims,n=majorn,log=F,exptext=F,prettybase=prettybase, hersh=hersh)
- 		major.ticks = sci.tick$tickat
+ 		  sci.tick=maglab(lims,n=majorn,log=F,exptext=F,prettybase=prettybase, hersh=hersh)
+ 		  major.ticks = sci.tick$tickat
   		uselabels = sci.tick$exp
   		labloc = sci.tick$labat
   		minors = pretty(major.ticks[1:2],minorn+2)-major.ticks[1]
- 		}
+  	}
 
- 		if(logged){axis(side=currentside,at=10^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,...)}
- 		else axis(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,...)
+ 		if(logged){
+ 		  do.call("axis", c(list(side=currentside,at=10^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dots))
+ 		  #axis(side=currentside,at=10^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,col=col.ticks,...)
+ 		}else{
+ 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dots))
+ 		  #axis(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,col=col.ticks,...)
+ 		}
  		
-  		if(labels){
-  		    if(logged){axis(side=currentside,at=10^labloc,tick=F,labels=uselabels,mgp=mgp,...)}
-  		    else axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,...)
-  		}
-  		
-  		if(usemultloc==F){
-  		minors = minors[-c(1,length(minors))]
-  		minor.ticks = c(outer(minors, major.ticks, `+`))
-		if(logged){axis(currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE,...)}
-		else axis(currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,...)
-		}
-    if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline)}
-    if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline)}  
+    if(labels){
+      if(logged){
+        axis(side=currentside,at=10^labloc,tick=F,labels=uselabels,mgp=mgp,...)
+      }else{
+        axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,...)
+      }
+    }
+    
+    if(usemultloc==F){
+      minors = minors[-c(1,length(minors))]
+      minor.ticks = c(outer(minors, major.ticks, `+`))
+      if(logged){
+        do.call("axis", c(list(side=currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE),dots))
+        #axis(side=currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE,col=col.ticks,...)
+      }else{
+        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE),dots))
+        #axis(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,col=col.ticks,...)
+      }
+      if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline)}
+      if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline)}  
+    }
 }
+
 if(frame.plot){box()}
 par(family=currentfamily)
 }
