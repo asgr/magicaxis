@@ -97,9 +97,11 @@ for(i in 1:length(side)){
  		
     if(labels){
       if(logged){
-        axis(side=currentside,at=10^labloc,tick=F,labels=uselabels,mgp=mgp,...)
+        do.call("axis", c(list(side=currentside,at=10^labloc,tick=F,labels=uselabels,mgp=mgp),dots))
+        #axis(side=currentside,at=10^labloc,tick=F,labels=uselabels,mgp=mgp,...)
       }else{
-        axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,...)
+        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp),dots))
+        #axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,...)
       }
     }
     
