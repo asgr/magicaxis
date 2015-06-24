@@ -109,10 +109,10 @@ for(i in 1:length(side)){
       minors = minors[-c(1,length(minors))]
       minor.ticks = c(outer(minors, major.ticks, `+`))
       if(logged){
-        do.call("axis", c(list(side=currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE),dots))
+        do.call("axis", c(list(side=currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dots))
         #axis(side=currentside,at=10^minor.ticks,tcl=tcl*ratio,labels=FALSE,col=col.ticks,...)
       }else{
-        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE),dots))
+        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dots))
         #axis(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,col=col.ticks,...)
       }
       if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline)}
