@@ -143,6 +143,8 @@ Feature: Added Nbins output to magrun. This effectively produces a histogram cou
 
 Feature: magplot dots (...) now also get sent to magaxis -> axis, previously they only went to plot.
 
+Feature: Added projected coordinate plotting via magproj
+
 --
 
 TO DO:
