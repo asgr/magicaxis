@@ -87,11 +87,11 @@ Aaron Robotham
 \examples{
 magproj(c(129,141), c(-2,3), type='b', centre=c(180,0), col='red', projection='aitoff',
 labloc=c(75,-50))
-magproj(c(174,186), c(-3,2), col='green', projection='aitoff', add=TRUE)
-magproj(c(211.5,223.5), c(-2,3), col='blue', projection='aitoff', add=TRUE)
-magproj(c(30.2,38.8), c(-6,-3.72), col='brown', projection='aitoff', add=TRUE)
-magproj(c(30.2,38.8), c(-10.25,-6), col='orange', projection='aitoff', add=TRUE)
-magproj(c(339,351), c(-35,-30), col='purple', projection='aitoff', add=TRUE)
+magproj(c(174,186), c(-3,2), col='green', add=TRUE)
+magproj(c(211.5,223.5), c(-2,3), col='blue', add=TRUE)
+magproj(c(30.2,38.8), c(-6,-3.72), col='brown', add=TRUE)
+magproj(c(30.2,38.8), c(-10.25,-6), col='orange', add=TRUE)
+magproj(c(339,351), c(-35,-30), col='purple', add=TRUE)
 magproj(c(35,135,180,217.5,345), c(-3.72,3,2,3,-30)+10, type='t',
 plottext=c('G02','G09','G12','G15','G23'), add=TRUE)
 }
