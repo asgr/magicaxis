@@ -7,7 +7,7 @@ Magic longitude / latitude projection function
 High level methods for producing pretty plot of projected data. Particularly useful in astronomy or geography, where many datasets are in longitude (right ascension) / latitude (declination) format.
 }
 \usage{
-magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-70, 70), projection = "mollweide", parameters = NULL, centre = c(0, 0), add = FALSE, nx = 6, ny = 6, labels = TRUE, grid=TRUE, grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE, labloc = c(-75, -50), labeltype = "deg", ...)
+magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-90, 90), projection = "mollweide", parameters = NULL, centre = c(0, 0), add = FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels = TRUE, grid=TRUE, grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE, labloc = c(90, -45), labeltype = "deg", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,7 +18,7 @@ Vector of longitude values to use. If this is a matrix or data.frame with two co
 Vector of latitude values to use. If the input for \option{long} is a matrix or data.frame with two columns and lat is missing then column 1 is taken to be longitude values and column 2 is taken to be latitude values. lat should have 2 elements only when type="b".
 }
   \item{type}{
-The display type, either points (p), lines (l), text (t), or box (b, the default). Points simply projects longitude and latitude positions into particle positions. Lines will join the poitions together into a line, using \command{approxfun} to interpolate between positions at resolution \option{upres}. Text will display the text provided in plottext at the positions. Box will draw a polygon box, where the limits are given as a two element vector for \option{long} and a two element vector for \option{lat}.
+The display type, either points (p), lines (l), polygon (pl), text (t), or box (b, the default). Points simply projects longitude and latitude positions into particle positions. Lines will join the positions together into a line, using \command{approxfun} to interpolate between positions at resolution \option{upres}. Polygon will join the positions together into a polygon, using \command{approxfun} to interpolate between positions at resolution \option{upres}. Text will display the text provided in plottext at the positions. Box will draw a polygon box, where the limits are given as a two element vector for \option{long} and a two element vector for \option{lat}.
 }
   \item{plottext}{
 A vector of text to display at the provided longitude and latitude positions. Only used if \option{type='t'}.
@@ -41,11 +41,17 @@ For most popular projections this argument specifies the longitude and latitude 
   \item{add}{
 Should a fresh plot be drawn (\option{add=FALSE}), or should the new data be added to the current plot (\option{add=TRUE}).
 }
-  \item{nx}{
-The target number of gridlines on the x-axis. Uses \code{\link{pretty}}, so the result may not be what is requested.
+  \item{fliplong}{
+Should the the longitude axis be flipped so that low values are on the right hand side (normal for celestial sphere plots in astronomy).
 }
-  \item{ny}{
-The target number of gridlines on the y-axis. Uses \code{\link{pretty}}, so the result may not be what is requested.
+  \item{nlong}{
+The target number of gridlines in the longitude direction. Uses \code{\link{pretty}}, so the result may not be what is requested.
+}
+  \item{nlat}{
+The target number of gridlines in the latitude direction. Uses \code{\link{pretty}}, so the result may not be what is requested.
+}
+  \item{prettybase}{
+The unit of repitition desired for the grid lines and labels. See \option{prettybase} in \code{\link{maglab}}. By default it is 30, implying a pretty plot is one with marks at 30, 60, 90 etc (i.e. attractive for large scale plots covering large longitude and latitude limits).
 }
   \item{labels}{
 Should text coordinate labels be added to the plot.
@@ -75,23 +81,27 @@ The longitude and latitude at which labels should be drawn.
 Should the labels be drawn using degrees (deg) or column delimited sexigesimal (sex).
 }
   \item{\dots}{
-Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}).
+Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}).
 }
 }
 \author{
 Aaron Robotham
 }
 \seealso{
-\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magmap}},\code{\link{magrun}},\code{\link{magbar}}
+\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magmap}},\code{\link{magrun}},\code{\link{magbar}},\code{\link{magband}}
 }
 \examples{
-magproj(c(129,141), c(-2,3), type='b', centre=c(180,0), col='red', projection='aitoff',
-labloc=c(75,-50))
+magproj(c(129,141), c(-2,3), type='b', projection='aitoff', centre=c(180,0),
+fliplong=TRUE, labloc=c(270,-45), col='red')
 magproj(c(174,186), c(-3,2), col='green', add=TRUE)
 magproj(c(211.5,223.5), c(-2,3), col='blue', add=TRUE)
 magproj(c(30.2,38.8), c(-6,-3.72), col='brown', add=TRUE)
 magproj(c(30.2,38.8), c(-10.25,-6), col='orange', add=TRUE)
 magproj(c(339,351), c(-35,-30), col='purple', add=TRUE)
+
+magband(0,23.4,width=5,longlo=0,col=hsv(1/6,alpha=0.3),border=NA)
+magband(76.75,62.6,width=5,longlo=0,col=hsv(5/6,alpha=0.3),border=NA)
+
 magproj(c(35,135,180,217.5,345), c(-3.72,3,2,3,-30)+10, type='t',
 plottext=c('G02','G09','G12','G15','G23'), add=TRUE)
 }

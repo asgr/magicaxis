@@ -145,6 +145,8 @@ Feature: magplot dots (...) now also get sent to magaxis -> axis, previously the
 
 Feature: Added projected coordinate plotting via magproj
 
+Feature: Added function magband.
+
 --
 
 TO DO:

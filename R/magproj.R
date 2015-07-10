@@ -1,4 +1,4 @@
-magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-70,70), projection="mollweide", parameters=NULL, centre=c(0,0), add=FALSE, nx=6, ny=6, labels=TRUE, grid=TRUE, grid.col='grey', grid.lty=2, auto=FALSE, upres=100, box=TRUE, labloc=c(-75,-50), labeltype='deg', ...){
+magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-90,90), projection="mollweide", parameters=NULL, centre=c(0,0), add=FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels=TRUE, grid=TRUE, grid.col='grey', grid.lty=2, auto=FALSE, upres=100, box=TRUE, labloc=c(90,-45), labeltype='deg', ...){
   
   if(is.matrix(long) | is.data.frame(long)){
     lat = long[, 2]
@@ -34,15 +34,30 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-7
     limgrid=expand.grid(seq(longlim[1],longlim[2],len=100),seq(latlim[1],latlim[2],len=100))
     templims=mapproject(limgrid[,1], limgrid[,2], projection=projection, parameters=parameters, orientation=orientation)
     plot.new()
-    plot.window(xlim=range(templims$x,na.rm = TRUE), ylim=range(templims$y, na.rm=TRUE), asp=1)
+    xlim=range(templims$x,na.rm = TRUE)
+    ylim=range(templims$y, na.rm=TRUE)
+    if(fliplong){xlim=rev(xlim)}
+    plot.window(xlim=xlim, ylim=ylim, asp=1)
     if(grid==TRUE){
-      map.grid(c(longlim,latlim), nx=nx, ny=ny, labels=FALSE, col=grid.col, lty=grid.lty)
+      longgrid=maglab(longlim, n=nlong, prettybase = prettybase)
+      latgrid=maglab(latlim, n=nlat, prettybase = prettybase)
+      longpretty=longgrid$tickat
+      longpretty=longpretty[longpretty>longlim[1] & longpretty<longlim[2]]
+      latpretty=latgrid$tickat
+      latpretty=latpretty[latpretty>latlim[1] & latpretty<latlim[2]]
+      for(i in 1:length(longpretty)){
+        magproj(long=rep(longpretty[i],2), lat=latlim+c(1e-9,-1e-9), type='l', add=TRUE, col=grid.col, lty=grid.lty)
+      }
+      for(i in 1:length(latpretty)){
+        magproj(long=longlim+c(1e-9,-1e-9), lat=rep(latpretty[i],2), type='l', add=TRUE, col=grid.col, lty=grid.lty)
+      }
+      #map.grid(c(longlim,latlim), nx=nlong, ny=nlat, labels=FALSE, col=grid.col, lty=grid.lty)
     }
     if(labels==TRUE){
-      longpretty=pretty(longlim,nx)
-      latpretty=pretty(latlim,ny)
-      longpretty=longpretty[longpretty>longlim[1] & longpretty<longlim[2]]
-      latpretty=latpretty[latpretty>latlim[1] & latpretty<latlim[2]]
+      #longpretty=pretty(longlim,nlong)
+      #latpretty=pretty(latlim,nlat)
+      #longpretty=longpretty[longpretty>longlim[1] & longpretty<longlim[2]]
+      #latpretty=latpretty[latpretty>latlim[1] & latpretty<latlim[2]]
       temp=mapproject(longpretty, rep(labloc[2],length(longpretty)))
       #longpretty=longpretty[order(temp$x)]
       #temp$y=temp$y[order(temp$x)]
@@ -68,6 +83,13 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-7
     lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*upres))
     temp=mapproject(long, lat)
     lines(temp, ...)
+  }
+  
+  if(type=='pl'){
+    long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*upres))
+    lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*upres))
+    temp=mapproject(long, lat)
+    polygon(temp, ...)
   }
   
   if(type=='t'){
