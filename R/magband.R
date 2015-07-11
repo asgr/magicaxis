@@ -65,7 +65,7 @@
   return=out
 }
 
-.ring=function(crosseq = 0, peaklat = 0, offset=0, longlo=-180, res=1000, ...){
+.ring=function(crosseq = 0, peaklat = 0, longlo=-180, offset=0, res=1000){
   temp=cbind(cos(seq(-pi, pi, len = res))*cos(offset*pi/180), -sin(offset*pi/180), sin(seq(-pi, pi, len = res))*cos(offset*pi/180))
   temp = .rotdata3d(temp[,1],temp[,2],temp[,3], theta=90-peaklat, dim='x')
   temp = .rotdata3d(temp[,1],temp[,2],temp[,3], theta=180-crosseq, dim='z')
@@ -75,9 +75,34 @@
   return = temp
 }
 
-magband=function(crosseq = 0, peaklat = 0, longlo=-180, width=0, res=1000, ...){
+magband=function(crosseq = 0, peaklat = 0, longlo=-180, width=10, res=1000, ...){
   loring = .ring(crosseq = crosseq, peaklat = peaklat, offset=-width/2, longlo=longlo, res=res)
   hiring = .ring(crosseq = crosseq, peaklat = peaklat, offset=width/2, longlo=longlo, res=res)
   temp=rbind(loring, hiring[order(hiring[,1],decreasing = T),],loring[1,])
-  magproj(temp, type='pl', add=TRUE, upres=10,...)
+  magproj(temp, type='pl', add=TRUE, upres=10, ...)
+}
+
+magring=function(crosseq = 0, peaklat = 0, longlo=-180, offset=0, res=1000, ...){
+  temp = .ring(crosseq = crosseq, peaklat = peaklat, offset=offset, longlo=longlo, res=res)
+  magproj(temp, type='l', add=TRUE, upres=10, ...)
+}
+
+magsun=function(Ydate='get', ...){
+  if (Ydate[1] == "get") {
+    Ydate = c(format(Sys.Date(), "%m"), format(Sys.Date(),"%d"))
+    Ydate = as.numeric(Ydate)
+  }
+  year = c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+  yearfrac = sum(year[1:Ydate[1]]) - Ydate[1] + Ydate[2]
+  yearfrac = yearfrac - 108
+  if (yearfrac < 0) {
+    yearfrac = yearfrac + 365
+  }
+  yearfrac = (yearfrac * 2 * pi/365) * 180/pi
+  sunloc = c(yearfrac, sin(yearfrac * pi/180) * 23.4)
+  magproj(sunloc[1], sunloc[2], type='p', add=TRUE, ...)
+}
+
+magMW=function(...){
+  magproj(266.42, -29, type='p', add=TRUE, ...)
 }

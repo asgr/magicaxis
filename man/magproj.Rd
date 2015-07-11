@@ -7,7 +7,7 @@ Magic longitude / latitude projection function
 High level methods for producing pretty plot of projected data. Particularly useful in astronomy or geography, where many datasets are in longitude (right ascension) / latitude (declination) format.
 }
 \usage{
-magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-90, 90), projection = "mollweide", parameters = NULL, centre = c(0, 0), add = FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels = TRUE, grid=TRUE, grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE, labloc = c(90, -45), labeltype = "deg", ...)
+magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-90, 90), projection = "mollweide", parameters = NULL, centre = c(0, 0), add = FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels = TRUE, grid=TRUE, grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE, labloc = c(90, -45), labeltype = "deg", crunch=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -80,6 +80,9 @@ The longitude and latitude at which labels should be drawn.
   \item{labeltype}{
 Should the labels be drawn using degrees (deg) or column delimited sexigesimal (sex).
 }
+  \item{crunch}{
+If set to FALSE the full output of \code{\link{deg2hms}} and \code{\link{deg2dms}} is printed. If set to TRUE a simplified output is used, where only the hours and degrees parts are extracted and appended with a 'h' and a degree symbol respectively.
+}
   \item{\dots}{
 Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}).
 }
@@ -92,18 +95,28 @@ Aaron Robotham
 }
 \examples{
 magproj(c(129,141), c(-2,3), type='b', projection='aitoff', centre=c(180,0),
-fliplong=TRUE, labloc=c(270,-45), col='red')
-magproj(c(174,186), c(-3,2), col='green', add=TRUE)
-magproj(c(211.5,223.5), c(-2,3), col='blue', add=TRUE)
-magproj(c(30.2,38.8), c(-6,-3.72), col='brown', add=TRUE)
-magproj(c(30.2,38.8), c(-10.25,-6), col='orange', add=TRUE)
-magproj(c(339,351), c(-35,-30), col='purple', add=TRUE)
+fliplong=TRUE, labloc=c(90,-45), col='lightgreen', labeltype = 'sex', crunch=TRUE)
+magproj(c(211.5,223.5), c(-2,3), col='lightgreen', add=TRUE)
+magproj(c(30.2,38.8), c(-10.25,-3.72), col='lightgreen', add=TRUE)
+magproj(c(30.2,38.8), c(-6,-3.72), col='lightgreen', add=TRUE, lty=2)
+magproj(c(339,351), c(-35,-30), col='lightgreen', add=TRUE)
 
-magband(0,23.4,width=5,longlo=0,col=hsv(1/6,alpha=0.3),border=NA)
-magband(76.75,62.6,width=5,longlo=0,col=hsv(5/6,alpha=0.3),border=NA)
+magband(0,23.4,width=10,longlo=0,col=hsv(1/12,alpha=0.3),border=NA)
+magband(76.75,62.6,width=20,longlo=0,col=hsv(5/6,alpha=0.3),border=NA)
+magring(0,23.4,longlo=0,col='orange')
+magring(76.75,62.6,longlo=0,col='purple')
+magMW(pch=16, cex=2, col='purple3')
+magsun(c(7,26), pch=16, cex=2, col='orange2')
+
+magproj(c(174,186), c(-3,2), col='lightgreen', add=TRUE)
 
 magproj(c(35,135,180,217.5,345), c(-3.72,3,2,3,-30)+10, type='t',
 plottext=c('G02','G09','G12','G15','G23'), add=TRUE)
+
+legend('topleft', legend=c('GAMA Regions'), col='lightgreen', pch=15, bty='n')
+legend('topright', legend=c('Ecliptic','MW Plane'), col=c(hsv(c(1/12,5/6),
+alpha=0.5)), pch=c(15,15), lty=c(1,1), bty='n')
+legend('bottomleft', legend=c('Sun', 'MW Centre'), col=c('orange2','purple3'), pch=16, bty='n')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

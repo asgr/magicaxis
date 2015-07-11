@@ -1,17 +1,18 @@
-magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-90,90), projection="mollweide", parameters=NULL, centre=c(0,0), add=FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels=TRUE, grid=TRUE, grid.col='grey', grid.lty=2, auto=FALSE, upres=100, box=TRUE, labloc=c(90,-45), labeltype='deg', ...){
+magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-90,90), projection="mollweide", parameters=NULL, centre=c(0,0), add=FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels=TRUE, grid=TRUE, grid.col='grey', grid.lty=2, auto=FALSE, upres=100, box=TRUE, labloc=c(90,-45), labeltype='deg', crunch=FALSE, ...){
   
   if(is.matrix(long) | is.data.frame(long)){
     lat = long[, 2]
     long = long[, 1]
   }
   
+  if(length(long)>1 & length(lat)==1){lat=rep(lat,length(long))}
+  if(length(lat)>1 & length(long)==1){long=rep(long,length(lat))}
+  
   if(add==TRUE){
     orientation=.Last.projection()$orientation
     projection=.Last.projection()$projection
   }else{
     orientation=c(90+centre[2], centre[1] %% 360, 0)
-    #orientation[1]=(orientation[1]+90) %% 180 -90
-    #orientation[2]=(orientation[2]+180) %% 360 -180
   }
   long= (long+(180-orientation[2])) %% 360 - (180-orientation[2])
   lat= (lat+90) %% 180 - 90
@@ -46,10 +47,10 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
       latpretty=latgrid$tickat
       latpretty=latpretty[latpretty>latlim[1] & latpretty<latlim[2]]
       for(i in 1:length(longpretty)){
-        magproj(long=rep(longpretty[i],2), lat=latlim+c(1e-9,-1e-9), type='l', add=TRUE, col=grid.col, lty=grid.lty)
+        magproj(long=longpretty[i], lat=latlim+c(1e-9,-1e-9), type='l', add=TRUE, col=grid.col, lty=grid.lty)
       }
       for(i in 1:length(latpretty)){
-        magproj(long=longlim+c(1e-9,-1e-9), lat=rep(latpretty[i],2), type='l', add=TRUE, col=grid.col, lty=grid.lty)
+        magproj(long=longlim+c(1e-9,-1e-9), lat=latpretty[i], type='l', add=TRUE, col=grid.col, lty=grid.lty)
       }
       #map.grid(c(longlim,latlim), nx=nlong, ny=nlat, labels=FALSE, col=grid.col, lty=grid.lty)
     }
@@ -63,13 +64,19 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
       #temp$y=temp$y[order(temp$x)]
       #temp$x=temp$x[order(temp$x)]
       if(labeltype=='deg'){text(temp,labels = longpretty %% 360)}
-      if(labeltype=='sex'){text(temp,labels = deg2hms(longpretty %% 360,type='cat'))}
+      if(labeltype=='sex'){
+        if(crunch==FALSE){text(temp,labels = deg2hms(longpretty %% 360,type='cat'))}
+        if(crunch==TRUE){text(temp,labels = paste(deg2hms(longpretty %% 360,type='mat')[,1],'h',sep=''))}
+      }
       temp=mapproject(rep(labloc[1],length(latpretty)), latpretty)
       #latpretty=latpretty[order(temp$y)]
       #temp$y=temp$y[order(temp$y)]
       #temp$x=temp$x[order(temp$y)]
       if(labeltype=='deg'){text(temp,labels = latpretty)}
-      if(labeltype=='sex'){text(temp,labels = deg2dms(latpretty,type='cat'))}
+      if(labeltype=='sex'){
+        if(crunch==FALSE){text(temp,labels = deg2dms(latpretty,type='cat'))}
+        if(crunch==TRUE){text(temp,labels = paste(deg2dms(latpretty,type='mat')[,1],'\u00B0',sep=''))}
+      }
     }
   }
   
