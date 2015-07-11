@@ -101,10 +101,13 @@ magproj(c(30.2,38.8), c(-10.25,-3.72), col='lightgreen', add=TRUE)
 magproj(c(30.2,38.8), -6, type='l', add=TRUE, col='grey')
 magproj(c(339,351), c(-35,-30), col='lightgreen', add=TRUE)
 
-magband(0,23.4,width=10,longlo=0,col=hsv(1/12,alpha=0.3),border=NA)
-magband(76.75,62.6,width=20,longlo=0,col=hsv(v=0,alpha=0.1),border=NA)
-magring(0,23.4,longlo=0,col='orange')
-magring(76.75,62.6,longlo=0,col='darkgrey')
+Ecliptic=c(0,23.4)
+MWplane=c(76.75,62.6)
+
+magband(Ecliptic[1],Ecliptic[2],width=10,longlo=0,col=hsv(1/12,alpha=0.3),border=NA)
+magband(MWplane[1],MWplane[2],width=20,longlo=0,col=hsv(v=0,alpha=0.1),border=NA)
+magring(Ecliptic[1],Ecliptic[2],longlo=0,col='orange')
+magring(Ecliptic[1],Ecliptic[2],longlo=0,col='darkgrey')
 magMW(pch=16, cex=2, col='darkgrey')
 magsun(c(7,26), pch=16, cex=2, col='orange2')
 
