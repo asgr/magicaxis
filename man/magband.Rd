@@ -53,14 +53,14 @@ magproj(c(129,141), c(-2,3), type='b', projection='aitoff', centre=c(180,0),
 fliplong=TRUE, labloc=c(90,-45), col='lightgreen', labeltype = 'sex', crunch=TRUE)
 magproj(c(211.5,223.5), c(-2,3), col='lightgreen', add=TRUE)
 magproj(c(30.2,38.8), c(-10.25,-3.72), col='lightgreen', add=TRUE)
-magproj(c(30.2,38.8), c(-6,-3.72), col='lightgreen', add=TRUE, lty=2)
+magproj(c(30.2,38.8), -6, type='l', add=TRUE, col='grey')
 magproj(c(339,351), c(-35,-30), col='lightgreen', add=TRUE)
 
 magband(0,23.4,width=10,longlo=0,col=hsv(1/12,alpha=0.3),border=NA)
-magband(76.75,62.6,width=20,longlo=0,col=hsv(5/6,alpha=0.3),border=NA)
+magband(76.75,62.6,width=20,longlo=0,col=hsv(v=0,alpha=0.1),border=NA)
 magring(0,23.4,longlo=0,col='orange')
-magring(76.75,62.6,longlo=0,col='purple')
-magMW(pch=16, cex=2, col='purple3')
+magring(76.75,62.6,longlo=0,col='darkgrey')
+magMW(pch=16, cex=2, col='darkgrey')
 magsun(c(7,26), pch=16, cex=2, col='orange2')
 
 magproj(c(174,186), c(-3,2), col='lightgreen', add=TRUE)
@@ -69,9 +69,9 @@ magproj(c(35,135,180,217.5,345), c(-3.72,3,2,3,-30)+10, type='t',
 plottext=c('G02','G09','G12','G15','G23'), add=TRUE)
 
 legend('topleft', legend=c('GAMA Regions'), col='lightgreen', pch=15, bty='n')
-legend('topright', legend=c('Ecliptic','MW Plane'), col=c(hsv(c(1/12,5/6),
+legend('topright', legend=c('Ecliptic','MW Plane'), col=c(hsv(c(1/12,0), v=c(1,0),
 alpha=0.5)), pch=c(15,15), lty=c(1,1), bty='n')
-legend('bottomleft', legend=c('Sun', 'MW Centre'), col=c('orange2','purple3'), pch=16, bty='n')
+legend('bottomleft', legend=c('Sun', 'MW Centre'), col=c('orange2','darkgrey'), pch=16, bty='n')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
