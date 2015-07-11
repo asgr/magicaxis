@@ -76,8 +76,8 @@
 }
 
 magband=function(crosseq = 0, peaklat = 0, longlo=-180, width=0, res=1000, ...){
-  loring = .ring(crosseq = crosseq, peaklat = peaklat, offset=-width, longlo=longlo, res=res)
-  hiring = .ring(crosseq = crosseq, peaklat = peaklat, offset=width, longlo=longlo, res=res)
+  loring = .ring(crosseq = crosseq, peaklat = peaklat, offset=-width/2, longlo=longlo, res=res)
+  hiring = .ring(crosseq = crosseq, peaklat = peaklat, offset=width/2, longlo=longlo, res=res)
   temp=rbind(loring, hiring[order(hiring[,1],decreasing = T),],loring[1,])
   magproj(temp, type='pl', add=TRUE, upres=10,...)
 }
