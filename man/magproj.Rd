@@ -7,7 +7,7 @@ Magic longitude / latitude projection function
 High level methods for producing pretty plot of projected data. Particularly useful in astronomy or geography, where many datasets are in longitude (right ascension) / latitude (declination) format.
 }
 \usage{
-magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-90, 90), projection = "mollweide", parameters = NULL, centre = c(0, 0), add = FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels = TRUE, grid=TRUE, grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE, labloc = c(90, -45), labeltype = "deg", crunch=FALSE, ...)
+magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-90, 90), projection = "aitoff", parameters = NULL, centre = c(0, 0), add = FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels = TRUE, grid=TRUE, grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE, labloc = c(90, -45), labeltype = "deg", crunch=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

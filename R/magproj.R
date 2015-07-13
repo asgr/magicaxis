@@ -1,4 +1,4 @@
-magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-90,90), projection="mollweide", parameters=NULL, centre=c(0,0), add=FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels=TRUE, grid=TRUE, grid.col='grey', grid.lty=2, auto=FALSE, upres=100, box=TRUE, labloc=c(90,-45), labeltype='deg', crunch=FALSE, ...){
+magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-90,90), projection="aitoff", parameters=NULL, centre=c(0,0), add=FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels=TRUE, grid=TRUE, grid.col='grey', grid.lty=2, auto=FALSE, upres=100, box=TRUE, labloc=c(90,-45), labeltype='deg', crunch=FALSE, ...){
   
   if(is.matrix(long) | is.data.frame(long)){
     lat = long[, 2]
