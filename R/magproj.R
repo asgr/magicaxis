@@ -112,22 +112,22 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
     if(lolong<hilong){
       long=c(lolong, hilong, hilong, lolong, lolong)
       lat=c(lolat, lolat, hilat, hilat, lolat)
-      long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*upres))
-      lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*upres))
+      long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*(ceiling(upres/4)*4)))
+      lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*(ceiling(upres/4)*4)))
       temp=mapproject(long, lat)
       polygon(temp, ...)
     }else{
       long=c(lolong, longlim[2]-1e-9, longlim[2]-1e-9, lolong, lolong)
       lat=c(lolat, lolat, hilat, hilat, lolat)
-      long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*upres))
-      lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*upres))
+      long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*(ceiling(upres/4)*4)))
+      lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*(ceiling(upres/4)*4)))
       temp=mapproject(long, lat)
       polygon(temp, ...)
       
       long=c(longlim[1]+1e-9, hilong, hilong, longlim[1]+1e-9, longlim[1]+1e-9)
       lat=c(lolat, lolat, hilat, hilat, lolat)
-      long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*upres))
-      lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*upres))
+      long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*(ceiling(upres/4)*4)))
+      lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*(ceiling(upres/4)*4)))
       temp=mapproject(long, lat)
       polygon(temp, ...)
     }
