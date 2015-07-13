@@ -1,13 +1,17 @@
 \name{magproj}
 \alias{magproj}
+\alias{magprojgrid}
+\alias{magprojlabels}
 \title{
 Magic longitude / latitude projection function
 }
 \description{
-High level methods for producing pretty plot of projected data. Particularly useful in astronomy or geography, where many datasets are in longitude (right ascension) / latitude (declination) format.
+High level methods for producing pretty plot of projected data. Particularly useful in astronomy or geography, where many datasets are in longitude (right ascension) / latitude (declination) format. magproj is the highest level function, creating a projected image grid with labels and data. magprojgrid and magprojlabels are functions to simply overplot a grid and add labels respectively.
 }
 \usage{
 magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-90, 90), projection = "aitoff", parameters = NULL, centre = c(0, 0), add = FALSE, fliplong=FALSE, nlat=6, nlong=6, prettybase=30, labels = TRUE, grid=TRUE, grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE, labloc = c(90, -45), labeltype = "deg", crunch=FALSE, ...)
+magprojgrid(nlat=6, nlong=6, prettybase=30, box=TRUE, ...)
+magprojlabels(nlat=6, nlong=6, prettybase=30, labloc = c(90, -45), labeltype='deg', crunch=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -84,14 +88,17 @@ Should the labels be drawn using degrees (deg) or column delimited sexigesimal (
 If set to FALSE the full output of \code{\link{deg2hms}} and \code{\link{deg2dms}} is printed. If set to TRUE a simplified output is used, where only the hours and degrees parts are extracted and appended with a 'h' and a degree symbol respectively.
 }
   \item{\dots}{
-Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}).
+For magproj, Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}). For magprojgrid dots are pased to \code{\link{lines}} for drawing the grid lines. For magprojlabels dots are passed to \code{\link{text}} for adding text labels.
 }
+}
+\value{
+  No output. Run for the side effect of producing nice projected plots.
 }
 \author{
 Aaron Robotham
 }
 \seealso{
-\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magmap}},\code{\link{magrun}},\code{\link{magbar}},\code{\link{magband}}
+\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{magbar}}, \code{\link{magprojextra}}
 }
 \examples{
 magproj(c(129,141), c(-2,3), type='b', projection='aitoff', centre=c(180,0),
@@ -101,15 +108,12 @@ magproj(c(30.2,38.8), c(-10.25,-3.72), col='lightgreen', add=TRUE)
 magproj(c(30.2,38.8), -6, type='l', add=TRUE, col='grey')
 magproj(c(339,351), c(-35,-30), col='lightgreen', add=TRUE)
 
-Ecliptic=c(0,23.4)
-MWplane=c(76.75,62.6)
-
-magband(Ecliptic[1],Ecliptic[2],width=10,longlo=0,col=hsv(1/12,alpha=0.3),border=NA)
-magband(MWplane[1],MWplane[2],width=20,longlo=0,col=hsv(v=0,alpha=0.1),border=NA)
-magring(Ecliptic[1],Ecliptic[2],longlo=0,col='orange')
-magring(Ecliptic[1],Ecliptic[2],longlo=0,col='darkgrey')
+magecliptic(width=10,col=hsv(1/12,alpha=0.3),border=NA)
+magecliptic(width=0,col='orange')
+magMWplane(width=20,col=hsv(v=0,alpha=0.1),border=NA)
+magMWplane(width=0,col='darkgrey')
 magMW(pch=16, cex=2, col='darkgrey')
-magsun(c(7,26), pch=16, cex=2, col='orange2')
+magsun(c(7,26), pch=16, cex=2, col='orange2') #An important date!
 
 magproj(c(174,186), c(-3,2), col='lightgreen', add=TRUE)
 

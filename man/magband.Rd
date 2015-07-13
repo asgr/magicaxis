@@ -1,4 +1,5 @@
 \name{magprojextra}
+\alias{magprojextra}
 \alias{magband}
 \alias{magring}
 \alias{magMW}
@@ -46,11 +47,14 @@ Should the anti-sun position be computed (i.e. the RA and Dec of the position di
 Arguments passed on to \code{\link{lines}} (\code{makering}), \code{\link{polygon}} (\code{makeband}), \code{\link{points}} (\code{makeMW} and \code{makesun}).
 }
 }
+\value{
+  No output. Run for the side effect of producing nice projected plots.
+}
 \author{
 Aaron Robotham
 }
 \seealso{
-\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magmap}},\code{\link{magrun}},\code{\link{magbar}},\code{\link{magproj}}
+\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{magbar}}, \code{\link{magproj}}
 }
 \examples{
 magproj(c(129,141), c(-2,3), type='b', projection='aitoff', centre=c(180,0),
