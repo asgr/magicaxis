@@ -3,6 +3,8 @@
 \alias{magring}
 \alias{magMW}
 \alias{magsun}
+\alias{magMWplane}
+\alias{magecliptic}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Attractive great circles and thick bands on magproj plots
@@ -11,10 +13,12 @@ Attractive great circles and thick bands on magproj plots
 High level functions to add great circles and thick bands on projections plots. In astronomy these are popular for indicating regions of exclusion surrounding the ecliptic or the Milky-Way plane. Also simple functions to add either the MW bluge to the current projection (magMW) or the sun on a given date (magsun).
 }
 \usage{
-magring(crosseq = 0, peaklat = 0, longlo = -180, offset = 0, res = 1000, ...)
-magband(crosseq = 0, peaklat = 0, longlo = -180, width = 10, res = 1000, ...)
+magring(crosseq = 0, peaklat = 0, offset = 0, res = 1000, ...)
+magband(crosseq = 0, peaklat = 0, width = 10, res = 1000, ...)
+magecliptic(width=10, ...)
+magMWplane(width=10, ...)
+magsun(Ydate='get', anti=FALSE, ...)
 magMW(...)
-magsun(Ydate='get', ...)
 }
 \arguments{
   \item{crosseq}{
@@ -23,20 +27,20 @@ The longitude below the latitude peak of the great circle (or centre of the band
   \item{peaklat}{
 The positive maximum latitude obtained by the great circle (or centre of the band). See examples to see how this is used in practice.
 }
-  \item{longlo}{
-The low longitude limit of the projection. Users will need to set this carefully to get sensible plots.
-}
   \item{offset}{
 Whether the ring drawn if systematically offset from the great cirlce defined by \option{crosseq} and \option{peaklat}. Leave at 0 to draw a great circle.
 }
   \item{width}{
-How wide whould the band be in degrees.
+How wide whould the band be in degrees. For \code{magecliptic} and \code{magMWplane}, if this is zero it will draw a band instead.
 }
   \item{res}{
 Number of elements making up each side of the band (default should be fine for most plots).
 }
   \item{Ydate}{
 The date for the location of the Sun on the spherical grid. Vector in c(M,D) format. If set to 'get' then the function will return the Sun's location for today.  
+}
+  \item{anti}{
+Should the anti-sun position be computed (i.e. the RA and Dec of the position diametrically opposed to the Sun).  
 }
   \item{\dots}{
 Arguments passed on to \code{\link{lines}} (\code{makering}), \code{\link{polygon}} (\code{makeband}), \code{\link{points}} (\code{makeMW} and \code{makesun}).
@@ -56,12 +60,12 @@ magproj(c(30.2,38.8), c(-10.25,-3.72), col='lightgreen', add=TRUE)
 magproj(c(30.2,38.8), -6, type='l', add=TRUE, col='grey')
 magproj(c(339,351), c(-35,-30), col='lightgreen', add=TRUE)
 
-magband(0,23.4,width=10,longlo=0,col=hsv(1/12,alpha=0.3),border=NA)
-magband(76.75,62.6,width=20,longlo=0,col=hsv(v=0,alpha=0.1),border=NA)
-magring(0,23.4,longlo=0,col='orange')
-magring(76.75,62.6,longlo=0,col='darkgrey')
+magecliptic(width=10,col=hsv(1/12,alpha=0.3),border=NA)
+magecliptic(width=0,col='orange')
+magMWplane(width=20,col=hsv(v=0,alpha=0.1),border=NA)
+magMWplane(width=0,col='darkgrey')
 magMW(pch=16, cex=2, col='darkgrey')
-magsun(c(7,26), pch=16, cex=2, col='orange2')
+magsun(c(7,26), pch=16, cex=2, col='orange2') #An important date!
 
 magproj(c(174,186), c(-3,2), col='lightgreen', add=TRUE)
 

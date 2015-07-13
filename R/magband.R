@@ -75,19 +75,33 @@
   return = temp
 }
 
-magband=function(crosseq = 0, peaklat = 0, longlo=-180, width=10, res=1000, ...){
+magband=function(crosseq = 0, peaklat = 0, width=10, res=1000, ...){
+  longlo=.Last.projection()$longlim[1]
   loring = .ring(crosseq = crosseq, peaklat = peaklat, offset=-width/2, longlo=longlo, res=res)
   hiring = .ring(crosseq = crosseq, peaklat = peaklat, offset=width/2, longlo=longlo, res=res)
   temp=rbind(loring, hiring[order(hiring[,1],decreasing = T),],loring[1,])
   magproj(temp, type='pl', add=TRUE, upres=10, ...)
 }
 
-magring=function(crosseq = 0, peaklat = 0, longlo=-180, offset=0, res=1000, ...){
+magring=function(crosseq = 0, peaklat = 0, offset=0, res=1000, ...){
+  longlo=.Last.projection()$longlim[1]
   temp = .ring(crosseq = crosseq, peaklat = peaklat, offset=offset, longlo=longlo, res=res)
   magproj(temp, type='l', add=TRUE, upres=10, ...)
 }
 
-magsun=function(Ydate='get', ...){
+magecliptic=function(width=10, ...){
+  longlo=.Last.projection()$longlim[1]
+  if(width>0){magband(0, 23.4, width=width, ...)}
+  if(width==0){magring(0,23.4, ...)}
+}
+
+magMWplane=function(width=10, ...){
+  longlo=.Last.projection()$longlim[1]
+  if(width>0){magband(76.75, 62.6, width=width, ...)}
+  if(width==0){magring(76.75, 62.6, ...)}
+}
+
+magsun=function(Ydate='get', anti=FALSE, ...){
   if (Ydate[1] == "get") {
     Ydate = c(format(Sys.Date(), "%m"), format(Sys.Date(),"%d"))
     Ydate = as.numeric(Ydate)
@@ -99,7 +113,11 @@ magsun=function(Ydate='get', ...){
     yearfrac = yearfrac + 365
   }
   yearfrac = (yearfrac * 2 * pi/365) * 180/pi
-  sunloc = c(yearfrac, sin(yearfrac * pi/180) * 23.4)
+  if(anti){
+    sunloc = c((yearfrac+180) %% 360, -sin(yearfrac * pi/180) * 23.4)
+  }else{
+    sunloc = c(yearfrac, sin(yearfrac * pi/180) * 23.4)
+  }
   magproj(sunloc[1], sunloc[2], type='p', add=TRUE, ...)
 }
 

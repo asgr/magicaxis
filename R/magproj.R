@@ -141,4 +141,5 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
     temp=mapproject(longbox, latbox)
     lines(temp, col='black')
   }
+  .Last.projection(c(.Last.projection(), list(centre=centre, labloc=labloc, longlim=longlim, latlim=latlim)))
 }
