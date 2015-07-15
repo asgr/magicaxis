@@ -136,12 +136,11 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
   if(add==FALSE & box==TRUE){
     magproj(long=longlim+c(1e-9,-1e-9), lat=latlim+c(1e-9,-1e-9), add=TRUE, border='black', lwd=2)
   }
-  .Last.projection(list(projection=.Last.projection()$projection, parameters=.Last.projection()$parameters, orientation=.Last.projection()$orientation, centre=centre, labloc=labloc, longlim=longlim, latlim=latlim))
+  .Last.projection(list(projection=.Last.projection()$projection, parameters=.Last.projection()$parameters, orientation=.Last.projection()$orientation, centre=centre, longlim=longlim, latlim=latlim))
 }
 
 magprojgrid=function(nlat=6, nlong=6, prettybase=30, box=TRUE, ...){
   centre=.Last.projection()$centre
-  labloc=.Last.projection()$labloc
   longlim=.Last.projection()$longlim
   latlim=.Last.projection()$latlim
   longgrid=maglab(longlim, n=nlong, prettybase = prettybase)
@@ -159,12 +158,11 @@ magprojgrid=function(nlat=6, nlong=6, prettybase=30, box=TRUE, ...){
   if(box){
     magproj(long=longlim+c(1e-9,-1e-9), lat=latlim+c(1e-9,-1e-9), add=TRUE, border='black', lwd=2)
   }
-  .Last.projection(list(projection=.Last.projection()$projection, parameters=.Last.projection()$parameters, orientation=.Last.projection()$orientation, centre=centre, labloc=labloc, longlim=longlim, latlim=latlim))
+  .Last.projection(list(projection=.Last.projection()$projection, parameters=.Last.projection()$parameters, orientation=.Last.projection()$orientation, centre=centre, longlim=longlim, latlim=latlim))
 }
 
 magprojlabels=function(nlat=6, nlong=6, prettybase=30, labloc = c(90, -45), labeltype='deg', crunch=FALSE, ...){
   centre=.Last.projection()$centre
-  labloc=.Last.projection()$labloc
   longlim=.Last.projection()$longlim
   latlim=.Last.projection()$latlim
   longgrid=maglab(longlim, n=nlong, prettybase = prettybase)
@@ -186,5 +184,5 @@ magprojlabels=function(nlat=6, nlong=6, prettybase=30, labloc = c(90, -45), labe
     if(crunch==FALSE){text(temp,labels = deg2dms(latpretty,type='cat'))}
     if(crunch==TRUE){text(temp,labels = paste(deg2dms(latpretty,type='mat')[,1],'\u00B0',sep=''))}
   }
-  .Last.projection(list(projection=.Last.projection()$projection, parameters=.Last.projection()$parameters, orientation=.Last.projection()$orientation, centre=centre, labloc=labloc, longlim=longlim, latlim=latlim))
+  .Last.projection(list(projection=.Last.projection()$projection, parameters=.Last.projection()$parameters, orientation=.Last.projection()$orientation, centre=centre, longlim=longlim, latlim=latlim))
 }
