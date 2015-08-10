@@ -32,7 +32,7 @@ The positive maximum latitude obtained by the great circle (or centre of the ban
 Whether the ring drawn if systematically offset from the great cirlce defined by \option{crosseq} and \option{peaklat}. Leave at 0 to draw a great circle.
 }
   \item{width}{
-How wide whould the band be in degrees. For \code{magecliptic} and \code{magMWplane}, if this is zero it will draw a band instead.
+How wide whould the band be in degrees. For \code{magecliptic} and \code{magMWplane}, if this is zero it will draw a line instead.
 }
   \item{res}{
 Number of elements making up each side of the band (default should be fine for most plots).
