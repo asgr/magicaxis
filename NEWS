@@ -149,6 +149,8 @@ Feature: Added function magband.
 
 Fix: cex.lab wasn't being passed to magaxis, now it is., i.e. par(cex.lab=2) will work.
 
+Fix: doc typos
+
 --
 
 TO DO:
