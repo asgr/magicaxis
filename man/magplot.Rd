@@ -11,7 +11,8 @@ Makes scientific plots based on magaxis axes. Particularly designed for log plot
 magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 5, tcl = 0.5,
 ratio = 0.5, labels = TRUE, unlog = "Auto", mgp = c(2,0.5,0), mtline = 2, xlab = '',
 ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, hersh = FALSE,
-family = "sans", frame.plot = TRUE, usepar=FALSE, ...) 
+family = "sans", frame.plot = TRUE, usepar=FALSE, grid=FALSE, grid.col='grey',
+grid.lty=1, grid.lwd=1, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -61,7 +62,7 @@ x axis name.
 y axis name.
 }
   \item{crunch}{
-In cases where the scientific text would be written as 1x10^8, should the 1x be removed so it reads 10^8. TRUE by default. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side.
+In cases where the scientific text would be written as 1x10^8, should the 1x be removed so it reads 10^8. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. TRUE by default.
 }
   \item{logpretty}{
 Should the major-ticks only be located at powers of 10. This changes cases where ticks are placed at 1, 3.1, 10, 31, 100 etc to 1, 10, 100. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. TRUE by default.
@@ -71,7 +72,8 @@ The unit of repitition desired. By default it is 10, implying a pretty plot is o
 }
   \item{hersh}{
 To determines whether all plot text should be passed using Hershey vector fonts. This applies to the axis labels (which are handled automatically) and the axis names. In the case of axis names the user must be careful to use the correct plot utils escape characters: http://www.gnu.org/software/plotutils/manual/en/html_node/Text-String-Format.html.
-magaxis will return back to the current plotting family after the function has executed.}
+magaxis will return back to the current plotting family after the function has executed.
+}
   \item{family}{
 Specifies the plotting family to be used. Allowed options are 'sans' and 'serif'. Depending on whether hersh is TRUE or FALSE these otions are either applied to the Hershey vector fonts (hersh=TRUE) or the default R Helvetica font (hersh=FALSE). magaxis will return back to the current plotting family after the function has executed.
 }
@@ -80,6 +82,18 @@ Logical indicating whether a box should be drawn around the plot.
 }
   \item{usepar}{
 Logical indicating whether tcl and mgp should be forced to inherit the global par values. This might be preferred when you want to define global plot settings at the start of a script.
+}
+  \item{grid}{
+Logical indicating whether a background grid should be drawn onto the plotting area. This will only be done for side=1 (i.e. vertical grid lines) and side=3 (i.e. horizontal grid lines). If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. FALSE by default.
+}
+  \item{grid.col}{
+The colour of the grid to be drawn.
+}
+  \item{grid.lty}{
+The line type of the grid to be drawn.
+}
+  \item{grid.lwd}{
+The line width of the grid to be drawn.
 }
   \item{\dots}{
 Further arguments to be passed to base plot and also to magaxis -> axis.

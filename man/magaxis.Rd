@@ -10,7 +10,8 @@ This function generates nicely arranged axes for scientific plots, including min
 \usage{
 magaxis(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE,
 unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE,
-prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, ...)
+prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE,
+grid.col='grey', grid.lty=1, grid.lwd=1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -48,7 +49,7 @@ x axis name.
 y axis name.
 }
   \item{crunch}{
-In cases where the scientific text would be written as 1x10^8, should the 1x be removed so it reads 10^8. TRUE by default. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side.
+In cases where the scientific text would be written as 1x10^8, should the 1x be removed so it reads 10^8. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. TRUE by default.
 }
   \item{logpretty}{
 Should the major-ticks only be located at powers of 10. This changes cases where ticks are placed at 1, 3.1, 10, 31, 100 etc to 1, 10, 100. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. TRUE by default.
@@ -68,6 +69,18 @@ Logical indicating whether a box should be drawn around the plot.
 }
   \item{usepar}{
 Logical indicating whether tcl and mgp should be forced to inherit the global par values. This might be preferred when you want to define global plot settings at the start of a script.
+}
+  \item{grid}{
+Logical indicating whether a background grid should be drawn onto the plotting area. This will only be done for side=1 (i.e. vertical grid lines) and side=3 (i.e. horizontal grid lines). If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. FALSE by default.
+}
+  \item{grid.col}{
+The colour of the grid to be drawn.
+}
+  \item{grid.lty}{
+The line type of the grid to be drawn.
+}
+  \item{grid.lwd}{
+The line width of the grid to be drawn.
 }
   \item{\dots}{
 Other arguments to be passed to base axis function.

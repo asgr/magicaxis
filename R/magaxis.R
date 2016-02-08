@@ -1,5 +1,5 @@
 magaxis <-
-function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, ...){
+function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...){
 dots=list(...)
 dotskeep=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'lwd.ticks')
 if(length(dots)>0){
@@ -12,6 +12,7 @@ labelslist=labels
 crunchlist=crunch
 logprettylist=logpretty
 prettybaselist=prettybase
+gridlist=grid
 if(length(majorn)==1 & length(side)>1){majornlist=rep(majorn,length(side))}
 if(length(minorn)==1 & length(side)>1){minornlist=rep(minorn,length(side))}
 if(length(unlog)==1 & length(side)>1 & (unlog[1]==T | unlog[1]==F | unlog[1]=='Auto')){unloglist=rep(unlog,length(side))}
@@ -19,6 +20,7 @@ if(length(labels)==1 & length(side)>1){labelslist=rep(labels,length(side))}
 if(length(crunch)==1 & length(side)>1){crunchlist=rep(crunch,length(side))}
 if(length(logpretty)==1 & length(side)>1){logprettylist=rep(logpretty,length(side))}
 if(length(prettybase)==1 & length(side)>1){prettybaselist=rep(prettybase,length(side))}
+if(length(grid)==1 & length(side)>1){gridlist=rep(grid,length(side))}
 if(unlog[1]=='x'){unloglist=rep(FALSE,length(side));unloglist[side %in% c(1,3)]=TRUE}
 if(unlog[1]=='y'){unloglist=rep(FALSE,length(side));unloglist[side %in% c(2,4)]=TRUE}
 if(unlog[1]=='xy' | unlog[1]=='yx'){unloglist=rep(TRUE,length(side))}
@@ -30,6 +32,7 @@ if(length(labelslist) != length(side)){stop('Length of labels vector mismatches 
 if(length(crunchlist) != length(side)){stop('Length of crunch vector mismatches number of axes!')}
 if(length(logprettylist) != length(side)){stop('Length of logpretty vector mismatches number of axes!')}
 if(length(prettybaselist) != length(side)){stop('Length of prettybase vector mismatches number of axes!')}
+if(length(gridlist) != length(side)){stop('Length of grid vector mismatches number of axes!')}
 
 currentfamily=par('family')
 if(hersh & family=='serif'){par(family='HersheySerif')}
@@ -51,6 +54,7 @@ for(i in 1:length(side)){
 		crunch=crunchlist[i]
 		logpretty=logprettylist[i]
     prettybase=prettybaselist[i]
+    grid=gridlist[i]
   		lims=par("usr")
   		if(currentside %in% c(1,3)){
   		lims=lims[1:2];if(par('xlog')){logged=T}else{logged=F}
@@ -65,10 +69,10 @@ for(i in 1:length(side)){
   		if(unlog){
         sci.tick=maglab(10^lims,n=majorn,log=T,exptext=T,crunch=crunch,logpretty=logpretty,usemultloc=usemultloc,prettybase=prettybase, hersh=hersh)
         major.ticks = log10(sci.tick$tickat)
-  		uselabels = sci.tick$exp
-  		labloc = log10(sci.tick$labat)
+  		  uselabels = sci.tick$exp
+  		  labloc = log10(sci.tick$labat)
         if(usemultloc==F){
-          minors = log10(pretty(10^major.ticks[1:2],minorn+2))-major.ticks[1]
+        minors = log10(pretty(10^major.ticks[1:2],minorn+2))-major.ticks[1]
         }
  		}
  		if(logged & unlog==F){
@@ -102,6 +106,23 @@ for(i in 1:length(side)){
       }else{
         do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp),dots))
         #axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,...)
+      }
+    }
+        
+    if(grid){
+      if(currentside==1){
+        if(logged){
+          abline(v=10^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }else{
+          abline(v=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }
+      }
+      if(currentside==2){
+        if(logged){
+          abline(h=10^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }else{
+          abline(h=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }
       }
     }
     
