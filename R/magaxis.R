@@ -89,7 +89,24 @@ for(i in 1:length(side)){
   		uselabels = sci.tick$exp
   		labloc = sci.tick$labat
   		minors = pretty(major.ticks[1:2],minorn+2)-major.ticks[1]
-  	}
+ 		}
+    
+    if(grid){
+      if(currentside==1){
+        if(logged){
+          abline(v=10^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }else{
+          abline(v=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }
+      }
+      if(currentside==2){
+        if(logged){
+          abline(h=10^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }else{
+          abline(h=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+        }
+      }
+    }
 
  		if(logged){
  		  do.call("axis", c(list(side=currentside,at=10^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dots))
@@ -106,23 +123,6 @@ for(i in 1:length(side)){
       }else{
         do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp),dots))
         #axis(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,...)
-      }
-    }
-        
-    if(grid){
-      if(currentside==1){
-        if(logged){
-          abline(v=10^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
-        }else{
-          abline(v=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
-        }
-      }
-      if(currentside==2){
-        if(logged){
-          abline(h=10^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
-        }else{
-          abline(h=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
-        }
       }
     }
     
