@@ -136,9 +136,9 @@ for(i in 1:length(side)){
         do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dots))
         #axis(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,col=col.ticks,...)
       }
-      if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline,cex=par()$cex.lab)}
-      if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline,cex=par()$cex.lab)}  
     }
+    if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline,cex=par()$cex.lab)}
+    if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline,cex=par()$cex.lab)}
 }
 
 if(frame.plot){box()}
