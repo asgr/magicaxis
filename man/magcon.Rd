@@ -50,7 +50,7 @@ Label for y-axis, only used if add=FALSE.
 The colour palette to use for the image (this is also sent to magbar).
 }
   \item{conlevels}{
-Specific quantile contours to add. Default is for 50%, 68% and 95% contours, i.e. these contours contain that perecentage of the data.
+Specific quantile contours to add. Default is for 50\%, 68\% and 95\% contours, i.e. these contours contain that perecentage of the data.
 }
   \item{barposition}{
 The position to use for magbar. See magbar help for more details.
