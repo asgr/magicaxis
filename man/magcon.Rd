@@ -17,7 +17,7 @@ weights=NA,...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-x values to contour.
+x values to contour. If x is a two (or more) column matrix or data.frame and y is missing as an argument, then the first column is used for x and the second column for y.
 }
   \item{y}{
 y values to contour.

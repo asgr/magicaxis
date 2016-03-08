@@ -153,6 +153,10 @@ Fix: cex.lab wasn't being passed to magaxis, now it is., i.e. par(cex.lab=2) wil
 
 Fix: doc typos
 
+Feature: Extended the contours for magcon silently so they extend over the full plot window.
+
+Feature: You can now parse a two column matrix or data.frame to x in magcon (rather than having to specify y separately).
+
 --
 
 TO DO:
