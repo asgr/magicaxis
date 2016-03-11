@@ -1,7 +1,7 @@
 magaxis <-
 function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...){
 dots=list(...)
-dotskeep=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'lwd.ticks')
+dotskeep=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'lwd.ticks', 'tick')
 if(length(dots)>0){
   dots=dots[names(dots) %in% dotskeep]
 }

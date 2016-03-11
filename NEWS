@@ -157,6 +157,10 @@ Feature: Extended the contours for magcon silently so they extend over the full 
 
 Feature: You can now parse a two column matrix or data.frame to x in magcon (rather than having to specify y separately).
 
+Feature: Added magtri function to make nice triangle plots of MCMC psoterior chains with a simple high level interface.
+
+Fix: Now parse 'tick' through to magaxis.
+
 --
 
 TO DO:

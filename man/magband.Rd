@@ -51,7 +51,7 @@ Arguments passed on to \code{\link{lines}} (\code{makering}), \code{\link{polygo
   No output. Run for the side effect of producing nice projected plots.
 }
 \author{
-Aaron Robotham
+  Aaron Robotham
 }
 \seealso{
 \code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{magbar}}, \code{\link{magproj}}

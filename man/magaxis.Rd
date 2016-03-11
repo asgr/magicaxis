@@ -71,7 +71,7 @@ Logical indicating whether a box should be drawn around the plot.
 Logical indicating whether tcl and mgp should be forced to inherit the global par values. This might be preferred when you want to define global plot settings at the start of a script.
 }
   \item{grid}{
-Logical indicating whether a background grid should be drawn onto the plotting area. This will only be done for side=1 (i.e. vertical grid lines) and side=3 (i.e. horizontal grid lines). If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. FALSE by default.
+Logical indicating whether a background grid should be drawn onto the plotting area. This will only be done for side=1 (i.e. vertical grid lines) and side=2 (i.e. horizontal grid lines). If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. FALSE by default.
 }
   \item{grid.col}{
 The colour of the grid to be drawn.
