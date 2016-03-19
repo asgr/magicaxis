@@ -12,7 +12,7 @@ magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 5, tcl = 0.5
 ratio = 0.5, labels = TRUE, unlog = "Auto", mgp = c(2,0.5,0), mtline = 2, xlab = '',
 ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, hersh = FALSE,
 family = "sans", frame.plot = TRUE, usepar=FALSE, grid=FALSE, grid.col='grey',
-grid.lty=1, grid.lwd=1, ...) 
+grid.lty=1, grid.lwd=1, axes=TRUE, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,7 +29,8 @@ log axis arguments to be passed to plot. E.g. use 'x', 'y', 'xy' or 'yx' as appr
 Title for the plot. Default is no title.
 }
   \item{side}{
-The side to be used for axis labelling in the same sense as the base axis function (1=bottom, 2=left, 3=top, 4=right). A vector of multiple entries is allowed. By default, bottom and left axes are drawn (i.e. side 1 and 2). If side=FALSE then no sides or labels will be drawn at all.
+The side to be used for axis labelling in the same sense as the base axis function (1=bottom, 2=left, 3=top, 4=right). A vector of multiple entries is allowed. By default, bottom and left axes are drawn (i.e. side 1 and 2). If \option{side}=FALSE (or \option{axes}=FALSE) then no sides or labels will be drawn.
+
 }
   \item{majorn}{
 The target number of major-axis sub-divisions for pretty plotting. If length is 1 and length of side is longer than this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. Obvious reason for varying this is different pretty labelling between a and y axes.
@@ -94,6 +95,9 @@ The line type of the grid to be drawn.
 }
   \item{grid.lwd}{
 The line width of the grid to be drawn.
+}
+  \item{axes}{
+If \option{axes}=FALSE (or \option{side}=FALSE) then no sides or labels will be drawn.
 }
   \item{\dots}{
 Further arguments to be passed to base plot and also to magaxis -> axis.

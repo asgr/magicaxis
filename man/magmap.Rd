@@ -32,7 +32,7 @@ The numerical range of the output mapping which should be a vector of length two
 The type of mapping attempted. Options are 'quan' (default), 'num', 'sig' and 'rank'.
 }
   \item{stretch}{
-If stretch='lin' linear output mapping is used. If stretch='log' logarithmic mapping is used. If stretch='atan' atan mapping is used. If stretch='asinh' asinh mapping is used.
+stretch='lin'  gives linear mapping. stretch='log' gives logarithmic mapping. stretch='atan' gives atan mapping. stretch='asinh' gives asinh mapping. stretch='sqrt' gives sqrt mapping.
 }
   \item{stretchscale}{
 A number to multiply the data by before applying the stretch. This only has a user impact for stretch='atan' and stretch='atanh' since it controls what parts of the data is in the linear or logarithmic regime of the stretch procedure.
