@@ -8,7 +8,10 @@ Magically pretty images
 A high level replacement for base image with hooks into magaxis for the tick marks and magmap for the image scaling. The default behavious is a bit different to base (e.g. x/y scales are automatically the number of pixels in the image matrix).
 }
 \usage{
-magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE, useRaster = TRUE, asp = 1, lo = 0, hi = 1, flip = FALSE, range = c(0, 1), type = "quan", stretch = "lin", stretchscale = 1, bad = NA, clip = "", axes = TRUE, frame.plot = TRUE, ...)
+magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
+useRaster = TRUE, asp = 1, magmap=FALSE, lo = 0, hi = 1, flip = FALSE, range = c(0, 1),
+type = "quan", stretch = "lin", stretchscale = 1, bad = NA, clip = "", axes = TRUE,
+frame.plot = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +22,7 @@ Locations of grid lines at which the values in z are measured. These must be fin
 A numeric or logical matrix containing the values to be plotted (NAs are allowed). Note that x can be used instead of z for convenience.
 }
   \item{zlim}{
-The z limit with respect to the output of magmap$map. By default \code{magmap} scales between 0 and 1, so to only show the brighter pixels \option{zlim} could be set to c(0.5,1).
+The z limit with respect to the output of magmap$map. If \option{magmap}=FALSE (default) \option{zlim} should be with respect to the provided z matrix (like base \code{image}). If \option{magmap}=TRUE \option{zlim} should be with respect to the \option{range} output of \code{magmap}. By default the \code{magmap} function scales between 0 and 1, so to only show the brighter pixels \option{zlim} could be set to c(0.5,1).
 }
   \item{xlim, ylim}{
 Ranges for the plotted x and y values, defaulting to the ranges of x and y.
@@ -35,6 +38,9 @@ If TRUE a bitmap raster is used to plot the image instead of polygons. The grid 
 }
   \item{asp}{
 The y/x aspect ratio
+}
+  \item{magmap}{
+  
 }
   \item{lo}{
 The low limit to clip the z data at (what this means varies depending on the 'type' option). This should be a single value. See \code{\link{magmap}} for more information.
@@ -93,8 +99,14 @@ magimage(matrix(1:9,3))
 #Mid pixel versus pixel edge:
 magimage(3:0,1:3,matrix(1:9,3))
 
-#Log scaling
-magimage(matrix(1:9,3),stretch='log')
+#Standard scaling is not very useful in this instance:
+magimage(matrix(10^(1:9),3))
+#Linear scaling is not very useful in this instance, though it does now map from [0,1]:
+magimage(matrix(10^(1:9),3),magmap=TRUE,zlim=c(0,0.5))
+#Log scaling with magmap makes it much clearer:
+magimage(matrix(10^(1:9),3),magmap=TRUE,stretch='log')
+#And it's easy just to show the lowest half now:
+magimage(matrix(10^(1:9),3),magmap=TRUE,stretch='log',zlim=c(0,0.5))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

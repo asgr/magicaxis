@@ -6,5 +6,5 @@ Date: 2016-03-19
 Author: Aaron Robotham
 Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>
 Description: Functions to make useful (and pretty) plots for scientific plotting. Additional plotting features are added for base plotting, with particular emphasis on making attractive log axis plots.
-License: GPL-3+
+License: GPL-3
 Depends: R (>= 2.13), MASS, plotrix, sm, mapproj, celestial
