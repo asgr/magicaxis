@@ -6,20 +6,20 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
   }else{
     if(!missing(z)){
       if(is.matrix(z)){
-        if(missing(x)){y=seq(0,dim(z)[1])}
-        if(missing(y)){y=seq(0,dim(z)[2])}
+        if(missing(x)){y=seq(0.5,dim(z)[1]-0.5)}
+        if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
       }
     }
     if(!missing(x)){
       if(is.matrix(x)){
         z=x
-        x=seq(0,dim(z)[1])
-        if(missing(y)){y=seq(0,dim(z)[2])}
+        x=seq(0.5,dim(z)[1]-0.5)
+        if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
       }
     }
   }
-  if(missing(xlim)){xlim=range(x)}
-  if(missing(ylim)){ylim=range(y)}
+  if(missing(xlim)){xlim=range(x, na.rm=TRUE)}
+  if(missing(ylim)){ylim=range(y, na.rm=TRUE)}
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
   if(length(x)==dim(z)[1]){
@@ -36,7 +36,7 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
     z=magmap(data=z, lo=lo, hi=hi, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
   }
   if(missing(zlim)){
-    zlim=range(z)
+    zlim=range(z, na.rm=TRUE)
   }
   image(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main='')
   if(add==FALSE){
@@ -45,4 +45,5 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
       if(frame.plot){box()}
     }
   }
+  return=list(x=x, y=y, z=z)
 }

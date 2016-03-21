@@ -1,5 +1,6 @@
 magtri=function(chains,samples,samptype='end',grid=FALSE,tick=FALSE){
   chains=as.data.frame(chains)
+  chaincolnames=colnames(chains)
   Nsamp=dim(chains)[1]
   Npar=dim(chains)[2]
   if(Npar<=1){stop('Need 2+ parameters!')}
@@ -41,7 +42,7 @@ magtri=function(chains,samples,samptype='end',grid=FALSE,tick=FALSE){
         box()
         if(i==1){
           plot.window(xlim=xrange,ylim=yrange)
-          magaxis(1:2,xlab=colnames(chains)[i],ylab=colnames(chains)[j])
+          magaxis(1:2,xlab=chaincolnames[i],ylab=chaincolnames[j])
         }
       }else{
         if(i>j){
@@ -58,7 +59,7 @@ magtri=function(chains,samples,samptype='end',grid=FALSE,tick=FALSE){
           abline(v=meanvec[i],lty=2,col='red')
           abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
           abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
-          if(j==1){magaxis(1,xlab=colnames(chains)[i])}
+          if(j==1){magaxis(1,xlab=chaincolnames[i])}
         }else{
           plot.new()
           plot.window(xlim=xrange,ylim=yrange)
@@ -66,9 +67,12 @@ magtri=function(chains,samples,samptype='end',grid=FALSE,tick=FALSE){
           points(chains[usesamps,c(i,j)],pch='.',col='darkgrey')
           points(meanvec[i],meanvec[j],col='red',pch=4,cex=2)
           box()
-          if(i==1){magaxis(2,ylab=colnames(chains)[j])}
+          if(i==1){magaxis(2,ylab=chaincolnames[j])}
         }
       }
     }
   }
+  output=cbind(mean=meanvec, sd=sdvec)
+  rownames(output)=chaincolnames
+  return=output
 }

@@ -83,7 +83,7 @@ Arguments to be parsed to \code{magaxis}. See \code{\link{magaxis}} for details.
 See \code{\link{image}}, \code{\link{magmap}} and \code{\link{magaxis}} for more details.
 }
 \value{
-No output. Run for the side effect of producing nice image plots.
+Outputs the final image list containing x,y and z. Generally run for the side effect of producing nice image plots.
 }
 \author{
 Aaron Robotham

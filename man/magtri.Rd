@@ -38,7 +38,7 @@ Should tick marks be added to every sub-panel?
     The red cross shows the mean for the sampled posterior chain. The red vertical dashed line traces this over the contour plots. The red dotted line shows the +/- SD range of the sampled posterior chain.
 }
 \value{
-  No output. Run for the side effect of producing nice projected plots.
+  Outputs a two column matrix containing the means and standard deviations fo the parameters. Generally run for the side effect of producing nice projected plots.
 }
 \author{
   Aaron Robotham
