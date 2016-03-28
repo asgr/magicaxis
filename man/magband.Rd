@@ -68,8 +68,10 @@ magproj(c(339,351), c(-35,-30), col='red', add=TRUE)
 
 magecliptic(width=10,col=hsv(1/12,alpha=0.3),border=NA)
 magecliptic(width=0,col='orange')
+# Note this a shortcut for: magring(0,23.4,col='orange')
 magMWplane(width=20,col=hsv(v=0,alpha=0.1),border=NA)
 magMWplane(width=0,col='darkgrey')
+# Note this a shortcut for: magring(76.75,62.6,col='darkgrey')
 magMW(pch=16, cex=2, col='darkgrey')
 magsun(c(7,26), pch=16, cex=2, col='orange2') #An important date!
 
