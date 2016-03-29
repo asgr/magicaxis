@@ -24,6 +24,8 @@ if(type=='rank'){
 	hi=length(data[good])
 	data[order(data[good])]=lo:hi
 }
+loreturn=lo
+hireturn=hi
 if(stretch=='log' & lo==0){stop('lo value is 0 and stretch=\'log\'- this is not allowed!')}
 if(stretch=='log' & hi==0){stop('hi value is 0 and stretch=\'log\'- this is not allowed!')}
 if(lo>hi){stop('lo>hi is not allowed')}
@@ -57,6 +59,6 @@ if(lo<hi){
   if(clip=='NA'){data[losel]=NA;data[hisel]=NA}
 }
 data[! good]=bad
-return(list(map=data,datalim=c(lo,hi),maplim=range,loclip=length(which(data[good]==range[1]))/length(data[good]),hiclip=length(which(data[good]==range[2]))/length(data[good])))
+return(list(map=data,datalim=c(loreturn,hireturn),maplim=range,loclip=length(which(data[good]==range[1]))/length(data[good]),hiclip=length(which(data[good]==range[2]))/length(data[good])))
 }
 
