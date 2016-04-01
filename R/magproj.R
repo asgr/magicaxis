@@ -95,10 +95,52 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
   }
   
   if(type=='pl'){
+    checklims=diff(long)
+    if(any(abs(checklims)>180)){
+      lolong=which(abs(long-longlim[1])<180)
+      hilong=which(abs(long-longlim[2])<180)
+        if(1 %in% lolong){
+          templolonglong=long[lolong]
+          templolonglat=lat[lolong]
+          templolonglong=c(longlim[1]+1e-9,templolonglong,longlim[1]+1e-9,longlim[1]+1e-9)
+          templolonglat=c(lat[max(hilong)],templolonglat,lat[min(hilong)],lat[max(hilong)])
+          templolonglong=approxfun(seq(0,1,len=length(templolonglong)), templolonglong)(seq(0,1,len=length(templolonglong)*upres))
+          templolonglat=approxfun(seq(0,1,len=length(templolonglat)), templolonglat)(seq(0,1,len=length(templolonglat)*upres))
+          temp=mapproject(templolonglong, templolonglat)
+          polygon(temp, ...)
+          temphilonglong=long[hilong]
+          temphilonglat=lat[hilong]
+          temphilonglong=c(temphilonglong,longlim[2]-1e-9,longlim[2]-1e-9,temphilonglong[1])
+          temphilonglat=c(temphilonglat,lat[max(hilong)],lat[min(hilong)],temphilonglat[1])
+          temphilonglong=approxfun(seq(0,1,len=length(temphilonglong)), temphilonglong)(seq(0,1,len=length(temphilonglong)*upres))
+          temphilonglat=approxfun(seq(0,1,len=length(temphilonglat)), temphilonglat)(seq(0,1,len=length(temphilonglat)*upres))
+          temp=mapproject(temphilonglong, temphilonglat)
+          polygon(temp, ...)
+        }
+        if(1 %in% hilong){
+          templolonglong=long[lolong]
+          templolonglat=lat[lolong]
+          templolonglong=c(longlim[1]+1e-9,templolonglong,longlim[1]+1e-9,longlim[1]+1e-9)
+          templolonglat=c(lat[min(lolong)],templolonglat,lat[max(lolong)],lat[min(lolong)])
+          templolonglong=approxfun(seq(0,1,len=length(templolonglong)), templolonglong)(seq(0,1,len=length(templolonglong)*upres))
+          templolonglat=approxfun(seq(0,1,len=length(templolonglat)), templolonglat)(seq(0,1,len=length(templolonglat)*upres))
+          temp=mapproject(templolonglong, templolonglat)
+          polygon(temp, ...)
+          temphilonglong=long[hilong]
+          temphilonglat=lat[hilong]
+          temphilonglong=c(temphilonglong,longlim[2]-1e-9,longlim[2]-1e-9,temphilonglong[1])
+          temphilonglat=c(temphilonglat,lat[min(lolong)],lat[max(lolong)],temphilonglat[1])
+          temphilonglong=approxfun(seq(0,1,len=length(temphilonglong)), temphilonglong)(seq(0,1,len=length(temphilonglong)*upres))
+          temphilonglat=approxfun(seq(0,1,len=length(temphilonglat)), temphilonglat)(seq(0,1,len=length(temphilonglat)*upres))
+          temp=mapproject(temphilonglong, temphilonglat)
+          polygon(temp, ...)
+        }
+    }else{
     long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*upres))
     lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*upres))
     temp=mapproject(long, lat)
     polygon(temp, ...)
+    }
   }
   
   if(type=='t'){
