@@ -97,7 +97,7 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
   if(type=='pl'){
     checklims=diff(long)
     if(any(abs(checklims)>180)){
-      lolong=which(abs(long-longlim[1])<180)
+      lolong=which(abs(long-longlim[1])<=180)
       hilong=which(abs(long-longlim[2])<180)
         if(1 %in% lolong){
           templolonglong=long[lolong]
