@@ -73,6 +73,10 @@ The fraction of objects clipped from the input data at the high end.
 Aaron Robotham
 }
 
+\seealso{
+\code{\link{magimage}}, \code{\link{magbar}}
+}
+
 \examples{
 set.seed(650)
 temp=cbind(runif(100),runif(100))
