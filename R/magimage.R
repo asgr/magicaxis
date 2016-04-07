@@ -1,4 +1,4 @@
-magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=FALSE, lo=0, hi=1, flip=FALSE, range=c(0,1), type = "quan", stretch="lin", stretchscale=1, bad=NA, clip="", axes=TRUE, frame.plot=TRUE, ...) {
+magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, lo=0, hi=1, flip=FALSE, range=c(0,1), type = "quan", stretch="log", stretchscale=1, bad=NA, clip="", axes=TRUE, frame.plot=TRUE, ...) {
   if(is.list(x)){
     if('y' %in% names(x)){y=x$y}
     if('z' %in% names(x)){z=x$z}
