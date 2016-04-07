@@ -3,10 +3,13 @@ function(data, lo=0, hi=1, flip=FALSE, range=c(0,2/3), type='quan', stretch='lin
 if(stretch=='log'){
 	good=is.na(data)==FALSE & is.nan(data)==FALSE & is.infinite(data)==FALSE & is.null(data)==FALSE & data>0
 	if(length(which(good))==0){stop('There is no numeric data with a value greater than 0!')}
-	}else{
+}else{
 	good=is.na(data)==FALSE & is.nan(data)==FALSE & is.infinite(data)==FALSE & is.null(data)==FALSE
 	if(length(which(good))==0){stop('There is no numeric data!')}
-	}
+}
+if(stretchscale=='auto'){
+  stretchscale=1/median(abs(data))
+}
 if(type=='quan'){
 	lo=quantile(data[good],lo)
 	hi=quantile(data[good],hi)
@@ -47,9 +50,9 @@ if(lo<hi){
     data=asinh(data*stretchscale)
 	}
   if(stretch=='sqrt'){
-	  lo=sqrt(lo*stretchscale)
-	  hi=sqrt(hi*stretchscale)
-    data=sqrt(data*stretchscale)
+	  lo=sqrt(lo)
+	  hi=sqrt(hi)
+    data=sqrt(data)
 	}
   losel=data<lo; hisel=data>hi
 	data[losel]=lo; data[hisel]=hi
