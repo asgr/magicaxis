@@ -10,8 +10,8 @@ This function generates nicely arranged axes for scientific plots, including min
 \usage{
 magaxis(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE,
 unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE,
-prettybase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE,
-grid.col='grey', grid.lty=1, grid.lwd=1, ...)
+prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE,
+grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -56,6 +56,9 @@ Should the major-ticks only be located at powers of 10. This changes cases where
 }
   \item{prettybase}{
 The unit of repitition desired. By default it is 10, implying a pretty plot is one with marks at 10, 20, 30 etc. If you are plotting degrees then it might be prettier to display 90, 180, 270 etc. In which case prettybase should be set to 90. If log=TRUE then the reference location of 10 is changed, so in the previous example the labels generated would be at 9, 90, 900 etc rather than the deafult of 1, 10, 100 etc. If length is 1 and length of side is longer then this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side.
+}
+  \item{powbase}{
+Set the base to use for logarithmic axes. Default is to use 10.
 }
   \item{hersh}{
 To determines whether all plot text should be passed using Hershey vector fonts. This applies to the axis labels (which are handled automatically) and the axis names. In the case of axis names the user must be careful to use the correct plot utils escape characters: http://www.gnu.org/software/plotutils/manual/en/html_node/Text-String-Format.html.

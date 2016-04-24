@@ -9,7 +9,7 @@ Utilises pretty for the major-tick locations, but makes prettier decisions if lo
 }
 \usage{
 maglab(lims, n, log=FALSE, exptext=TRUE, crunch=TRUE, logpretty=TRUE,
-usemultloc=FALSE, multloc=c(1,2,5), prettybase=10, hersh=FALSE, trim=FALSE)
+usemultloc=FALSE, multloc=c(1,2,5), prettybase=10, powbase=10, hersh=FALSE, trim=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,6 +39,9 @@ If usemultloc is TRUE then multloc provides the multiples of powers of 10 for th
 }
   \item{prettybase}{
 The unit of repitition desired. By default it is 10, implying a pretty plot is one with marks at 10, 20, 30 etc. If you are plotting degrees then it might be prettier to display 90, 180, 270 etc. In which case prettybase should be set to 90. If log=TRUE then the reference location of 10 is changed, so in the previous example the labels generated would be at 9, 90, 900 etc rather than the deafult of 1, 10, 100 etc.
+}
+  \item{powbase}{
+Set the base to use for logarithmic axes. Default is to use 10.   
 }
   \item{hersh}{
 Determines whether the text format output by maglab should be Hershey vector font compatable text (TRUE), or normal plotmath style expressions (FALSE).
