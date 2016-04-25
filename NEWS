@@ -163,7 +163,7 @@ Feature: You can now parse a two column matrix or data.frame to x in magcon (rat
 
 Fix: Now parse 'tick' through to magaxis.
 
-Feature: Added powbase option to allow log axes to be labelled with powers of e.g. 2 (1,2,4,8 etc) rather than only 10.
+Feature: Added powbase option to allow log axes to be labelled with powers of e.g. 2 (1,2,4,8 etc) rather than only 10. To accommodate this working nicely minorn now has a default 'auto' mode which does sensible minor tick guess-work.
 
 --
 

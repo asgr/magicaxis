@@ -1,5 +1,5 @@
 magaxis <-
-function(side=1:2, majorn=5, minorn=5, tcl=0.5, ratio=0.5, labels=TRUE, unlog='Auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...){
+function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unlog='auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...){
 dots=list(...)
 dotskeep=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'lwd.ticks', 'tick')
 if(length(dots)>0){
@@ -16,7 +16,7 @@ powbaselist=powbase
 gridlist=grid
 if(length(majorn)==1 & length(side)>1){majornlist=rep(majorn,length(side))}
 if(length(minorn)==1 & length(side)>1){minornlist=rep(minorn,length(side))}
-if(length(unlog)==1 & length(side)>1 & (unlog[1]==T | unlog[1]==F | unlog[1]=='Auto')){unloglist=rep(unlog,length(side))}
+if(length(unlog)==1 & length(side)>1 & (unlog[1]==T | unlog[1]==F | unlog[1]=='auto')){unloglist=rep(unlog,length(side))}
 if(length(labels)==1 & length(side)>1){labelslist=rep(labels,length(side))}
 if(length(crunch)==1 & length(side)>1){crunchlist=rep(crunch,length(side))}
 if(length(logpretty)==1 & length(side)>1){logprettylist=rep(logpretty,length(side))}
@@ -59,32 +59,44 @@ for(i in 1:length(side)){
     prettybase=prettybaselist[i]
     powbase=powbaselist[i]
     grid=gridlist[i]
-  		lims=par("usr")
-  		if(currentside %in% c(1,3)){
-  		lims=lims[1:2];if(par('xlog')){logged=T}else{logged=F}
-  		}else{
-  		lims=lims[3:4];if(par('ylog')){logged=T}else{logged=F}
-  		}
-        lims=sort(lims)
-
-        if(unlog=='Auto'){if(logged){unlog=T}else{unlog=F}}
-        if(logged | unlog){usemultloc=(10^lims[2])/(10^lims[1])<50}else{usemultloc=F}
-        	  		
-  		if(unlog){
-        sci.tick=maglab(10^lims,n=majorn,log=T,exptext=T,crunch=crunch,logpretty=logpretty,usemultloc=usemultloc,prettybase=prettybase, powbase=powbase, hersh=hersh)
-        major.ticks = log(sci.tick$tickat,powbase)
-  		  uselabels = sci.tick$exp
-  		  labloc = log(sci.tick$labat,powbase)
-        if(usemultloc==F){
-        minors = log(pretty(powbase^major.ticks[1:2],minorn+2),powbase)-major.ticks[1]
-        }
+    lims=par("usr")
+    if(currentside %in% c(1,3)){
+      lims=lims[1:2];if(par('xlog')){logged=T}else{logged=F}
+    }else{
+      lims=lims[3:4];if(par('ylog')){logged=T}else{logged=F}
+    }
+    lims=sort(lims)
+    
+    if(unlog=='auto'){if(logged){unlog=T}else{unlog=F}}
+    if((logged | unlog) & powbase==10){usemultloc=(10^lims[2])/(10^lims[1])<50}else{usemultloc=F}
+    
+    if(unlog){
+      sci.tick=maglab(10^lims,n=majorn,log=T,exptext=T,crunch=crunch,logpretty=logpretty,usemultloc=usemultloc,prettybase=prettybase, powbase=powbase, hersh=hersh)
+      major.ticks = log(sci.tick$tickat,powbase)
+      uselabels = sci.tick$exp
+      labloc = log(sci.tick$labat,powbase)
+      if(usemultloc==F){
+        if(minorn=='auto'){
+ 		      splitmin=(powbase^major.ticks[2])/(powbase^major.ticks[1])
+ 		    }else{
+ 		       splitmin=minorn+1
+ 		    }
+        minors = log(seq(powbase^major.ticks[1],powbase^major.ticks[2],len=splitmin),powbase)-major.ticks[1]
+      }
  		}
  		if(logged & unlog==F){
  		  sci.tick=maglab(10^lims, n=majorn, log=T, exptext=F, crunch=crunch, logpretty=logpretty,usemultloc=usemultloc, prettybase=prettybase, powbase=powbase, hersh=hersh)
  		  major.ticks = log(sci.tick$tickat,powbase)
   		uselabels = sci.tick$exp
   		labloc = log(sci.tick$labat,powbase)
- 		  if(usemultloc==F){minors = log(pretty(powbase^major.ticks[1:2],minorn+2),powbase)-major.ticks[1]}
+ 		  if(usemultloc==F){
+ 		    if(minorn=='auto'){
+ 		      splitmin=(powbase^major.ticks[2])/(powbase^major.ticks[1])
+ 		    }else{
+ 		       splitmin=minorn+1
+ 		    }
+ 		    minors = log(seq(powbase^major.ticks[1],powbase^major.ticks[2],len=splitmin),powbase)-major.ticks[1]
+ 		  }
  		}
 
  		if(logged==F & unlog==F){
@@ -92,7 +104,8 @@ for(i in 1:length(side)){
  		  major.ticks = sci.tick$tickat
   		uselabels = sci.tick$exp
   		labloc = sci.tick$labat
-  		minors = pretty(major.ticks[1:2],minorn+2)-major.ticks[1]
+  		if(minorn=='auto'){splitmin=5}else{splitmin=minorn+1}
+  		minors = seq(major.ticks[1],major.ticks[2],len=splitmin)-major.ticks[1]
  		}
     
     if(grid){
@@ -130,7 +143,7 @@ for(i in 1:length(side)){
       }
     }
     
-    if(usemultloc==F){
+    if(usemultloc==F & minorn>1){
       minors = minors[-c(1,length(minors))]
       minor.ticks = c(outer(minors, major.ticks, `+`))
       if(logged){
