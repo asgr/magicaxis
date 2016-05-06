@@ -13,7 +13,7 @@ Functions to make pretty axes (major and minor) on scientific plots. Particularl
 Package: \tab magicaxis\cr
 Type: \tab Package\cr
 Version: \tab 1.9.5\cr
-Date: \tab 2016-03-19\cr
+Date: \tab 2016-05-06\cr
 License: \tab GPL-3 \cr
 Depends: \tab MASS, plotrix, sm, mapproj, celestial \cr
 }

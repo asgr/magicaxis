@@ -8,8 +8,8 @@ Magically pretty plots
 Makes scientific plots based on magaxis axes. Particularly designed for log plotting. Utilises base plot for the most part, but the axis drawing is replaced by a call to the magaxis fuction.
 }
 \usage{
-magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 5, tcl = 0.5,
-ratio = 0.5, labels = TRUE, unlog = "Auto", mgp = c(2,0.5,0), mtline = 2, xlab = '',
+magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 'auto', tcl = 0.5,
+ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2, xlab = '',
 ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase=10, hersh = FALSE,
 family = "sans", frame.plot = TRUE, usepar=FALSE, grid=FALSE, grid.col='grey',
 grid.lty=1, grid.lwd=1, axes=TRUE, ...) 
@@ -36,7 +36,7 @@ The side to be used for axis labelling in the same sense as the base axis functi
 The target number of major-axis sub-divisions for pretty plotting. If length is 1 and length of side is longer than this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. Obvious reason for varying this is different pretty labelling between a and y axes.
 }
   \item{minorn}{
-The exact number of minor-axis divisions (i.e. desired minor ticks + 1) to display in plotting. Auto will produce 4 minor ticks for linear axes and powbase-2 minor ticks for logged (this might seem odd, but for base 10 this means ticks at 2/3/4/5/6/7/8/9, which is probably as desired). If set manually, must be greater than 1 to have a visible effect. Minor ticks are always calculated to be equally spaced in linear space, so tick spaces vary when using log plotting. If length is 1 and length of side is longer than this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. An obvious reason for varying this is different pretty labelling between x and y axes.
+The exact number of minor-axis divisions (i.e. desired minor ticks + 1) to display in plotting. Auto will produce \code{\link{pretty}} ticks for linear scaling, and powbase-2 minor ticks for logged (this might seem odd, but for base 10 this means ticks at 2/3/4/5/6/7/8/9, which is probably as desired). If set manually, must be greater than 1 to have a visible effect. Minor ticks are always calculated to be equally spaced in linear space, so tick spaces vary when using log plotting. If length is 1 and length of side is longer than this value is used for all axes. If length of arguments is longer than 1 then these should tally with the relevant axes in side. An obvious reason for varying this is different pretty labelling between x and y axes.
 }
   \item{tcl}{
 The length of major tick marks as a fraction of the height of a line of text. By default these face into the plot (in common with scientific plotting) with a value of 0.5, rather than the R default of -0.5. It is possible to force magaxis to inherit directly from par by setting usepar=TRUE (see below). See \code{\link{par}} for more details.

@@ -104,7 +104,7 @@ for(i in 1:length(side)){
  		  major.ticks = sci.tick$tickat
   		uselabels = sci.tick$exp
   		labloc = sci.tick$labat
-  		if(minorn=='auto'){splitmin=5}else{splitmin=minorn+1}
+  		if(minorn=='auto'){splitmin=length(pretty(major.ticks[1:2]))}else{splitmin=minorn+1}
   		minors = seq(major.ticks[1],major.ticks[2],len=splitmin)-major.ticks[1]
  		}
     
