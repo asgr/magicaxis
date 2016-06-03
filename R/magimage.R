@@ -18,20 +18,20 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
       }
     }
   }
-  if(missing(xlim)){xlim=range(x, na.rm=TRUE)}
-  if(missing(ylim)){ylim=range(y, na.rm=TRUE)}
+  if(missing(xlim) & length(x)==dim(z)[1]){
+    xlim=range(x, na.rm=TRUE)+c(-0.5,0.5)*diff(range(x, na.rm=TRUE))/(dim(z)[1]-1)
+  }
+  if(missing(ylim) & length(y)==dim(z)[2]){
+    ylim=range(y, na.rm=TRUE)+c(-0.5,0.5)*diff(range(y, na.rm=TRUE))/(dim(z)[2]-1)
+  }
+  if(missing(xlim) & length(x)==(dim(z)[1]+1)){
+    xlim=range(x, na.rm=TRUE)
+  }
+  if(missing(ylim) & length(y)==(dim(z)[2]+1)){
+    ylim=range(y, na.rm=TRUE)
+  }
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
-  if(length(x)==dim(z)[1]){
-    oldrange=diff(xlim)
-    xlim[1]=xlim[1]-oldrange/dim(z)[1]
-    xlim[2]=xlim[2]+oldrange/dim(z)[1]
-  }
-  if(length(y)==dim(z)[2]){
-    oldrange=diff(ylim)
-    ylim[1]=ylim[1]-oldrange/dim(z)[2]
-    ylim[2]=ylim[2]+oldrange/dim(z)[2]
-  }
   if(magmap){
     z=magmap(data=z, lo=lo, hi=hi, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
   }
