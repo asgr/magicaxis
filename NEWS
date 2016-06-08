@@ -139,7 +139,7 @@ License: Changed to GPL-3 after a user request.
 
 v 1.9.5 (not on CRAN)
 
-Feature: Added magimage
+Feature: Added magimage (one chanel) and magimageRGB (three chanel) image functions
 
 Feature: Added magtri function to make nice triangle plots of MCMC psoterior chains with a simple high level interface.
 

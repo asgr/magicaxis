@@ -1,21 +1,20 @@
 magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, lo=0, hi=1, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=NA, clip="", axes=TRUE, frame.plot=TRUE, ...) {
-  if(is.list(x)){
-    if('y' %in% names(x)){y=x$y}
-    if('z' %in% names(x)){z=x$z}
-    if('x' %in% names(x)){x=x$x}
-  }else{
-    if(!missing(z)){
-      if(is.matrix(z)){
-        if(missing(x)){y=seq(0.5,dim(z)[1]-0.5)}
-        if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
-      }
+  if(!missing(x)){
+    if(is.list(x)){
+      if('y' %in% names(x)){y=x$y}
+      if('z' %in% names(x)){z=x$z}
+      if('x' %in% names(x)){x=x$x}
     }
-    if(!missing(x)){
-      if(is.matrix(x)){
-        z=x
-        x=seq(0.5,dim(z)[1]-0.5)
-        if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
-      }
+    if(is.matrix(x)){
+      z=x
+      x=seq(0.5,dim(z)[1]-0.5)
+      if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
+    }
+  }
+  if(!missing(z)){
+    if(is.matrix(z)){
+      if(missing(x)){x=seq(0.5,dim(z)[1]-0.5)}
+      if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
     }
   }
   if(missing(xlim) & length(x)==dim(z)[1]){

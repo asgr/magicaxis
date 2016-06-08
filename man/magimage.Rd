@@ -1,17 +1,22 @@
 \name{magimage}
 \alias{magimage}
+\alias{magimageRGB}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Magically pretty images
 }
 \description{
-A high level replacement for base image with hooks into magaxis for the tick marks and magmap for the image scaling. The default behavious is a bit different to base (e.g. x/y scales are automatically the number of pixels in the image matrix).
+\code{magimage} is a level replacement for base image with hooks into magaxis for the tick marks and magmap for the image scaling. The default behavious is a bit different to base (e.g. x/y scales are automatically the number of pixels in the image matrix). \code{magimageRGB} is similar, but is for the creation colour images where the user can provide R G B input matrix chanels (or similar).
 }
 \usage{
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
 useRaster = TRUE, asp = 1, magmap=TRUE, lo = 0, hi = 1, flip = FALSE, range = c(0, 1),
 type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA, clip = "", axes = TRUE,
 frame.plot = TRUE, ...)
+magimageRGB(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster = TRUE, asp = 1,
+magmap = TRUE, lo = 0.2, hi = 0.995, flip = FALSE, range = c(0, 1), type = "quan",
+stretch = "asinh", stretchscale = "auto", bad = range[1], clip = "", axes = TRUE,
+frame.plot = TRUE, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +25,15 @@ Locations of grid lines at which the values in z are measured. These must be fin
 }
   \item{z}{
 A numeric or logical matrix containing the values to be plotted (NAs are allowed). Note that x can be used instead of z for convenience.
+}
+  \item{R}{
+A numeric or logical matrix containing the red colour values to be plotted (NAs are allowed). Note that a 3D array x can be used instead of R for convenience, where R=x[,,1].
+}
+  \item{G}{
+A numeric or logical matrix containing the green colour values to be plotted (NAs are allowed). Note that a 3D array x can be used instead of G for convenience, where G=x[,,2].
+}
+  \item{B}{
+A numeric or logical matrix containing the blue colour values to be plotted (NAs are allowed). Note that a 3D array x can be used instead of B for convenience, where B=x[,,3].
 }
   \item{zlim}{
 The z limit with respect to the output of magmap$map. If \option{magmap}=FALSE (default) \option{zlim} should be with respect to the provided z matrix (like base \code{image}). If \option{magmap}=TRUE \option{zlim} should be with respect to the \option{range} output of \code{magmap}. By default the \code{magmap} function scales between 0 and 1, so to only show the brighter pixels \option{zlim} could be set to c(0.5,1).
@@ -64,7 +78,7 @@ stretch='lin' gives linear mapping. stretch='log' gives logarithmic mapping. str
 A number to multiply the z data by before applying the stretch. This only has a user impact for stretch='atan' and stretch='asinh' since it controls what parts of the data is in the linear or logarithmic regime of the stretch procedure. If set to 'auto' (the default) it uses 1/median(abs(data)) to find a useful scale.See \code{\link{magmap}} for more information.
 }
   \item{bad}{
-Sets the value that NA, NaN and infinite input z data should be set to in the final map output. This should be thought of in the context of the range argument, i.e. if bad=range[1] then bad values will be the low range value and if bad=range[2] bad values will be the high range value. See \code{\link{magmap}} for more information.
+Sets the value that NA, NaN and infinite input z data should be set to in the final map output. This should be thought of in the context of the range argument, i.e. if bad=range[1] then bad values will be the low range value and if bad=range[2] bad values will be the high range value. See \code{\link{magmap}} for more information. For \code{magimageRGB} bad is set to range[1] by default since this removes RGB conversion errors that would be experiences with NA values (i.e. negative values when \option{stretch}='log').
 }
   \item{clip}{
 By default clipped z values inherit the nearest lo/hi value (depending on which side they are clipped). Setting clip='NA' will set values outside the 'lo' and 'hi' values to be NA (currently this is the only other clip option). See \code{\link{magmap}} for more information.
