@@ -92,7 +92,7 @@ Fixed: magbar didn’t seem to function as expected when being overlaid on a plo
 
 Fixed:   magbar colour bar changed range depending on how many intervals you request. i.e. the same bar settings called with labN=5 has different limits when called with labN=3. magbar now pads out the extremes of the mapping if the pretty plotting chooses to extend beyond the requested range (which it generally will).
 
-v 1.9 (latest CRAN version)
+v 1.9
 
 Feature: magmap can now output NA outside of the desired range.
 
@@ -121,7 +121,7 @@ Feature:  The background colour of the magcon image now extends beyond the limit
 
 Feature:  magerr now picks up the log state automatically, so log argument is no longer required.
 
-v 1.9.4 (on CRAN)
+v 1.9.4
 
 WARNING! Argument change: tline no longer exists as an option for magplot or magaxis, instead the user defines the full mgp vector, where it has "pretty" defaults of c(2,0.5,0).
 
@@ -137,7 +137,9 @@ Feature: side=FALSE in magplot will now not plot any sides (in this case the use
 
 License: Changed to GPL-3 after a user request.
 
-v 1.9.5 (not on CRAN)
+v 2.0.0 (on CRAN)
+
+Enough new features to transition to magicaxis version 2.0
 
 Feature: Added magimage (one chanel) and magimageRGB (three chanel) image functions
 
@@ -166,6 +168,8 @@ Fix: Now parse 'tick' through to magaxis.
 Feature: Added powbase option to allow log axes to be labelled with powers of e.g. 2 (1,2,4,8 etc) rather than only 10. To accommodate this working nicely minorn now has a default 'auto' mode which does sensible minor tick guess-work.
 
 --
+
+v 2.0.1 (not on CRAN, on GitHub @ asgr/magicaxis)
 
 TO DO:
 
