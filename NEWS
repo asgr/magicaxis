@@ -171,6 +171,8 @@ Feature: Added powbase option to allow log axes to be labelled with powers of e.
 
 v 2.0.1 (not on CRAN, on GitHub @ asgr/magicaxis)
 
+Fixed magmap docs
+
 TO DO:
 
 FEATURE: Add better in-plot legends.
