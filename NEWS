@@ -173,6 +173,8 @@ v 2.0.1 (not on CRAN, on GitHub @ asgr/magicaxis)
 
 Fixed magmap docs
 
+Fixed auto scale in magmap so it works with NA and NaN situations.
+
 TO DO:
 
 FEATURE: Add better in-plot legends.
