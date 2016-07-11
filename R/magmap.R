@@ -8,7 +8,7 @@ if(stretch=='log'){
 	if(length(which(good))==0){stop('There is no numeric data!')}
 }
 if(stretchscale=='auto'){
-  stretchscale=1/median(abs(data[data>0]))
+  stretchscale=1/median(abs(data[good & data>0]),na.rm=TRUE)
 }
 if(type=='quan'){
 	lo=quantile(data[good],lo)
