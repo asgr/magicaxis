@@ -32,7 +32,7 @@ hireturn=hi
 if(stretch=='log' & lo==0){stop('lo value is 0 and stretch=\'log\'- this is not allowed!')}
 if(stretch=='log' & hi==0){stop('hi value is 0 and stretch=\'log\'- this is not allowed!')}
 if(lo>hi){stop('lo>hi is not allowed')}
-if(lo==hi){data=rep((range[2]+range[1])/2,length(data))}
+if(lo==hi){data[1:length(data)]=(range[2]+range[1])/2}
 if(lo<hi){
 	if(stretch=='log'){
 	  lo=log10(lo)

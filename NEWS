@@ -175,6 +175,8 @@ Fixed magmap docs
 
 Fixed auto scale in magmap so it works with NA and NaN situations.
 
+Fixed issue with magmap where a matrix could cahnge type to vector (when all elements were the same).
+
 TO DO:
 
 FEATURE: Add better in-plot legends.
