@@ -10,11 +10,11 @@ Magically pretty images
 }
 \usage{
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
-useRaster = TRUE, asp = 1, magmap=TRUE, lo = 0, hi = 1, flip = FALSE, range = c(0, 1),
+useRaster = TRUE, asp = 1, magmap=TRUE, lo = 0.4, hi = 0.995, flip = FALSE, range = c(0, 1),
 type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA, clip = "", axes = TRUE,
 frame.plot = TRUE, ...)
 magimageRGB(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster = TRUE, asp = 1,
-magmap = TRUE, lo = 0.2, hi = 0.995, flip = FALSE, range = c(0, 1), type = "quan",
+magmap = TRUE, lo = 0.4, hi = 0.995, flip = FALSE, range = c(0, 1), type = "quan",
 stretch = "asinh", stretchscale = "auto", bad = range[1], clip = "", axes = TRUE,
 frame.plot = TRUE, ...) 
 }
@@ -57,10 +57,10 @@ The y/x aspect ratio
   
 }
   \item{lo}{
-The low limit to clip the z data at (what this means varies depending on the 'type' option). This should be a single value. See \code{\link{magmap}} for more information.
+The low limit to clip the z data at (what this means varies depending on the 'type' option). This can be a single value (used for R, G and B) or a vector of length 3 (used for R, G and B respectively). See \code{\link{magmap}} for more information.
 }
   \item{hi}{
-The high limit to clip the z data at (what this means varies depending on the 'type' option). This should be a single value. See \code{\link{magmap}} for more information.
+The high limit to clip the z data at (what this means varies depending on the 'type' option). This can be a single value (used for R, G and B) or a vector of length 3 (used for R, G and B respectively). See \code{\link{magmap}} for more information.
 }
   \item{flip}{
 Should the z scaling be flipped. This allows numbers from 0 to 10 to be mapped from 1 to 0 (so ordered back to front with respect to the input). See \code{\link{magmap}} for more information.
