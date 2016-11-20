@@ -74,7 +74,7 @@ The y limits to use for the data. Default of NULL caculates the range based on t
 A vector of weights to pass onto sm.density (that does the 2D density estimate). This must be the same length as the x and y vectors if specified.
 }
   \item{\dots}{
-Other arguments to pass to the contour function, e.g. lty=c(2,1,3).
+Other arguments to pass to the \code{\link{contour}} function, e.g. lty=c(2,1,3).
 }
 }
 \details{

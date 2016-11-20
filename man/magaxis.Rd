@@ -86,7 +86,7 @@ The line type of the grid to be drawn.
 The line width of the grid to be drawn.
 }
   \item{\dots}{
-Other arguments to be passed to base axis function.
+Other arguments to be passed to base \code{\link{axis}} function.
 }
 }
 \details{

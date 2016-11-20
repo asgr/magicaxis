@@ -44,7 +44,7 @@ Either the colour of the error bars or the outline colour of the error ellipses.
 If fill=TRUE then the error ellipses will be filled, if FALSE then only the border will be drawn.
 }
   \item{\dots}{
-Further arguments to be passed to the arrows / draw.ellipse functions used to draw the error bars / error ellipses.
+Further arguments to be passed to the \code{\link{arrows}} / \code{\link{draw.ellipse}} functions used to draw the error bars / error ellipses.
 }
 }
 

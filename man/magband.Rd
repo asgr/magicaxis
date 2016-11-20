@@ -44,7 +44,7 @@ The date for the location of the Sun on the spherical grid. Vector in c(M,D) for
 Should the anti-sun position be computed (i.e. the RA and Dec of the position diametrically opposed to the Sun).  
 }
   \item{\dots}{
-Arguments passed on to \code{\link{lines}} (\code{makering}), \code{\link{polygon}} (\code{makeband}), \code{\link{points}} (\code{makeMW} and \code{makesun}).
+Arguments passed on to \code{\link{lines}} (\code{\link{makering}}), \code{\link{polygon}} (\code{\link{makeband}}), \code{\link{points}} (\code{\link{makeMW}} and \code{\link{makesun}}).
 }
 }
 \value{
