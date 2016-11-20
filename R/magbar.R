@@ -48,10 +48,10 @@ col=col[round(colremap,digits=0)]
 if(orient=='v'){color.legend(xl,yb,xr,yt,legend=legend$exp,rect.col=col,cex=cex,align=align,gradient='y',...)}
 if(orient=='h'){color.legend(xl,yb,xr,yt,legend=legend$exp,rect.col=col,cex=cex,align=align,gradient='x',...)}
 
-if(orient=='v' & align=='lt'){text(xl-(1+titleshift)*xdiff/20,(yt+yb)/2,labels=title,adj=c(0.5,0.5),srt=90)}
-if(orient=='v' & align=='rb'){text(xr+(1+titleshift)*xdiff/20,(yt+yb)/2,labels=title,adj=c(0.5,0.5),srt=-90)}
-if(orient=='h' & align=='lt'){text((xl+xr)/2,yt+(1+titleshift)*ydiff/20,labels=title,adj=c(0.5,0.5),srt=0)}
-if(orient=='h' & align=='rb'){text((xl+xr)/2,yb-(1+titleshift)*ydiff/20,labels=title,adj=c(0.5,0.5),srt=0)}
+if(orient=='v' & align=='lt'){text(xl-(1+titleshift)*xdiff/20,(yt+yb)/2,labels=title,adj=c(0.5,0.5),srt=90,cex=cex)}
+if(orient=='v' & align=='rb'){text(xr+(1+titleshift)*xdiff/20,(yt+yb)/2,labels=title,adj=c(0.5,0.5),srt=-90,cex=cex)}
+if(orient=='h' & align=='lt'){text((xl+xr)/2,yt+(1+titleshift)*ydiff/20,labels=title,adj=c(0.5,0.5),srt=0,cex=cex)}
+if(orient=='h' & align=='rb'){text((xl+xr)/2,yb-(1+titleshift)*ydiff/20,labels=title,adj=c(0.5,0.5),srt=0,cex=cex)}
 
 par(xlog=xlogcheck)
 par(ylog=ylogcheck)
