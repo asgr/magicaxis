@@ -27,7 +27,7 @@ if(type=='quan'){
 }else if(type=='rank'){
 	lo=1
 	hi=length(data[good])
-	data[order(data[good])]=lo:hi
+	data[good][order(data[good])]=lo:hi
 }else{
   stop(type,'is not a valid type option!')
 }
@@ -36,7 +36,7 @@ hireturn=hi
 if(stretch=='log' & lo<=0){stop('lo <= 0 and stretch=\'log\'- this is not allowed!')}
 if(stretch=='log' & hi<=0){stop('hi <=0 and stretch=\'log\'- this is not allowed!')}
 if(lo>hi){stop('lo>hi is not allowed')}
-if(lo==hi){data[1:length(data)]=(range[2]+range[1])/2}
+if(lo==hi){data[good][1:length(data)]=(range[2]+range[1])/2}
 if(lo<hi){
   if(stretch=='lin'){
   #Nothing to see here...
@@ -56,14 +56,19 @@ if(lo<hi){
 	  lo=sqrt(lo)
 	  hi=sqrt(hi)
     data=suppressWarnings(sqrt(data))
-	}else{
+	}else if(stretch=='cdf'){
+    cdf=ecdf(data[good])
+    lo=cdf(lo)
+    hi=cdf(hi)
+    data[good]=cdf(data[good])
+  }else{
 	  stop(paste(stretch,'is not a valid stretch option!'))
 	}
-  losel=data<lo; hisel=data>hi
+  losel=data<lo & good; hisel=data>hi & good
 	data[losel]=lo; data[hisel]=hi
-	data=data-lo
-	data=range[1]+(data*(range[2]-range[1])/(hi-lo))
-	if(flip){data=range[2]-data+range[1]}
+	data[good]=data[good]-lo
+	data[good]=range[1]+(data[good]*(range[2]-range[1])/(hi-lo))
+	if(flip){data[good]=range[2]-data[good]+range[1]}
   if(clip=='NA'){data[losel]=NA;data[hisel]=NA}
 }
 data[! good]=bad

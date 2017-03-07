@@ -10,9 +10,9 @@ Magically pretty images
 }
 \usage{
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
-useRaster = TRUE, asp = 1, magmap=TRUE, lo = 0.4, hi = 0.995, flip = FALSE, range = c(0, 1),
-type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA, clip = "", axes = TRUE,
-frame.plot = TRUE, ...)
+useRaster = TRUE, asp = 1, magmap=TRUE, lo = 0.4, hi = 0.995, flip = FALSE,
+range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
+clip = "", axes = TRUE, frame.plot = TRUE, ...)
 magimageRGB(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster = TRUE, asp = 1,
 magmap = TRUE, lo = 0.4, hi = 0.995, flip = FALSE, range = c(0, 1), type = "quan",
 stretch = "asinh", stretchscale = "auto", bad = range[1], clip = "", axes = TRUE,

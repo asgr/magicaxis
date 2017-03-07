@@ -32,7 +32,7 @@ The numerical range of the output mapping which should be a vector of length two
 The type of mapping attempted. Options are 'quan' (default), 'num', 'sig' and 'rank'.
 }
   \item{stretch}{
-stretch='lin'  gives linear mapping. stretch='log' gives logarithmic mapping. stretch='atan' gives atan mapping. stretch='asinh' gives asinh mapping. stretch='sqrt' gives sqrt mapping.
+\option{stretch}='lin'  gives linear mapping. \option{stretch}='log' gives logarithmic mapping. \option{stretch}='atan' gives atan mapping. \option{stretch}='asinh' gives asinh mapping. \option{stretch}='sqrt' gives sqrt mapping. \option{stretch}='cdf' gives CDF mapping onto the cumulative range 0-1
 }
   \item{stretchscale}{
 A number to multiply the data by before applying the stretch. This only has a user impact for stretch='atan' and stretch='asinh' since it controls what parts of the data is in the linear or logarithmic regime of the stretch procedure. If set to 'auto' it uses 1/median(abs(data)) to find a useful scale.
@@ -46,7 +46,7 @@ By default clipped values inherit the nearest lo/hi value (depending on which si
 }
 
 \details{
-type=='quan' means the lo and hi options are interpreted as the quantile limits to clip the data at (so lo=0.05 and hi 0.95 would clip the data at the 5\% and 95\% quantile limits and scale values between these). type=='num' interprets lo and hi as the exact values to clip the data at and scale between. type=='sig' treats lo and hi as the sigma offsets in a Normal distribution, with the probabilities at these positions used to clip and scale that data (so lo=-1 and hi=1 is interpretted as +/- 1 sigma, so the data is clipped and scaled at the 16\% and 84\% levels, i.e. the 1 sigma range). type=='rank' means the data mapping is done by rank value only, with lo and hi specifying the quantile limits used to clip and scale the ranks. In all cases lo and hi clipped values are set to the relevant extreme values of 'range'.
+\option{type}='quan' means the \option{lo} and \option{hi} options are interpreted as the quantile limits to clip the data at (so lo=0.05 and hi 0.95 would clip the data at the 5\% and 95\% quantile limits and scale values between these). \option{type}='num' interprets \option{lo} and \option{hi} as the exact values to clip the data at and scale between. \option{type}='sig' treats \option{lo} and \option{hi} as the sigma offsets in a Normal distribution, with the probabilities at these positions used to clip and scale that data (so \option{lo}=-1 and \option{hi}=1 is interpretted as +/- 1 sigma, so the data is clipped and scaled at the 16\% and 84\% levels, i.e. the 1 sigma range). \option{type}='rank' means the data mapping is done by rank value only, with \option{lo} and \option{hi} specifying the quantile limits used to clip and scale the ranks. In all cases lo and hi clipped values are set to the relevant extreme values of 'range'.
   
 If range is between 1 and 100 and stretch='lin' the midpoint in the mapping will be 50.5. If stretch='log' the midpoint becomes 10. This enhances the local dynamic range of the mapping for data that has a logarithmic distribution.
 }

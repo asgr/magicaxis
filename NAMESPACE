@@ -10,4 +10,4 @@ importFrom("grDevices", "hsv", "rainbow", "grey", "rgb")
 importFrom("graphics", "arrows", "axis", "box", "contour", "image", "mtext", "par",
            "plot", "plot.new", "plot.window", "rect", "text", "abline", "layout",
            "lines", "points", "polygon")
-importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm")
+importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm", "ecdf")
