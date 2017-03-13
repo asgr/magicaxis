@@ -9,7 +9,7 @@ A fairly simple function that produces pretty histograms. The main difference to
 \usage{
 maghist(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, right = TRUE,
 density = NULL, angle = 45, col = NULL, border = NULL, xlim = range(x), ylim = NULL,
-plot = TRUE, verbose=TRUE, ...)
+plot = TRUE, verbose=TRUE, log='', ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -60,6 +60,9 @@ Logical; draw the histogram (otherwise it just returns the count data).
   \item{verbose}{
 Logical; if TRUE and \option{xlim} is used then the number and fraction of displayed data is printed to screen.
 }
+  \item{log}{
+Log axis arguments to be passed to hist and plot. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes. If the x axis is logged then the histogram will be calculated in log-space.
+}
   \item{\dots}{
 Arguments to be parsed to \code{\link{magaxis}}.
 }
@@ -80,6 +83,14 @@ Aaron Robotham
 maghist(rnorm(1e4))
 maghist(rnorm(1e4), xlim=c(-2,4))
 maghist(rnorm(1e4), xlim=3, verbose = FALSE)
+
+#Test of log histograms:
+
+testdata=10^(runif(1e3,0,4))
+maghist(testdata)
+maghist(testdata,log='x')
+maghist(testdata,log='y')
+maghist(testdata,log='xy')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
