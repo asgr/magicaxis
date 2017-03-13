@@ -13,26 +13,29 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
     x=x[sel]
   }
   
-  if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
+  if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
     x=log10(x)
   }
   
-  out=hist(x=x, breaks=breaks, freq=freq, include.lowest=include.lowest, right=right, density=density, angle=angle, col=col, border=border, main='', xlim=xlim, ylim=ylim, xlab='', ylab='', plot=FALSE, warn.unused=FALSE)
+  out=hist(x=x, breaks=breaks, freq=freq, include.lowest=include.lowest, right=right, main='', xlim=xlim, ylim=ylim, xlab='', ylab='', plot=FALSE, warn.unused=FALSE)
   
-  if (log[1] == "y" | log[1] == "xy" | log[1] == "yx") {
+  if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
     out$counts=log10(out$counts)
     out$density=log10(out$density)
     out$counts[is.infinite(out$counts)]=NA
     out$density[is.infinite(out$density)]=NA
-    ylim=c(1,max(out$counts,na.rm = TRUE))
-  }else{
+  }
+  
+  if(missing(ylim)){
     ylim=c(0,max(out$counts,na.rm = TRUE))
+  }else{
+    if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){ylim=log10(ylim)}
   }
   
   if(plot){
     if(add==FALSE){
-      plot(x=out$mids, y=out$counts, type='n', axes=FALSE,xlab='',ylab='',main='',ylim=ylim)
-      plot(out,axes=FALSE, labels=FALSE, add=TRUE)
+      plot(x=out$mids, y=out$counts, type='n', axes=FALSE,xlab='',ylab='',main='',xlim=xlim,ylim=ylim)
+      plot(out,density=density, angle=angle, col=col, border=border, add=TRUE)
       if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
         lims=par("usr")
         par(xlog=TRUE)
@@ -43,10 +46,31 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
         par(ylog=TRUE)
         par(usr=lims)
       }
-      magaxis(...)
     }else{
-      plot(out,axes=FALSE, labels=FALSE, add=TRUE)
+      if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+        lims=par("usr")
+        par(xlog=FALSE)
+        par(usr=lims)
+      }
+      if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+        lims=par("usr")
+        par(ylog=FALSE)
+        par(usr=lims)
+      }
+      plot(out,density=density, angle=angle, col=col, border=border, add=TRUE)
+      if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+        lims=par("usr")
+        par(xlog=TRUE)
+        par(usr=lims)
+      }
+      if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+        lims=par("usr")
+        par(ylog=TRUE)
+        par(usr=lims)
+      }
     }
+    
+    if(add==FALSE){magaxis(...)}
   }
   return=out
 }

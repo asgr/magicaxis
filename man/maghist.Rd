@@ -9,7 +9,7 @@ A fairly simple function that produces pretty histograms. The main difference to
 \usage{
 maghist(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, right = TRUE,
 density = NULL, angle = 45, col = NULL, border = NULL, xlim = range(x), ylim = NULL,
-plot = TRUE, verbose=TRUE, log='', ...)
+plot = TRUE, verbose=TRUE, add=FALSE, log='', ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -59,6 +59,9 @@ Logical; draw the histogram (otherwise it just returns the count data).
 }
   \item{verbose}{
 Logical; if TRUE and \option{xlim} is used then the number and fraction of displayed data is printed to screen.
+}
+  \item{add}{
+Logical, if TRUE the histogram will be added to the current plot. Be careful to match \option{log} properties if adding, else the comparison will be of little use and hard to interpret.
 }
   \item{log}{
 Log axis arguments to be passed to hist and plot. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes. If the x axis is logged then the histogram will be calculated in log-space.
