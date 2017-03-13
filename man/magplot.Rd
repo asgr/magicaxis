@@ -23,7 +23,7 @@ The x coordinates of points in the plot. Alternatively, a single plotting struct
 The y coordinates of points in the plot, optional if x is an appropriate structure.
 }
   \item{log}{
-log axis arguments to be passed to plot. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes.
+Log axis arguments to be passed to plot. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes.
 }
   \item{main}{
 Title for the plot. Default is no title.
