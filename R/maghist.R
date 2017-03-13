@@ -6,12 +6,15 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
     if(length(xlim)==1){
       xlim=quantile(x,pnorm(c(-xlim,xlim)))
     }
-    sel=x>=xlim[1] & x<=xlim[2]
-    if(verbose){
+    sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x)
+  }else{
+    sel=!is.na(x) & !is.nan(x)
+  }
+  
+  if(verbose){
       print(paste('Showing ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points!',sep=''))
     }
     x=x[sel]
-  }
   
   if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
     x=log10(x)
