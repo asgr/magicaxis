@@ -1,0 +1,87 @@
+\name{maghist}
+\alias{maghist}
+\title{
+Magically pretty histograms
+}
+\description{
+A fairly simple function that produces pretty histograms. The main difference to base \code{\link{hist}} is that it allows for easy truncation of the data provided via \option{xlim}.
+}
+\usage{
+maghist(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, right = TRUE,
+density = NULL, angle = 45, col = NULL, border = NULL, xlim = range(x), ylim = NULL,
+plot = TRUE, verbose=TRUE, ...)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{
+A vector of values for which the histogram is desired.
+}
+  \item{breaks}{
+One of:
+\itemize{
+  \item A vector giving the breakpoints between histogram cells,
+  \item A function to compute the vector of breakpoints,
+  \item A single number giving the number of cells for the histogram,
+  \item A character string naming an algorithm to compute the number of cells,
+  \item A function to compute the number of cells.
+}
+In the last three cases the number is a suggestion only; the breakpoints will be set to \code{\link{pretty}} values. If breaks is a function, the x vector is supplied to it as the only argument.
+}
+  \item{freq}{
+Logical; if TRUE, the histogram graphic is a representation of frequencies, the counts component of the result; if FALSE, probability densities, component density, are plotted (so that the histogram has a total area of one). Defaults to TRUE if and only if breaks are equidistant (and probability is not specified).
+}
+  \item{include.lowest}{
+Logical; if TRUE, an x[i] equal to the breaks value will be included in the first (or last, for right = FALSE) bar. This will be ignored (with a warning) unless breaks is a vector.
+}
+  \item{right}{
+Logical; if TRUE, the histogram cells are right-closed (left open) intervals.
+}
+  \item{density}{
+The density of shading lines, in lines per inch. The default value of NULL means that no shading lines are drawn. Non-positive values of density also inhibit the drawing of shading lines.
+}
+  \item{angle}{
+The slope of shading lines, given as an angle in degrees (counter-clockwise).
+}
+  \item{col}{
+A colour to be used to fill the bars. The default of NULL yields unfilled bars.
+}
+  \item{border}{
+The color of the border around the bars. The default is to use the standard foreground color.
+}
+  \item{xlim}{
+Range of \option{x} values to use for both counting and plotting. If length equals 1 then the argument is taken to mean the sigma range to select for plotting. See examples.
+}
+  \item{ylim}{
+Range of y limits to show in the histogram plot.
+}
+  \item{plot}{
+Logical; draw the histogram (otherwise it just returns the count data).
+}
+  \item{verbose}{
+Logical; if TRUE and \option{xlim} is used then the number and fraction of displayed data is printed to screen.
+}
+  \item{\dots}{
+Arguments to be parsed to \code{\link{magaxis}}.
+}
+}
+\value{
+An object of class "histogram", basically the same output as produced by \code{\link{hist}}.
+}
+\author{
+Aaron Robotham
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+\code{\link{hist}}
+}
+\examples{
+maghist(rnorm(1e4))
+maghist(rnorm(1e4), xlim=c(-2,4))
+maghist(rnorm(1e4), xlim=3, verbose = FALSE)
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ hist }% use one of  RShowDoc("KEYWORDS")
+\keyword{ histogram }% __ONLY ONE__ keyword per line

@@ -11,3 +11,4 @@ importFrom("graphics", "arrows", "axis", "box", "contour", "image", "mtext", "pa
            "plot", "plot.new", "plot.window", "rect", "text", "abline", "layout",
            "lines", "points", "polygon")
 importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm", "ecdf")
+importFrom("graphics", "hist")

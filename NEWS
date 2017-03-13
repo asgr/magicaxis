@@ -177,12 +177,12 @@ Fixed auto scale in magmap so it works with NA and NaN situations.
 
 Fixed issue with magmap where a matrix could cahnge type to vector (when all elements were the same).
 
-Feature: added cdf scaling to magmap.
+Feature: Added cdf scaling to magmap.
+
+FEATURE: Added maghist for pretty histograms.
 
 TO DO:
 
 FEATURE: Add better in-plot legends.
-
-FEATURE: Create maghist
 
 
