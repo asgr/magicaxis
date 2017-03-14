@@ -1,5 +1,5 @@
 magerr <-
-function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='black',fill=FALSE,...){
+function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='black', fill=FALSE, poly=FALSE,...){
 if(length(col)==1){col=rep(col,length(x))}
 if(!missing(corxy)){
   errbarsel=which(xlo==0 | ylo==0)
@@ -35,41 +35,50 @@ if(length(errbarsel)>0){
   ylodraw=ylodraw[errbarsel]
   yhidraw=yhidraw[errbarsel]
   colarrow=col[errbarsel]
-  if(doxlo & any(is.finite(xlodraw))){
-    finalsel=xarrow>xlodraw
-    arrows(xarrow[finalsel],yarrow[finalsel],xlodraw[finalsel],yarrow[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
+  if(poly==FALSE){
+    if(doxlo & any(is.finite(xlodraw))){
+      finalsel=xarrow>xlodraw
+      arrows(xarrow[finalsel],yarrow[finalsel],xlodraw[finalsel],yarrow[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
+    }
+    if(doxhi & any(is.finite(xhidraw))){
+      finalsel=xarrow<xhidraw
+      arrows(xarrow[finalsel],yarrow[finalsel],xhidraw[finalsel],yarrow[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
+    }
+    if(doylo & any(is.finite(ylodraw))){
+      finalsel=yarrow>ylodraw
+      arrows(xarrow[finalsel],yarrow[finalsel],xarrow[finalsel],ylodraw[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
+    }
+    if(doyhi & any(is.finite(yhidraw))){
+      finalsel=yarrow<yhidraw
+      arrows(xarrow[finalsel],yarrow[finalsel],xarrow[finalsel],yhidraw[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
+    }
   }
-  if(doxhi & any(is.finite(xhidraw))){
-    finalsel=xarrow<xhidraw
-    arrows(xarrow[finalsel],yarrow[finalsel],xhidraw[finalsel],yarrow[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
-  }
-  if(doylo & any(is.finite(ylodraw))){
-    finalsel=yarrow>ylodraw
-    arrows(xarrow[finalsel],yarrow[finalsel],xarrow[finalsel],ylodraw[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
-  }
-  if(doyhi & any(is.finite(yhidraw))){
-    finalsel=yarrow<yhidraw
-    arrows(xarrow[finalsel],yarrow[finalsel],xarrow[finalsel],yhidraw[finalsel],angle=90,length=length,col=colarrow[finalsel],...)
-  }
-  
 }
-if(!missing(corxy)){
-  if(missing(xlo) | missing(ylo)){stop('For error ellipses xlo and ylo must be specified explicitly.')}
-  if(any(is.finite(xlo)==FALSE) | any(is.finite(ylo)==FALSE)){stop('For error ellipses all xlo and ylo values must have real values.')}
-  if(any(xlo!=xhi) | any(ylo!=yhi)){stop('xlo/ylo must equal xhi/yhi (i.e. the errors must be symmetric)')}
-  n = length(x)
-  for(i in 1:n){
-    if(xlo[i]>0 & ylo[i]>0){
-      Cov = matrix(c(xlo[i]^2,xlo[i]*ylo[i]*corxy[i],xlo[i]*ylo[i]*corxy[i],ylo[i]^2),2)
-      E = eigen(Cov)
-      a = sqrt(E$values[1])
-      b = sqrt(E$values[2])
-      angle = atan2(E$vector[2,1],E$vector[1,1])*180/pi
-      if(fill){draw.ellipse(x[i],y[i],a=a,b=b,angle=angle,border=col[i],col=col[i],...)}else{draw.ellipse(x[i],y[i],a=a,b=b,angle=angle,border=col[i],col=NULL,...)}
-    }
-    if(xlo[i]>0 & ylo[i]==0){
-      
+if(poly==FALSE){
+  if(!missing(corxy)){
+    if(missing(xlo) | missing(ylo)){stop('For error ellipses xlo and ylo must be specified explicitly.')}
+    if(any(is.finite(xlo)==FALSE) | any(is.finite(ylo)==FALSE)){stop('For error ellipses all xlo and ylo values must have real values.')}
+    if(any(xlo!=xhi) | any(ylo!=yhi)){stop('xlo/ylo must equal xhi/yhi (i.e. the errors must be symmetric)')}
+    n = length(x)
+    for(i in 1:n){
+      if(xlo[i]>0 & ylo[i]>0){
+        Cov = matrix(c(xlo[i]^2,xlo[i]*ylo[i]*corxy[i],xlo[i]*ylo[i]*corxy[i],ylo[i]^2),2)
+        E = eigen(Cov)
+        a = sqrt(E$values[1])
+        b = sqrt(E$values[2])
+        angle = atan2(E$vector[2,1],E$vector[1,1])*180/pi
+        if(fill){draw.ellipse(x[i],y[i],a=a,b=b,angle=angle,border=col[i],col=col[i],...)}else{draw.ellipse(x[i],y[i],a=a,b=b,angle=angle,border=col[i],col=NULL,...)}
+      }
+      if(xlo[i]>0 & ylo[i]==0){
+        #Nothing yet
+      }
+      if(xlo[i]==0 & ylo[i]>0){
+        #Nothing yet
+      }
     }
   }
+}
+if(poly){
+  polygon(c(xarrow,rev(xarrow)),c(ylodraw,rev(yhidraw)),col=col,...)
 }
 }

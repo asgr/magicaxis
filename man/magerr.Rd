@@ -9,7 +9,7 @@ A function to dd x and y error bars to plots. Low and high error bars can be gen
 }
 \usage{
 magerr(x, y, xlo, ylo, xhi = xlo, yhi = ylo, corxy, length = 0.02,
-col = 'black',fill=FALSE,...)
+col = 'black', fill=FALSE, poly=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,13 +41,18 @@ Length of error bar ends.
 Either the colour of the error bars or the outline colour of the error ellipses.  
 }
   \item{fill}{
-If fill=TRUE then the error ellipses will be filled, if FALSE then only the border will be drawn.
+Logical; if TRUE then the error ellipses will be filled, if FALSE then only the border will be drawn.
+}
+  \item{poly}{
+Logical; is FALSE then error bars or ellipses will be drawn, if TRUE then approximate error polygon will be shown instead.
 }
   \item{\dots}{
-Further arguments to be passed to the \code{\link{arrows}} / \code{\link{draw.ellipse}} functions used to draw the error bars / error ellipses.
+Further arguments to be passed to the \code{\link{arrows}} / \code{\link{draw.ellipse}} / \code{\link{polygon}} functions used to draw the error bars / error ellipses (\option{corxy} not missing) / error polygon (\option{poly}=TRUE).
 }
 }
-
+\details{
+Note that with \option{poly}=TRUE the x values are used igoring any error terms, and the point value y errors are used to define the limits of the polygon, with straight lines joining the points. The \option{col} option is used to fill the polygon with a colour (so the default black is probably not a great choice). The \code{\link{polygon}} function takes the argument \option{border} (parsed by dots from the \code{magerr} function) to colour the outer lines, so for a more subtle error polygon you might want to use \option{col}=lightgrey, \option{border}=NA, where NA means no outer border lines are drawn.
+}
 \value{
 Called for the side effect of plotting error bars.
 }
@@ -57,7 +62,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magmap}},\code{\link{magrun}}
+\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{arrows}}, \code{\link{draw.ellipse}}, \code{\link{polygon}}
 }
 
 \examples{

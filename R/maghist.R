@@ -6,14 +6,23 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
     if(length(xlim)==1){
       xlim=quantile(x,pnorm(c(-xlim,xlim)))
     }
-    sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x)
+    sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
   }else{
-    sel=!is.na(x) & !is.nan(x)
+    if(is.numeric(breaks) & length(breaks)>1){
+      xlim=range(breaks)
+      sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+    }else{
+      sel=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+    }
   }
   
-  if(verbose){
-      print(paste('Showing ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points!',sep=''))
+  if(verbose & any(sel==FALSE)){
+    if(plot){
+      print(paste('Plotting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
+    }else{
+      print(paste('Selecting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
     }
+  }
     x=x[sel]
   
   if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
