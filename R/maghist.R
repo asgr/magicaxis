@@ -46,7 +46,8 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
   
   if(plot){
     if(add==FALSE){
-      plot(x=out$mids, y=out$counts, type='n', axes=FALSE,xlab='',ylab='',main='',xlim=xlim,ylim=ylim)
+      plot(x=out$mids, y=out$counts, type='n', axes=FALSE, xlab='', ylab='', main='', xlim=xlim, ylim=ylim)
+      magaxis(...)
       plot(out,density=density, angle=angle, col=col, border=border, add=TRUE)
       if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
         lims=par("usr")
@@ -81,8 +82,6 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
         par(usr=lims)
       }
     }
-    
-    if(add==FALSE){magaxis(...)}
   }
   return=out
 }
