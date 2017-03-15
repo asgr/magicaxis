@@ -8,7 +8,7 @@ A fairly simple function that produces pretty histograms. The main difference to
 }
 \usage{
 maghist(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, right = TRUE,
-density = NULL, angle = 45, col = NULL, border = NULL, xlim = range(x), ylim = NULL,
+density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL, ylim = NULL,
 plot = TRUE, verbose=TRUE, add=FALSE, log='', ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -49,10 +49,10 @@ A colour to be used to fill the bars. The default of NULL yields unfilled bars.
 The color of the border around the bars. The default is to use the standard foreground color.
 }
   \item{xlim}{
-Range of \option{x} values to use for both counting and plotting. If length equals 1 then the argument is taken to mean the sigma range to select for plotting. See examples.
+Vector; range of \option{x} values to use for both counting and plotting. If length equals 1 then the argument is taken to mean the sigma range to select for plotting. The default NULL will span the range of histogram breaks. See examples.
 }
   \item{ylim}{
-Range of y limits to show in the histogram plot.
+Vector; range of y limits to show in the histogram plot.
 }
   \item{plot}{
 Logical; draw the histogram (otherwise it just returns the count data).

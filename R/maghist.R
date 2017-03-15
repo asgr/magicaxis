@@ -1,35 +1,44 @@
 maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, right = TRUE,
-                density = NULL, angle = 45, col = NULL, border = NULL, xlim = range(x),
+                density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL,
                 ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', ...){
   
-  if(!missing(xlim)){
-    if(length(xlim)==1){
-      xlim=quantile(x,pnorm(c(-xlim,xlim)))
-    }
-    sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
-  }else{
-    if(is.numeric(breaks) & length(breaks)>1){
-      xlim=range(breaks)
+  if(!class(x)=='histogram'){
+    if(!missing(xlim)){
+      if(length(xlim)==1){
+        xlim=quantile(x,pnorm(c(-xlim,xlim)))
+      }
       sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
     }else{
-      sel=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+      if(is.numeric(breaks) & length(breaks)>1){
+        xlim=range(breaks)
+        sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+      }else{
+        sel=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+      }
     }
-  }
   
-  if(verbose & any(sel==FALSE)){
-    if(plot){
-      print(paste('Plotting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
-    }else{
-      print(paste('Selecting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
+    if(verbose & any(sel==FALSE)){
+      if(plot){
+        print(paste('Plotting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
+      }else{
+        print(paste('Selecting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
+      }
     }
+      x=x[sel]
+    
+    if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+      x=log10(x)
+    }
+    out=hist(x=x, breaks=breaks, freq=freq, include.lowest=include.lowest, right=right, main='', xlim=xlim, ylim=ylim, xlab='', ylab='', plot=FALSE, warn.unused=FALSE)
+    if(missing(xlim)){
+      xlim=range(out$breaks)
+    }
+  }else{
+    if(missing(xlim)){
+      xlim=range(x$breaks)
+    }
+    out=x
   }
-    x=x[sel]
-  
-  if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
-    x=log10(x)
-  }
-  
-  out=hist(x=x, breaks=breaks, freq=freq, include.lowest=include.lowest, right=right, main='', xlim=xlim, ylim=ylim, xlab='', ylab='', plot=FALSE, warn.unused=FALSE)
   
   if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
     out$counts=log10(out$counts)
