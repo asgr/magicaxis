@@ -24,7 +24,7 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
         print(paste('Selecting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
       }
     }
-      x=x[sel]
+    x=x[sel]
     
     if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
       x=log10(x)
@@ -33,18 +33,21 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
     if(missing(xlim)){
       xlim=range(out$breaks)
     }
+    if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+      out$counts=log10(out$counts)
+      out$density=log10(out$density)
+      out$counts[is.infinite(out$counts)]=NA
+      out$density[is.infinite(out$density)]=NA
+    }
   }else{
     if(missing(xlim)){
       xlim=range(x$breaks)
     }
     out=x
-  }
-  
-  if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
-    out$counts=log10(out$counts)
-    out$density=log10(out$density)
-    out$counts[is.infinite(out$counts)]=NA
-    out$density[is.infinite(out$density)]=NA
+    if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+      out$counts[is.infinite(out$counts)]=NA
+      out$density[is.infinite(out$density)]=NA
+    }
   }
   
   if(missing(ylim)){
@@ -55,8 +58,7 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
   
   if(plot){
     if(add==FALSE){
-      plot(x=out$mids, y=out$counts, type='n', axes=FALSE, xlab='', ylab='', main='', xlim=xlim, ylim=ylim)
-      magaxis(...)
+      magplot(x=out$mids, y=out$counts, type='n', xlim=xlim, ylim=ylim, unlog=log, ...)
       plot(out,density=density, angle=angle, col=col, border=border, add=TRUE)
       if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
         lims=par("usr")

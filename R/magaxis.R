@@ -23,6 +23,7 @@ if(length(logpretty)==1 & length(side)>1){logprettylist=rep(logpretty,length(sid
 if(length(prettybase)==1 & length(side)>1){prettybaselist=rep(prettybase,length(side))}
 if(length(powbase)==1 & length(side)>1){powbaselist=rep(powbase,length(side))}
 if(length(grid)==1 & length(side)>1){gridlist=rep(grid,length(side))}
+if(unlog[1]==''){unloglist=rep(FALSE,length(side))}
 if(unlog[1]=='x'){unloglist=rep(FALSE,length(side));unloglist[side %in% c(1,3)]=TRUE}
 if(unlog[1]=='y'){unloglist=rep(FALSE,length(side));unloglist[side %in% c(2,4)]=TRUE}
 if(unlog[1]=='xy' | unlog[1]=='yx'){unloglist=rep(TRUE,length(side))}

@@ -67,11 +67,14 @@ Logical, if TRUE the histogram will be added to the current plot. Be careful to 
 Log axis arguments to be passed to hist and plot. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes. If the x axis is logged then the histogram will be calculated in log-space.
 }
   \item{\dots}{
-Arguments to be parsed to \code{\link{magaxis}}.
+Arguments to be parsed to \code{\link{magplot}}.
 }
+}
+\details{
+To better replicate the base \code{\link{hist}} plot you might consider setting \option{frame.plot}=FALSE, which will be parsed to \code{\link{magplot}} and turn off the outer box. The default behaviour might change in the future.
 }
 \value{
-An object of class "histogram", basically the same output as produced by \code{\link{hist}}.
+An object of class "histogram", basically the same output as produced by \code{\link{hist}}. Note where axes are logged, the corresponding hist list values will also be logged. For the x axis this means the "breaks" and the "mids" items, and for the y axis this means the "counts" and the "density" items.
 }
 \author{
 Aaron Robotham
@@ -94,6 +97,19 @@ maghist(testdata)
 maghist(testdata,log='x')
 maghist(testdata,log='y')
 maghist(testdata,log='xy')
+
+#Test of plotting histogram objects:
+
+testhist=maghist(testdata,log='xy')
+maghist(testhist)
+maghist(testhist, log='xy')
+magplot(testhist)
+magplot(testhist, log='xy')
+
+#Nice to see a grid with large ranges:
+
+maghist(rnorm(1e6), grid=TRUE)
+maghist(rnorm(1e6), log='y', grid=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
