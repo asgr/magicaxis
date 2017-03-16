@@ -7,7 +7,7 @@ Magically pretty histograms
 A fairly simple function that produces pretty histograms. The main difference to base \code{\link{hist}} is that it allows for easy truncation of the data provided via \option{xlim}.
 }
 \usage{
-maghist(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, right = TRUE,
+maghist(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL, ylim = NULL,
 plot = TRUE, verbose=TRUE, add=FALSE, log='', ...)
 }
@@ -74,7 +74,7 @@ Arguments to be parsed to \code{\link{magplot}}.
 To better replicate the base \code{\link{hist}} plot you might consider setting \option{frame.plot}=FALSE, which will be parsed to \code{\link{magplot}} and turn off the outer box. The default behaviour might change in the future.
 }
 \value{
-An object of class "histogram", basically the same output as produced by \code{\link{hist}}. Note where axes are logged, the corresponding hist list values will also be logged. For the x axis this means the "breaks" and the "mids" items, and for the y axis this means the "counts" and the "density" items.
+An object of class "histogram", basically the same output as produced by \code{\link{hist}}. Note where axes are logged, the corresponding hist list values will not be logged when returned. This is to make it easy to take a histogram object and plot it with different log scalings on the axes (see Examples). For the x axis this means the "breaks" and the "mids" items, and for the y axis this means the "counts" and the "density" items.
 }
 \author{
 Aaron Robotham
@@ -98,13 +98,18 @@ maghist(testdata,log='x')
 maghist(testdata,log='y')
 maghist(testdata,log='xy')
 
+maghist(testdata,freq=FALSE)
+maghist(testdata,freq=FALSE,log='x')
+maghist(testdata,freq=FALSE,log='y')
+maghist(testdata,freq=FALSE,log='xy')
+
 #Test of plotting histogram objects:
 
 testhist=maghist(testdata,log='xy')
 maghist(testhist)
-maghist(testhist, log='xy')
-magplot(testhist)
-magplot(testhist, log='xy')
+maghist(testhist,log='x')
+magplot(testhist,log='y')
+magplot(testhist,log='xy')
 
 #Nice to see a grid with large ranges:
 

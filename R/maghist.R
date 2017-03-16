@@ -1,4 +1,4 @@
-maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, right = TRUE,
+maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
                 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL,
                 ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', ...){
   
@@ -29,37 +29,76 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
     if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
       x=log10(x)
     }
-    out=hist(x=x, breaks=breaks, freq=freq, include.lowest=include.lowest, right=right, main='', xlim=xlim, ylim=ylim, xlab='', ylab='', plot=FALSE, warn.unused=FALSE)
-    if(missing(xlim)){
-      xlim=range(out$breaks)
-    }
-    if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
-      out$counts=log10(out$counts)
-      out$density=log10(out$density)
-      out$counts[is.infinite(out$counts)]=NA
-      out$density[is.infinite(out$density)]=NA
-    }
+  out=hist(x=x, breaks=breaks, include.lowest=include.lowest, right=right, plot=FALSE, warn.unused=FALSE)
   }else{
-    if(missing(xlim)){
-      xlim=range(x$breaks)
-    }
     out=x
-    if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
-      out$counts[is.infinite(out$counts)]=NA
-      out$density[is.infinite(out$density)]=NA
+    if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+      out$breaks=log10(out$breaks)
+      out$mids=log10(out$mids)
     }
   }
   
+  if(missing(xlim)){
+    xlim=range(out$breaks)
+  }
+  if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+    out$counts=log10(out$counts)
+    out$density=log10(out$density)
+    out$counts[is.infinite(out$counts)]=NA
+    out$density[is.infinite(out$density)]=NA
+  }
+  
+  #   if(missing(xlim)){
+  #     xlim=range(out$breaks)
+  #   }
+  #   if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+  #     out$counts=log10(out$counts)
+  #     out$density=log10(out$density)
+  #     out$counts[is.infinite(out$counts)]=NA
+  #     out$density[is.infinite(out$density)]=NA
+  #   }
+  # }else{
+  #   if(missing(xlim)){
+  #     xlim=range(x$breaks)
+  #   }
+  #   out=x
+  #   if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+  #     out$counts[is.infinite(out$counts)]=NA
+  #     out$density[is.infinite(out$density)]=NA
+  #   }
+  # }
+  
   if(missing(ylim)){
-    ylim=c(0,max(out$counts,na.rm = TRUE))
+    if(freq){
+      ylim=c(0,max(out$counts,na.rm = TRUE))
+    }else{
+      if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+        ylim=c(min(out$density,na.rm = TRUE),max(out$density,na.rm = TRUE))
+      }else{
+        ylim=c(0,max(out$density,na.rm = TRUE))
+      }
+    }
   }else{
-    if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){ylim=log10(ylim)}
+    if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+      ylim=log10(ylim)
+    }
   }
   
   if(plot){
     if(add==FALSE){
-      magplot(x=out$mids, y=out$counts, type='n', xlim=xlim, ylim=ylim, unlog=log, ...)
-      plot(out,density=density, angle=angle, col=col, border=border, add=TRUE)
+      magplot(x=1, y=1, type='n', xlim=xlim, ylim=ylim, unlog=log, ...)
+      if(freq==FALSE & (log[1] == "y" | log[1] == "xy" | log[1] == "yx")){
+        lims=par()$usr
+        lims[3:4]=lims[3:4]-min(ylim)
+        par(usr=lims)
+        out$density=out$density-min(ylim)
+        plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
+        lims[3:4]=lims[3:4]+min(ylim)
+        par(usr=lims)
+        out$density=out$density+min(ylim)
+      }else{
+        plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
+      }
       if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
         lims=par("usr")
         par(xlog=TRUE)
@@ -81,7 +120,18 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
         par(ylog=FALSE)
         par(usr=lims)
       }
-      plot(out,density=density, angle=angle, col=col, border=border, add=TRUE)
+      if(freq==FALSE & (log[1] == "y" | log[1] == "xy" | log[1] == "yx")){
+        lims=par()$usr
+        lims[3:4]=lims[3:4]-min(ylim)
+        par(usr=lims)
+        out$density=out$density-min(ylim)
+        plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
+        lims[3:4]=lims[3:4]+min(ylim)
+        par(usr=lims)
+        out$density=out$density+min(ylim)
+      }else{
+        plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
+      }
       if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
         lims=par("usr")
         par(xlog=TRUE)
@@ -93,6 +143,14 @@ maghist=function(x, breaks = "Sturges", freq = NULL, include.lowest = TRUE, righ
         par(usr=lims)
       }
     }
+  }
+  if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+    out$breaks=10^out$breaks
+    out$mids=10^out$mids
+  }
+  if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+    out$counts=10^out$counts
+    out$density=10^out$density
   }
   return=out
 }
