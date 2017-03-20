@@ -5,7 +5,8 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
   if(!class(x)=='histogram'){
     if(!missing(xlim)){
       if(length(xlim)==1){
-        xlim=quantile(x,pnorm(c(-xlim,xlim)))
+        sel=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+        xlim=quantile(x[sel],pnorm(c(-xlim,xlim)),na.rm = TRUE)
       }
       sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
     }else{
