@@ -58,7 +58,7 @@ Vector; range of y limits to show in the histogram plot.
 Logical; draw the histogram (otherwise it just returns the count data).
 }
   \item{verbose}{
-Logical; if TRUE and \option{xlim} is used then the number and fraction of displayed data is printed to screen.
+Logical; if TRUE and \option{xlim} is used then the followign is printed out: summary of the data selected, standard-deviation the 1/2-sigma implied quantiles, and number and fraction of displayed data. Note all numbers are computed for the logged values of the \option{x} input if \option{log}= x | xy | yx.
 }
   \item{add}{
 Logical, if TRUE the histogram will be added to the current plot. Be careful to match \option{log} properties if adding, else the comparison will be of little use and hard to interpret.
@@ -75,6 +75,8 @@ To better replicate the base \code{\link{hist}} plot you might consider setting 
 }
 \value{
 An object of class "histogram", basically the same output as produced by \code{\link{hist}}. Note where axes are logged, the corresponding hist list values will not be logged when returned. This is to make it easy to take a histogram object and plot it with different log scalings on the axes (see Examples). For the x axis this means the "breaks" and the "mids" items, and for the y axis this means the "counts" and the "density" items.
+
+Appended to the end of the usual \code{\link{hist}} output are the summary of the sample (list element "summary") and the standard-deviation / 1 and 2-sigma quantile range (list element "ranges").
 }
 \author{
 Aaron Robotham

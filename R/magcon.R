@@ -6,11 +6,13 @@ if(missing(y)){
     if(dim(x)[2]>=2){y=x[,2];x=x[,1]}
   }
 }
-if(is.null(xlim)){xlim=range(x,na.rm=TRUE)}
-if(is.null(ylim)){ylim=range(y,na.rm=TRUE)}
-use=x>=min(xlim) & x<=max(xlim) & y>=min(ylim) & y<=max(ylim)
+use=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
+if(is.null(xlim)){xlim=range(x[use],na.rm=TRUE)}
+if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
+use= use & x>=min(xlim) & x<=max(xlim) & y>=min(ylim) & y<=max(ylim)
 if(is.na(weights[1])==FALSE & length(weights)==length(x)){weights=weights[use]}
-x=x[use];y=y[use]
+x=x[use]
+y=y[use]
 conlevels=1-conlevels
 tempcon=sm.density(cbind(x,y),h=h,weights=weights,display='none',ngrid=ngrid,xlim=xlim+c(-diff(xlim),diff(xlim)),ylim=ylim+c(-diff(ylim),diff(ylim)))
 tempcon$x=tempcon$eval.points[,1]

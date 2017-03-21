@@ -5,7 +5,10 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
   if(!class(x)=='histogram'){
     if(!missing(xlim)){
       if(length(xlim)==1){
-        sel=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+        sel= !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+        if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
+          sel= sel & x>0
+        }
         xlim=quantile(x[sel],pnorm(c(-xlim,xlim)),na.rm = TRUE)
       }
       sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
@@ -17,8 +20,19 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
         sel=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
       }
     }
-  
-    if(verbose & any(sel==FALSE)){
+    
+    xtemp=x[sel]
+    if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+      xtemp=log10(xtemp)
+    }
+    outsum=summary(xtemp)
+    sd1q2q=c(as.numeric(sd(xtemp)), as.numeric(diff(quantile(xtemp,pnorm(c(-1,1)),na.rm = TRUE)))/2, as.numeric(diff(quantile(xtemp,pnorm(c(-2,2)),na.rm = TRUE)))/2)
+    
+    if(verbose){
+      print('Summary of used sample:')
+      print(outsum)
+      print('sd / 1-sig / 2-sig range:')
+      print(sd1q2q)
       if(plot){
         print(paste('Plotting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
       }else{
@@ -41,6 +55,10 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
   
   if(missing(xlim)){
     xlim=range(out$breaks)
+  }else{
+    if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+      xlim=log10(xlim)
+    }
   }
   if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
     out$counts=log10(out$counts)
@@ -48,26 +66,6 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     out$counts[is.infinite(out$counts)]=NA
     out$density[is.infinite(out$density)]=NA
   }
-  
-  #   if(missing(xlim)){
-  #     xlim=range(out$breaks)
-  #   }
-  #   if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
-  #     out$counts=log10(out$counts)
-  #     out$density=log10(out$density)
-  #     out$counts[is.infinite(out$counts)]=NA
-  #     out$density[is.infinite(out$density)]=NA
-  #   }
-  # }else{
-  #   if(missing(xlim)){
-  #     xlim=range(x$breaks)
-  #   }
-  #   out=x
-  #   if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
-  #     out$counts[is.infinite(out$counts)]=NA
-  #     out$density[is.infinite(out$density)]=NA
-  #   }
-  # }
   
   if(missing(ylim)){
     if(freq){
@@ -152,6 +150,12 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
   if (log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
     out$counts=10^out$counts
     out$density=10^out$density
+  }
+  if(!class(x)=='histogram'){
+    out=c(out, summary=list(outsum), ranges=list(sd1q2q))
+    class(out)='histogram'
+  }else{
+    out=out
   }
   return=out
 }
