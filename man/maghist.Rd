@@ -90,6 +90,9 @@ Aaron Robotham
 \examples{
 maghist(rnorm(1e4))
 maghist(rnorm(1e4), xlim=c(-2,4))
+
+#Notice the x-limits are close to -3/3, since we asked for xlim=3 (a 3-sigma range)
+
 maghist(rnorm(1e4), xlim=3, verbose = FALSE)
 
 #Test of log histograms:

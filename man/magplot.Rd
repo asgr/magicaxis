@@ -12,7 +12,7 @@ magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 'auto', tcl 
 ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2, xlab = '',
 ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase=10, hersh = FALSE,
 family = "sans", frame.plot = TRUE, usepar=FALSE, grid=FALSE, grid.col='grey',
-grid.lty=1, grid.lwd=1, axes=TRUE, ...) 
+grid.lty=1, grid.lwd=1, axes=TRUE, xlim=NULL, ylim=NULL, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -102,6 +102,12 @@ The line width of the grid to be drawn.
   \item{axes}{
 If \option{axes}=FALSE (or \option{side}=FALSE) then no sides or labels will be drawn.
 }
+  \item{xlim}{
+Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting.
+}
+  \item{ylim}{
+Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting.
+}
   \item{\dots}{
 Further arguments to be passed to base \code{\link{plot}} and also to \code{\link{magaxis}} -> \code{\link{axis}}.
 }
@@ -111,6 +117,8 @@ Further arguments to be passed to base \code{\link{plot}} and also to \code{\lin
 This is a simple function that just turns off most of the plotting output of base plot, and replaces where possible those present in magaxis.
 
 If \option{x} is a data.frame with more than 2 columns then the utility base \code{\link{plot}} data.frame plotting function is used to create a full plotting grid. This ignores \code{\link{magaxis}} settings entirely.
+
+Setting \option{xlim} and \option{ylim}
 }
 
 \value{
@@ -129,16 +137,22 @@ Aaron Robotham
 x=10^{1:9}
 y=1:9
 magplot(log10(x),y,unlog='x')
-
 magplot(x,y,log='x')
 
-#Not ideal to have two decades between major labels
+#Not ideal to have two decades between major labels:
 
 magplot(x,y,log='x',majorn=c(10,5))
-
 magplot(x,y,log='xy',majorn=c(10,5,5,5),side=1:4)
 
-#Some astronomy related examples:
+#Sometimes it is helpful to focus on where most of the data actually is.
+#Using a single value for xlim and ylim sigma clips the data to that range.
+#Here a value of 2 means we only show the inner 2-sigma (2\% to 98\%) range.
+
+temp=cbind(rt(1e3,1.5),rt(1e3,1.5))
+magplot(temp)
+magplot(temp, xlim=2, ylim=2)
+
+#Some astronomy related examples (and how to display the solar symbol):
 
 temp=cbind(runif(10,8,12),runif(10,0,5))
 
