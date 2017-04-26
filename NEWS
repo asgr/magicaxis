@@ -181,6 +181,8 @@ Feature: Added cdf scaling to magmap.
 
 FEATURE: Added maghist for pretty histograms.
 
+FEATURE: Added magclip for smart automatic sigma clipping of data. Can be used in maghist and magplot too for xlim/ylim.
+
 TO DO:
 
 FEATURE: Add better in-plot legends.

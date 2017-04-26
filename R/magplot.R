@@ -19,7 +19,8 @@ if(class(x)[1]=='histogram'){
           if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
             sel = sel & x[,1] > 0
           }
-          xlim = as.numeric(quantile(x[sel,1], pnorm(c(-xlim, xlim)), na.rm = TRUE))
+          #xlim = as.numeric(quantile(x[sel,1], pnorm(c(-xlim, xlim)), na.rm = TRUE))
+          xlim=magclip(x[sel,1], sigma=xlim)$range
           dots[['xlim']]=xlim
         }
         if (length(ylim) == 1) {
@@ -27,7 +28,8 @@ if(class(x)[1]=='histogram'){
           if (log[1] == "y" | log[1] == "xy" | log[1] == "yx") {
             sel = sel & x[,2] > 0
           }
-          ylim = as.numeric(quantile(x[sel,2], pnorm(c(-ylim, ylim)), na.rm = TRUE))
+          #ylim = as.numeric(quantile(x[sel,2], pnorm(c(-ylim, ylim)), na.rm = TRUE))
+          ylim=magclip(x[sel,2], sigma=ylim)$range
           dots[['ylim']]=ylim
         }
         plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, panel.first = if(side[1] !=FALSE | axes==FALSE){magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, ...)}, xlim=xlim, ylim=ylim, ...)
@@ -41,7 +43,8 @@ if(class(x)[1]=='histogram'){
       if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
         sel = sel & x > 0
       }
-      xlim = as.numeric(quantile(x[sel], pnorm(c(-xlim, xlim)), na.rm = TRUE))
+      #xlim = as.numeric(quantile(x[sel], pnorm(c(-xlim, xlim)), na.rm = TRUE))
+      xlim=magclip(x[sel], sigma=xlim)$range
       dots[['xlim']]=xlim
     }
     if (length(ylim) == 1) {
@@ -49,7 +52,8 @@ if(class(x)[1]=='histogram'){
       if (log[1] == "y" | log[1] == "xy" | log[1] == "yx") {
         sel = sel & y > 0
       }
-      ylim = as.numeric(quantile(y[sel], pnorm(c(-ylim, ylim)), na.rm = TRUE))
+      #ylim = as.numeric(quantile(y[sel], pnorm(c(-ylim, ylim)), na.rm = TRUE))
+      ylim=magclip(y[sel], sigma=ylim)$range
       dots[['ylim']]=ylim
     }
     plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  panel.first = if(side[1] !=FALSE | axes==FALSE){magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, ...)}, xlim=xlim, ylim=ylim, ...)

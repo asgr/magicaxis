@@ -103,10 +103,10 @@ The line width of the grid to be drawn.
 If \option{axes}=FALSE (or \option{side}=FALSE) then no sides or labels will be drawn.
 }
   \item{xlim}{
-Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting.
+Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}. If this is set to 'auto' then the limits will be estimated from the data dynamically.
 }
   \item{ylim}{
-Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting.
+Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}. If this is set to 'auto' then the limits will be estimated from the data dynamically.
 }
   \item{\dots}{
 Further arguments to be passed to base \code{\link{plot}} and also to \code{\link{magaxis}} -> \code{\link{axis}}.
@@ -147,10 +147,12 @@ magplot(x,y,log='xy',majorn=c(10,5,5,5),side=1:4)
 #Sometimes it is helpful to focus on where most of the data actually is.
 #Using a single value for xlim and ylim sigma clips the data to that range.
 #Here a value of 2 means we only show the inner 2-sigma (2\% to 98\%) range.
+#The 'auto' option allows magclip to dynamically estimate a clip value.
 
 temp=cbind(rt(1e3,1.5),rt(1e3,1.5))
 magplot(temp)
 magplot(temp, xlim=2, ylim=2)
+magplot(temp, xlim='auto', ylim='auto')
 
 #Some astronomy related examples (and how to display the solar symbol):
 

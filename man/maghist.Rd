@@ -49,7 +49,7 @@ A colour to be used to fill the bars. The default of NULL yields unfilled bars.
 The color of the border around the bars. The default is to use the standard foreground color.
 }
   \item{xlim}{
-Vector; range of \option{x} values to use for both counting and plotting. If length equals 1 then the argument is taken to mean the sigma range to select for plotting. The default NULL will span the range of histogram breaks. See examples.
+Vector; range of \option{x} values to use for both counting and plotting. The default NULL will span the range of histogram breaks. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}. If this is set to 'auto' then the limits will be estimated from the data dynamically. See examples.
 }
   \item{ylim}{
 Vector; range of y limits to show in the histogram plot.
@@ -91,9 +91,14 @@ Aaron Robotham
 maghist(rnorm(1e4))
 maghist(rnorm(1e4), xlim=c(-2,4))
 
-#Notice the x-limits are close to -3/3, since we asked for xlim=3 (a 3-sigma range)
+#Notice the x-limits are close to -3/3, since  if we ask for xlim=3 (a 3-sigma range)
 
 maghist(rnorm(1e4), xlim=3, verbose = FALSE)
+
+#The 'auto' option allows magclip to dynamically estimate a clip value (which is similar
+#in this case, but need not be in general).
+
+maghist(rnorm(1e4), xlim='auto', verbose = FALSE)
 
 #Test of log histograms:
 

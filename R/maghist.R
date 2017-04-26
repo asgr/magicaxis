@@ -9,7 +9,12 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
         if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
           sel= sel & x>0
         }
-        xlim=quantile(x[sel],pnorm(c(-xlim,xlim)),na.rm = TRUE)
+        # if(xlim=='auto'){
+        #   xlim=magclip(x[sel])$range
+        # }else{
+        #   xlim=quantile(x[sel],pnorm(c(-xlim,xlim)),na.rm = TRUE)
+        # }
+        xlim=magclip(x[sel], sigma=xlim)$range
       }
       sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
     }else{
