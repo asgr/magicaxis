@@ -32,7 +32,11 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
   if(magmap){
+    if(max(table(z))<length(z)/2){
     z=magmap(data=z, lo=lo, hi=hi, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
+    }else{
+      print('Too many same valued pixels: turning off magmap scaling!')
+    }
   }
   if(missing(zlim)){
     zlim=range(z, na.rm=TRUE)
