@@ -3,7 +3,7 @@ function(data, lo=0, hi=1, flip=FALSE, range=c(0,2/3), type='quan', stretch='lin
 if(stretchscale=='auto'){
   good=is.na(data)==FALSE & is.nan(data)==FALSE & is.infinite(data)==FALSE & is.null(data)==FALSE
 	if(length(which(good))==0){stop('There is no numeric data!')}
-  data=data-quantile(data[good],lo,na.rm=TRUE)
+  data=data-median(data[good],na.rm=TRUE)
   absdata=abs(data[good])
   stretchscale=1/median(absdata[absdata>0],na.rm=TRUE)
   if(!is.finite(stretchscale)){stretchscale=1}
