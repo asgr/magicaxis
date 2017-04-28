@@ -4,7 +4,9 @@ if(stretchscale=='auto'){
   good=is.na(data)==FALSE & is.nan(data)==FALSE & is.infinite(data)==FALSE & is.null(data)==FALSE
 	if(length(which(good))==0){stop('There is no numeric data!')}
   data=data-quantile(data[good],lo,na.rm=TRUE)
-  stretchscale=1/median(abs(data[good & data>0]),na.rm=TRUE)
+  absdata=abs(data[good])
+  stretchscale=1/median(absdata[absdata>0],na.rm=TRUE)
+  if(!is.finite(stretchscale)){stretchscale=1}
 }
   
 if(stretch=='log' | stretch=='sqrt'){
