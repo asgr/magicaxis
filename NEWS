@@ -179,9 +179,11 @@ Fixed issue with magmap where a matrix could cahnge type to vector (when all ele
 
 Feature: Added cdf scaling to magmap.
 
-FEATURE: Added maghist for pretty histograms.
+Feature: Added maghist for pretty histograms.
 
-FEATURE: Added magclip for smart automatic sigma clipping of data. Can be used in maghist and magplot too for xlim/ylim.
+Feature: Added magclip for smart automatic sigma clipping of data. Can be used in maghist and magplot too for xlim/ylim.
+
+Feature: Added sparse sampling to magimage for faster image display.
 
 TO DO:
 

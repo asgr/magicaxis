@@ -1,7 +1,8 @@
 magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both'){
+  sel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
   if(clipiters>0){
     newlen=length(x)
-    clipx=x
+    clipx=x[sel]
     for(i in 1:clipiters){
       oldlen=newlen
       roughmed=median(clipx, na.rm=TRUE)
@@ -19,11 +20,13 @@ magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both'){
       if(estimate=='hi'){
         vallims=clipsigma*diff(quantile(clipx,pnorm(c(0,sigmasel)), na.rm=TRUE))/sigmasel
       }
-      cliplogic=x>(roughmed-vallims) & x<(roughmed+vallims)
+      cliplogic=x>=(roughmed-vallims) & x<=(roughmed+vallims) & sel
       clipx=x[cliplogic]
       newlen=length(clipx)
       if(oldlen==newlen){break}
     }
+  }else{
+    cliplogic=rep(TRUE,length(clipx))
   }
-  return=list(x=clipx, clip=cliplogic, range=range(clipx))
+  return=list(x=clipx, clip=cliplogic, range=range(clipx, na.rm = TRUE))
 }
