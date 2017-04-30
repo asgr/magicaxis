@@ -1,4 +1,4 @@
-magimageRGB<-function(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, lo=0.4, hi=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=range[1], clip="", axes=TRUE, frame.plot=TRUE, ...) {
+magimageRGB<-function(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, lo=0.4, hi=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=range[1], clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...) {
   if(!missing(x)){
     if(is.list(x)){
       if('y' %in% names(x)){y=x$y}
@@ -35,6 +35,15 @@ magimageRGB<-function(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster=TR
   }
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
+  if(sparse>1){
+    samplex=seq(sparse/2,length(x),by=sparse)
+    sampley=seq(sparse/2,length(y),by=sparse)
+    x=x[samplex]
+    y=y[sampley]
+    R=R[samplex,sampley]
+    G=G[samplex,sampley]
+    B=B[samplex,sampley]
+  }
   if(length(lo)<3){lo=rep(lo,3)}
   if(length(hi)<3){hi=rep(hi,3)}
   if(magmap){

@@ -1,4 +1,4 @@
-magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, lo=0.4, hi=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=NA, clip="", axes=TRUE, frame.plot=TRUE, ...) {
+magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, lo=0.4, hi=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...) {
   if(!missing(x)){
     if(is.list(x)){
       if('y' %in% names(x)){y=x$y}
@@ -31,6 +31,16 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
   }
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
+  if(sparse=='auto'){
+    sparse=ceiling(max(dim(z)/1e3))
+  }
+  if(sparse>1){
+    samplex=seq(sparse/2,length(x),by=sparse)
+    sampley=seq(sparse/2,length(y),by=sparse)
+    x=x[samplex]
+    y=y[sampley]
+    z=z[samplex,sampley]
+  }
   if(magmap){
     if(type=='quan'){
       if(quantile(z,lo,na.rm=T) != quantile(z,hi,na.rm=T)){

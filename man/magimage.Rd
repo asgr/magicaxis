@@ -12,16 +12,16 @@ Magically pretty images
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
 useRaster = TRUE, asp = 1, magmap=TRUE, lo = 0.4, hi = 0.995, flip = FALSE,
 range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
-clip = "", axes = TRUE, frame.plot = TRUE, ...)
+clip = "", axes = TRUE, frame.plot = TRUE, sparse='auto', ...)
 magimageRGB(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster = TRUE, asp = 1,
 magmap = TRUE, lo = 0.4, hi = 0.995, flip = FALSE, range = c(0, 1), type = "quan",
 stretch = "asinh", stretchscale = "auto", bad = range[1], clip = "", axes = TRUE,
-frame.plot = TRUE, ...) 
+frame.plot = TRUE, sparse='auto', ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x, y}{
-Locations of grid lines at which the values in z are measured. These must be finite and non-missing (order may be reversed). By default, equally spaced values from 0 to dim(z)[1] are used. If x is a list, its components x$x and x$y are used for x and y, respectively. If the list has component z this is used for z.
+Locations of grid lines at which the values in z are measured. These must be finite and non-missing (order may be reversed). By default, equally spaced values from 0 to dim(z)[1] are used. If x is a list, its components x$x and x$y are used for x and y, respectively. If the list has component z/R/G/B this is used for z/R/G/B.
 }
   \item{z}{
 A numeric or logical matrix containing the values to be plotted (NAs are allowed). Note that x can be used instead of z for convenience.
@@ -89,6 +89,9 @@ Specify if any axes be drawn on the image. If FALSE then only the pixels (with a
   \item{frame.plot}{
 Specify if a box be drawn around the image frame. Only happens if \option{add}=TRUE and \option{axes}=TRUE.
 }
+  \item{sparse}{
+Determines whether the image pixels are sparse sampled to speed up plotting. If set to 2 it will only determine every 2nd pixel, and if 3 every 3rd etc. The default 'auto' means it will scale to produce a maximum number of 1,000 pixels on any side (on most monitors this is a fairly useful maximum, and ensures quick displaying of even very large images).
+}
   \item{\dots}{
 Arguments to be parsed to \code{magaxis}. See \code{\link{magaxis}} for details.
 }
@@ -97,7 +100,7 @@ Arguments to be parsed to \code{magaxis}. See \code{\link{magaxis}} for details.
 See \code{\link{image}}, \code{\link{magmap}} and \code{\link{magaxis}} for more details.
 }
 \value{
-Outputs the final image list containing x,y and z. Generally run for the side effect of producing nice image plots.
+Outputs the final image list containing x,y and z (magimage) or R/G/B (magimageRGB). Generally run for the side effect of producing rapid and well-scaled image plots.
 }
 \author{
 Aaron Robotham
