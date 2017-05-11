@@ -137,7 +137,7 @@ Feature: side=FALSE in magplot will now not plot any sides (in this case the use
 
 License: Changed to GPL-3 after a user request.
 
-v 2.0.0 (on CRAN)
+v 2.0.0
 
 Enough new features to transition to magicaxis version 2.0
 
@@ -169,13 +169,13 @@ Feature: Added powbase option to allow log axes to be labelled with powers of e.
 
 --
 
-v 2.0.1 (not on CRAN, on GitHub @ asgr/magicaxis)
+v 2.0.1 (on CRAN, on GitHub @ asgr/magicaxis)
 
 Fixed magmap docs
 
 Fixed auto scale in magmap so it works with NA and NaN situations.
 
-Fixed issue with magmap where a matrix could cahnge type to vector (when all elements were the same).
+Fixed issue with magmap where a matrix could change type to vector (when all elements were the same).
 
 Feature: Added cdf scaling to magmap.
 
@@ -184,6 +184,10 @@ Feature: Added maghist for pretty histograms.
 Feature: Added magclip for smart automatic sigma clipping of data. Can be used in maghist and magplot too for xlim/ylim.
 
 Feature: Added sparse sampling to magimage for faster image display.
+
+--
+
+v 2.0.2 (not on CRAN, on GitHub @ asgr/magicaxis)
 
 TO DO:
 
