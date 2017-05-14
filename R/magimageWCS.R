@@ -225,9 +225,9 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   cutim = image[xlo:xhi, ylo:yhi]
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
-  xscale=abs(diff(xy2radec(c(xcen.new,xcen.new+1), c(ycen.new, ycen.new), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
+  xscale=abs(diff(xy2radec(c(xcen,xcen+1), c(ycen, ycen), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
   xscale=sqrt(sum(xscale^2))*cos(loc[2]*pi/180)
-  yscale=abs(diff(xy2radec(c(xcen.new, xcen.new), c(ycen.new, ycen.new+1), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
+  yscale=abs(diff(xy2radec(c(xcen, xcen), c(ycen, ycen+1), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
   yscale=sqrt(sum(yscale^2))
   output = list(cutim = cutim, loc = c(xcen.new, ycen.new), loc.orig = c(xcen, ycen), loc.diff = c(xlo - 1, ylo - 1), xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(xscale, yscale))
   if (plot) {
