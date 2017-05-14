@@ -12,3 +12,4 @@ importFrom("graphics", "arrows", "axis", "box", "contour", "image", "mtext", "pa
            "lines", "points", "polygon")
 importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm", "ecdf", "qnorm")
 importFrom("graphics", "hist")
+importFrom("celestial", "deg2hms", 'deg2dms', 'radec2xy', 'xy2radec')

@@ -87,7 +87,7 @@ Should a black outline be drawn following the \option{longlim} and \option{latli
 The longitude and latitude at which labels should be drawn.
 }
   \item{labeltype}{
-Should the labels be drawn using degrees (deg) or column delimited sexigesimal (sex).
+Should the labels be drawn using degrees (deg) or colon delimited sexigesimal (sex).
 }
   \item{crunch}{
 If set to FALSE the full output of \code{\link{deg2hms}} and \code{\link{deg2dms}} is printed. If set to TRUE a simplified output is used, where only the hours and degrees parts are extracted and appended with a 'h' and a degree symbol respectively.

@@ -33,7 +33,11 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
       longlim=longlim+diff(longlim)*c(-0.1,0.1)
       latlim=range(lat)
       latlim=latlim+diff(latlim)*c(-0.1,0.1)
-      orientation[1]=90-mean(latlim)
+      if(projection!='gnomonic'){
+        orientation[1]=90-mean(latlim)
+      }else{
+        orientation[1]=mean(latlim)
+      }
       orientation[2]=mean(longlim)
       labloc=c(longlim[1], latlim[1])
     }
@@ -215,16 +219,16 @@ magprojlabels=function(nlat=6, nlong=6, prettybase=30, labloc = c(90, -45), labe
   latpretty=latpretty[latpretty>latlim[1] & latpretty<latlim[2]]
   
   temp=mapproject(longpretty, rep(labloc[2],length(longpretty)))
-  if(labeltype=='deg'){text(temp,labels = longpretty %% 360)}
+  if(labeltype=='deg'){text(temp,labels = longpretty %% 360, ...)}
   if(labeltype=='sex'){
-    if(crunch==FALSE){text(temp,labels = deg2hms(longpretty %% 360,type='cat'))}
-    if(crunch==TRUE){text(temp,labels = paste(deg2hms(longpretty %% 360,type='mat')[,1],'h',sep=''))}
+    if(crunch==FALSE){text(temp,labels = deg2hms(longpretty %% 360,type='cat'), ...)}
+    if(crunch==TRUE){text(temp,labels = paste(deg2hms(longpretty %% 360,type='mat')[,1],'h',sep=''), ...)}
   }
   temp=mapproject(rep(labloc[1],length(latpretty)), latpretty)
-  if(labeltype=='deg'){text(temp,labels = latpretty)}
+  if(labeltype=='deg'){text(temp,labels = latpretty, ...)}
   if(labeltype=='sex'){
-    if(crunch==FALSE){text(temp,labels = deg2dms(latpretty,type='cat'))}
-    if(crunch==TRUE){text(temp,labels = paste(deg2dms(latpretty,type='mat')[,1],'\u00B0',sep=''))}
+    if(crunch==FALSE){text(temp,labels = deg2dms(latpretty,type='cat'), ...)}
+    if(crunch==TRUE){text(temp,labels = paste(deg2dms(latpretty,type='mat')[,1],'\u00B0',sep=''), ...)}
   }
   .Last.projection(list(projection=.Last.projection()$projection, parameters=.Last.projection()$parameters, orientation=.Last.projection()$orientation, centre=centre, longlim=longlim, latlim=latlim))
 }
