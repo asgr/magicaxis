@@ -189,6 +189,8 @@ Feature: Added sparse sampling to magimage for faster image display.
 
 v 2.0.2 (not on CRAN, on GitHub @ asgr/magicaxis)
 
+Feature: Added lots of new WCS support functions, e.g. see magimageWCS.
+
 Small magproj fixes.
 
 TO DO:
