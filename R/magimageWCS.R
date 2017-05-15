@@ -1,5 +1,19 @@
-magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension / H:M:S', ylab='Declination / D:M:S',mgp=c(2,0.5,0) , mtline=2, position='topright', com.col = "green", com.length = 0.05, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension / H:M:S', ylab='Declination / D:M:S', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   if(!missing(image)){
+    if(any(names(image)=='imDat') & missing(header)){
+      header=image$hdr
+      header=data.frame(key=header[c(T,F)],value=header[c(F,T)])
+      image=image$imDat
+    }
+    if(any(names(image)=='dat') & missing(header)){
+      header=image$hdr
+      header=data.frame(key=header[,1],value=header[,2])
+      image=image$dat
+    }
+    if(any(names(image)=='image') & missing(header)){
+      header=image$header
+      image=image$image
+    }
     magimage(image, axes=FALSE, ...)
     box()
   }
@@ -177,16 +191,32 @@ magcutout=function(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, .
   if (yhi > dim(image)[2]) {
     yhi = dim(image)[2]
   }
-  cutim = image[xlo:xhi, ylo:yhi]
-  output = list(cutim = cutim, loc = c(xcen - xlo + 1, ycen -  ylo + 1), loc.orig = c(xcen, ycen), loc.diff = c(xlo-1, ylo-1), xsel = xlo:xhi, ysel = ylo:yhi)
+  image = image[xlo:xhi, ylo:yhi]
+  output = list(image = image, loc = c(xcen - xlo + 1, ycen -  ylo + 1), loc.orig = c(xcen, ycen), loc.diff = c(xlo-1, ylo-1), xsel = xlo:xhi, ysel = ylo:yhi)
   if (plot) {
-    magimage(cutim, ...)
+    magimage(image, ...)
   }
   return = output
 }
 
 magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, unit='deg', sep=':', ...){
   box=box/3600
+  if(!missing(image)){
+    if(any(names(image)=='imDat') & missing(header)){
+      header=image$hdr
+      header=data.frame(key=header[c(T,F)],value=header[c(F,T)])
+      image=image$imDat
+    }
+    if(any(names(image)=='dat') & missing(header)){
+      header=image$hdr
+      header=data.frame(key=header[,1],value=header[,2])
+      image=image$dat
+    }
+    if(any(names(image)=='image') & missing(header)){
+      header=image$header
+      image=image$image
+    }
+  }
   if(missing(loc)){
     loc=xy2radec(dim(image)[1]/2+0.5, dim(image)[2]/2+0.5, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
   }else{
@@ -222,17 +252,55 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   if (yhi > dim(image)[2]) {
     yhi = dim(image)[2]
   }
-  cutim = image[xlo:xhi, ylo:yhi]
+  image = image[xlo:xhi, ylo:yhi]
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
   xscale=abs(diff(xy2radec(c(xcen,xcen+1), c(ycen, ycen), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
   xscale=sqrt(sum(xscale^2))*cos(loc[2]*pi/180)
   yscale=abs(diff(xy2radec(c(xcen, xcen), c(ycen, ycen+1), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
   yscale=sqrt(sum(yscale^2))
-  output = list(cutim = cutim, loc = c(xcen.new, ycen.new), loc.orig = c(xcen, ycen), loc.diff = c(xlo - 1, ylo - 1), xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(xscale, yscale))
-  if (plot) {
-    magimageWCS(image=cutim, header=header, loc.diff=c(xlo - 1, ylo - 1), CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
+  loc.diff = c(xlo - 1, ylo - 1)
+  xlo=min(par()$usr[1:2])+0.5+loc.diff[1]
+  xhi=max(par()$usr[1:2])+0.5+loc.diff[1]
+  ylo=min(par()$usr[3:4])+0.5+loc.diff[2]
+  yhi=max(par()$usr[3:4])+0.5+loc.diff[2]
+  usr.WCS=rbind(
+    xy2radec(xlo, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
+    xy2radec(xlo, yhi, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
+    xy2radec(xhi, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
+    xy2radec(xhi, yhi, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  )
+  usr.WCS=cbind(x.cut=c(min(par()$usr[1:2]),min(par()$usr[1:2]),max(par()$usr[1:2]),max(par()$usr[1:2])),
+                y.cut=c(min(par()$usr[3:4]),max(par()$usr[3:4]),min(par()$usr[3:4]),max(par()$usr[3:4])),
+                x.orig=c(min(par()$usr[1:2]),min(par()$usr[1:2]),max(par()$usr[1:2]),max(par()$usr[1:2]))+loc.diff[1],
+                y.orig=c(min(par()$usr[3:4]),max(par()$usr[3:4]),min(par()$usr[3:4]),max(par()$usr[3:4]))+loc.diff[2],
+                usr.WCS
+                )
+  approx.map.RA=approxfun(seq(usr.WCS[1,'RA'],usr.WCS[4,'RA'],len=1e2),seq(usr.WCS[1,'x.cut'],usr.WCS[4,'x.cut'],len=1e2))
+  approx.map.Dec=approxfun(seq(usr.WCS[1,'Dec'],usr.WCS[4,'Dec'],len=1e2),seq(usr.WCS[1,'y.cut'],usr.WCS[4,'y.cut'],len=1e2))
+  approx.map=function(RA, Dec){
+    if(length(dim(RA)) == 2){
+      Dec = RA[, 2]
+      RA = RA[, 1]
+    }
+    return=cbind(x=approx.map.RA(RA), y=approx.map.Dec(Dec))
   }
+  if (plot) {
+    magimageWCS(image=image, header=header, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
+  }
+  if(!missing(header)){
+    if(length(dim(header))==2){
+      CRPIX1=as.numeric(header[header[,1]=='CRPIX1',2])-loc.diff[1]
+      CRPIX2=as.numeric(header[header[,1]=='CRPIX2',2])-loc.diff[2]
+      header[header[,1]=='CRPIX1',2]=as.character(CRPIX1)
+      header[header[,1]=='CRPIX2',2]=as.character(CRPIX2)
+    }else{
+      header=NULL
+    }
+  }else{
+    header=NULL
+  }
+  output = list(image = image, loc = c(xcen.new, ycen.new), loc.orig = c(xcen, ycen), loc.diff = loc.diff, xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(xscale, yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
   return = output
 }
 

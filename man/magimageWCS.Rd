@@ -30,10 +30,10 @@ CD2_1 = 0, CD2_2 = 1, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{image}{
-Numeric matrix; required, the image we want to decorate.
+Numeric matrix; required, the image we want to decorate. If \option{image} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of these lists is parsed to \option{image} and the correct header part is parsed to \option{header}.
 }
   \item{header}{
-Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package). Also the \option{hdr} output of \code{readFITS} in the \code{FITSio} package provides legal vector format inputs. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
+Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
 }
   \item{n}{
 The target number of major-axis sub-divisions. Will not necessarily be achieved.
@@ -129,17 +129,22 @@ By R convention the bottom-left part of the bottom-left pixel when plotting the 
 \dontrun{
 image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
 
+#Convenient image plotting for lists containing headers:
+
+magimageWCS(image$imDat, header=image$hdr)
+magimageWCS(image)
+
 #First using the outer margins for tick labels:
 
 par(mar=c(3.1,3.1,0.1,0.1))
-magimageWCS(image$imDat, header=image$hdr)
-magimageWCS(image$imDat, header=image$hdr, type='deg')
+magimageWCS(image)
+magimageWCS(image, type='deg')
 
 #Now removing the margins and putting labels inside the image:
 
 par(mar=c(0,0,0,0))
-magimageWCS(image$imDat, header=image$hdr, margin=FALSE, type='sex')
-magimageWCS(image$imDat, header=image$hdr, margin=FALSE, type='deg')
+magimageWCS(image, margin=FALSE, type='sex')
+magimageWCS(image, margin=FALSE, type='deg')
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

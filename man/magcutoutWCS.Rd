@@ -22,10 +22,10 @@ CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0))
 }
 \arguments{
   \item{image}{
-Numeric matrix; required, the image we want to analyse.
+Numeric matrix; required, the image we want to decorate. If \option{image} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of these lists is parsed to \option{image} and the correct header part is parsed to \option{header}.
 }
   \item{header}{
-Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package). Also the \option{hdr} output of \code{readFITS} in the \code{FITSio} package provides legal vector format inputs. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
+Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
 }
   \item{loc}{
 Numeric vector; the [x,y] (\code{magcutout}) or [RA,Dec] (\code{magcutoutWCS}) location where we want to estimate the sky and sky RMS.
@@ -91,7 +91,7 @@ These functions are on a level trivial, since it is easy to subset matrices and 
 \value{
 A list containing:
 
-  \item{cutim}{Numeric matrix; the cutout region of interst centred around \option{loc}.}
+  \item{image}{Numeric matrix; the cutout region of interst centred around \option{loc}.}
   \item{loc}{The new \option{loc} vector that tranforms the input \option{loc} x and y location to the new \option{cutim} coordinates. This is in ProFit coordinates, so these values can be used when, e.g., constructing a ProFit modellist structure.}
   \item{loc.orig}{The original location is provided by the input \option{loc}.}
   \item{loc.diff}{The x and y offsets of the cutout compared to the original image, where \option{loc} + \option{loc.diff} = \option{loc.orig} exactly.}
@@ -99,6 +99,9 @@ A list containing:
   \item{ysel}{Integer vector; the extracted y pixels from the original \option{image} that form \option{cutim}.}
   \item{loc.WCS}{Only output from \code{magcutoutWCS}. Numeric vector of the central RA and Dec of the cutout region in degrees.}
   \item{scale.WCS}{Only output from \code{magcutoutWCS}. Numeric vector of the x/y pixel scale in degrees.}
+  \item{usr.WCS}{Only output from \code{magcutoutWCS}. Numeric matrix of the RA/Dec extremes of the image in order BL/TL/BR/TR.}
+  \item{approx.map}{Only output from \code{magcutoutWCS}. A helper function that will usually approximately map RA and Dec numeric vector inputs to a matrix with columns x and y. This is less accurate than \code{\link{magWCSradec2xy}}, so use that function is the projection is too extreme. Should work for most data pretty well though, and it saves having to correctly track the appropriate header.}
+  \item{header}{Only output from \code{magcutoutWCS}. The updated header with the correct WCS for the cutout region. Basically this means CRPIX1.new=CRPIX1.org-loc.diff[1] and CRPIX2.new=CRPIX2.org-loc.diff[2].}
 }
 \author{
 Aaron Robotham
@@ -117,25 +120,45 @@ temp=matrix(1:121,11)
 
 temp[6,6]
 
-print(magcutout(temp, dim(temp)/2, box=c(3,3))$cutim)
+print(magcutout(temp, dim(temp)/2, box=c(3,3))$image)
 
 #Given we cutout around the centre of the central pixel [5.5,5.5], the new centre
-#relative to the cutim output should be at [1.5,1.5]:
+#relative to the cutout image output should be at [1.5,1.5]:
 
 print(magcutout(temp, dim(temp)/2, box=c(3,3))$loc.orig)
 print(magcutout(temp, dim(temp)/2, box=c(3,3))$loc)
 
+# A simple WCS cutout example:
+
 image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
+
+par(mar=c(3.1,3.1,1.1,1.1))
 magcutout(image$imDat, box=c(89,89), plot=TRUE)
 magcutoutWCS(image$imDat, image$hdr, plot=TRUE)
-magcutoutWCS(image$imDat, image$hdr, loc=c(352.29167, -31.827777), plot=TRUE)$loc.WCS
-magcutoutWCS(image$imDat, image$hdr, loc=c("23:29:10", "-31:49:40"), unit = 'sex',
+magcutoutWCS(image, plot=TRUE)
+
+#You can select coordinates too:
+
+magcutoutWCS(image, loc=c(352.29167, -31.827777), plot=TRUE)$loc.WCS
+magcutoutWCS(image, loc=c("23:29:10", "-31:49:40"), unit = 'sex',
 plot=TRUE)$loc.WCS
 
-#Here we have to remember that R [x,y] = FITS [x-0.5,y-0.5]
-temp=magcutoutWCS(image$imDat, image$hdr, loc=c(352.2918, -31.82652), plot=TRUE)
-points(magWCSradec2xy(c(352.2918, 352.2897), c(-31.82652, -31.8252), header=image$hdr,
-loc.diff=temp$loc.diff), col='red')
+#We can add RA Dec specific decorations easily:
+
+cutim=magcutoutWCS(image, loc=c(352.2918, -31.82652), plot=TRUE)
+
+#Approx overlays:
+
+points(cutim$approx.map(c(352.2918, 352.2897), c(-31.82652, -31.8252)), pch=3, col='blue')
+
+#Exact overlays:
+
+points(magWCSradec2xy(c(352.2918, 352.2897), c(-31.82652, -31.8252), header=cutim$header),
+col='red')
+
+#Given we correctly modify the header, we can actually use the cut down image directly:
+
+magimageWCS(cutim)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
