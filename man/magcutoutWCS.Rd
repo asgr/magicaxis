@@ -100,7 +100,7 @@ A list containing:
   \item{loc.WCS}{Only output from \code{magcutoutWCS}. Numeric vector of the central RA and Dec of the cutout region in degrees.}
   \item{scale.WCS}{Only output from \code{magcutoutWCS}. Numeric vector of the x/y pixel scale in degrees.}
   \item{usr.WCS}{Only output from \code{magcutoutWCS}. Numeric matrix of the RA/Dec extremes of the image in order BL/TL/BR/TR.}
-  \item{approx.map}{Only output from \code{magcutoutWCS}. A helper function that will usually approximately map RA and Dec numeric vector inputs to a matrix with columns x and y. This is less accurate than \code{\link{magWCSradec2xy}}, so use that function is the projection is too extreme. Should work for most data pretty well though, and it saves having to correctly track the appropriate header.}
+  \item{approx.map}{Only output from \code{magcutoutWCS}. A helper function that will usually approximately map RA and Dec numeric vector inputs to a matrix with columns x and y. This is less accurate than \code{\link{magWCSradec2xy}}, so use that function is the projection is too extreme. Should work for most N-S aligned data pretty well though, and it saves having to correctly track the appropriate header.}
   \item{header}{Only output from \code{magcutoutWCS}. The updated header with the correct WCS for the cutout region. Basically this means CRPIX1.new=CRPIX1.org-loc.diff[1] and CRPIX2.new=CRPIX2.org-loc.diff[2].}
 }
 \author{

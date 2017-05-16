@@ -86,7 +86,7 @@ The line type of the grid to be drawn.
 The line width of the grid to be drawn.
 }
   \item{\dots}{
-Other arguments to be passed to base \code{\link{axis}} function.
+Other arguments to be passed to base \code{\link{axis}} and \code{\link{mtext}} functions as relevant. options for axis are as described in \code{\link{axis}}, but note \option{cex.lab}, \option{col.lab} and \option{font.lab} are parsed as \option{cex}, \option{col} and \option{font} into \code{\link{mtext}} as required.
 }
 }
 \details{

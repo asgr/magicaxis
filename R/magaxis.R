@@ -1,9 +1,14 @@
 magaxis <-
 function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unlog='auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...){
 dots=list(...)
-dotskeep=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'lwd.ticks', 'tick')
+dotskeepaxis=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'lwd.ticks', 'tick')
+dotskeepmtext=c('cex.lab', 'col.lab', 'font.lab')
 if(length(dots)>0){
-  dots=dots[names(dots) %in% dotskeep]
+  dotsaxis=dots[names(dots) %in% dotskeepaxis]
+  dotsmtext=dots[names(dots) %in% dotskeepmtext]
+}else{
+  dotsaxis={}
+  dotsmtext={}
 }
 majornlist=majorn
 minornlist=minorn
@@ -127,16 +132,16 @@ for(i in 1:length(side)){
     }
 
  		if(logged){
- 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dots))
+ 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dotsaxis))
  		}else{
- 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dots))
+ 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dotsaxis))
  		}
  		
     if(labels){
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp),dots))
+        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp),dots))
+        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp),dotsaxis))
       }
     }
     
@@ -144,14 +149,24 @@ for(i in 1:length(side)){
       minors = minors[-c(1,length(minors))]
       minor.ticks = c(outer(minors, major.ticks, `+`))
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dots))
+        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dots))
+        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dotsaxis))
       }
     }
-    if(is.null(xlab)==F & currentside==1){mtext(xlab,1,line=mtline,cex=par()$cex.lab)}
-    if(is.null(ylab)==F & currentside==2){mtext(ylab,2,line=mtline,cex=par()$cex.lab)}
-}
+  }
+
+  if(length(dotsmtext)>0){
+    names(dotsmtext)=c('cex', 'col', 'font')[match(names(dotsmtext), dotskeepmtext)]
+  }
+  if(is.null(xlab)==F){
+    do.call("mtext", c(list(text=xlab, side=1, line=mtline), dotsmtext))
+    #mtext(xlab,1,line=mtline,cex=par()$cex.lab)
+  }
+  if(is.null(ylab)==F){
+    do.call("mtext", c(list(text=ylab, side=2, line=mtline), dotsmtext))
+    #mtext(ylab,2,line=mtline,cex=par()$cex.lab)
+  }
 
 if(frame.plot){box()}
 par(family=currentfamily)
