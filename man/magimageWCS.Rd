@@ -60,16 +60,16 @@ Should the labels be drawn in the outer margin region (default).
 The pixel offset to apply. Only relevant if the image being plotted is a cutout from within a FITS legal image.
 }
   \item{xlab}{
-x axis name.
+x axis name. If left as default either H:M:S or D:M:S (\option{type}='sex') or deg (\option{type}='deg') will be appended.
 }
   \item{ylab}{
-y axis name.
+y axis name. If left as default either H:M:S or D:M:S (\option{type}='sex') or deg (\option{type}='deg') will be appended.
 }
   \item{mgp}{
-The margin line (in mex units) for the axis title, axis labels and axis line. This has different (i.e. prettier) defaults than R of c(2,0.5,0) rather than c(3,1,0). This pushes the numbers and labels nearer to the plot compared to the defaults.
+The margin line (in mex units) for the axis title, axis labels and axis line. This has different (i.e. prettier) defaults than R of c(2,0.5,0) rather than c(3,1,0). This pushes the numbers and labels nearer to the plot compared to the defaults. For \option{margin}=FALSE \option{mgp} = -\option{mgp} - 3, which has the effect of shifting the tick labels nicely inside the margin.
 }
   \item{mtline}{
-Number of lines separating axis name from axis.
+Number of lines separating axis name from axis. For \option{margin}=FALSE \option{mtline} = -\option{mtline}, which has the effect of shifting the axis labels nicely inside the margin.
 }
   \item{position}{
 Relative position of the compass bar. This argument is used like the 'legend' function. Specify one of 'bottom', 'bottomleft', 'left', 'topleft', 'top', 'topright', 'right', 'bottomright' and 'centre'. 
@@ -136,7 +136,7 @@ magimageWCS(image)
 
 #First using the outer margins for tick labels:
 
-par(mar=c(3.1,3.1,0.1,0.1))
+par(mar=c(3.1,3.1,1.1,1.1))
 magimageWCS(image)
 magimageWCS(image, type='deg')
 
