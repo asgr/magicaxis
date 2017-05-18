@@ -34,7 +34,7 @@ if(doim){
   image(tempcon,col=imcol,axes=FALSE,add=TRUE,xlim=xlim,ylim=ylim)
 }
 if(doim & docon){contour(tempcon,levels=conlevels,add=TRUE,drawlabels=F,axes=FALSE,...)}
-if(doim==FALSE & docon){contour(tempcon,levels=conlevels,add=add,drawlabels=F,axes=FALSE,xlim=xlim,ylim=ylim,...)}
+if(doim==FALSE & docon){contour(tempcon,levels=conlevels,add=add,drawlabels=F,axes=FALSE,xlim=xlim,ylim=ylim,...);box()}
 if(add==FALSE){magaxis(xlab=xlab,ylab=ylab)}
 if(doim & dobar){magbar(position=barposition,range=c(0,100),orient=barorient,col=rev(imcol),title=bartitle,titleshift=bartitleshift)}
 return=tempcon

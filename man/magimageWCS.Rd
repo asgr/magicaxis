@@ -13,15 +13,15 @@ These functions add various WCS information to R images. It is particularly desi
 \usage{
 magimageWCS(image, header, n, grid.col = "grey", grid.lty = 2, grid.lwd = 0.5,
 lab.col = "green", type = "sex", margin = TRUE, loc.diff = c(0, 0),
-xlab = "Right Ascension / H:M:S", ylab = "Declination / D:M:S", mgp = c(2, 0.5, 0), 
-mtline = 2, position = "topright", com.col = "green", com.length = 0.05, CRVAL1 = 0,
-CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
+xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0), mtline = 2,
+position = "topright", com.col = "green", com.length = 0.05, CRVAL1 = 0, CRVAL2 = 0,
+CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
 magimageWCSGrid(header, n, grid.col = "grey", grid.lty = 1, grid.lwd = 1,
 type = "sex", loc.diff = c(0, 0), CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0,
 CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
 magimageWCSLabels(header, n, lab.col = "green", type = "sex", margin = TRUE,
-loc.diff = c(0, 0), xlab = "Right Ascension / H:M:S", ylab = "Declination / D:M:S",
-mgp = c(2, 0.5, 0), mtline = 2, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0,
+loc.diff = c(0, 0), xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0),
+mtline = 2, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0,
 CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
 magimageWCSCompass(header, position = "topright", com.col = "green", com.length = 0.05, 
 loc.diff = c(0, 0), CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
@@ -143,7 +143,7 @@ magimageWCS(image, type='deg')
 #Now removing the margins and putting labels inside the image:
 
 par(mar=c(0,0,0,0))
-magimageWCS(image, margin=FALSE, type='sex')
+magimageWCS(image, margin=FALSE)
 magimageWCS(image, margin=FALSE, type='deg')
 }
 }

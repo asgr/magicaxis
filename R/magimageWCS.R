@@ -238,7 +238,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, .
   return = output
 }
 
-magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, unit='deg', sep=':', ...){
+magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, unit='deg', sep=':', loc.type='coord', ...){
   box=box/3600
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
@@ -256,13 +256,20 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
       image=image$image
     }
   }
+  #Note below tempxy is FITS xy units, not R:
   if(missing(loc)){
     loc=xy2radec(dim(image)[1]/2+0.5, dim(image)[2]/2+0.5, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+    tempxy=cbind(dim(image)[1]/2+0.5, dim(image)[2]/2+0.5)
   }else{
-    if(unit=='sex'){loc[1]=hms2deg(loc[1],sep=sep); loc[2]=dms2deg(loc[2],sep=sep)}
-    loc=as.numeric(loc)
+    if(loc.type=='coord'){
+      if(unit=='sex'){loc[1]=hms2deg(loc[1],sep=sep); loc[2]=dms2deg(loc[2],sep=sep)}
+      loc=as.numeric(loc)
+      tempxy=radec2xy(loc[1], loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+    }else if(loc.type=='image'){
+      tempxy=rbind(loc+0.5)
+      loc=xy2radec(loc[1]+0.5, loc[2]+0.5, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+    }
   }
-  tempxy=radec2xy(loc[1], loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   xcen = tempxy[1,1]-0.5
   ycen = tempxy[1,2]-0.5
   tempxy=radec2xy(loc[1]-box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)

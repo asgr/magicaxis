@@ -9,11 +9,6 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
         if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
           sel= sel & x>0
         }
-        # if(xlim=='auto'){
-        #   xlim=magclip(x[sel])$range
-        # }else{
-        #   xlim=quantile(x[sel],pnorm(c(-xlim,xlim)),na.rm = TRUE)
-        # }
         xlim=magclip(x[sel], sigma=xlim)$range
       }
       sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
@@ -26,10 +21,14 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
       }
     }
     
-    xtemp=x[sel]
     if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
+      sel= sel & x>0
+      xtemp=x[sel]
       xtemp=log10(xtemp)
+    }else{
+      xtemp=x[sel]
     }
+    
     outsum=summary(xtemp)
     sd1q2q=c(as.numeric(sd(xtemp)), as.numeric(diff(quantile(xtemp,pnorm(c(-1,1)),na.rm = TRUE)))/2, as.numeric(diff(quantile(xtemp,pnorm(c(-2,2)),na.rm = TRUE)))/2)
     

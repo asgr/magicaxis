@@ -14,7 +14,7 @@ Functions to subset both raw images and images with associated WCS systems.
 magcutout(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, ...)
 magcutoutWCS(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1 = 0, CRVAL2 = 0,
 CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, unit = "deg",
-sep = ":", ...)
+sep = ":", loc.type='coord', ...)
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
 CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0), unit = "deg", sep = ":")
 magWCSxy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
@@ -28,7 +28,7 @@ Numeric matrix; required, the image we want to decorate. If \option{image} is a 
 Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
 }
   \item{loc}{
-Numeric vector; the [x,y] (\code{magcutout}) or [RA,Dec] (\code{magcutoutWCS}) location where we want to estimate the sky and sky RMS.
+Numeric vector; the [x,y] (\code{magcutout}) or [x,y] / [RA,Dec] (\code{magcutoutWCS}) location where we want to cutout the image. For \code{magcutoutWCS} the unit type can be specified with the \option{loc.type} option. Either it is WCS in degrees [RA,Dec] (coord) or  pixel [x,y] of the \option{image} (image).
 }
   \item{box}{
 Numeric vector; the dimensions of the box in pixels (\code{magcutout}) or asecs (\code{magcutoutWCS}) to cut out from \option{image} centred on \option{loc}.
@@ -80,6 +80,9 @@ The units of \option{loc} for \code{magcutoutWCS}. Allowed options are 'deg' for
 }
   \item{sep}{
 When \option{unit}='sex', \option{sep} defines the type of separator used for the HMS and DMS strings (i.e. H:M:S and D:M:S would be sep=':', which is the default). See \code{\link{hms2deg}} and  \code{\link{dms2deg}} for more details.
+}
+  \item{loc.type}{
+Character scalar; specifies what type of location is being provided. Either it is WCS in degrees [RA,Dec] (coord) or  pixel [x,y] of the \option{image} (image).  
 }
   \item{\dots}{
 Dots are parsed to either \code{\link{magimage}} (\code{magcutout}) or \code{\link{magimageWCS}} (\code{magcutoutWCS}).
