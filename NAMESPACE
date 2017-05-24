@@ -4,12 +4,11 @@ import("MASS")
 import('plotrix')
 import("sm")
 import("mapproj")
-import("celestial")
+#import("celestial")
 
 importFrom("grDevices", "hsv", "rainbow", "grey", "rgb")
 importFrom("graphics", "arrows", "axis", "box", "contour", "image", "mtext", "par",
            "plot", "plot.new", "plot.window", "rect", "text", "abline", "layout",
-           "lines", "points", "polygon")
+           "lines", "points", "polygon",  "hist")
 importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm", "ecdf", "qnorm")
-importFrom("graphics", "hist")
-importFrom("celestial", "deg2hms", 'deg2dms', 'radec2xy', 'xy2radec')
+importFrom("celestial", "hms2deg", "dms2deg", "deg2hms", 'deg2dms', 'radec2xy', 'xy2radec')

@@ -20,12 +20,12 @@ magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
       header=image$hdr
-      header=data.frame(key=header[c(T,F)],value=header[c(F,T)])
+      header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
       image=image$imDat
     }
     if(any(names(image)=='dat') & missing(header)){
       header=image$hdr[[1]]
-      header=data.frame(key=header[,1],value=header[,2])
+      header=data.frame(key=header[,1],value=header[,2], stringsAsFactors = FALSE)
       image=image$dat[[1]]
     }
     if(any(names(image)=='image') & missing(header)){
@@ -209,46 +209,17 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
   text(endxyE[1,1], endxyE[1,2], labels='E', col=com.col, pos=2)
 }
 
-magcutout=function(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, ...){
-  loc = as.numeric(loc)
-  xcen = loc[1]
-  ycen = loc[2]
-  loc = ceiling(loc)
-  xlo = ceiling(loc[1] - (box[1]/2 - 0.5))
-  xhi = ceiling(loc[1] + (box[1]/2 - 0.5))
-  ylo = ceiling(loc[2] - (box[2]/2 - 0.5))
-  yhi = ceiling(loc[2] + (box[2]/2 - 0.5))
-  if (xlo < 1) {
-    xlo = 1
-  }
-  if (xhi > dim(image)[1]) {
-    xhi = dim(image)[1]
-  }
-  if (ylo < 1) {
-    ylo = 1
-  }
-  if (yhi > dim(image)[2]) {
-    yhi = dim(image)[2]
-  }
-  image = image[xlo:xhi, ylo:yhi]
-  output = list(image = image, loc = c(xcen - xlo + 1, ycen -  ylo + 1), loc.orig = c(xcen, ycen), loc.diff = c(xlo-1, ylo-1), xsel = xlo:xhi, ysel = ylo:yhi)
-  if (plot) {
-    magimage(image, ...)
-  }
-  return = output
-}
-
 magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, unit='deg', sep=':', loc.type='coord', ...){
   box=box/3600
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
       header=image$hdr
-      header=data.frame(key=header[c(T,F)],value=header[c(F,T)])
+      header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
       image=image$imDat
     }
     if(any(names(image)=='dat') & missing(header)){
       header=image$hdr[[1]]
-      header=data.frame(key=header[,1],value=header[,2])
+      header=data.frame(key=header[,1],value=header[,2], stringsAsFactors = FALSE)
       image=image$dat[[1]]
     }
     if(any(names(image)=='image') & missing(header)){
