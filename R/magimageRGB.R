@@ -35,6 +35,9 @@ magimageRGB<-function(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster=TR
   }
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
+  if(sparse=='auto'){
+    sparse=ceiling(max(dim(R)/1e3))
+  }
   if(sparse>1){
     samplex=seq(sparse/2,length(x),by=sparse)
     sampley=seq(sparse/2,length(y),by=sparse)
