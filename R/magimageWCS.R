@@ -1,4 +1,4 @@
-magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
     if(type=='sex'){
@@ -20,7 +20,7 @@ magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
       header=image$hdr
-      header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
+      #header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
       image=image$imDat
     }
     if(any(names(image)=='dat') & missing(header)){
@@ -78,7 +78,7 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
   
 }
 
-magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, coord.axis='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
     if(type=='sex'){
@@ -108,6 +108,20 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
     xy2radec(xhi, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
     xy2radec(xhi, yhi, header = header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   )
+  
+  if(coord.axis[1]=='auto'){
+    if(abs(diff(coordlims[1:2,1]))<abs(diff(coordlims[c(1,3),1]))){
+      raaxis=1
+      decaxis=2
+    }else{
+      raaxis=2
+      decaxis=1
+    }
+  }else{
+    raaxis=coord.axis[1]
+    decaxis=coord.axis[2]
+  }
+  
   rarange=range(coordlims[,1])
   decrange=range(coordlims[,2])
   if(type=='sex'){
@@ -127,41 +141,51 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
       tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
-      axis(1, at=tempxy[,1], labels = deg2hms(rapretty, type='cat', digits=1), mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
-      #text(tempxy, labels=deg2hms(rapretty, type='cat', digits=1), col=lab.col, ...)
-      
+      axis(raaxis, at=tempxy[,raaxis], labels = deg2hms(rapretty, type='cat', digits=1), mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
+
       tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty[-1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
-      axis(2, at=tempxy[,2], labels = deg2dms(decpretty[-1], type='cat', digits=0), mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
-      #text(tempxy, labels=deg2dms(decpretty[-2:-1], type='cat', digits=0), srt=90, col=lab.col, ...)
+      axis(decaxis, at=tempxy[,decaxis], labels = deg2dms(decpretty[-1], type='cat', digits=0), mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
     }
     if(type=='deg'){
       tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
-      axis(1, at=tempxy[,1], labels = rapretty, mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
-      #text(tempxy, labels=rapretty, col=lab.col, ...)
-      
+      axis(raaxis, at=tempxy[,raaxis], labels = rapretty, mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
+
       tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty[-1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
-      axis(2, at=tempxy[,2], labels = decpretty[-1], mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
-      #text(tempxy, labels=decpretty[-2:-1], srt=90, col=lab.col, ...)
+      axis(decaxis, at=tempxy[,decaxis], labels = decpretty[-1], mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
     }
-    mtext(xlab, 1, line = -mtline, col=lab.col)
-    mtext(ylab, 2, line = -mtline, col=lab.col)
+    mtext(xlab, raaxis, line = -mtline, col=lab.col)
+    mtext(ylab, decaxis, line = -mtline, col=lab.col)
   }else{
     if(type=='sex'){
-      axis(1, radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[,1]-0.5-loc.diff[1], labels=deg2hms(rapretty, type='cat', digits=1), mgp=mgp, tick=FALSE, ...)
-      axis(2, radec2xy(cbind(rapretty[1], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[,2]-0.5-loc.diff[2], labels=deg2dms(decpretty, type='cat', digits=0), mgp=mgp, tick=FALSE, ...)
+      tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy[,1]=tempxy[,1]-loc.diff[1]
+      tempxy[,2]=tempxy[,2]-loc.diff[2]
+      axis(raaxis, tempxy[,raaxis], labels=deg2hms(rapretty, type='cat', digits=1), mgp=mgp, tick=FALSE, ...)
+      
+      tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy[,1]=tempxy[,1]-loc.diff[1]
+      tempxy[,2]=tempxy[,2]-loc.diff[2]
+      axis(decaxis, tempxy[,decaxis], labels=deg2dms(decpretty, type='cat', digits=0), mgp=mgp, tick=FALSE, ...)
     }
     if(type=='deg'){
-      axis(1, radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[,1]-0.5-loc.diff[1], labels=rapretty, mgp=mgp, tick=FALSE, ...)
-      axis(2, radec2xy(cbind(rapretty[1], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[,2]-0.5-loc.diff[2], labels=decpretty, mgp=mgp, tick=FALSE, ...)
+      tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy[,1]=tempxy[,1]-loc.diff[1]
+      tempxy[,2]=tempxy[,2]-loc.diff[2]
+      axis(raaxis, tempxy[,raaxis], labels=rapretty, mgp=mgp, tick=FALSE, ...)
+      
+      tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy[,1]=tempxy[,1]-loc.diff[1]
+      tempxy[,2]=tempxy[,2]-loc.diff[2]
+      axis(decaxis, tempxy[,decaxis], labels=decpretty, mgp=mgp, tick=FALSE, ...)
     }
-    mtext(xlab, 1, line = mtline)
-    mtext(ylab, 2, line = mtline)
+    mtext(xlab, raaxis, line = mtline)
+    mtext(ylab, decaxis, line = mtline)
   }
 }
 
@@ -214,7 +238,7 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
       header=image$hdr
-      header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
+      #header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
       image=image$imDat
     }
     if(any(names(image)=='dat') & missing(header)){
