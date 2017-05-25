@@ -138,23 +138,23 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
   decpretty=decpretty[decpretty>min(decrange) & decpretty<max(decrange)]
   if(margin==FALSE){
     if(type=='sex'){
-      tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(raaxis, at=tempxy[,raaxis], labels = deg2hms(rapretty, type='cat', digits=1), mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
 
-      tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty[-1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(coordlims[1,1], decpretty[-1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(decaxis, at=tempxy[,decaxis], labels = deg2dms(decpretty[-1], type='cat', digits=0), mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
     }
     if(type=='deg'){
-      tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(raaxis, at=tempxy[,raaxis], labels = rapretty, mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
 
-      tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty[-1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(coordlims[1,1], decpretty[-1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(decaxis, at=tempxy[,decaxis], labels = decpretty[-1], mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
@@ -163,23 +163,23 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
     mtext(ylab, decaxis, line = -mtline, col=lab.col)
   }else{
     if(type=='sex'){
-      tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(raaxis, tempxy[,raaxis], labels=deg2hms(rapretty, type='cat', digits=1), mgp=mgp, tick=FALSE, ...)
       
-      tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(coordlims[1,1], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(decaxis, tempxy[,decaxis], labels=deg2dms(decpretty, type='cat', digits=0), mgp=mgp, tick=FALSE, ...)
     }
     if(type=='deg'){
-      tempxy=radec2xy(cbind(rapretty, decpretty[1]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(raaxis, tempxy[,raaxis], labels=rapretty, mgp=mgp, tick=FALSE, ...)
       
-      tempxy=radec2xy(cbind(rapretty[length(rapretty)], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
+      tempxy=radec2xy(cbind(coordlims[1,1], decpretty), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(decaxis, tempxy[,decaxis], labels=decpretty, mgp=mgp, tick=FALSE, ...)
