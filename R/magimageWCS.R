@@ -1,4 +1,4 @@
-magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
     if(type=='sex'){
@@ -35,12 +35,12 @@ magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5
     magimage(image, axes=FALSE, ...)
     box()
   }
-  magimageWCSGrid(header=header, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, type=type, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  magimageWCSLabels(header=header, n=n, lab.col=lab.col, type=type, margin=margin, loc.diff=loc.diff, xlab=xlab, ylab=ylab, mgp=mgp, mtline=mtline, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  magimageWCSGrid(header=header, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, type=type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  magimageWCSLabels(header=header, n=n, lab.col=lab.col, type=type, margin=margin, loc.diff=loc.diff, xlab=xlab, ylab=ylab, mgp=mgp, mtline=mtline, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   magimageWCSCompass(header=header, position=position, com.col=com.col, com.length=com.length, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
 }
 
-magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, type='sex', loc.diff=c(0,0), CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, type='sex', loc.diff=c(0,0), pretty=3600, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   xlo=min(par()$usr[1:2])+0.5+loc.diff[1]
   xhi=max(par()$usr[1:2])+0.5+loc.diff[1]
@@ -56,8 +56,8 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
   rarange=range(coordlims[,1])
   decrange=range(coordlims[,2])
   if(type=='sex'){
-    ragrid=maglab(rarange, n=n, prettybase = 15/3600)
-    decgrid=maglab(decrange, n=n, prettybase = 1/3600)
+    ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
+    decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
   }
   if(type=='deg'){
     ragrid=maglab(rarange, n=n)
@@ -78,7 +78,7 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
   
 }
 
-magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, coord.axis='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, coord.axis='auto', pretty=3600, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
     if(type=='sex'){
@@ -125,8 +125,8 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
   rarange=range(coordlims[,1])
   decrange=range(coordlims[,2])
   if(type=='sex'){
-    ragrid=maglab(rarange, n=n, prettybase = 15/3600)
-    decgrid=maglab(decrange, n=n, prettybase = 1/3600)
+    ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
+    decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
   }
   if(type=='deg'){
     ragrid=maglab(rarange, n=n)
@@ -194,6 +194,41 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
   xhi=max(par()$usr[1:2])+0.5+loc.diff[1]
   ylo=min(par()$usr[3:4])+0.5+loc.diff[2]
   yhi=max(par()$usr[3:4])+0.5+loc.diff[2]
+  
+  xdiff=diff(c(xlo, xhi))
+  ydiff=diff(c(ylo, yhi))
+  
+  if(position=='centre'){
+    coord=xy2radec(xlo+xdiff*0.5, ylo+ydiff*0.5, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='bottom'){
+    coord=xy2radec(xlo+xdiff*0.5, ylo+ydiff*0.15, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='bottomleft'){
+    coord=xy2radec(xlo+xdiff*0.15, ylo+ydiff*0.15, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='left'){
+    coord=xy2radec(xlo+xdiff*0.15, ylo+ydiff*0.5, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='topleft'){
+    coord=xy2radec(xlo+xdiff*0.15, ylo+ydiff*0.85, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='top'){
+    coord=xy2radec(xlo+xdiff*0.5, ylo+ydiff*0.85, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='topright'){
+    coord=xy2radec(xlo+xdiff*0.85, ylo+ydiff*0.85, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='right'){
+    coord=xy2radec(xlo+xdiff*0.85, ylo+ydiff*0.5, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  if(position=='bottomright'){
+    coord=xy2radec(xlo+xdiff*0.85, ylo+ydiff*0.15, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
+  }
+  
+  startra=coord[1]
+  startdec=coord[2]
+  
   coordlims=rbind(
     xy2radec(xlo, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
     xy2radec(xlo, yhi, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
@@ -203,24 +238,8 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
   rarange=range(coordlims[,1])
   decrange=range(coordlims[,2])
   
-  startra=rarange[2]-(rarange[2]-rarange[1])*0.5
-  startdec=decrange[2]-(decrange[2]-decrange[1])*0.5
-  
-  if (length(grep("bottom", position)) > 0) {
-    startdec=decrange[2]-(decrange[2]-decrange[1])*0.85
-  }
-  if (length(grep("left", position)) > 0) {
-    startra=rarange[2]-(rarange[2]-rarange[1])*0.15
-  }
-  if (length(grep("top", position)) > 0) {
-    startdec=decrange[2]-(decrange[2]-decrange[1])*0.15
-  }
-  if (length(grep("right", position)) > 0) {
-    startra=rarange[2]-(rarange[2]-rarange[1])*0.85
-  }
-  
-  endra=startra+(rarange[2]-rarange[1])*0.05
-  enddec=startdec+(decrange[2]-decrange[1])*0.05
+  endra=startra+abs(rarange[2]-rarange[1])*0.05
+  enddec=startdec+abs(decrange[2]-decrange[1])*0.05
   
   startxy=radec2xy(startra, startdec, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5-loc.diff
   endxyN=radec2xy(startra, enddec, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5-loc.diff
