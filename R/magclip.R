@@ -7,7 +7,7 @@ magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both'){
       oldlen=newlen
       roughmed=median(clipx, na.rm=TRUE)
       if(sigma=='auto'){
-        clipsigma=qnorm(1-2/newlen)
+        clipsigma=qnorm(1-2/max(newlen,2,na.rm=TRUE))
       }else{
         clipsigma=sigma
       }
@@ -21,9 +21,9 @@ magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both'){
         vallims=clipsigma*diff(quantile(clipx,pnorm(c(0,sigmasel)), na.rm=TRUE))/sigmasel
       }
       cliplogic=x>=(roughmed-vallims) & x<=(roughmed+vallims) & sel
-      clipx=x[cliplogic]
+      clipx=x[which(cliplogic)]
       newlen=length(clipx)
-      if(oldlen==newlen){break}
+      if(oldlen==newlen | newlen<=1){break}
     }
   }else{
     cliplogic=rep(TRUE,length(clipx))

@@ -40,7 +40,7 @@ magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5
   magimageWCSCompass(header=header, position=position, com.col=com.col, com.length=com.length, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
 }
 
-magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, type='sex', loc.diff=c(0,0), pretty=3600, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, type='sex', loc.diff=c(0,0), pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   xlo=min(par()$usr[1:2])+0.5+loc.diff[1]
   xhi=max(par()$usr[1:2])+0.5+loc.diff[1]
@@ -53,8 +53,16 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
     xy2radec(xhi, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
     xy2radec(xhi, yhi, header = header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   )
+  
   rarange=range(coordlims[,1])
   decrange=range(coordlims[,2])
+  
+  if(pretty=='auto'){
+    if(diff(rarange)>0.1){pretty=1}
+    if(diff(rarange)<0.1 & diff(rarange)>0.1/60){pretty=60}
+    if(diff(rarange)<0.1/60){pretty=3600}
+  }
+  
   if(type=='sex'){
     ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
     decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
@@ -63,6 +71,7 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
     ragrid=maglab(rarange, n=n)
     decgrid=maglab(decrange, n=n)
   }
+  
   for(ra in ragrid$tickat){
     tempxy=radec2xy(cbind(ra, seq(min(decgrid$tickat), max(decgrid$tickat), len=100)), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)-0.5
     tempxy[,1]=tempxy[,1]-loc.diff[1]
@@ -78,7 +87,7 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
   
 }
 
-magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, coord.axis='auto', pretty=3600, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
     if(type=='sex'){
@@ -124,6 +133,13 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
   
   rarange=range(coordlims[,1])
   decrange=range(coordlims[,2])
+  
+  if(pretty=='auto'){
+    if(diff(rarange)>0.1){pretty=1}
+    if(diff(rarange)<0.1 & diff(rarange)>0.1/60){pretty=60}
+    if(diff(rarange)<0.1/60){pretty=3600}
+  }
+  
   if(type=='sex'){
     ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
     decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
@@ -132,6 +148,7 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
     ragrid=maglab(rarange, n=n)
     decgrid=maglab(decrange, n=n)
   }
+  
   rapretty=ragrid$tickat
   rapretty=rapretty[rapretty>min(rarange) & rapretty<max(rarange)]
   decpretty=decgrid$tickat
