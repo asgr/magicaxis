@@ -273,11 +273,12 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   box=box/3600
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
+      imtype='FITSio'
       header=image$hdr
-      #header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
       image=image$imDat
     }
     if(any(names(image)=='dat') & missing(header)){
+      imtype='astro'
       header=image$hdr[[1]]
       header=data.frame(key=header[,1],value=header[,2], stringsAsFactors = FALSE)
       image=image$dat[[1]]
@@ -285,6 +286,7 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
     if(any(names(image)=='image') & missing(header)){
       header=image$header
       image=image$image
+      if(is.matrix(header)==TRUE){imtype='astro'}else{imtype='FITSio'}
     }
   }
   #Note below tempxy is FITS xy units, not R:
@@ -329,7 +331,7 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   if (yhi > dim(image)[2]) {
     yhi = dim(image)[2]
   }
-  image = image[xlo:xhi, ylo:yhi]
+  cut_image = image[xlo:xhi, ylo:yhi]
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
   xscale=abs(diff(xy2radec(c(xcen,xcen+1), c(ycen, ycen), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
@@ -337,20 +339,30 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   yscale=abs(diff(xy2radec(c(xcen, xcen), c(ycen, ycen+1), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
   yscale=sqrt(sum(yscale^2))
   loc.diff = c(xlo - 1, ylo - 1)
-  xlo=min(par()$usr[1:2])+0.5+loc.diff[1]
-  xhi=max(par()$usr[1:2])+0.5+loc.diff[1]
-  ylo=min(par()$usr[3:4])+0.5+loc.diff[2]
-  yhi=max(par()$usr[3:4])+0.5+loc.diff[2]
+  #xlo=min(par()$usr[1:2])+0.5+loc.diff[1]
+  #xhi=max(par()$usr[1:2])+0.5+loc.diff[1]
+  #ylo=min(par()$usr[3:4])+0.5+loc.diff[2]
+  #yhi=max(par()$usr[3:4])+0.5+loc.diff[2]
+  cut_xlo=1
+  cut_xhi=dim(cut_image)[1]
+  cut_ylo=1
+  cut_yhi=dim(cut_image)[2]
   usr.WCS=rbind(
     xy2radec(xlo, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
     xy2radec(xlo, yhi, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
     xy2radec(xhi, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2),
     xy2radec(xhi, yhi, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   )
-  usr.WCS=cbind(x.cut=c(min(par()$usr[1:2]),min(par()$usr[1:2]),max(par()$usr[1:2]),max(par()$usr[1:2])),
-                y.cut=c(min(par()$usr[3:4]),max(par()$usr[3:4]),min(par()$usr[3:4]),max(par()$usr[3:4])),
-                x.orig=c(min(par()$usr[1:2]),min(par()$usr[1:2]),max(par()$usr[1:2]),max(par()$usr[1:2]))+loc.diff[1],
-                y.orig=c(min(par()$usr[3:4]),max(par()$usr[3:4]),min(par()$usr[3:4]),max(par()$usr[3:4]))+loc.diff[2],
+  # usr.WCS=cbind(x.cut=c(min(par()$usr[1:2]),min(par()$usr[1:2]),max(par()$usr[1:2]),max(par()$usr[1:2])),
+  #               y.cut=c(min(par()$usr[3:4]),max(par()$usr[3:4]),min(par()$usr[3:4]),max(par()$usr[3:4])),
+  #               x.orig=c(min(par()$usr[1:2]),min(par()$usr[1:2]),max(par()$usr[1:2]),max(par()$usr[1:2]))+loc.diff[1],
+  #               y.orig=c(min(par()$usr[3:4]),max(par()$usr[3:4]),min(par()$usr[3:4]),max(par()$usr[3:4]))+loc.diff[2],
+  #               usr.WCS
+  #               )
+  usr.WCS=cbind(x.cut=c(cut_xlo-1, cut_xlo-1, cut_xhi, cut_xhi),
+                y.cut=c(cut_ylo-1, cut_yhi, cut_ylo-1, cut_yhi),
+                x.orig=c(xlo-1, xlo-1, xhi, xhi),
+                y.orig=c(ylo-1, yhi, ylo-1, yhi),
                 usr.WCS
                 )
   approx.map.RA=approxfun(seq(usr.WCS[1,'RA'],usr.WCS[4,'RA'],len=1e2),seq(usr.WCS[1,'x.cut'],usr.WCS[4,'x.cut'],len=1e2))
@@ -363,10 +375,15 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
     return=cbind(x=approx.map.RA(RA), y=approx.map.Dec(Dec))
   }
   if (plot) {
-    magimageWCS(image=image, header=header, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
+    magimageWCS(image=cut_image, header=header, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
   }
   if(!missing(header)){
-    if(length(dim(header))==2){
+    if(imtype=='FITSio'){
+      CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])-loc.diff[1]
+      CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])-loc.diff[2]
+      header[which(header=='CRPIX1')+1]=as.character(CRPIX1)
+      header[which(header=='CRPIX2')+1]=as.character(CRPIX2)
+    }else if(imtype=='astro'){
       CRPIX1=as.numeric(header[header[,1]=='CRPIX1',2])-loc.diff[1]
       CRPIX2=as.numeric(header[header[,1]=='CRPIX2',2])-loc.diff[2]
       header[header[,1]=='CRPIX1',2]=as.character(CRPIX1)
@@ -377,7 +394,7 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   }else{
     header=NULL
   }
-  output = list(image = image, loc = c(xcen.new, ycen.new), loc.orig = c(xcen, ycen), loc.diff = loc.diff, xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(xscale, yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
+  output = list(image = cut_image, loc = c(xcen.new, ycen.new), loc.orig = c(xcen, ycen), loc.diff = loc.diff, xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(xscale, yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
   return = output
 }
 
