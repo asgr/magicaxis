@@ -111,6 +111,8 @@ Aaron Robotham
 }
 \note{
 By R convention the bottom-left part of the bottom-left pixel when plotting the image matrix is c(0,0) and the top-right part of the bottom-left pixel is c(1,1), i.e. the mid-point of pixels are half integer values in x and y. This differs to the FITS convention of pixel mid points being integer values. As such the R [x,y] = FITS [x-0.5,y-0.5]. This rarely matters too much in practice, but for accurate overlays you will want to get it right (see Examples).
+
+It is ambiguous what the desired outcome is in some cutting scenarios, e.g. what should be returned if a 3x3 cutout is requested at the "centre" of a 8x8 image? For this reason, and to avoid unexpected results due to numerical precision, you should only cut out even pixel dimensions if integer pixel coordinates are provided, and odd pixel dimensions if half-integer pixel coordinates are provided. Regardless, the \option{loc} and \option{loc.orig} outputs will always help you locate the absolute coordinates of your desired cut out centre in both the cut out and the original image coordinate system.
 }
 \seealso{
 \code{\link{magimageWCS}}
@@ -136,9 +138,12 @@ print(magcutout(temp, dim(temp)/2, box=c(3,3))$loc)
 image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
 
 par(mar=c(3.1,3.1,1.1,1.1))
-magcutout(image$imDat, box=c(89,89), plot=TRUE)
-magcutoutWCS(image$imDat, image$hdr, plot=TRUE)
-magcutoutWCS(image, plot=TRUE)
+magcutout(image$imDat, loc=c(50.5,50.5), box=c(89,89), plot=TRUE)
+magcutoutWCS(image, loc=c(50.5,50.5), loc.type = 'image', plot=TRUE)
+
+#We can cut out using the coordinates instead:
+print({tempcoord=magWCSxy2radec(50.5,50.5,header=image$hdr)})
+magcutoutWCS(image, loc=tempcoord, plot=TRUE)
 
 #You can select coordinates too:
 
