@@ -1,6 +1,6 @@
 maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
                 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL,
-                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', ...){
+                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', scale=1, ...){
   
   if(!class(x)=='histogram'){
     if(!missing(xlim)){
@@ -56,6 +56,8 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
       out$mids=log10(out$mids)
     }
   }
+  
+  out$counts=out$counts*scale
   
   if(missing(xlim)){
     xlim=range(out$breaks)

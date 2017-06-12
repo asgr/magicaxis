@@ -4,12 +4,12 @@
 Magically pretty histograms
 }
 \description{
-A fairly simple function that produces pretty histograms. The main difference to base \code{\link{hist}} is that it allows for easy truncation of the data provided via \option{xlim}.
+A fairly simple function that produces pretty histograms. The main difference to base \code{\link{hist}} is that it allows for easy truncation of the data provided via \option{xlim} and useful logging options.
 }
 \usage{
 maghist(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL, ylim = NULL,
-plot = TRUE, verbose=TRUE, add=FALSE, log='', ...)
+plot = TRUE, verbose = TRUE, add = FALSE, log = '', scale = 1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -65,6 +65,9 @@ Logical, if TRUE the histogram will be added to the current plot. Be careful to 
 }
   \item{log}{
 Log axis arguments to be passed to hist and plot. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes. If the x axis is logged then the histogram will be calculated in log-space.
+}
+  \item{scale}{
+Numeric scalar; an additional scaling parameter to apply to the frequnecy counts. This is useful if you want to get the y axis in to certain units, e.g. the counts represent objects in 10 square degrees of sky, so to get the y-axis into units of N/sq.deg you would set \option{scale}=1/10.  
 }
   \item{\dots}{
 Arguments to be parsed to \code{\link{magplot}}.
