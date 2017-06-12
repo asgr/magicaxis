@@ -9,7 +9,7 @@ A fairly simple function that produces pretty histograms. The main difference to
 \usage{
 maghist(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL, ylim = NULL,
-plot = TRUE, verbose = TRUE, add = FALSE, log = '', scale = 1, ...)
+plot = TRUE, verbose = TRUE, add = FALSE, log = '', scale = 1, cumsum = FALSE,  ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
