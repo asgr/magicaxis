@@ -69,6 +69,9 @@ Log axis arguments to be passed to hist and plot. E.g. use 'x', 'y', 'xy' or 'yx
   \item{scale}{
 Numeric scalar; an additional scaling parameter to apply to the frequnecy counts. This is useful if you want to get the y axis in to certain units, e.g. the counts represent objects in 10 square degrees of sky, so to get the y-axis into units of N/sq.deg you would set \option{scale}=1/10.  
 }
+\item{cumsum}{
+Logical; if FALSE (default) then \option{counts} and \option{density} are totals for the current bin (usual sense of a histogram), if TRUE then \option{counts} and \option{density} are cumulative totals of all counts up to and including the current bin (always from lowest \option{x} upwards).
+}
   \item{\dots}{
 Arguments to be parsed to \code{\link{magplot}}.
 }
