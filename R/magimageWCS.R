@@ -58,9 +58,9 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
   decrange=range(coordlims[,2])
   
   if(pretty=='auto'){
-    if(diff(rarange)>0.1){pretty=1}
-    if(diff(rarange)<0.1 & diff(rarange)>0.1/60){pretty=60}
-    if(diff(rarange)<0.1/60){pretty=3600}
+    if(diff(rarange)>0.5){pretty=1}
+    if(diff(rarange)<0.5 & diff(rarange)>0.5/60){pretty=60}
+    if(diff(rarange)<0.5/60){pretty=3600}
   }
   
   if(type=='sex'){
@@ -135,9 +135,9 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
   decrange=range(coordlims[,2])
   
   if(pretty=='auto'){
-    if(diff(rarange)>0.1){pretty=1}
-    if(diff(rarange)<0.1 & diff(rarange)>0.1/60){pretty=60}
-    if(diff(rarange)<0.1/60){pretty=3600}
+    if(diff(rarange)>0.5){pretty=1}
+    if(diff(rarange)<0.5 & diff(rarange)>0.5/60){pretty=60}
+    if(diff(rarange)<0.5/60){pretty=3600}
   }
   
   if(type=='sex'){
@@ -265,14 +265,14 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
   arrows(startxy[1,1], startxy[1,2], endxyN[1,1], endxyN[1,2], length=com.length, col=com.col, ...)
   arrows(startxy[1,1], startxy[1,2], endxyE[1,1], endxyE[1,2], length=com.length, col=com.col, ...)
   
-  endra=startra+abs(rarange[2]-rarange[1])*0.06
-  enddec=startdec+abs(decrange[2]-decrange[1])*0.06
+  endra=startra+abs(rarange[2]-rarange[1])*0.065
+  enddec=startdec+abs(decrange[2]-decrange[1])*0.065
   
   endxyN=magWCSradec2xy(startra, enddec, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, loc.diff=loc.diff)
   endxyE=magWCSradec2xy(endra, startdec, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, loc.diff=loc.diff)
   
-  text(endxyN[1,1], endxyN[1,2], labels='N', col=com.col, adj=c(0.5,0))
-  text(endxyE[1,1], endxyE[1,2], labels='E', col=com.col, adj=c(0,0.5))
+  text(endxyN[1,1], endxyN[1,2], labels='N', col=com.col, adj=c(0.5,0.5))
+  text(endxyE[1,1], endxyE[1,2], labels='E', col=com.col, adj=c(0.5,0.5))
 }
 
 magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, unit='deg', sep=':', loc.type='coord', ...){
