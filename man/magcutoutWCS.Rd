@@ -13,10 +13,10 @@ Functions to subset both raw images and images with associated WCS systems.
 \usage{
 magcutout(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, ...)
 magcutoutWCS(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1 = 0, CRVAL2 = 0,
-CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, unit = "deg",
+CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, coord.type = "deg",
 sep = ":", loc.type='coord', ...)
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0), unit = "deg", sep = ":")
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0), coord.type = "deg", sep = ":")
 magWCSxy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
 CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0))
 }
@@ -75,11 +75,11 @@ FITS header CD2_1 for the Tan Gnomonic projection system. Change in Dec-Tan in d
   \item{CD2_2}{
 FITS header CD2_2 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along y-Axis.
 }
-  \item{unit}{
+  \item{coord.type}{
 The units of \option{loc} for \code{magcutoutWCS}. Allowed options are 'deg' for degress and 'sex' for sexigesimal (i.e. HMS for RA and DMS for Deg).
 }
   \item{sep}{
-When \option{unit}='sex', \option{sep} defines the type of separator used for the HMS and DMS strings (i.e. H:M:S and D:M:S would be sep=':', which is the default). See \code{\link{hms2deg}} and  \code{\link{dms2deg}} for more details.
+When \option{coord.type}='sex', \option{sep} defines the type of separator used for the HMS and DMS strings (i.e. H:M:S and D:M:S would be sep=':', which is the default). See \code{\link{hms2deg}} and  \code{\link{dms2deg}} for more details.
 }
   \item{loc.type}{
 Character scalar; specifies what type of location is being provided. Either it is WCS in degrees [RA,Dec] (coord) or  pixel [x,y] of the \option{image} (image).  
@@ -148,7 +148,7 @@ magcutoutWCS(image, loc=tempcoord, plot=TRUE)
 #You can select coordinates too:
 
 magcutoutWCS(image, loc=c(352.29167, -31.827777), plot=TRUE)$loc.WCS
-magcutoutWCS(image, loc=c("23:29:10", "-31:49:40"), unit = 'sex',
+magcutoutWCS(image, loc=c("23:29:10", "-31:49:40"), coord.type = 'sex',
 plot=TRUE)$loc.WCS
 
 #We can add RA Dec specific decorations easily:

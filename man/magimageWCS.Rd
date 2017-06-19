@@ -12,15 +12,15 @@ These functions add various WCS information to R images. It is particularly desi
 }
 \usage{
 magimageWCS(image, header, n, grid.col = "grey", grid.lty = 2, grid.lwd = 0.5,
-lab.col = "green", type = "sex", margin = TRUE, loc.diff = c(0, 0),
+lab.col = "green", coord.type = "sex", margin = TRUE, loc.diff = c(0, 0),
 xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0), mtline = 2,
 position = "topright", com.col = "green", com.length = 0.05, coord.axis='auto',
 pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, ...)
 magimageWCSGrid(header, n, grid.col = "grey", grid.lty = 1, grid.lwd = 1,
-type = "sex", loc.diff = c(0, 0), pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0,
-CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
-magimageWCSLabels(header, n, lab.col = "green", type = "sex", margin = TRUE,
+coord.type = "sex", loc.diff = c(0, 0), pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0,
+CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
+magimageWCSLabels(header, n, lab.col = "green", coord.type = "sex", margin = TRUE,
 loc.diff = c(0, 0), xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0),
 mtline = 2, coord.axis='auto', pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0,
 CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
@@ -51,7 +51,7 @@ The line width of the overlaid grid lines.
   \item{lab.col}{
 The colour of the labels when \option{margin}=FALSE.
 }
-  \item{type}{
+  \item{coord.type}{
 Should the labels be drawn using degrees (deg) or colon delimited sexigesimal (sex).
 }
   \item{margin}{
@@ -61,10 +61,10 @@ Should the labels be drawn in the outer margin region (default).
 The pixel offset to apply. Only relevant if the image being plotted is a cutout from within a FITS legal image.
 }
   \item{xlab}{
-x axis name. If left as default either H:M:S or D:M:S (\option{type}='sex') or deg (\option{type}='deg') will be appended.
+x axis name. If left as default either H:M:S or D:M:S (\option{coord.type}='sex') or deg (\option{coord.type}='deg') will be appended.
 }
   \item{ylab}{
-y axis name. If left as default either H:M:S or D:M:S (\option{type}='sex') or deg (\option{type}='deg') will be appended.
+y axis name. If left as default either H:M:S or D:M:S (\option{coord.type}='sex') or deg (\option{coord.type}='deg') will be appended.
 }
   \item{mgp}{
 The margin line (in mex units) for the axis title, axis labels and axis line. This has different (i.e. prettier) defaults than R of c(2,0.5,0) rather than c(3,1,0). This pushes the numbers and labels nearer to the plot compared to the defaults. For \option{margin}=FALSE \option{mgp} = -\option{mgp} - 3, which has the effect of shifting the tick labels nicely inside the margin.
@@ -145,13 +145,13 @@ magimageWCS(image)
 
 par(mar=c(3.1,3.1,1.1,1.1))
 magimageWCS(image)
-magimageWCS(image, type='deg')
+magimageWCS(image, coord.type='deg')
 
 #Now removing the margins and putting labels inside the image:
 
 par(mar=c(0,0,0,0))
 magimageWCS(image, margin=FALSE)
-magimageWCS(image, margin=FALSE, type='deg')
+magimageWCS(image, margin=FALSE, coord.type='deg')
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

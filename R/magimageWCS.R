@@ -1,18 +1,18 @@
-magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
-    if(type=='sex'){
+    if(coord.type=='sex'){
       xlab=paste(xlab,'/ H:M:S')
     }
-    if(type=='deg'){
+    if(coord.type=='deg'){
       xlab=paste(xlab,'/ deg')
     }
   }
   if(missing(ylab)){
-    if(type=='sex'){
+    if(coord.type=='sex'){
       ylab=paste(ylab,'/ D:M:S')
     }
-    if(type=='deg'){
+    if(coord.type=='deg'){
       ylab=paste(ylab,'/ deg')
     }
   }
@@ -35,12 +35,12 @@ magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5
     magimage(image, axes=FALSE, ...)
     box()
   }
-  magimageWCSGrid(header=header, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, type=type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  magimageWCSLabels(header=header, n=n, lab.col=lab.col, type=type, margin=margin, loc.diff=loc.diff, xlab=xlab, ylab=ylab, mgp=mgp, mtline=mtline, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  magimageWCSGrid(header=header, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, coord.type=coord.type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  magimageWCSLabels(header=header, n=n, lab.col=lab.col, coord.type=coord.type, margin=margin, loc.diff=loc.diff, xlab=xlab, ylab=ylab, mgp=mgp, mtline=mtline, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   magimageWCSCompass(header=header, position=position, com.col=com.col, com.length=com.length, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
 }
 
-magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, type='sex', loc.diff=c(0,0), pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, coord.type='sex', loc.diff=c(0,0), pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   xlo=min(par()$usr[1:2])
   xhi=max(par()$usr[1:2])
@@ -63,11 +63,11 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
     if(diff(rarange)<0.5/60){pretty=3600}
   }
   
-  if(type=='sex'){
+  if(coord.type=='sex'){
     ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
     decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
   }
-  if(type=='deg'){
+  if(coord.type=='deg'){
     ragrid=maglab(rarange, n=n)
     decgrid=maglab(decrange, n=n)
   }
@@ -87,21 +87,21 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, typ
   
 }
 
-magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSLabels=function(header, n, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
-    if(type=='sex'){
+    if(coord.type=='sex'){
       xlab=paste(xlab,'/ H:M:S')
     }
-    if(type=='deg'){
+    if(coord.type=='deg'){
       xlab=paste(xlab,'/ deg')
     }
   }
   if(missing(ylab)){
-    if(type=='sex'){
+    if(coord.type=='sex'){
       ylab=paste(ylab,'/ D:M:S')
     }
-    if(type=='deg'){
+    if(coord.type=='deg'){
       ylab=paste(ylab,'/ deg')
     }
   }
@@ -140,11 +140,11 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
     if(diff(rarange)<0.5/60){pretty=3600}
   }
   
-  if(type=='sex'){
+  if(coord.type=='sex'){
     ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
     decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
   }
-  if(type=='deg'){
+  if(coord.type=='deg'){
     ragrid=maglab(rarange, n=n)
     decgrid=maglab(decrange, n=n)
   }
@@ -154,7 +154,7 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
   decpretty=decgrid$tickat
   decpretty=decpretty[decpretty>min(decrange) & decpretty<max(decrange)]
   if(margin==FALSE){
-    if(type=='sex'){
+    if(coord.type=='sex'){
       tempxy=magWCSradec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
@@ -165,7 +165,7 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(decaxis, at=tempxy[,decaxis], labels = deg2dms(decpretty[-1], type='cat', digits=0), mgp=-mgp-3, tick=FALSE, col.axis=lab.col, ...)
     }
-    if(type=='deg'){
+    if(coord.type=='deg'){
       tempxy=magWCSradec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
@@ -179,7 +179,7 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
     mtext(xlab, raaxis, line = -mtline, col=lab.col)
     mtext(ylab, decaxis, line = -mtline, col=lab.col)
   }else{
-    if(type=='sex'){
+    if(coord.type=='sex'){
       tempxy=magWCSradec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
@@ -190,7 +190,7 @@ magimageWCSLabels=function(header, n, lab.col='green', type='sex', margin=TRUE, 
       tempxy[,2]=tempxy[,2]-loc.diff[2]
       axis(decaxis, tempxy[,decaxis], labels=deg2dms(decpretty, type='cat', digits=0), mgp=mgp, tick=FALSE, ...)
     }
-    if(type=='deg'){
+    if(coord.type=='deg'){
       tempxy=magWCSradec2xy(cbind(rapretty, coordlims[1,2]), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
       tempxy[,1]=tempxy[,1]-loc.diff[1]
       tempxy[,2]=tempxy[,2]-loc.diff[2]
@@ -275,7 +275,7 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
   text(endxyE[1,1], endxyE[1,2], labels='E', col=com.col, adj=c(0.5,0.5))
 }
 
-magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, unit='deg', sep=':', loc.type='coord', ...){
+magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type='coord', ...){
   box=box/3600
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
@@ -304,7 +304,7 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
     tempxy=cbind(dim(image)[1]/2, dim(image)[2]/2)
   }else{
     if(loc.type=='coord'){
-      if(unit=='sex'){loc[1]=hms2deg(loc[1],sep=sep); loc[2]=dms2deg(loc[2],sep=sep)}
+      if(coord.type=='sex'){loc[1]=hms2deg(loc[1],sep=sep); loc[2]=dms2deg(loc[2],sep=sep)}
       loc=as.numeric(loc)
       tempxy=magWCSradec2xy(loc[1], loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
     }else if(loc.type=='image'){
@@ -398,12 +398,12 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   return = output
 }
 
-magWCSradec2xy=function(RA, Dec, header, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, loc.diff=c(0,0), unit='deg', sep=':'){
+magWCSradec2xy=function(RA, Dec, header, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, loc.diff=c(0,0), coord.type='deg', sep=':'){
   if(length(dim(RA)) == 2){
     Dec = RA[, 2]
     RA = RA[, 1]
   }
-  if(unit=='sex'){RA=hms2deg(RA,sep=sep); Dec=dms2deg(Dec,sep=sep)}
+  if(coord.type=='sex'){RA=hms2deg(RA,sep=sep); Dec=dms2deg(Dec,sep=sep)}
   RA = as.numeric(RA)
   Dec = as.numeric(Dec)
   
