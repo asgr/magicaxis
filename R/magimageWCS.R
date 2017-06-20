@@ -328,17 +328,22 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   ytemp=sort(c(ylo,yhi))
   ylo=ceiling(ytemp[1])
   yhi=ceiling(ytemp[2])
+  box=c(xhi-xlo+1,yhi-ylo+1)
   if (xlo < 1) {
     xlo = 1
+    xhi = xlo + (box[1] - 1)
   }
   if (xhi > dim(image)[1]) {
     xhi = dim(image)[1]
+    xlo = xhi - (box[1] - 1)
   }
   if (ylo < 1) {
     ylo = 1
+    yhi = ylo + (box[2] - 1)
   }
   if (yhi > dim(image)[2]) {
     yhi = dim(image)[2]
+    ylo = yhi - (box[2] - 1)
   }
   cut_image = image[xlo:xhi, ylo:yhi]
   xcen.new=xcen-xlo+1

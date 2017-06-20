@@ -76,15 +76,19 @@ magcutout=function(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, .
   yhi = ceiling(loc[2] + (box[2]/2 - 0.5))
   if (xlo < 1) {
     xlo = 1
+    xhi = xlo + (box[1] - 1)
   }
   if (xhi > dim(image)[1]) {
     xhi = dim(image)[1]
+    xlo = xhi - (box[1] - 1)
   }
   if (ylo < 1) {
     ylo = 1
+    yhi = ylo + (box[2] - 1)
   }
   if (yhi > dim(image)[2]) {
     yhi = dim(image)[2]
+    ylo = yhi - (box[2] - 1)
   }
   image = image[xlo:xhi, ylo:yhi]
   output = list(image = image, loc = c(xcen - xlo + 1, ycen -  ylo + 1), loc.orig = c(xcen, ycen), loc.diff = c(xlo-1, ylo-1), xsel = xlo:xhi, ysel = ylo:yhi)
