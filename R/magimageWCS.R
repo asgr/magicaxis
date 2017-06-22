@@ -292,10 +292,10 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
     if(any(names(image)=='image') & missing(header)){
       header=image$header
       image=image$image
-      if(is.matrix(header)==TRUE){imtype='astro'}else{imtype='FITSio'}
+      if(is.matrix(header) | is.data.frame(header)){imtype='astro'}else{imtype='FITSio'}
     }
     if(!missing(header)){
-      if(is.matrix(header)==TRUE){imtype='astro'}else{imtype='FITSio'}
+      if(is.matrix(header) | is.data.frame(header)){imtype='astro'}else{imtype='FITSio'}
     }
   }
   #Note below tempxy is R xy units, not FITS:
@@ -399,7 +399,7 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   }else{
     header=NULL
   }
-  output = list(image = cut_image, loc = c(xcen.new, ycen.new), loc.orig = c(xcen, ycen), loc.diff = loc.diff, xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(xscale, yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
+  output = list(image = cut_image, loc = c(x=xcen.new, y=ycen.new), loc.orig = c(x=xcen, y=ycen), loc.diff = loc.diff, xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(RA=xscale, Dec=yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
   return = output
 }
 

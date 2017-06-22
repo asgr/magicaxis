@@ -91,7 +91,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, .
     ylo = yhi - (box[2] - 1)
   }
   image = image[xlo:xhi, ylo:yhi]
-  output = list(image = image, loc = c(xcen - xlo + 1, ycen -  ylo + 1), loc.orig = c(xcen, ycen), loc.diff = c(xlo-1, ylo-1), xsel = xlo:xhi, ysel = ylo:yhi)
+  output = list(image = image, loc = c(x=xcen-xlo+1, y=ycen-ylo+1), loc.orig = c(x=xcen, y=ycen), loc.diff = c(x=xlo-1, y=ylo-1), xsel = xlo:xhi, ysel = ylo:yhi)
   if (plot) {
     magimage(image, ...)
   }
