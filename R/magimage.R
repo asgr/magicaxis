@@ -80,7 +80,6 @@ magcutout=function(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, .
   }
   if (xhi > dim(image)[1]) {
     xhi = dim(image)[1]
-    xlo = xhi - (box[1] - 1)
   }
   if (ylo < 1) {
     ylo = 1
@@ -88,7 +87,6 @@ magcutout=function(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, .
   }
   if (yhi > dim(image)[2]) {
     yhi = dim(image)[2]
-    ylo = yhi - (box[2] - 1)
   }
   image = image[xlo:xhi, ylo:yhi]
   output = list(image = image, loc = c(x=xcen-xlo+1, y=ycen-ylo+1), loc.orig = c(x=xcen, y=ycen), loc.diff = c(x=xlo-1, y=ylo-1), xsel = xlo:xhi, ysel = ylo:yhi)
