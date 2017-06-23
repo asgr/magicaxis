@@ -315,13 +315,13 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   xcen = tempxy[1,1]
   ycen = tempxy[1,2]
   tempxy=magWCSradec2xy(loc[1]-box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  xlo = tempxy[1,1]
+  xlo = xcen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
   tempxy=magWCSradec2xy(loc[1]+box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  xhi = tempxy[1,1]
+  xhi = xcen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
   tempxy=radec2xy(loc[1], loc[2]-box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  ylo = tempxy[1,2]
+  ylo = ycen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
   tempxy=magWCSradec2xy(loc[1], loc[2]+box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  yhi = tempxy[1,2]
+  yhi = ycen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
   xtemp=sort(c(xlo,xhi))
   xlo=ceiling(xtemp[1])
   xhi=ceiling(xtemp[2])
@@ -335,7 +335,6 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   }
   if (xhi > dim(image)[1]) {
     xhi = dim(image)[1]
-    xlo = xhi - (box[1] - 1)
   }
   if (ylo < 1) {
     ylo = 1
@@ -343,7 +342,6 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
   }
   if (yhi > dim(image)[2]) {
     yhi = dim(image)[2]
-    ylo = yhi - (box[2] - 1)
   }
   cut_image = image[xlo:xhi, ylo:yhi]
   xcen.new=xcen-xlo+1
