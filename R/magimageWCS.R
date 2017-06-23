@@ -275,8 +275,8 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
   text(endxyE[1,1], endxyE[1,2], labels='E', col=com.col, adj=c(0.5,0.5))
 }
 
-magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type='coord', ...){
-  box=box/3600
+magcutoutWCS=function(image, header, loc, box = c(101, 101), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), ...){
+  if(length(loc.type)==1){loc.type=rep(loc.type,2)}
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
       imtype='FITSio'
@@ -303,32 +303,41 @@ magcutoutWCS=function(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1=
     loc=magWCSxy2radec(dim(image)[1]/2, dim(image)[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
     tempxy=cbind(dim(image)[1]/2, dim(image)[2]/2)
   }else{
-    if(loc.type=='coord'){
+    if(loc.type[1]=='coord'){
       if(coord.type=='sex'){loc[1]=hms2deg(loc[1],sep=sep); loc[2]=dms2deg(loc[2],sep=sep)}
       loc=as.numeric(loc)
       tempxy=magWCSradec2xy(loc[1], loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-    }else if(loc.type=='image'){
+    }else if(loc.type[1]=='image'){
       tempxy=rbind(loc)
       loc=magWCSxy2radec(loc[1], loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)[1,]
     }
   }
   xcen = tempxy[1,1]
   ycen = tempxy[1,2]
-  tempxy=magWCSradec2xy(loc[1]-box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  xlo = xcen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
-  tempxy=magWCSradec2xy(loc[1]+box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  xhi = xcen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
-  tempxy=radec2xy(loc[1], loc[2]-box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  ylo = ycen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
-  tempxy=magWCSradec2xy(loc[1], loc[2]+box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
-  yhi = ycen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
-  xtemp=sort(c(xlo,xhi))
-  xlo=ceiling(xtemp[1])
-  xhi=ceiling(xtemp[2])
-  ytemp=sort(c(ylo,yhi))
-  ylo=ceiling(ytemp[1])
-  yhi=ceiling(ytemp[2])
-  box=c(xhi-xlo+1,yhi-ylo+1)
+  if(loc.type[2]=='coord'){
+    box=box/3600
+    tempxy=magWCSradec2xy(loc[1]-box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+    xlo = xcen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
+    tempxy=magWCSradec2xy(loc[1]+box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+    xhi = xcen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
+    tempxy=radec2xy(loc[1], loc[2]-box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+    ylo = ycen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
+    tempxy=magWCSradec2xy(loc[1], loc[2]+box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+    yhi = ycen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
+    xtemp=sort(c(xlo,xhi))
+    xlo=ceiling(xtemp[1])
+    xhi=ceiling(xtemp[2])
+    ytemp=sort(c(ylo,yhi))
+    ylo=ceiling(ytemp[1])
+    yhi=ceiling(ytemp[2])
+    box=c(xhi-xlo+1,yhi-ylo+1)
+  }else{
+    loc = ceiling(c(xcen,ycen))
+    xlo = ceiling(loc[1] - (box[1]/2 - 0.5))
+    xhi = ceiling(loc[1] + (box[1]/2 - 0.5))
+    ylo = ceiling(loc[2] - (box[2]/2 - 0.5))
+    yhi = ceiling(loc[2] + (box[2]/2 - 0.5))
+  }
   if (xlo < 1) {
     xlo = 1
     xhi = xlo + (box[1] - 1)

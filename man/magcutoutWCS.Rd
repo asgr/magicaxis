@@ -12,9 +12,9 @@ Functions to subset both raw images and images with associated WCS systems.
 }
 \usage{
 magcutout(image, loc = dim(image)/2, box = c(101, 101), plot = FALSE, ...)
-magcutoutWCS(image, header, loc, box = c(30, 30), plot = FALSE, CRVAL1 = 0, CRVAL2 = 0,
+magcutoutWCS(image, header, loc, box = c(101, 101), plot = FALSE, CRVAL1 = 0, CRVAL2 = 0,
 CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, coord.type = "deg",
-sep = ":", loc.type='coord', ...)
+sep = ":", loc.type=c('coord','coord'), ...)
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
 CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0), coord.type = "deg", sep = ":")
 magWCSxy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
@@ -31,7 +31,7 @@ Full FITS header in table or vector format. Legal table format headers are provi
 Numeric vector; the [x,y] (\code{magcutout}) or [x,y] / [RA,Dec] (\code{magcutoutWCS}) location where we want to cutout the image. For \code{magcutoutWCS} the unit type can be specified with the \option{loc.type} option. Either it is WCS in degrees [RA,Dec] (coord) or  pixel [x,y] of the \option{image} (image).
 }
   \item{box}{
-Numeric vector; the dimensions of the box in pixels (\code{magcutout}) or asecs (\code{magcutoutWCS}) to cut out from \option{image} centred on \option{loc}.
+Numeric vector; the dimensions of the box in pixels (\code{magcutout}) or pixels/asec (\code{magcutoutWCS}) to cut out from \option{image} centred on \option{loc}.
 }
   \item{RA}{
 Vector or matrix; target right ascension in degrees. If matrix then the first column will be used as \option{RA} and the second column as \option{Dec}.  
@@ -82,7 +82,7 @@ The units of \option{loc} for \code{magcutoutWCS}. Allowed options are 'deg' for
 When \option{coord.type}='sex', \option{sep} defines the type of separator used for the HMS and DMS strings (i.e. H:M:S and D:M:S would be sep=':', which is the default). See \code{\link{hms2deg}} and  \code{\link{dms2deg}} for more details.
 }
   \item{loc.type}{
-Character scalar; specifies what type of location is being provided. Either it is WCS in degrees [RA,Dec] (coord) or  pixel [x,y] of the \option{image} (image).  
+Character vector; specifies what type of location is being provided. The first element specifies the coordinate type for \option{loc} and the second element is the coordinate type for \option{box}. Either it is WCS in degrees [RA,Dec] / asec ('coord') or  pixel [x,y] of the \option{image} ('image').  
 }
   \item{\dots}{
 Dots are parsed to either \code{\link{magimage}} (\code{magcutout}) or \code{\link{magimageWCS}} (\code{magcutoutWCS}).
@@ -138,7 +138,7 @@ print(magcutout(temp, dim(temp)/2, box=c(3,3))$loc)
 image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
 
 par(mar=c(3.1,3.1,1.1,1.1))
-magcutout(image$imDat, loc=c(50.5,50.5), box=c(89,89), plot=TRUE)
+magcutout(image$imDat, loc=c(50.5,50.5), plot=TRUE)
 magcutoutWCS(image, loc=c(50.5,50.5), loc.type = 'image', plot=TRUE)
 
 #We can cut out using the coordinates instead:
