@@ -275,7 +275,7 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
   text(endxyE[1,1], endxyE[1,2], labels='E', col=com.col, adj=c(0.5,0.5))
 }
 
-magcutoutWCS=function(image, header, loc, box = c(101, 101), plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), ...){
+magcutoutWCS=function(image, header, loc, box = c(101, 101), shiftloc=TRUE, paddim=TRUE, plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), ...){
   if(length(loc.type)==1){loc.type=rep(loc.type,2)}
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
@@ -333,26 +333,13 @@ magcutoutWCS=function(image, header, loc, box = c(101, 101), plot = FALSE, CRVAL
     box=c(xhi-xlo+1,yhi-ylo+1)
   }else{
     loc = ceiling(c(xcen,ycen))
-    xlo = ceiling(loc[1] - (box[1]/2 - 0.5))
-    xhi = ceiling(loc[1] + (box[1]/2 - 0.5))
-    ylo = ceiling(loc[2] - (box[2]/2 - 0.5))
-    yhi = ceiling(loc[2] + (box[2]/2 - 0.5))
   }
-  if (xlo < 1) {
-    xlo = 1
-    xhi = xlo + (box[1] - 1)
-  }
-  if (xhi > dim(image)[1]) {
-    xhi = dim(image)[1]
-  }
-  if (ylo < 1) {
-    ylo = 1
-    yhi = ylo + (box[2] - 1)
-  }
-  if (yhi > dim(image)[2]) {
-    yhi = dim(image)[2]
-  }
-  cut_image = image[xlo:xhi, ylo:yhi]
+  cutout = magcutout(image, loc = loc, box = box, shiftloc=shiftloc, paddim=paddim, plot = FALSE)
+  cut_image = cutout$image
+  xlo = cutout$xsel[1]
+  xhi = cutout$xsel[length(cutout$xsel)]
+  ylo = cutout$ysel[1]
+  yhi = cutout$ysel[length(cutout$ysel)]
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
   xscale=abs(diff(magWCSxy2radec(c(xcen,xcen+1), c(ycen, ycen), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
