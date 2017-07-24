@@ -193,6 +193,10 @@ Feature: Added lots of new WCS support functions, e.g. see magimageWCS.
 
 Small magproj fixes.
 
+v 2.0.3 (not on CRAN, on GitHub @ asgr/magicaxis)
+
+Feature: Added shiftloc and paddim arguments to magcutout and magcutoutWCS. Indented version number to make sure ProFit works okay.
+
 TO DO:
 
 FEATURE: Add better in-plot legends.
