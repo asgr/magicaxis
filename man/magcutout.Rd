@@ -11,9 +11,9 @@ Image Cutout Utilities
 Functions to subset both raw images and images with associated WCS systems.
 }
 \usage{
-magcutout(image, loc = dim(image)/2, box = c(101, 101), shiftloc = TRUE, paddim = TRUE,
+magcutout(image, loc = dim(image)/2, box = c(100, 100), shiftloc = TRUE, paddim = TRUE,
 plot = FALSE, ...)
-magcutoutWCS(image, header, loc, box = c(101, 101), shiftloc = TRUE, paddim = TRUE,
+magcutoutWCS(image, header, loc, box = c(100, 100), shiftloc = TRUE, paddim = TRUE,
 plot = FALSE, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, coord.type = "deg", sep = ":", loc.type=c('coord','coord'), ...)
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
