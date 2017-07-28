@@ -124,10 +124,11 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=TRUE, padd
   yhi = cutout$ysel[length(cutout$ysel)]
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
-  xscale=abs(diff(magWCSxy2radec(c(xcen,xcen+1), c(ycen, ycen), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
-  xscale=sqrt(sum(xscale^2))*cos(loc[2]*pi/180)
-  yscale=abs(diff(magWCSxy2radec(c(xcen, xcen), c(ycen, ycen+1), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
-  yscale=sqrt(sum(yscale^2))
+  # xscale=abs(diff(magWCSxy2radec(c(xcen,xcen+1), c(ycen, ycen), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
+  # xscale=sqrt(sum(xscale^2))*cos(loc[2]*pi/180)
+  # yscale=abs(diff(magWCSxy2radec(c(xcen, xcen), c(ycen, ycen+1), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
+  # yscale=sqrt(sum(yscale^2))
+  pixscale=getpixscale(header=header, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   loc.diff = c(xlo - 1, ylo - 1)
   cut_xlo=1
   cut_xhi=dim(cut_image)[1]
@@ -175,6 +176,6 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=TRUE, padd
   }else{
     header=NULL
   }
-  output = list(image = cut_image, loc = c(x=as.numeric(xcen.new), y=as.numeric(ycen.new)), loc.orig = c(x=as.numeric(xcen), y=as.numeric(ycen)), loc.diff = c(as.numeric(loc.diff[1]),as.numeric(loc.diff[2])), xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(RA=xscale, Dec=yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
+  output = list(image = cut_image, loc = c(x=as.numeric(xcen.new), y=as.numeric(ycen.new)), loc.orig = c(x=as.numeric(xcen), y=as.numeric(ycen)), loc.diff = c(as.numeric(loc.diff[1]),as.numeric(loc.diff[2])), xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=pixscale, usr.WCS=usr.WCS, approx.map=approx.map, header=header)
   return = output
 }
