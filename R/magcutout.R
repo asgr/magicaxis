@@ -112,6 +112,7 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=TRUE, padd
     ytemp=sort(c(ylo,yhi))
     ylo=ceiling(ytemp[1])
     yhi=ceiling(ytemp[2])
+    loc = ceiling(c(xcen,ycen))
     box=c(xhi-xlo+1,yhi-ylo+1)
   }else{
     loc = ceiling(c(xcen,ycen))
@@ -175,6 +176,6 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=TRUE, padd
   }else{
     header=NULL
   }
-  output = list(image = cut_image, loc = c(x=xcen.new, y=ycen.new), loc.orig = c(x=xcen, y=ycen), loc.diff = loc.diff, xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(RA=xscale, Dec=yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
+  output = list(image = cut_image, loc = c(x=as.numeric(xcen.new), y=as.numeric(ycen.new)), loc.orig = c(x=as.numeric(xcen), y=as.numeric(ycen)), loc.diff = c(as.numeric(loc.diff[1]),as.numeric(loc.diff[2])), xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=c(RA=xscale, Dec=yscale), usr.WCS=usr.WCS, approx.map=approx.map, header=header)
   return = output
 }
