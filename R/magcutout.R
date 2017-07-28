@@ -112,12 +112,11 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=TRUE, padd
     ytemp=sort(c(ylo,yhi))
     ylo=ceiling(ytemp[1])
     yhi=ceiling(ytemp[2])
-    loc = ceiling(c(xcen,ycen))
     box=c(xhi-xlo+1,yhi-ylo+1)
   }else{
-    loc = ceiling(c(xcen,ycen))
+    # Do nothing!
   }
-  cutout = magcutout(image, loc = loc, box = box, shiftloc=shiftloc, paddim=paddim, plot = FALSE)
+  cutout = magcutout(image, loc = c(xcen,ycen), box = box, shiftloc=shiftloc, paddim=paddim, plot = FALSE)
   cut_image = cutout$image
   xlo = cutout$xsel[1]
   xhi = cutout$xsel[length(cutout$xsel)]
