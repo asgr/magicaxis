@@ -160,16 +160,23 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=TRUE, padd
     magimageWCS(image=cut_image, header=header, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
   }
   if(!missing(header)){
+  	dimdiff = dim(cut_image)-dim(image)
+  	hdradd = list(CRPIX1 = -loc.diff[1], CRPIX2 = -loc.diff[2],
+			NAXIS1=dimdiff[1], NAXIS2=dimdiff[2])
     if(imtype=='FITSio'){
-      CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])-loc.diff[1]
-      CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])-loc.diff[2]
-      header[which(header=='CRPIX1')+1]=as.character(CRPIX1)
-      header[which(header=='CRPIX2')+1]=as.character(CRPIX2)
+    	for(hdrname in names(hdradd)){
+    		if(hdradd[[hdrname]] != 0){
+	    		hdrrow = which(header==hdrname)+1
+	    		header[hdrrow] = as.character(as.numeric(header[hdrrow]) + hdradd[[hdrname]])
+    		}
+    	}
     }else if(imtype=='astro'){
-      CRPIX1=as.numeric(header[header[,1]=='CRPIX1',2])-loc.diff[1]
-      CRPIX2=as.numeric(header[header[,1]=='CRPIX2',2])-loc.diff[2]
-      header[header[,1]=='CRPIX1',2]=as.character(CRPIX1)
-      header[header[,1]=='CRPIX2',2]=as.character(CRPIX2)
+    	for(hdrname in names(hdradd)){
+    		if(hdradd[[hdrname]] != 0){
+	    		hdrrow = which(header[,"key"]==hdrname)
+	    		header[hdrrow,"value"] = as.character(as.numeric(header[hdrrow,"value"]) + hdradd[[hdrname]])
+    		}
+    	}
     }else{
       header=NULL
     }
