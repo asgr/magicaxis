@@ -11,4 +11,4 @@ importFrom("graphics", "arrows", "axis", "box", "contour", "image", "mtext", "pa
            "plot", "plot.new", "plot.window", "rect", "text", "abline", "layout",
            "lines", "points", "polygon",  "hist")
 importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm", "ecdf", "qnorm")
-importFrom("celestial", "hms2deg", "dms2deg", "deg2hms", 'deg2dms', 'radec2xy', 'xy2radec')
+importFrom("celestial", "hms2deg", "dms2deg", "deg2hms", 'deg2dms', 'radec2xy', 'xy2radec', 'getpixscale')

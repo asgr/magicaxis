@@ -1,4 +1,4 @@
-magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=TRUE, paddim=TRUE, plot = FALSE, ...){
+magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE, paddim=TRUE, plot = FALSE, ...){
   loc = as.numeric(loc)
   xcen = loc[1]
   ycen = loc[2]

@@ -11,9 +11,9 @@ Image Cutout Utilities
 Functions to subset both raw images and images with associated WCS systems.
 }
 \usage{
-magcutout(image, loc = dim(image)/2, box = c(100, 100), shiftloc = TRUE, paddim = TRUE,
+magcutout(image, loc = dim(image)/2, box = c(100, 100), shiftloc = FALSE, paddim = TRUE,
 plot = FALSE, ...)
-magcutoutWCS(image, header, loc, box = c(100, 100), shiftloc = TRUE, paddim = TRUE,
+magcutoutWCS(image, header, loc, box = c(100, 100), shiftloc = FALSE, paddim = TRUE,
 plot = FALSE, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, coord.type = "deg", sep = ":", loc.type=c('coord','coord'), ...)
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
@@ -50,10 +50,10 @@ Vector; target y-pixel. Ignored if x is a matrix. Note this is the R convention 
 The pixel offset to apply. Only relevant if the image being plotted is a cutout from within a FITS legal image.
 }
 	\item{shiftloc}{
-Logical; should the cutout centre shift from \option{loc} if the desired \option{box} size extends beyond the edge of the image?
+Logical; should the cutout centre shift from \option{loc} away from the \option{image} edge if the desired \option{box} size extends beyond the edge of the \option{image}?
 }
 	\item{paddim}{
-Logical; should the cutout be padded with image data until it meets the desired \option{box} size (if \option{shiftloc} is true) or padded with NAs for data outside the image boundary otherwise?
+Logical; should the cutout be padded with \option{image} data until it meets the desired \option{box} size (if \option{shiftloc} is TRUE) or padded with NAs for data outside the \option{image} boundary otherwise?
 }
   \item{plot}{
 Logical; should a \code{\link{magimage}} (\code{magcutout}) or \code{\link{magimageWCS}} (\code{magcutoutWCS}) plot of the output be generated?
@@ -98,7 +98,7 @@ Dots are parsed to either \code{\link{magimage}} (\code{magcutout}) or \code{\li
 \details{
 These functions are on a level trivial, since it is easy to subset matrices and therefore images within R. However these functions track important properties of the subset region that makes it easy to track its location with respect to the original image. Also, they allow direct plotting of the resultant cutout with the most appropriate image functions. In many cases these functions will be used purely for their plotting side effects.
 
-The \option{shiftloc} and \option{paddim} control the behaviour of the function in the non-trivial case when the desired box size extendeds beyond the edge of the image. If \option{shiftloc} is FALSE, the cutout is guaranteed to be centred on the pixel specified by \option{loc}. Then, if \option{paddim} is FALSE, the cutout extends only as far as possible until it reaches the edge of the image; otherwise if \option{paddim} is TRUE the cutout image is padded with NAs in regions outside the supplied \option{image}. If \option{shiftloc} is TRUE, the centre of the cutout will be shifted. In this case, if \option{paddim} is FALSE, the cutout will extend at most half of the supplied \option{box} size from the given \option{loc}; otherwise if \option{paddim} is TRUE the cutout will be expanded until it reaches the desired \option{box} size or spans the entire image.
+The \option{shiftloc} and \option{paddim} control the behaviour of the function in the non-trivial case when the desired box size extendeds beyond the edge of the image. If \option{shiftloc} is FALSE (the default behaviour), the cutout is guaranteed to be centred on the pixel specified by \option{loc}. Then, if \option{paddim} is FALSE, the cutout extends only as far as possible until it reaches the edge of the image; otherwise if \option{paddim} is TRUE the cutout image is padded with NAs in regions outside the supplied \option{image} (the default behaviour). If \option{shiftloc} is TRUE, the centre of the cutout will be shifted. In this case, if \option{paddim} is FALSE, the cutout will extend at most half of the supplied \option{box} size from the given \option{loc}; otherwise if \option{paddim} is TRUE the cutout will be expanded until it reaches the desired \option{box} size or spans the entire image.
 
 Note that if \option{shiftloc} is TRUE and \option{paddim} is FALSE, the cutout can be larger than \option{box}; otherwise, the cutout is guaranteed to be no larger than the specified \option{box} size.
 }
