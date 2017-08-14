@@ -126,14 +126,14 @@ VISTA_K=readFITS(system.file("extdata", 'VISTA_K.fits', package="magicaxis"))
 VST_r=readFITS(system.file("extdata", 'VST_r.fits', package="magicaxis"))
 GALEX_NUV=readFITS(system.file("extdata", 'GALEX_NUV.fits', package="magicaxis"))
 
-magwarp(VST_r, GALEX_NUV$hdr, sat=0.5, plot=TRUE)
-magwarp(VISTA_K, GALEX_NUV$hdr, sat=0.5, plot=TRUE)
+magwarp(VST_r, GALEX_NUV$hdr, plot=TRUE)
+magwarp(VISTA_K, GALEX_NUV$hdr, plot=TRUE)
 
-magwarp(GALEX_NUV, VST_r$hdr, sat=0.5, plot=TRUE)
-magwarp(VISTA_K, VST_r$hdr, sat=0.5, plot=TRUE)
+magwarp(GALEX_NUV, VST_r$hdr, plot=TRUE)
+magwarp(VISTA_K, VST_r$hdr, plot=TRUE)
 
-magwarp(GALEX_NUV, VISTA_K$hdr, sat=0.5, plot=TRUE)
-magwarp(VST_r, VISTA_K$hdr, sat=0.5, plot=TRUE)
+magwarp(GALEX_NUV, VISTA_K$hdr, plot=TRUE)
+magwarp(VST_r, VISTA_K$hdr, plot=TRUE)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
