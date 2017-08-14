@@ -193,10 +193,12 @@ magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, n, grid.
     B=magwarp(image_in=B, header_out=header_out, header_in=Bheader)$image
   }
   
-  magimageRGB(R=R, G=G, B=B, axes=FALSE, ...)
+  output=magimageRGB(R=R, G=G, B=B, axes=FALSE, ...)
   box()
   
   magimageWCSGrid(header=header_out, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, coord.type=coord.type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   magimageWCSLabels(header=header_out, n=n, lab.col=lab.col, coord.type=coord.type, margin=margin, loc.diff=loc.diff, xlab=xlab, ylab=ylab, mgp=mgp, mtline=mtline, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   magimageWCSCompass(header=header_out, position=position, com.col=com.col, com.length=com.length, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  
+  return=output
 }

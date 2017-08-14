@@ -37,12 +37,13 @@ magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5
     }else if(any(names(image)=='image') & !missing(header)){
       image=image$image
     }
-    magimage(image, axes=FALSE, ...)
+    output=magimage(image, axes=FALSE, ...)
     box()
   }
   magimageWCSGrid(header=header, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, coord.type=coord.type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   magimageWCSLabels(header=header, n=n, lab.col=lab.col, coord.type=coord.type, margin=margin, loc.diff=loc.diff, xlab=xlab, ylab=ylab, mgp=mgp, mtline=mtline, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   magimageWCSCompass(header=header, position=position, com.col=com.col, com.length=com.length, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  return=output
 }
 
 magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, coord.type='sex', loc.diff=c(0,0), pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){

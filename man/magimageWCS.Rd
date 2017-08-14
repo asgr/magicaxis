@@ -152,7 +152,7 @@ Most people will be content to use the higher level \code{magimageWCS} function,
 \code{magimageWCSRGB} can be used in a few different ways, but the recommended route is to supply combined image and header list objects to the \option{R}, \option{G} and \option{B} arguments. If \option{header_out} is not supplied then by default it will project the three images onto the first available WCS header it finds searching \option{R}, \option{G} and \option{B} in order. If you are happy to map the colour image into the \option{R} WCS then you do not need to supply \option{header_out} at all. Note if image remapping is required (the images are different sizes or the headers differ) then the \code{imager} library will need to be installed in order to use \code{\link{magwarp}}.
 }
 \value{
-All functions are run for the side effect of plotting.
+Outputs the final image list containing x,y and z (\code{magimageWCS}) or R/G/B (\code{magimageWCSRGB}). Generally run for the side effect of producing rapid and well-scaled image plots.
 }
 \author{
 Aaron Robotham
