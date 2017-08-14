@@ -193,7 +193,7 @@ VST_r=readFITS(system.file("extdata", 'VST_r.fits', package="magicaxis"))
 GALEX_NUV=readFITS(system.file("extdata", 'GALEX_NUV.fits', package="magicaxis"))
 
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV)
-magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, sat=0.5)
+magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, saturation=0.5)
 
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, VISTA_K$hdr)
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, VST_r$hdr)
