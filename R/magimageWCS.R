@@ -20,16 +20,21 @@ magimageWCS=function(image, header, n, grid.col='grey', grid.lty=2, grid.lwd=0.5
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
       header=image$hdr
-      #header=data.frame(key=header[c(T,F)],value=header[c(F,T)], stringsAsFactors = FALSE)
+      image=image$imDat
+    }else if(any(names(image)=='imDat') & !missing(header)){
       image=image$imDat
     }
     if(any(names(image)=='dat') & missing(header)){
       header=image$hdr[[1]]
       header=data.frame(key=header[,1],value=header[,2], stringsAsFactors = FALSE)
       image=image$dat[[1]]
+    }else if(any(names(image)=='dat') & !missing(header)){
+      image=image$dat[[1]]
     }
     if(any(names(image)=='image') & missing(header)){
       header=image$header
+      image=image$image
+    }else if(any(names(image)=='image') & !missing(header)){
       image=image$image
     }
     magimage(image, axes=FALSE, ...)

@@ -8,7 +8,7 @@ Value remapper
 This function allows the use to remap a vector of values onto a different system. For instance you might have values stretching from -10 to 100 which you want mapped from 0 to 2/3 so you can then sue the output as an input for point colour or size. It allows clipping of values, rejection of bad values, and log stretching.
 }
 \usage{
-magmap(data, lo = 0, hi = 1, flip = FALSE, range = c(0, 2/3), type = "quan",
+magmap(data, locut = 0, hicut = 1, flip = FALSE, range = c(0, 2/3), type = "quan",
 stretch = 'lin', stretchscale=1, bad = NA, clip='')
 }
 %- maybe also 'usage' for other objects documented here.
@@ -16,10 +16,10 @@ stretch = 'lin', stretchscale=1, bad = NA, clip='')
   \item{data}{
 A vector of values. This can contain bad values (NA, NaN, infinite), but these will be ignored during mapping and set to the value of input parameter 'bad'.
 }
-  \item{lo}{
+  \item{locut}{
 The low limit to clip the data at (what this means varies depending on the 'type' option). This should be a single value.
 }
-  \item{hi}{
+  \item{hicut}{
 The high limit to clip the data at (what this means varies depending on the 'type' option). This should be a single value.
 }
   \item{flip}{

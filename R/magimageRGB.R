@@ -1,4 +1,4 @@
-magimageRGB<-function(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, lo=0.4, hi=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=range[1], clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...) {
+magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=range[1], clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...) {
   if(!missing(x)){
     if(is.list(x)){
       if('y' %in% names(x)){y=x$y}
@@ -47,13 +47,35 @@ magimageRGB<-function(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster=TR
     G=G[samplex,sampley]
     B=B[samplex,sampley]
   }
-  if(length(lo)<3){lo=rep(lo,3)}
-  if(length(hi)<3){hi=rep(hi,3)}
+  if(length(locut)<3){locut=rep(locut,3)}
+  if(length(hicut)<3){hicut=rep(hicut,3)}
   if(magmap){
-    R=magmap(data=R, lo=lo[1], hi=hi[1], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
-    G=magmap(data=G, lo=lo[2], hi=hi[2], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
-    B=magmap(data=B, lo=lo[3], hi=hi[3], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
+    R=magmap(data=R, locut=locut[1], hicut=hicut[1], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
+    G=magmap(data=G, locut=locut[2], hicut=hicut[2], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
+    B=magmap(data=B, locut=locut[3], hicut=hicut[3], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
   }
+  
+  if(saturation!=1){
+    Y=(R+G+B)/3
+    Ra=Y+saturation*(2*R-G-B)/3
+    Ga=Y+saturation*(2*G-R-B)/3
+    Ba=Y+saturation*(2*B-R-G)/3
+    rm(Y)
+    R=Ra
+    rm(Ra)
+    G=Ga
+    rm(Ga)
+    B=Ba
+    rm(Ba)
+  }
+  
+  R=R-min(R)
+  R=R/max(R)
+  G=G-min(G)
+  G=G/max(G)
+  B=B-min(B)
+  B=B/max(B)
+  
   image(x=x, y=y, z=matrix(1:length(R),dim(R)[1]), xlim=xlim, ylim=ylim, col=rgb(R,G,B), add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main='')
   if(add==FALSE){
     if(axes){
@@ -62,4 +84,119 @@ magimageRGB<-function(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster=TR
     }
   }
   return=list(x=x, y=y, R=R, G=G, B=B)
+}
+
+magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+  
+  if(missing(xlab)){
+    if(coord.type=='sex'){
+      xlab=paste(xlab,'/ H:M:S')
+    }
+    if(coord.type=='deg'){
+      xlab=paste(xlab,'/ deg')
+    }
+  }
+  if(missing(ylab)){
+    if(coord.type=='sex'){
+      ylab=paste(ylab,'/ D:M:S')
+    }
+    if(coord.type=='deg'){
+      ylab=paste(ylab,'/ deg')
+    }
+  }
+  
+  if(!missing(R)){
+    if(any(names(R)=='imDat')){
+      if(missing(Rheader)){
+        Rheader=R$hdr
+      }
+      R=R$imDat
+    }
+    if(any(names(R)=='dat')){
+      if(missing(Rheader)){
+        Rheader=R$hdr[[1]]
+        Rheader=data.frame(key=Rheader[,1],value=Rheader[,2], stringsAsFactors = FALSE)
+      }
+      R=R$dat[[1]]
+    }
+    if(any(names(R)=='image')){
+      if(missing(Rheader)){
+        Rheader=R$header
+      }
+      R=R$image
+    }
+  }
+  
+  if(!missing(G)){
+    if(any(names(G)=='imDat')){
+      if(missing(Gheader)){
+        Gheader=G$hdr
+      }
+      G=G$imDat
+    }
+    if(any(names(G)=='dat')){
+      if(missing(Gheader)){
+        Gheader=G$hdr[[1]]
+        Gheader=data.frame(key=Gheader[,1],value=Gheader[,2], stringsAsFactors = FALSE)
+      }
+      G=G$dat[[1]]
+    }
+    if(any(names(G)=='image')){
+      if(missing(Gheader)){
+        Gheader=G$header
+      }
+      G=G$image
+    }
+  }
+  
+  if(!missing(B)){
+    if(any(names(B)=='imDat')){
+      if(missing(Bheader)){
+        Bheader=B$hdr
+      }
+      B=B$imDat
+    }
+    if(any(names(B)=='dat')){
+      if(missing(Bheader)){
+        Bheader=B$hdr[[1]]
+        Bheader=data.frame(key=Bheader[,1],value=Bheader[,2], stringsAsFactors = FALSE)
+      }
+      B=B$dat[[1]]
+    }
+    if(any(names(B)=='image')){
+      if(missing(Bheader)){
+        Bheader=B$header
+      }
+      B=B$image
+    }
+  }
+  
+  if(missing(header_out)){
+    if(exists('Rheader')){
+      header_out=Rheader
+    }else if(exists('Gheader')){
+      header_out=Gheader
+    }else if(exists('Bheader')){
+      header_out=Bheader
+    }
+  }
+  
+  dowarp=FALSE
+  if(all(dim(R)==dim(G))==FALSE){dowarp=TRUE}
+  if(all(dim(R)==dim(B))==FALSE){dowarp=TRUE}
+  if(all(as.character(Rheader)==as.character(Gheader))==FALSE){dowarp=TRUE}
+  if(all(as.character(Rheader)==as.character(Gheader))==FALSE){dowarp=TRUE}
+  
+  if(dowarp){
+    R=magwarp(image_in=R, header_out=header_out, header_in=Rheader)$image
+    G=magwarp(image_in=G, header_out=header_out, header_in=Gheader)$image
+    B=magwarp(image_in=B, header_out=header_out, header_in=Bheader)$image
+  }
+  
+  magimageRGB(R=R, G=G, B=B, axes=FALSE, ...)
+  box()
+  
+  magimageWCSGrid(header=header_out, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, coord.type=coord.type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  magimageWCSLabels(header=header_out, n=n, lab.col=lab.col, coord.type=coord.type, margin=margin, loc.diff=loc.diff, xlab=xlab, ylab=ylab, mgp=mgp, mtline=mtline, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+  magimageWCSCompass(header=header_out, position=position, com.col=com.col, com.length=com.length, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
 }

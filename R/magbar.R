@@ -42,7 +42,7 @@ if(log){
 roughNscale=(max(legend$labat)-min(legend$labat))/(rangetemp[2]-rangetemp[1])
 if(clip=='bg'){clip='NA'}
 
-colremap=magmap(data=seq(min(legend$labat),max(legend$labat),length=length(col)*roughNscale),lo=rangetemp[1],hi=rangetemp[2],type='num',range=c(1,length(col)),clip=clip)$map
+colremap=magmap(data=seq(min(legend$labat),max(legend$labat),length=length(col)*roughNscale),locut=rangetemp[1],hicut=rangetemp[2],type='num',range=c(1,length(col)),clip=clip)$map
 col=col[round(colremap,digits=0)]
 
 if(orient=='v'){color.legend(xl,yb,xr,yt,legend=legend$exp,rect.col=col,cex=cex,align=align,gradient='y',...)}

@@ -10,13 +10,13 @@ Magically pretty images
 }
 \usage{
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
-useRaster = TRUE, asp = 1, magmap=TRUE, lo = 0.4, hi = 0.995, flip = FALSE,
+useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
 range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
 clip = "", axes = TRUE, frame.plot = TRUE, sparse='auto', ...)
-magimageRGB(x, y, R, G, B, zlim, xlim, ylim, add = FALSE, useRaster = TRUE, asp = 1,
-magmap = TRUE, lo = 0.4, hi = 0.995, flip = FALSE, range = c(0, 1), type = "quan",
-stretch = "asinh", stretchscale = "auto", bad = range[1], clip = "", axes = TRUE,
-frame.plot = TRUE, sparse='auto', ...) 
+magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
+useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
+range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = "auto", bad = range[1],
+clip = "", axes = TRUE, frame.plot = TRUE, sparse='auto', ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,6 +34,9 @@ A numeric or logical matrix containing the green colour values to be plotted (NA
 }
   \item{B}{
 A numeric or logical matrix containing the blue colour values to be plotted (NAs are allowed). Note that a 3D array x can be used instead of B for convenience, where B=x[,,3].
+}
+  \item{saturation}{
+The visual saturation of the colours, a bit like the dial on a TV. 1 is native, 0 is black and white, 2 is very intense nigh-on trippy.   
 }
   \item{zlim}{
 The z limit with respect to the output of magmap$map. If \option{magmap}=FALSE (default) \option{zlim} should be with respect to the provided z matrix (like base \code{image}). If \option{magmap}=TRUE \option{zlim} should be with respect to the \option{range} output of \code{magmap}. By default the \code{magmap} function scales between 0 and 1, so to only show the brighter pixels \option{zlim} could be set to c(0.5,1).
@@ -54,12 +57,12 @@ If TRUE a bitmap raster is used to plot the image instead of polygons. The grid 
 The y/x aspect ratio
 }
   \item{magmap}{
-  
+If TRUE then \code{\link{magmap}} scaling is applied to the z dimension (default), if FALSE then it is not.
 }
-  \item{lo}{
+  \item{locut}{
 The low limit to clip the z data at (what this means varies depending on the 'type' option). This can be a single value (used for R, G and B) or a vector of length 3 (used for R, G and B respectively). See \code{\link{magmap}} for more information.
 }
-  \item{hi}{
+  \item{hicut}{
 The high limit to clip the z data at (what this means varies depending on the 'type' option). This can be a single value (used for R, G and B) or a vector of length 3 (used for R, G and B respectively). See \code{\link{magmap}} for more information.
 }
   \item{flip}{

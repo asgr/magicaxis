@@ -1,5 +1,6 @@
 \name{magimageWCS}
 \alias{magimageWCS}
+\alias{magimageWCSRGB}
 \alias{magimageWCSGrid}
 \alias{magimageWCSLabels}
 \alias{magimageWCSCompass}
@@ -17,13 +18,22 @@ xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0), mtline = 2,
 position = "topright", com.col = "green", com.length = 0.05, coord.axis='auto',
 pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, ...)
+
+magimageWCSRGB(R, G, B, header_out, Rheader, Gheader, Bheader, n, grid.col='grey',
+grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0),
+xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright',
+com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0,
+CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...)
+
 magimageWCSGrid(header, n, grid.col = "grey", grid.lty = 1, grid.lwd = 1,
 coord.type = "sex", loc.diff = c(0, 0), pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0,
 CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
+
 magimageWCSLabels(header, n, lab.col = "green", coord.type = "sex", margin = TRUE,
 loc.diff = c(0, 0), xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0),
 mtline = 2, coord.axis='auto', pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0,
 CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
+
 magimageWCSCompass(header, position = "topright", com.col = "green", com.length = 0.05, 
 loc.diff = c(0, 0), CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, ...)
@@ -31,10 +41,31 @@ CD2_1 = 0, CD2_2 = 1, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{image}{
-Numeric matrix; required, the image we want to decorate. If \option{image} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of these lists is parsed to \option{image} and the correct header part is parsed to \option{header}.
+Numeric matrix; required, the image we want to decorate. If \option{image} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of the list is parsed to \option{image} and the correct header part is parsed to \option{header}.
 }
   \item{header}{
 Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
+}
+  \item{R}{
+Numeric matrix; containing the red colour values to be plotted (NAs are allowed). If \option{R} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of the list is parsed to \option{R} and the correct header part is parsed to \option{Rheader}.
+}
+  \item{G}{
+Numeric matrix; containing the green colour values to be plotted (NAs are allowed). If \option{G} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of the list is parsed to \option{G} and the correct header part is parsed to \option{Gheader}.
+}
+  \item{B}{
+Numeric matrix; containing the blue colour values to be plotted (NAs are allowed). If \option{B} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of the list is parsed to \option{B} and the correct header part is parsed to \option{Bheader}.
+}
+  \item{header_out}{
+Full FITS header in table or vector format. This is the target WCS projection that the RGB image will be mapped onto. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
+}
+  \item{Rheader}{
+Full \option{R} FITS header in table or vector format. It is usually easier to include the header with the \option{R} list input as described above.
+}
+  \item{Gheader}{
+Full \option{G} FITS header in table or vector format. It is usually easier to include the header with the \option{G} list input as described above.
+}
+  \item{Bheader}{
+Full \option{B} FITS header in table or vector format. It is usually easier to include the header with the \option{B} list input as described above.
 }
   \item{n}{
 The target number of major-axis sub-divisions. Will not necessarily be achieved.
@@ -112,11 +143,13 @@ FITS header CD2_1 for the Tan Gnomonic projection system. Change in Dec-Tan in d
 FITS header CD2_2 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along y-Axis.
 }
   \item{\dots}{
-These are parsed to \code{\link{magimage}} (\code{magimageWCS}), \code{\link{lines}} (\code{magimageWCSGrid}), \code{\link{axis}} (\code{magimageWCSLabels}) or \code{\link{arrows}} (\code{magimageWCSCompass}).
+These are parsed to \code{\link{magimage}}, (\code{magimageWCS}), \code{\link{magimageRGB}}, (\code{magimageWCSRGB}), \code{\link{lines}} (\code{magimageWCSGrid}), \code{\link{axis}} (\code{magimageWCSLabels}) or \code{\link{arrows}} (\code{magimageWCSCompass}).
 }
 }
 \details{
 Most people will be content to use the higher level \code{magimageWCS} function, which calls (in order) \code{magimage}, \code{magimageWCSGrid}, \code{magimageWCSLabels} and \code{magimageWCSCompass}.
+
+\code{magimageWCSRGB} can be used in a few different ways, but the recommended route is to supply combined image and header list objects to the \option{R}, \option{G} and \option{B} arguments. If \option{header_out} is not supplied then by default it will project the three images onto the first available WCS header it finds searching \option{R}, \option{G} and \option{B} in order. If you are happy to map the colour image into the \option{R} WCS then you do not need to supply \option{header_out} at all. Note if image remapping is required (the images are different sizes or the headers differ) then the \code{imager} library will need to be installed in order to use \code{\link{magwarp}}.
 }
 \value{
 All functions are run for the side effect of plotting.
@@ -152,6 +185,19 @@ magimageWCS(image, coord.type='deg')
 par(mar=c(0,0,0,0))
 magimageWCS(image, margin=FALSE)
 magimageWCS(image, margin=FALSE, coord.type='deg')
+
+#We can make a WCS colour image of mismatched images:
+
+VISTA_K=readFITS(system.file("extdata", 'VISTA_K.fits', package="magicaxis"))
+VST_r=readFITS(system.file("extdata", 'VST_r.fits', package="magicaxis"))
+GALEX_NUV=readFITS(system.file("extdata", 'GALEX_NUV.fits', package="magicaxis"))
+
+magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV)
+magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, sat=0.5)
+
+magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, VISTA_K$hdr)
+magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, VST_r$hdr)
+magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, GALEX_NUV$hdr)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
