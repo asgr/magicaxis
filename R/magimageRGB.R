@@ -86,7 +86,7 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
   return=list(x=x, y=y, R=R, G=G, B=B)
 }
 
-magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
+magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, direction = "auto", boundary = "dirichlet", interpolation = "cubic", n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...){
   
   if(missing(xlab)){
     if(coord.type=='sex'){
@@ -188,9 +188,9 @@ magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, n, grid.
   if(all(as.character(Rheader)==as.character(Gheader))==FALSE){dowarp=TRUE}
   
   if(dowarp){
-    R=magwarp(image_in=R, header_out=header_out, header_in=Rheader)$image
-    G=magwarp(image_in=G, header_out=header_out, header_in=Gheader)$image
-    B=magwarp(image_in=B, header_out=header_out, header_in=Bheader)$image
+    R=magwarp(image_in=R, header_out=header_out, header_in=Rheader, direction=direction, boundary=boundary, interpolation=interpolation)$image
+    G=magwarp(image_in=G, header_out=header_out, header_in=Gheader, direction=direction, boundary=boundary, interpolation=interpolation)$image
+    B=magwarp(image_in=B, header_out=header_out, header_in=Bheader, direction=direction, boundary=boundary, interpolation=interpolation)$image
   }
   
   output=magimageRGB(R=R, G=G, B=B, axes=FALSE, ...)

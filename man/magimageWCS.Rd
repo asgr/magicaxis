@@ -19,8 +19,9 @@ position = "topright", com.col = "green", com.length = 0.05, coord.axis='auto',
 pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, ...)
 
-magimageWCSRGB(R, G, B, header_out, Rheader, Gheader, Bheader, n, grid.col='grey',
-grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0),
+magimageWCSRGB(R, G, B, header_out, Rheader, Gheader, Bheader, direction = "auto",
+boundary = "dirichlet", interpolation = "cubic", n, grid.col='grey', grid.lty=2,
+grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0),
 xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright',
 com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0,
 CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...)
@@ -66,6 +67,15 @@ Full \option{G} FITS header in table or vector format. It is usually easier to i
 }
   \item{Bheader}{
 Full \option{B} FITS header in table or vector format. It is usually easier to include the header with the \option{B} list input as described above.
+}
+  \item{direction}{
+Only used if re-mapping via \code{\link{magwarp}}. "auto" (default), "forward" or "backward", see \code{imwarp}. Since it is usally better to go from the higher resolution image and map this onto the lower resolution grid, "auto" selects the better direction given the pixel scales recovered from the header information.
+}
+  \item{boundary}{
+Only used if re-mapping via \code{\link{magwarp}}. Boundary conditions: "dirichlet", "neumann", "periodic" (default "dirichlet"), see \code{imwarp}
+}
+  \item{interpolation}{
+Only used if re-mapping via \code{\link{magwarp}}. "nearest", "linear", "cubic" (default "linear"), see \code{imwarp}
 }
   \item{n}{
 The target number of major-axis sub-divisions. Will not necessarily be achieved.

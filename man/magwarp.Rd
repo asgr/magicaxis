@@ -8,7 +8,7 @@ Remap Image WCS via Warping
 Remaps an input WCS Tan Gnomonic projection system to a different target WCS.
 }
 \usage{
-magwarp(image_in, header_out = NULL, header_in = NULL, dim_out, direction = "backward",
+magwarp(image_in, header_out = NULL, header_in = NULL, dim_out, direction = "auto",
 boundary = "dirichlet", interpolation = "cubic", CRVAL1_in = 0, CRVAL2_in = 0,
 CRPIX1_in = 0, CRPIX2_in = 0, CD1_1_in = 1, CD1_2_in = 0, CD2_1_in = 0, CD2_2_in = 1,
 CRVAL1_out = 0, CRVAL2_out = 0, CRPIX1_out = 0, CRPIX2_out = 0, CD1_1_out = 1,
@@ -29,7 +29,7 @@ Full FITS header in table or vector format. This should be the header WCS that m
 Integer vector; this defines the desired dimensions of the output image. If this is not provided then the output image is made to be the same size as the NAXIS1 and NAXIS2 arguments taken from \option{header_out} (which is usually what you will want TBH).
 }
   \item{direction}{
-"forward" or "backward" (default "forward"), see \code{imwarp}
+"auto" (default), "forward" or "backward", see \code{imwarp}. Since it is usally better to go from the higher resolution image and map this onto the lower resolution grid, "auto" selects the better direction given the pixel scales recovered from the header information.
 }
   \item{boundary}{
 boundary conditions: "dirichlet", "neumann", "periodic" (efault "dirichlet"), see \code{imwarp}

@@ -1,4 +1,4 @@
-magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction = "backward", boundary = "dirichlet", interpolation = "cubic", CRVAL1_in = 0, CRVAL2_in = 0, CRPIX1_in = 0, CRPIX2_in = 0, CD1_1_in = 1, CD1_2_in = 0, CD2_1_in = 0, CD2_2_in = 1, CRVAL1_out = 0, CRVAL2_out = 0, CRPIX1_out = 0, CRPIX2_out = 0, CD1_1_out = 1, CD1_2_out = 0, CD2_1_out = 0, CD2_2_out = 1, plot=FALSE, ...){
+magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction = "auto", boundary = "dirichlet", interpolation = "cubic", CRVAL1_in = 0, CRVAL2_in = 0, CRPIX1_in = 0, CRPIX2_in = 0, CD1_1_in = 1, CD1_2_in = 0, CD2_1_in = 0, CD2_2_in = 1, CRVAL1_out = 0, CRVAL2_out = 0, CRPIX1_out = 0, CRPIX2_out = 0, CD1_1_out = 1, CD1_2_out = 0, CD2_1_out = 0, CD2_2_out = 1, plot=FALSE, ...){
   
   if(!requireNamespace("imager", quietly = TRUE)){
     stop('The imager package is needed for this function to work. Please install it from CRAN.', call. = FALSE)
@@ -58,7 +58,12 @@ magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction =
   pixscale_in=getpixscale(header_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
   pixscale_out=getpixscale(header_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
   scale=pixscale_out^2/pixscale_in^2
-    
+  
+  if(direction=='auto'){
+    if(pixscale_in<pixscale_out){direction='forward'}
+    if(pixscale_in>=pixscale_out){direction='backward'}
+  }
+  
   if(direction=='forward'){
     out=imager::imwarp(im=imager::as.cimg(image_out), map=.warpfunc_in2out, direction = direction, coordinates = "absolute",
   boundary = boundary, interpolation = interpolation)
