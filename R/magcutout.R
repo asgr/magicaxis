@@ -44,15 +44,25 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   }
   xsel = xlo:xhi
   ysel = ylo:yhi
-  image = image[xsel, ysel]
-  if(paddim && !shiftloc && any(c(diffxlo,-diffxhi,diffylo,-diffyhi) < 0)) {
-  	padded = matrix(NA,box[1],box[2])
-  	padded[xsel-diffxlo,ysel-diffylo] = image
-  	image = padded
+  
+  if(xsel[2]==0 | ysel[2]==0){
+    image=matrix(NA,box[1],box[2])
+  }else{
+    image = image[xsel, ysel]
+    if(paddim && !shiftloc && any(c(diffxlo,-diffxhi,diffylo,-diffyhi) < 0)) {
+    	padded = matrix(NA,box[1],box[2])
+    	padded[xsel-diffxlo,ysel-diffylo] = image
+    	image = padded
+    }
   }
   output = list(image = image, loc = c(x=xcen-xlo+1, y=ycen-ylo+1), loc.orig = c(x=xcen, y=ycen), loc.diff = c(x=xlo-1, y=ylo-1), xsel = xsel, ysel = ysel)
   if (plot) {
-    magimage(image, ...)
+    if(all(is.na(image))){
+      image[]=0
+      magimage(image, ...)
+    }else{
+      magimage(image, ...)
+    }
   }
   return = output
 }
@@ -156,9 +166,7 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
     }
     return=cbind(x=approx.map.RA(RA), y=approx.map.Dec(Dec))
   }
-  if (plot) {
-    magimageWCS(image=cut_image, header=header, loc.diff=loc.diff, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
-  }
+  
   if(!missing(header)){
   	dimdiff = dim(cut_image)-dim(image)
   	hdradd = list(CRPIX1 = -loc.diff[1], CRPIX2 = -loc.diff[2],
@@ -183,6 +191,18 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
   }else{
     header=NULL
   }
+  
   output = list(image = cut_image, loc = c(x=as.numeric(xcen.new), y=as.numeric(ycen.new)), loc.orig = c(x=as.numeric(xcen), y=as.numeric(ycen)), loc.diff = c(as.numeric(loc.diff[1]),as.numeric(loc.diff[2])), xsel = xlo:xhi, ysel = ylo:yhi, loc.WCS = loc, scale.WCS=pixscale, usr.WCS=usr.WCS, approx.map=approx.map, header=header)
+  
+  if (plot) {
+    if(all(is.na(cut_image))){
+      cut_image[]=0
+      magimageWCS(image=cut_image, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
+      cut_image[]=NA
+    }else{
+      magimageWCS(image=cut_image, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, ...)
+    }
+  }
+  
   return = output
 }
