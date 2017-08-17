@@ -136,15 +136,14 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
   cutout = magcutout(image, loc = c(xcen,ycen), box = box, shiftloc=shiftloc, paddim=paddim, plot = FALSE)
   cut_image = cutout$image
   xlo = cutout$loc.diff[1]+1
-  xhi = cutout$xsel[length(cutout$xsel)]
+  xhi = xlo+dim(cut_image)[1]-1
   ylo = cutout$loc.diff[2]+1
-  yhi = cutout$ysel[length(cutout$ysel)]
+  yhi = ylo+dim(cut_image)[2]-1
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
-  # xscale=abs(diff(magWCSxy2radec(c(xcen,xcen+1), c(ycen, ycen), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
-  # xscale=sqrt(sum(xscale^2))*cos(loc[2]*pi/180)
-  # yscale=abs(diff(magWCSxy2radec(c(xcen, xcen), c(ycen, ycen+1), header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)))
-  # yscale=sqrt(sum(yscale^2))
+  
+  
+  
   pixscale=getpixscale(header=header, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   loc.diff = c(xlo - 1, ylo - 1)
   cut_xlo=1
