@@ -158,13 +158,13 @@ magcutoutWCS(image, loc=tempcoord, plot=TRUE)
 
 #You can select coordinates too:
 
-magcutoutWCS(image, loc=c(352.29167, -31.827777), plot=TRUE)$loc.WCS
-magcutoutWCS(image, loc=c("23:29:10", "-31:49:40"), coord.type = 'sex',
+magcutoutWCS(image, loc=c(352.29167, -31.827777), box=c(30,30), plot=TRUE)$loc.WCS
+magcutoutWCS(image, loc=c("23:29:10", "-31:49:40"), box=c(30,30) , coord.type = 'sex',
 plot=TRUE)$loc.WCS
 
 #We can add RA Dec specific decorations easily:
 
-cutim=magcutoutWCS(image, loc=c(352.2918, -31.82652), plot=TRUE)
+cutim=magcutoutWCS(image, loc=c(352.2918, -31.82652), box=c(30,30), plot=TRUE)
 
 #Approx overlays:
 

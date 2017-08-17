@@ -8,6 +8,8 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   ylo = ceiling(loc[2] - (box[2]/2 - 0.5))
   yhi = ceiling(loc[2] + (box[2]/2 - 0.5))
   
+  loc.diff = c(x=xlo-1, y=ylo-1)
+  
   expand = paddim && shiftloc
   diffxlo = xlo - 1
   if (diffxlo < 0) {
@@ -55,7 +57,12 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
     	image = padded
     }
   }
-  output = list(image = image, loc = c(x=xcen-xlo+1, y=ycen-ylo+1), loc.orig = c(x=xcen, y=ycen), loc.diff = c(x=xlo-1, y=ylo-1), xsel = xsel, ysel = ysel)
+  
+  if(shiftloc){
+    loc.diff = c(x=xlo-1, y=ylo-1)
+  }
+  
+  output = list(image = image, loc = c(x=xcen-xlo+1, y=ycen-ylo+1), loc.orig = c(x=xcen, y=ycen), loc.diff = loc.diff, xsel = xsel, ysel = ysel)
   if (plot) {
     if(all(is.na(image))){
       image[]=0
@@ -128,9 +135,9 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
   }
   cutout = magcutout(image, loc = c(xcen,ycen), box = box, shiftloc=shiftloc, paddim=paddim, plot = FALSE)
   cut_image = cutout$image
-  xlo = cutout$xsel[1]
+  xlo = cutout$loc.diff[1]+1
   xhi = cutout$xsel[length(cutout$xsel)]
-  ylo = cutout$ysel[1]
+  ylo = cutout$loc.diff[2]+1
   yhi = cutout$ysel[length(cutout$ysel)]
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
