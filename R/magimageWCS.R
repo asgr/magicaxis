@@ -65,8 +65,8 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, coo
   
   if(pretty=='auto'){
     if(diff(rarange)>0.5){pretty=1}
-    if(diff(rarange)<0.5 & diff(rarange)>0.5/60){pretty=60}
-    if(diff(rarange)<0.5/60){pretty=3600}
+    if(diff(rarange)<0.5 & diff(rarange)>0.5/60){pretty=6}
+    if(diff(rarange)<0.5/6){pretty=3600}
   }
   
   if(coord.type=='sex'){
@@ -142,8 +142,8 @@ magimageWCSLabels=function(header, n, lab.col='green', coord.type='sex', margin=
   
   if(pretty=='auto'){
     if(diff(rarange)>0.5){pretty=1}
-    if(diff(rarange)<0.5 & diff(rarange)>0.5/60){pretty=60}
-    if(diff(rarange)<0.5/60){pretty=3600}
+    if(diff(rarange)<0.5 & diff(rarange)>0.5/6){pretty=60}
+    if(diff(rarange)<0.5/6){pretty=3600}
   }
   
   if(coord.type=='sex'){
