@@ -5,7 +5,7 @@ dots=list(...)
 dotargs=names(dots)
   
 if(class(x)[1]=='histogram'){
-  do.call('maghist',c(list(x=x, log=log, side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd), dots))
+  do.call('maghist',c(list(x=x, xlim=xlim, ylim=ylim, log=log, side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd), dots))
 }else{
   
   if(missing(y)){

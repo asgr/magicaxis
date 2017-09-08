@@ -3,7 +3,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
                 ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', scale=1, cumsum=FALSE, ...){
   
   if(!class(x)=='histogram'){
-    if(!missing(xlim)){
+    if(!is.null(xlim)){
       if(length(xlim)==1){
         sel= !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
         if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
@@ -67,7 +67,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     out$density=cumsum(out$density)
   }
   
-  if(missing(xlim)){
+  if(is.null(xlim)){
     xlim=range(out$breaks)
   }else{
     if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
@@ -81,9 +81,13 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     out$density[is.infinite(out$density)]=NA
   }
   
-  if(missing(ylim)){
+  if(is.null(ylim)){
     if(freq){
-      ylim=c(0,max(out$counts,na.rm = TRUE))
+      if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+        ylim=c(min(out$counts,na.rm = TRUE),max(out$counts,na.rm = TRUE))
+      }else{
+        ylim=c(0,max(out$counts,na.rm = TRUE))
+      }
     }else{
       if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
         ylim=c(min(out$density,na.rm = TRUE),max(out$density,na.rm = TRUE))
