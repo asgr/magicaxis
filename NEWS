@@ -169,7 +169,7 @@ Feature: Added powbase option to allow log axes to be labelled with powers of e.
 
 --
 
-v 2.0.1 (on CRAN, on GitHub @ asgr/magicaxis)
+v 2.0.1
 
 Fixed magmap docs
 
@@ -187,13 +187,13 @@ Feature: Added sparse sampling to magimage for faster image display.
 
 --
 
-v 2.0.2 (not on CRAN, on GitHub @ asgr/magicaxis)
+v 2.0.2
 
 Feature: Added lots of new WCS support functions, e.g. see magimageWCS.
 
 Small magproj fixes.
 
-v 2.0.3 (not on CRAN, on GitHub @ asgr/magicaxis)
+v 2.0.3
 
 Feature: Added shiftloc and paddim arguments to magcutout and magcutoutWCS. Indented version number to make sure ProFit works okay.
 

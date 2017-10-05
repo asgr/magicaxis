@@ -69,14 +69,14 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
     rm(Ba)
   }
   
-  R=R-min(R)
-  R=R/max(R)
-  G=G-min(G)
-  G=G/max(G)
-  B=B-min(B)
-  B=B/max(B)
+  # R=R-min(R)
+  # R=R/max(R)
+  # G=G-min(G)
+  # G=G/max(G)
+  # B=B-min(B)
+  # B=B/max(B)
   
-  image(x=x, y=y, z=matrix(1:length(R),dim(R)[1]), xlim=xlim, ylim=ylim, col=rgb(R,G,B), add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main='')
+  image(x=x, y=y, z=matrix(1:length(R),dim(R)[1]), zlim=zlim, xlim=xlim, ylim=ylim, col=rgb(R,G,B), add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main='')
   if(add==FALSE){
     if(axes){
       magaxis(...)
@@ -193,7 +193,7 @@ magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, directio
     B=magwarp(image_in=B, header_out=header_out, header_in=Bheader, direction=direction, boundary=boundary, interpolation=interpolation)$image
   }
   
-  output=magimageRGB(R=R, G=G, B=B, axes=FALSE, ...)
+  output=magimageRGB(R=R, G=G, B=B, zlim=zlim, axes=FALSE, ...)
   box()
   
   magimageWCSGrid(header=header_out, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, coord.type=coord.type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
