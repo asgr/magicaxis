@@ -33,6 +33,9 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
   if(missing(ylim) & length(y)==(dim(R)[2]+1)){
     ylim=range(y, na.rm=TRUE)
   }
+  if(missing(zlim)){
+    zlim=c(0,length(R))
+  }
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
   if(sparse=='auto'){
@@ -193,7 +196,7 @@ magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, directio
     B=magwarp(image_in=B, header_out=header_out, header_in=Bheader, direction=direction, boundary=boundary, interpolation=interpolation)$image
   }
   
-  output=magimageRGB(R=R, G=G, B=B, zlim=zlim, axes=FALSE, ...)
+  output=magimageRGB(R=R, G=G, B=B, axes=FALSE, ...)
   box()
   
   magimageWCSGrid(header=header_out, n=n, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, coord.type=coord.type, loc.diff=loc.diff, pretty=pretty, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)

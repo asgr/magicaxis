@@ -205,6 +205,13 @@ GALEX_NUV=readFITS(system.file("extdata", 'GALEX_NUV.fits', package="magicaxis")
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV)
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, saturation=0.5)
 
+#To make direct magimageRGB plots of the outputs you must turn off magmap scaling:
+
+temp=magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV)
+magimageRGB(R=temp$R, G=temp$G, B=temp$B, magmap=FALSE)
+
+#We can map onto various WCS schemes easily too:
+
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, VISTA_K$hdr)
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, VST_r$hdr)
 magimageWCSRGB(VISTA_K, VST_r, GALEX_NUV, GALEX_NUV$hdr)
