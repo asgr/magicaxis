@@ -1,4 +1,11 @@
-magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...) {
+magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...){ 
+  dots=list(...)
+  dotskeepimage=c('xaxs', 'yaxs', 'breaks', 'oldstyle')
+  if(length(dots)>0){
+    dotsimage=dots[names(dots) %in% dotskeepimage]
+  }else{
+    dotsimage={}
+  }
   if(!missing(x)){
     if(is.list(x)){
       if('y' %in% names(x)){y=x$y}
@@ -55,7 +62,7 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
   if(missing(zlim)){
     zlim=range(z, na.rm=TRUE)
   }
-  image(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main='')
+  do.call('image',c(list(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
   if(add==FALSE){
     if(axes){
       magaxis(...)

@@ -96,7 +96,7 @@ Specify if a box be drawn around the image frame. Only happens if \option{add}=T
 Determines whether the image pixels are sparse sampled to speed up plotting. If set to 2 it will only determine every 2nd pixel, and if 3 every 3rd etc. The default 'auto' means it will scale to produce a maximum number of 1,000 pixels on any side (on most monitors this is a fairly useful maximum, and ensures quick displaying of even very large images).
 }
   \item{\dots}{
-Arguments to be parsed to \code{magaxis}. See \code{\link{magaxis}} for details.
+Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). See \code{\link{image}} and \code{\link{magaxis}} for details.
 }
 }
 \details{
@@ -110,7 +110,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{image}}, \code{\link{magmap}}, \code{\link{magaxis}}
+\code{\link{magimageWCS}}, \code{\link{image}}, \code{\link{magcutout}}, \code{\link{magmap}}, \code{\link{magaxis}}
 }
 \examples{
 #Basic
@@ -127,6 +127,16 @@ magimage(matrix(10^(1:9),3),magmap=TRUE,zlim=c(0,0.5))
 magimage(matrix(10^(1:9),3),magmap=TRUE,stretch='log')
 #And it's easy just to show the lowest half now:
 magimage(matrix(10^(1:9),3),magmap=TRUE,stretch='log',zlim=c(0,0.5))
+
+\dontrun{
+#Some astro data:
+image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
+
+#A monotone image:
+magimage(image$imDat)
+#A faked colour image (this won't look great):
+magimageRGB(R=image$imDat^3, G=image$imDat^1.5, B=image$imDat^2)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

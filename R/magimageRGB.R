@@ -1,4 +1,11 @@
-magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=range[1], clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...) {
+magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=range[1], clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...){
+  dots=list(...)
+  dotskeepimage=c('xaxs', 'yaxs', 'breaks', 'oldstyle')
+  if(length(dots)>0){
+    dotsimage=dots[names(dots) %in% dotskeepimage]
+  }else{
+    dotsimage={}
+  }
   if(!missing(x)){
     if(is.list(x)){
       if('y' %in% names(x)){y=x$y}
@@ -79,7 +86,7 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
   # B=B-min(B)
   # B=B/max(B)
   
-  image(x=x, y=y, z=matrix(1:length(R),dim(R)[1]), zlim=zlim, xlim=xlim, ylim=ylim, col=rgb(R,G,B), add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main='')
+  do.call('image',c(list(x=x, y=y, z=matrix(1:length(R),dim(R)[1]), zlim=zlim, xlim=xlim, ylim=ylim, col=rgb(R,G,B), add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
   if(add==FALSE){
     if(axes){
       magaxis(...)
