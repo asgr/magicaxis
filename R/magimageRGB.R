@@ -40,9 +40,6 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
   if(missing(ylim) & length(y)==(dim(R)[2]+1)){
     ylim=range(y, na.rm=TRUE)
   }
-  if(missing(zlim)){
-    zlim=c(0,length(R))
-  }
   if(x[1]>x[length(x)]){x=rev(x); xlim=rev(xlim)}
   if(y[1]>y[length(y)]){y=rev(y); ylim=rev(ylim)}
   if(sparse=='auto'){
@@ -56,6 +53,9 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
     R=R[samplex,sampley]
     G=G[samplex,sampley]
     B=B[samplex,sampley]
+  }
+  if(missing(zlim)){
+    zlim=c(0,length(R))
   }
   if(length(locut)<3){locut=rep(locut,3)}
   if(length(hicut)<3){hicut=rep(hicut,3)}
