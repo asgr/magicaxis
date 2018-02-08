@@ -8,7 +8,7 @@ Magical sigma clipping
 This function does intelligent autoamtic sigma-clipping of data. This is optionally used by \code{\link{magplot}} and \code{\link{maghist}}.
 }
 \usage{
-magclip(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both')
+magclip(x, sigma = 'auto', clipiters = 5, sigmasel = 1, estimate = 'both')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

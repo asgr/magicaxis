@@ -16,9 +16,9 @@ High level functions to add great circles and thick bands on projections plots. 
 \usage{
 magring(crosseq = 0, peaklat = 0, offset = 0, res = 1000, ...)
 magband(crosseq = 0, peaklat = 0, width = 10, res = 1000, ...)
-magecliptic(width=10, ...)
-magMWplane(width=10, ...)
-magsun(Ydate='get', anti=FALSE, ...)
+magecliptic(width = 10, ...)
+magMWplane(width = 10, ...)
+magsun(Ydate = 'get', anti = FALSE, ...)
 magMW(...)
 }
 \arguments{

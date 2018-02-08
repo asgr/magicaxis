@@ -9,7 +9,7 @@ A function to dd x and y error bars to plots. Low and high error bars can be gen
 }
 \usage{
 magerr(x, y, xlo, ylo, xhi = xlo, yhi = ylo, corxy, length = 0.02,
-col = 'black', fill=FALSE, poly=FALSE, ...)
+col = 'black', fill = FALSE, poly = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -8,8 +8,9 @@ Pretty scientific labelling
 Utilises pretty for the major-tick locations, but makes prettier decisions if log axes are being used. Translates the default text into nicely formatted expressions- this is particularly successful when axes are logged and exponents are used since formats like 1e5 should not be used in scientific academic journals.
 }
 \usage{
-maglab(lims, n, log=FALSE, exptext=TRUE, crunch=TRUE, logpretty=TRUE,
-usemultloc=FALSE, multloc=c(1,2,5), prettybase=10, powbase=10, hersh=FALSE, trim=FALSE)
+maglab(lims, n, log=FALSE, exptext = TRUE, crunch = TRUE, logpretty = TRUE,
+usemultloc = FALSE, multloc = c(1,2,5), prettybase = 10, powbase = 10, hersh = FALSE,
+trim = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

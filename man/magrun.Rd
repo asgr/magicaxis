@@ -8,7 +8,7 @@ Computes running averages (medians / means / modes), user defined quantiles and 
 }
 \usage{
 magrun(x, y, bins = 10, type='median', ranges = pnorm(c(-1, 1)), binaxis = "x",
-equalN = TRUE, xcut, ycut, log='', Nscale=FALSE, diff=FALSE)
+equalN = TRUE, xcut, ycut, log = '', Nscale = FALSE, diff = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

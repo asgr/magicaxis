@@ -8,10 +8,11 @@ Magically pretty axes
 This function generates nicely arranged axes for scientific plots, including minor tick marks. It supports log settings and can unclog axes that have been logged inline by the user. When the dynamic range is 50 or less and axis is logged, axis range factors of 10 times 1, 2 and 5 are used instead of powers of 10 alone.
 }
 \usage{
-magaxis(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE,
-unlog='auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE,
-prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE,
-grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...)
+magaxis(side = 1:2, majorn = 5, minorn = 'auto', tcl = 0.5, ratio = 0.5, labels = TRUE,
+unlog = 'auto', mgp = c(2,0.5,0), mtline = 2, xlab = NULL, ylab = NULL, crunch = TRUE,
+logpretty = TRUE, prettybase = 10, powbase = 10, hersh = FALSE, family = 'sans',
+frame.plot = FALSE, usepar = FALSE, grid = FALSE, grid.col = 'grey', grid.lty = 1,
+grid.lwd = 1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
