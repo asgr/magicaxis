@@ -87,7 +87,11 @@ for(i in 1:length(side)){
  		    }else{
  		       splitmin=minorn+1
  		    }
-        minors = log(seq(powbase^major.ticks[1],powbase^major.ticks[2],len=splitmin),powbase)-major.ticks[1]
+        if(splitmin>10){
+          minors = seq(major.ticks[1], major.ticks[2])-major.ticks[1]
+        }else{
+          minors = log(seq(powbase^major.ticks[1],powbase^major.ticks[2],len=splitmin),powbase)-major.ticks[1]
+        }
       }
  		}
  		if(logged & unlog==F){
@@ -101,7 +105,11 @@ for(i in 1:length(side)){
  		    }else{
  		       splitmin=minorn+1
  		    }
- 		    minors = log(seq(powbase^major.ticks[1],powbase^major.ticks[2],len=splitmin),powbase)-major.ticks[1]
+ 		    if(splitmin>10){
+          minors = seq(major.ticks[1], major.ticks[2])-major.ticks[1]
+        }else{
+          minors = log(seq(powbase^major.ticks[1],powbase^major.ticks[2],len=splitmin),powbase)-major.ticks[1]
+        }
  		  }
  		}
 
