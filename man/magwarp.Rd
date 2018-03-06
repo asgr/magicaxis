@@ -9,10 +9,10 @@ Remaps an input WCS Tan Gnomonic projection system to a different target WCS.
 }
 \usage{
 magwarp(image_in, header_out = NULL, header_in = NULL, dim_out, direction = "auto",
-boundary = "dirichlet", interpolation = "cubic", CRVAL1_in = 0, CRVAL2_in = 0,
-CRPIX1_in = 0, CRPIX2_in = 0, CD1_1_in = 1, CD1_2_in = 0, CD2_1_in = 0, CD2_2_in = 1,
-CRVAL1_out = 0, CRVAL2_out = 0, CRPIX1_out = 0, CRPIX2_out = 0, CD1_1_out = 1,
-CD1_2_out = 0, CD2_1_out = 0, CD2_2_out = 1, plot = FALSE, ...)
+boundary = "dirichlet", interpolation = "cubic", doscale = TRUE, CRVAL1_in = 0,
+CRVAL2_in = 0, CRPIX1_in = 0, CRPIX2_in = 0, CD1_1_in = 1, CD1_2_in = 0, CD2_1_in = 0,
+CD2_2_in = 1, CRVAL1_out = 0, CRVAL2_out = 0, CRPIX1_out = 0, CRPIX2_out = 0,
+CD1_1_out = 1, CD1_2_out = 0, CD2_1_out = 0, CD2_2_out = 1, plot = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,10 +32,13 @@ Integer vector; this defines the desired dimensions of the output image. If this
 "auto" (default), "forward" or "backward", see \code{imwarp}. Since it is usally better to go from the higher resolution image and map this onto the lower resolution grid, "auto" selects the better direction given the pixel scales recovered from the header information.
 }
   \item{boundary}{
-boundary conditions: "dirichlet", "neumann", "periodic" (efault "dirichlet"), see \code{imwarp}
+boundary conditions: "dirichlet", "neumann", "periodic" (default "dirichlet"), see \code{imwarp}
 }
   \item{interpolation}{
 "nearest", "linear", "cubic" (default "linear"), see \code{imwarp}
+}
+  \item{doscale}{
+Logical; if TRUE (default) then the image is scaled by the relative change in the pixel scale. This is usually what you want when converting images between different WCS (since we really want to make sure we conserve overall flux). If FALSE then nothing is done to rescale the image. This is useful when the input \option{image_in} is something like a segmentation map, where the actual values matter.
 }
   \item{CRVAL1_in}{
 FITS header CRVAL1 for the Tan Gnomonic projection system of the input WCS. This is the RA in degrees at the location of \option{CRPIX1}.

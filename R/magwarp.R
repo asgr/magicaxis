@@ -1,4 +1,4 @@
-magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction = "auto", boundary = "dirichlet", interpolation = "cubic", CRVAL1_in = 0, CRVAL2_in = 0, CRPIX1_in = 0, CRPIX2_in = 0, CD1_1_in = 1, CD1_2_in = 0, CD2_1_in = 0, CD2_2_in = 1, CRVAL1_out = 0, CRVAL2_out = 0, CRPIX1_out = 0, CRPIX2_out = 0, CD1_1_out = 1, CD1_2_out = 0, CD2_1_out = 0, CD2_2_out = 1, plot=FALSE, ...){
+magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction = "auto", boundary = "dirichlet", interpolation = "cubic", doscale = TRUE, CRVAL1_in = 0, CRVAL2_in = 0, CRPIX1_in = 0, CRPIX2_in = 0, CD1_1_in = 1, CD1_2_in = 0, CD2_1_in = 0, CD2_2_in = 1, CRVAL1_out = 0, CRVAL2_out = 0, CRPIX1_out = 0, CRPIX2_out = 0, CD1_1_out = 1, CD1_2_out = 0, CD2_1_out = 0, CD2_2_out = 1, plot=FALSE, ...){
   
   if(!requireNamespace("imager", quietly = TRUE)){
     stop('The imager package is needed for this function to work. Please install it from CRAN.', call. = FALSE)
@@ -41,23 +41,27 @@ magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction =
   }
   
   .warpfunc_in2out=function(x, y){
-  radectemp=xy2radec(x, y, header=header_in, CRVAL1 = CRVAL1_in, CRVAL2 = CRVAL2_in, CRPIX1 = CRPIX1_in, CRPIX2 = CRPIX2_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
-  xy_out=radec2xy(radectemp, header=header_out, CRVAL1 = CRVAL1_out, CRVAL2 = CRVAL2_out, CRPIX1 = CRPIX1_out, CRPIX2 = CRPIX2_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
-  return=list(x=xy_out[,1], y=xy_out[,2])
-}
+    radectemp=xy2radec(x, y, header=header_in, CRVAL1 = CRVAL1_in, CRVAL2 = CRVAL2_in, CRPIX1 = CRPIX1_in, CRPIX2 = CRPIX2_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
+    xy_out=radec2xy(radectemp, header=header_out, CRVAL1 = CRVAL1_out, CRVAL2 = CRVAL2_out, CRPIX1 = CRPIX1_out, CRPIX2 = CRPIX2_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
+    return=list(x=xy_out[,1], y=xy_out[,2])
+  }
 
-.warpfunc_out2in=function(x, y){
-  radectemp=xy2radec(x, y, header=header_out, CRVAL1 = CRVAL1_out, CRVAL2 = CRVAL2_out, CRPIX1 = CRPIX1_out, CRPIX2 = CRPIX2_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
-  xy_out=radec2xy(radectemp, header=header_in, CRVAL1 = CRVAL1_in, CRVAL2 = CRVAL2_in, CRPIX1 = CRPIX1_in, CRPIX2 = CRPIX2_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
-  return=list(x=xy_out[,1], y=xy_out[,2])
-}
+  .warpfunc_out2in=function(x, y){
+    radectemp=xy2radec(x, y, header=header_out, CRVAL1 = CRVAL1_out, CRVAL2 = CRVAL2_out, CRPIX1 = CRPIX1_out, CRPIX2 = CRPIX2_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
+    xy_out=radec2xy(radectemp, header=header_in, CRVAL1 = CRVAL1_in, CRVAL2 = CRVAL2_in, CRPIX1 = CRPIX1_in, CRPIX2 = CRPIX2_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
+    return=list(x=xy_out[,1], y=xy_out[,2])
+  }
 
   image_out=matrix(0, max(dim(image_in)[1],dim_out[1]), max(dim(image_in)[2],dim_out[2]))
   image_out[1:dim(image_in)[1],1:dim(image_in)[2]]=image_in
   
   pixscale_in=getpixscale(header_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
   pixscale_out=getpixscale(header_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
-  scale=pixscale_out^2/pixscale_in^2
+  if(doscale){
+    scale=pixscale_out^2/pixscale_in^2
+  }else{
+    scale=1
+  }
   
   if(direction=='auto'){
     if(pixscale_in<pixscale_out){direction='forward'}
