@@ -17,9 +17,11 @@ magcutoutWCS(image, header, loc, box = c(100, 100), shiftloc = FALSE, paddim = T
 plot = FALSE, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, coord.type = "deg", sep = ":", loc.type=c('coord','coord'), ...)
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0), coord.type = "deg", sep = ":")
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN',
+loc.diff = c(0, 0), coord.type = "deg", sep = ":")
 magWCSxy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, loc.diff = c(0, 0))
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN',
+loc.diff = c(0, 0))
 }
 \arguments{
   \item{image}{
@@ -59,28 +61,34 @@ Logical; should the cutout be padded with \option{image} data until it meets the
 Logical; should a \code{\link{magimage}} (\code{magcutout}) or \code{\link{magimageWCS}} (\code{magcutoutWCS}) plot of the output be generated?
 }
   \item{CRVAL1}{
-FITS header CRVAL1 for the Tan Gnomonic projection system. This is the RA in degrees at the location of \option{CRPIX1}.
+FITS header CRVAL1 for the \option{CTYPE1} projection system. This is the RA in degrees at the location of \option{CRPIX1}.
 }
   \item{CRVAL2}{
-FITS header CRVAL2 for the Tan Gnomonic projection system. This is the Dec in degrees at the location of \option{CRPIX2}.
+FITS header CRVAL2 for the \option{CTYPE2} projection system. This is the Dec in degrees at the location of \option{CRPIX2}.
 }
   \item{CRPIX1}{
-FITS header CRPIX1 for the Tan Gnomonic projection system. This is the x pixel value at the location of \option{CRVAL1}.
+FITS header CRPIX1 for the \option{CTYPE1} projection system. This is the x pixel value at the location of \option{CRVAL1}.
 }
   \item{CRPIX2}{
-FITS header CRPIX2 for the Tan Gnomonic projection system. This is the y pixel value at the location of \option{CRVAL2}.
+FITS header CRPIX2 for the \option{CTYPE2} projection system. This is the y pixel value at the location of \option{CRVAL2}.
 }
   \item{CD1_1}{
-FITS header CD1_1 for the Tan Gnomonic projection system. Change in RA-Tan in degrees along x-Axis.
+FITS header CD1_1 for the \option{CTYPE1} projection system. Change in \option{CTYPE1} in degrees along x-Axis.
 }
   \item{CD1_2}{
-FITS header CD1_2 for the Tan Gnomonic projection system. Change in RA-Tan in degrees along y-Axis.
+FITS header CD1_2 for the \option{CTYPE1} projection system. Change in \option{CTYPE1} in degrees along y-Axis.
 }
   \item{CD2_1}{
-FITS header CD2_1 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along x-Axis.
+FITS header CD2_1 for the \option{CTYPE2} projection system. Change in \option{CTYPE2} in degrees along x-Axis.
 }
   \item{CD2_2}{
-FITS header CD2_2 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along y-Axis.
+FITS header CD2_2 for the \option{CTYPE2} projection system. Change in \option{CTYPE2} in degrees along y-Axis.
+}
+  \item{CTYPE1}{
+The RA projection system type. Either 'RA--TAN' for Tan Gnomonic (default), or 'RA--SIN' for Sine Orthographic. 'RA--NCP' is approximated by Sine Orthographic with a warning. Over-ridden by the FITS header.  
+}
+  \item{CTYPE2}{
+The DEC projection system type. Either 'DEC--TAN' for Tan Gnomonic (default), or 'DEC--SIN' for Sine Orthographic. 'DEC--NCP' is approximated by Sine Orthographic with a warning. Over-ridden by the FITS header.  
 }
   \item{coord.type}{
 The units of \option{loc} for \code{magcutoutWCS}. Allowed options are 'deg' for degress and 'sex' for sexigesimal (i.e. HMS for RA and DMS for Deg).

@@ -17,27 +17,30 @@ lab.col = "green", coord.type = "sex", margin = TRUE, loc.diff = c(0, 0),
 xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0), mtline = 2,
 position = "topright", com.col = "green", com.length = 0.05, coord.axis = 'auto',
 pretty = 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1, ...)
+CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN', ...)
 
 magimageWCSRGB(R, G, B, header_out, Rheader, Gheader, Bheader, direction = "auto",
 boundary = "dirichlet", interpolation = "cubic", n, grid.col='grey', grid.lty=2,
 grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0),
 xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright',
 com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0,
-CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, ...)
+CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, CTYPE1 = 'RA--TAN',
+CTYPE2 = 'DEC--TAN', ...)
 
 magimageWCSGrid(header, n, grid.col = "grey", grid.lty = 1, grid.lwd = 1,
 coord.type = "sex", loc.diff = c(0, 0), pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0,
-CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
+CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN',
+CTYPE2 = 'DEC--TAN', ...)
 
 magimageWCSLabels(header, n, lab.col = "green", coord.type = "sex", margin = TRUE,
 loc.diff = c(0, 0), xlab = "Right Ascension", ylab = "Declination", mgp = c(2, 0.5, 0),
 mtline = 2, coord.axis='auto', pretty= 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0,
-CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, ...)
+CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN',
+CTYPE2 = 'DEC--TAN', ...)
 
 magimageWCSCompass(header, position = "topright", com.col = "green", com.length = 0.05, 
 loc.diff = c(0, 0), CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1, ...)
+CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN', ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -129,28 +132,34 @@ Colour of the compass.
 Length of the edges of the arrow head.
 }
   \item{CRVAL1}{
-FITS header CRVAL1 for the Tan Gnomonic projection system. This is the RA in degrees at the location of \option{CRPIX1}.
+FITS header CRVAL1 for the \option{CTYPE1} projection system. This is the RA in degrees at the location of \option{CRPIX1}.
 }
   \item{CRVAL2}{
-FITS header CRVAL2 for the Tan Gnomonic projection system. This is the Dec in degrees at the location of \option{CRPIX2}.
+FITS header CRVAL2 for the \option{CTYPE2} projection system. This is the Dec in degrees at the location of \option{CRPIX2}.
 }
   \item{CRPIX1}{
-FITS header CRPIX1 for the Tan Gnomonic projection system. This is the x pixel value at the location of \option{CRVAL1}.
+FITS header CRPIX1 for the \option{CTYPE1} projection system. This is the x pixel value at the location of \option{CRVAL1}.
 }
   \item{CRPIX2}{
-FITS header CRPIX2 for the Tan Gnomonic projection system. This is the y pixel value at the location of \option{CRVAL2}.
+FITS header CRPIX2 for the \option{CTYPE2} projection system. This is the y pixel value at the location of \option{CRVAL2}.
 }
   \item{CD1_1}{
-FITS header CD1_1 for the Tan Gnomonic projection system. Change in RA-Tan in degrees along x-Axis.
+FITS header CD1_1 for the \option{CTYPE1} projection system. Change in \option{CTYPE1} in degrees along x-Axis.
 }
   \item{CD1_2}{
-FITS header CD1_2 for the Tan Gnomonic projection system. Change in RA-Tan in degrees along y-Axis.
+FITS header CD1_2 for the \option{CTYPE1} projection system. Change in \option{CTYPE1} in degrees along y-Axis.
 }
   \item{CD2_1}{
-FITS header CD2_1 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along x-Axis.
+FITS header CD2_1 for the \option{CTYPE2} projection system. Change in \option{CTYPE2} in degrees along x-Axis.
 }
   \item{CD2_2}{
-FITS header CD2_2 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along y-Axis.
+FITS header CD2_2 for the \option{CTYPE2} projection system. Change in \option{CTYPE2} in degrees along y-Axis.
+}
+  \item{CTYPE1}{
+The RA projection system type. Either 'RA--TAN' for Tan Gnomonic (default), or 'RA--SIN' for Sine Orthographic. 'RA--NCP' is approximated by Sine Orthographic with a warning. Over-ridden by the FITS header.  
+}
+  \item{CTYPE2}{
+The DEC projection system type. Either 'DEC--TAN' for Tan Gnomonic (default), or 'DEC--SIN' for Sine Orthographic. 'DEC--NCP' is approximated by Sine Orthographic with a warning. Over-ridden by the FITS header.  
 }
   \item{\dots}{
 These are parsed to \code{\link{magimage}}, (\code{magimageWCS}), \code{\link{magimageRGB}}, (\code{magimageWCSRGB}), \code{\link{lines}} (\code{magimageWCSGrid}), \code{\link{axis}} (\code{magimageWCSLabels}) or \code{\link{arrows}} (\code{magimageWCSCompass}).
