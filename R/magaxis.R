@@ -49,6 +49,8 @@ if(hersh & family=='sans'){par(family='HersheySans')}
 if(hersh==F & family=='serif'){par(family='serif')}
 if(hersh==F & family=='sans'){par(family='sans')}
 
+lwd=par()$lwd
+lwd.ticks=lwd
 if(usepar){
   tcl=par()$tcl
   mgp=par()$mgp
@@ -140,16 +142,16 @@ for(i in 1:length(side)){
     }
 
  		if(logged){
- 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dotsaxis))
+ 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd.ticks),dotsaxis))
  		}else{
- 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp),dotsaxis))
+ 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd.ticks),dotsaxis))
  		}
  		
     if(labels){
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp,lwd=lwd,lwd.ticks=lwd.ticks),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,lwd=lwd,lwd.ticks=lwd.ticks),dotsaxis))
       }
     }
     
@@ -157,9 +159,9 @@ for(i in 1:length(side)){
       minors = minors[-c(1,length(minors))]
       minor.ticks = c(outer(minors, major.ticks, `+`))
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd.ticks),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd.ticks),dotsaxis))
       }
     }
   }
