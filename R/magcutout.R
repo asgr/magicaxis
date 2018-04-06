@@ -3,6 +3,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   xcen = loc[1]
   ycen = loc[2]
   loc = ceiling(loc)
+  if(length(box)==1){box=rep(box,2)}
   xlo = ceiling(loc[1] - (box[1]/2 - 0.5))
   xhi = ceiling(loc[1] + (box[1]/2 - 0.5))
   ylo = ceiling(loc[2] - (box[2]/2 - 0.5))
@@ -76,6 +77,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
 
 magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, paddim=TRUE, plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), ...){
   if(length(loc.type)==1){loc.type=rep(loc.type,2)}
+  if(length(box)==1){box=rep(box,2)}
   if(!missing(image)){
     if(any(names(image)=='imDat') & missing(header)){
       imtype='FITSio'
