@@ -75,7 +75,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   return = output
 }
 
-magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, paddim=TRUE, plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), ...){
+magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, paddim=TRUE, plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), approx.map=FALSE, ...){
   if(length(loc.type)==1){loc.type=rep(loc.type,2)}
   if(length(box)==1){box=rep(box,2)}
   if(!missing(image)){
@@ -165,14 +165,18 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
                 y.orig=c(ylo-1, yhi, ylo-1, yhi),
                 usr.WCS
                 )
-  approx.map.RA=approxfun(seq(usr.WCS[1,'RA'],usr.WCS[4,'RA'],len=1e2),seq(usr.WCS[1,'x.cut'],usr.WCS[4,'x.cut'],len=1e2))
-  approx.map.Dec=approxfun(seq(usr.WCS[1,'Dec'],usr.WCS[4,'Dec'],len=1e2),seq(usr.WCS[1,'y.cut'],usr.WCS[4,'y.cut'],len=1e2))
-  approx.map=function(RA, Dec){
-    if(length(dim(RA)) == 2){
-      Dec = RA[, 2]
-      RA = RA[, 1]
+  if(approx.map){
+    approx.map.RA=approxfun(seq(usr.WCS[1,'RA'],usr.WCS[4,'RA'],len=1e2),seq(usr.WCS[1,'x.cut'],usr.WCS[4,'x.cut'],len=1e2))
+    approx.map.Dec=approxfun(seq(usr.WCS[1,'Dec'],usr.WCS[4,'Dec'],len=1e2),seq(usr.WCS[1,'y.cut'],usr.WCS[4,'y.cut'],len=1e2))
+    approx.map=function(RA, Dec){
+      if(length(dim(RA)) == 2){
+        Dec = RA[, 2]
+        RA = RA[, 1]
+      }
+      return=cbind(x=approx.map.RA(RA), y=approx.map.Dec(Dec))
     }
-    return=cbind(x=approx.map.RA(RA), y=approx.map.Dec(Dec))
+  }else{
+    approx.map=NULL
   }
   
   if(!missing(header)){

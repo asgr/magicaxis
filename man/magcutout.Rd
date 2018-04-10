@@ -15,7 +15,8 @@ magcutout(image, loc = dim(image)/2, box = c(100, 100), shiftloc = FALSE, paddim
 plot = FALSE, ...)
 magcutoutWCS(image, header, loc, box = c(100, 100), shiftloc = FALSE, paddim = TRUE,
 plot = FALSE, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1, coord.type = "deg", sep = ":", loc.type=c('coord','coord'), ...)
+CD2_1 = 0, CD2_2 = 1, coord.type = "deg", sep = ":", loc.type=c('coord','coord'),
+approx.map = FALSE, ...)
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
 CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN',
 loc.diff = c(0, 0), coord.type = "deg", sep = ":")
@@ -99,6 +100,9 @@ When \option{coord.type}='sex', \option{sep} defines the type of separator used 
   \item{loc.type}{
 Character vector; specifies what type of location is being provided. The first element specifies the coordinate type for \option{loc} and the second element is the coordinate type for \option{box}. Either it is WCS in degrees [RA,Dec] / asec ('coord') or  pixel [x,y] of the \option{image} ('image').  
 }
+\item{approx.map}{
+Logical; should an approximate coordinate mapping scheme be computed? This should be left as the default FALSE if saving the cut down object, and only TRUE if you are experimenting with the image cutouts within the same R session.
+}
   \item{\dots}{
 Dots are parsed to either \code{\link{magimage}} (\code{magcutout}) or \code{\link{magimageWCS}} (\code{magcutoutWCS}).
 }
@@ -154,7 +158,7 @@ print(magcutout(temp, dim(temp)/2, box=c(3,3))$loc)
 
 # A simple WCS cutout example:
 
-image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
+image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFound"))
 
 par(mar=c(3.1,3.1,1.1,1.1))
 magcutout(image$imDat, loc=c(50.5,50.5), plot=TRUE)
@@ -172,7 +176,8 @@ plot=TRUE)$loc.WCS
 
 #We can add RA Dec specific decorations easily:
 
-cutim=magcutoutWCS(image, loc=c(352.2918, -31.82652), box=c(30,30), plot=TRUE)
+cutim=magcutoutWCS(image, loc=c(352.2918, -31.82652), box=c(30,30), plot=TRUE,
+approx.map=TRUE)
 
 #Approx overlays:
 
@@ -187,7 +192,7 @@ col='red')
 
 magimageWCS(cutim)
 
-# Now test the various cutout size options by asking for a large cutout near the image boundary
+# Now test the various cutout size options for a large cutout near the image boundary
 
 loc = c(300,340)
 box = c(200,200)
@@ -206,21 +211,21 @@ cutim=magcutoutWCS(image, loc=loc, box=box, coord.type="image", loc.type=loc.typ
 # Setting paddim=FALSE returns the largest possible cutout within the image bounds,
 # without shifting the centre:
 
-cutim=magcutoutWCS(image, loc=loc, box=box, coord.type="image", loc.type=loc.type, plot=TRUE,
-	shiftloc=FALSE, paddim=FALSE)
+cutim=magcutoutWCS(image, loc=loc, box=box, coord.type="image", loc.type=loc.type,
+  plot=TRUE, shiftloc=FALSE, paddim=FALSE)
 
 # Setting paddim=FALSE and shiftloc=TRUE returns a larger cutout, but with at most
 # box/2 padding on either side:
 
-cutim=magcutoutWCS(image, loc=loc, box=box, coord.type="image", loc.type=loc.type, plot=TRUE,
-	shiftloc=TRUE, paddim=FALSE)
+cutim=magcutoutWCS(image, loc=loc, box=box, coord.type="image", loc.type=loc.type,
+  plot=TRUE, shiftloc=TRUE, paddim=FALSE)
 
-# Setting shiftloc=FALSE and requesting a box size larger than the image returns a cutout with the
-# requested box size:
+# Setting shiftloc=FALSE and requesting a box size larger than the image returns a cutout
+# with the requested box size:
 
 box = c(400,400)
-cutim=magcutoutWCS(image, loc=loc, box=box, coord.type="image", loc.type=loc.type, plot=TRUE,
-	shiftloc=FALSE, paddim=TRUE)
+cutim=magcutoutWCS(image, loc=loc, box=box, coord.type="image", loc.type=loc.type,
+plot=TRUE, shiftloc=FALSE, paddim=TRUE)
 
 }
 }
