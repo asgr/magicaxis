@@ -19,7 +19,7 @@ magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction =
       image_in=image_in$dat[[1]]
     }
     if(any(names(image_in)=='image') & missing(header_in)){
-      header_in=image_in$header_in
+      header_in=image_in$header
       image_in=image_in$image
     }else if(any(names(image_in)=='image') & !missing(header_in)){
       image_in=image_in$image

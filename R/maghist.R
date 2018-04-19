@@ -16,6 +16,9 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
       if(is.numeric(breaks) & length(breaks)>1){
         xlim=range(breaks)
         sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+        if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
+          breaks=log10(breaks)
+        }
       }else{
         sel=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
       }
