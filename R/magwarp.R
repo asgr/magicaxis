@@ -52,6 +52,7 @@ magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction =
     return=list(x=xy_out[,1], y=xy_out[,2])
   }
 
+  # Looks like I keep changing this initialisation to NA, but this does not work due to how imwarp function maps (it maps 0 outside bounds). Leave as 0 for now!
   image_out=matrix(0, max(dim(image_in)[1],dim_out[1]), max(dim(image_in)[2],dim_out[2]))
   image_out[1:dim(image_in)[1],1:dim(image_in)[2]]=image_in
   

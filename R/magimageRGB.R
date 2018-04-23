@@ -96,7 +96,7 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
   return=list(x=x, y=y, R=R, G=G, B=B)
 }
 
-magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, direction = "auto", boundary = "dirichlet", interpolation = "cubic", n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, CTYPE1='RA--TAN', CTYPE2='DEC--TAN', ...){
+magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, dowarp='auto', direction = "auto", boundary = "dirichlet", interpolation = "cubic", n, grid.col='grey', grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0), xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright', com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, CTYPE1='RA--TAN', CTYPE2='DEC--TAN', ...){
   
   if(missing(xlab)){
     if(coord.type=='sex'){
@@ -191,11 +191,13 @@ magimageWCSRGB=function(R, G, B, header_out, Rheader, Gheader, Bheader, directio
     }
   }
   
-  dowarp=FALSE
-  if(all(dim(R)==dim(G))==FALSE){dowarp=TRUE}
-  if(all(dim(R)==dim(B))==FALSE){dowarp=TRUE}
-  if(all(as.character(Rheader)==as.character(Gheader))==FALSE){dowarp=TRUE}
-  if(all(as.character(Rheader)==as.character(Gheader))==FALSE){dowarp=TRUE}
+  if(dowarp=='auto'){
+    dowarp=FALSE
+    if(all(dim(R)==dim(G))==FALSE){dowarp=TRUE}
+    if(all(dim(R)==dim(B))==FALSE){dowarp=TRUE}
+    if(all(as.character(Rheader)==as.character(Gheader))==FALSE){dowarp=TRUE}
+    if(all(as.character(Rheader)==as.character(Gheader))==FALSE){dowarp=TRUE}
+  }
   
   if(dowarp){
     R=magwarp(image_in=R, header_out=header_out, header_in=Rheader, direction=direction, boundary=boundary, interpolation=interpolation)$image

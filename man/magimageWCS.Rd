@@ -19,9 +19,9 @@ position = "topright", com.col = "green", com.length = 0.05, coord.axis = 'auto'
 pretty = 'auto', CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
 CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN', ...)
 
-magimageWCSRGB(R, G, B, header_out, Rheader, Gheader, Bheader, direction = "auto",
-boundary = "dirichlet", interpolation = "cubic", n, grid.col='grey', grid.lty=2,
-grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0),
+magimageWCSRGB(R, G, B, header_out, Rheader, Gheader, Bheader, dowarp='auto',
+direction = "auto", boundary = "dirichlet", interpolation = "cubic", n, grid.col='grey',
+grid.lty=2, grid.lwd=0.5, lab.col='green', coord.type='sex', margin=TRUE, loc.diff=c(0,0),
 xlab='Right Ascension', ylab='Declination', mgp=c(2,0.5,0), mtline=2, position='topright',
 com.col="green", com.length=0.05, coord.axis='auto', pretty='auto', CRVAL1=0, CRVAL2=0,
 CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, CTYPE1 = 'RA--TAN',
@@ -70,6 +70,9 @@ Full \option{G} FITS header in table or vector format. It is usually easier to i
 }
   \item{Bheader}{
 Full \option{B} FITS header in table or vector format. It is usually easier to include the header with the \option{B} list input as described above.
+}
+  \item{dowarp}{
+Image warping flag, either TRUE, FALSE or 'auto' (default). If TRUE then the images will be warped onto the \option{header_out} WCS scheme, if FALSE they will not be (which will break if the WCSs are not truly the same and the iamges are pixel matched). 'auto' tries to detect if the headers are all the same, and if they are then it will set \option{dowarp}=FALSE, otherwise it will set to TRUE. This can be fooled by small (and unimportant) differences in the headers, e.g. they have different SWarp dates etc, since it just checks if the text differs anywhere.
 }
   \item{direction}{
 Only used if re-mapping via \code{\link{magwarp}}. "auto" (default), "forward" or "backward", see \code{imwarp}. Since it is usally better to go from the higher resolution image and map this onto the lower resolution grid, "auto" selects the better direction given the pixel scales recovered from the header information.
