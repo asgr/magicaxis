@@ -11,11 +11,11 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
         }
         xlim=magclip(x[sel], sigma=xlim)$range
       }
-      sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+      sel=x>=min(xlim) & x<=max(xlim) & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
     }else{
       if(is.numeric(breaks) & length(breaks)>1){
         xlim=range(breaks)
-        sel=x>=xlim[1] & x<=xlim[2] & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+        sel=x>=min(xlim) & x<=max(xlim) & !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
         if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
           breaks=log10(breaks)
         }
@@ -40,10 +40,10 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
       print(outsum)
       print('sd / 1-sig / 2-sig range:')
       print(sd1q2q)
-      if(plot){
-        print(paste('Plotting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
+      if(!is.null(xlim)){
+        print(paste('Using ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<min(xlim))),' < xlo & ',length(which(x>max(xlim))),' > xhi)',sep=''))
       }else{
-        print(paste('Selecting ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<xlim[1])),' < xlo & ',length(which(x>xlim[2])),' > xhi)',sep=''))
+        print(paste('Using ',length(which(sel)),' out of ',length(x),sep=''))
       }
     }
     x=x[sel]
@@ -51,7 +51,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
       x=log10(x)
     }
-  out=hist(x=x, breaks=breaks, include.lowest=include.lowest, right=right, plot=FALSE, warn.unused=FALSE)
+    out=hist(x=x, breaks=breaks, include.lowest=include.lowest, right=right, plot=FALSE, warn.unused=FALSE)
   }else{
     out=x
     if (log[1] == "x" | log[1] == "xy" | log[1] == "yx"){
@@ -105,16 +105,23 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
   }
   
   if(plot){
+    if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
+      if(max(ylim)-min(ylim)<1.5){
+        ylim[which.min(ylim)]=ylim[which.max(ylim)]-1.5
+      }
+    }
     if(add==FALSE){
       magplot(x=1, y=1, type='n', xlim=xlim, ylim=ylim, unlog=log, ...)
-      if(freq==FALSE & (log[1] == "y" | log[1] == "xy" | log[1] == "yx")){
+      if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
         lims=par()$usr
         lims[3:4]=lims[3:4]-min(ylim)
         par(usr=lims)
+        out$counts=out$counts-min(ylim)
         out$density=out$density-min(ylim)
         plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
         lims[3:4]=lims[3:4]+min(ylim)
         par(usr=lims)
+        out$counts=out$counts+min(ylim)
         out$density=out$density+min(ylim)
       }else{
         plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
@@ -140,14 +147,16 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
         par(ylog=FALSE)
         par(usr=lims)
       }
-      if(freq==FALSE & (log[1] == "y" | log[1] == "xy" | log[1] == "yx")){
+      if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
         lims=par()$usr
         lims[3:4]=lims[3:4]-min(ylim)
         par(usr=lims)
+        out$counts=out$counts-min(ylim)
         out$density=out$density-min(ylim)
         plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
         lims[3:4]=lims[3:4]+min(ylim)
         par(usr=lims)
+        out$counts=out$counts+min(ylim)
         out$density=out$density+min(ylim)
       }else{
         plot(out, freq=freq, density=density, angle=angle, col=col, border=border, add=TRUE)
