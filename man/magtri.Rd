@@ -51,7 +51,7 @@ Should tick marks be added to every sub-panel?
 }
 \examples{
 Sigma=matrix(c(10,3,-5,3,12,8,-5,8,20),3,3)
-chains=mvrnorm(n=1000, mu=1:3, Sigma=Sigma)
+chains=MASS::mvrnorm(n=1000, mu=1:3, Sigma=Sigma)
 magtri(chains,tick=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -1,6 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 
-import("MASS")
+import('MASS')
 import('plotrix')
 import("sm")
 import("mapproj")
