@@ -54,7 +54,7 @@ Determines if axis labels should be unlogged. If axis is found to be logged in p
 The margin line (in mex units) for the axis title, axis labels and axis line. This has different (i.e. prettier) defaults than R of c(2,0.5,0) rather than c(3,1,0). This pushes the numbers and labels nearer to the plot compared to the defaults. It is possible to force magaxis to inherit directly from par by setting usepar=TRUE (see below). See \code{\link{par}} for more details.
 }
   \item{mtline}{
-Number of lines separating axis name from axis.
+Number of lines separating axis name from axis. If length 2 then specifies x and y axis separation respectively (else these are the same).
 }
   \item{xlab}{
 x axis name.

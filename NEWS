@@ -197,6 +197,14 @@ v 2.0.3
 
 Feature: Added shiftloc and paddim arguments to magcutout and magcutoutWCS. Indented version number to make sure ProFit works okay.
 
+v 2.0.4
+
+Lots of WCS features added.
+
+xlab and ylab now follow side (feature suggestion by Roberto Canteri).
+
+Minor bug fixes.
+
 TO DO:
 
 FEATURE: Add better in-plot legends.
