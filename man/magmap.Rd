@@ -9,7 +9,7 @@ This function allows the use to remap a vector of values onto a different system
 }
 \usage{
 magmap(data, locut = 0, hicut = 1, flip = FALSE, range = c(0, 2/3), type = "quan",
-stretch = 'lin', stretchscale=1, bad = NA, clip = '')
+stretch = 'lin', stretchscale = 1, bad = NA, clip = '')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

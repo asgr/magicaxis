@@ -189,7 +189,7 @@ By R convention the bottom-left part of the bottom-left pixel when plotting the 
 }
 \examples{
 \dontrun{
-image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
+image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFound"))
 
 #Convenient image plotting for lists containing headers:
 

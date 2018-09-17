@@ -3,9 +3,8 @@ function(data, locut=0, hicut=1, flip=FALSE, range=c(0,2/3), type='quan', stretc
 if(stretchscale=='auto'){
   good=is.na(data)==FALSE & is.nan(data)==FALSE & is.infinite(data)==FALSE & is.null(data)==FALSE
 	if(length(which(good))==0){stop('There is no numeric data!')}
-  data=data-median(data[good],na.rm=TRUE)
-  absdata=abs(data[good])
-  stretchscale=1/median(absdata[absdata>0],na.rm=TRUE)
+  absdata=abs(data[good]-median(data[good],na.rm=TRUE))
+  stretchscale=1/median(absdata, na.rm=TRUE)
   if(!is.finite(stretchscale)){stretchscale=1}
 }
   

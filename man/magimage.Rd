@@ -130,7 +130,7 @@ magimage(matrix(10^(1:9),3),magmap=TRUE,stretch='log',zlim=c(0,0.5))
 
 \dontrun{
 #Some astro data:
-image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFit"))
+image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFound"))
 
 #A monotone image:
 magimage(image$imDat)
