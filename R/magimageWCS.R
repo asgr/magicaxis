@@ -67,13 +67,13 @@ magimageWCSGrid=function(header, n, grid.col='grey', grid.lty=1, grid.lwd=1, coo
   
   if(pretty=='auto'){
     if(diff(rarange)>0.5){pretty=1}
-    if(diff(rarange)<0.5 & diff(rarange)>0.5/60){pretty=6}
-    if(diff(rarange)<0.5/6){pretty=3600}
+    if(diff(rarange)<0.5 & diff(rarange)>0.5/6){pretty=5}
+    if(diff(rarange)<0.5/6){pretty=300}
   }
   
   if(coord.type=='sex'){
-    ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
-    decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
+    ragrid=maglab(rarange, n=n, prettybase = 5/pretty)
+    decgrid=maglab(decrange, n=n, prettybase = 5/pretty)
   }
   if(coord.type=='deg'){
     ragrid=maglab(rarange, n=n)
@@ -146,13 +146,13 @@ magimageWCSLabels=function(header, n, lab.col='green', coord.type='sex', margin=
   
   if(pretty=='auto'){
     if(diff(rarange)>0.5){pretty=1}
-    if(diff(rarange)<0.5 & diff(rarange)>0.5/6){pretty=60}
-    if(diff(rarange)<0.5/6){pretty=3600}
+    if(diff(rarange)<0.5 & diff(rarange)>0.5/6){pretty=5}
+    if(diff(rarange)<0.5/6){pretty=300}
   }
   
   if(coord.type=='sex'){
-    ragrid=maglab(rarange, n=n, prettybase = 15/pretty)
-    decgrid=maglab(decrange, n=n, prettybase = 1/pretty)
+    ragrid=maglab(rarange, n=n, prettybase = 5/pretty)
+    decgrid=maglab(decrange, n=n, prettybase = 5/pretty)
   }
   if(coord.type=='deg'){
     ragrid=maglab(rarange, n=n)
