@@ -45,8 +45,8 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   	if(diffylo < 0 && (-diffylo > diffyhi)) yhi = yhi - max(diffyhi,0) + diffylo
   	if(diffyhi > 0 && (-diffylo < diffyhi)) ylo = ylo + diffyhi - min(diffylo,0)
   }
-  xsel = xlo:xhi
-  ysel = ylo:yhi
+  xsel = as.integer(xlo:xhi)
+  ysel = as.integer(ylo:yhi)
   
   if(xsel[2]==0 | ysel[2]==0){
     image=matrix(NA,box[1],box[2])
@@ -72,7 +72,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
       magimage(image, ...)
     }
   }
-  return = output
+  invisible(output)
 }
 
 magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, paddim=TRUE, plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), approx.map=FALSE, ...){
@@ -173,7 +173,7 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
         Dec = RA[, 2]
         RA = RA[, 1]
       }
-      return=cbind(x=approx.map.RA(RA), y=approx.map.Dec(Dec))
+      invisible(cbind(x=approx.map.RA(RA), y=approx.map.Dec(Dec)))
     }
   }else{
     approx.map=NULL
@@ -216,5 +216,5 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
     }
   }
   
-  return = output
+  invisible(output)
 }

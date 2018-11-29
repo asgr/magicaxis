@@ -35,7 +35,7 @@ Full FITS header in table or vector format. Legal table format headers are provi
 Numeric vector; the [x,y] (\code{magcutout}) or [x,y] / [RA,Dec] (\code{magcutoutWCS}) location where we want to cutout the image. For \code{magcutoutWCS} the unit type can be specified with the \option{loc.type} option. Either it is WCS in degrees [RA,Dec] (coord) or  pixel [x,y] of the \option{image} (image).
 }
   \item{box}{
-Numeric vector; the dimensions of the box in pixels (\code{magcutout}) or pixels/asec (\code{magcutoutWCS}) to cut out from \option{image} centred on \option{loc}.
+Numeric vector; the dimensions of the box to cut out from \option{image} centred on \option{loc}. For \code{magcutout} the \option{box} unit is always pixels. For \code{magcutoutWCS} the unit type can be specified with the \option{loc.type} option. Either it is pixels or asec (see \option{loc.type}). 
 }
   \item{RA}{
 Vector or matrix; target right ascension in degrees. If matrix then the first column will be used as \option{RA} and the second column as \option{Dec}.  
@@ -98,7 +98,7 @@ The units of \option{loc} for \code{magcutoutWCS}. Allowed options are 'deg' for
 When \option{coord.type}='sex', \option{sep} defines the type of separator used for the HMS and DMS strings (i.e. H:M:S and D:M:S would be sep=':', which is the default). See \code{\link{hms2deg}} and  \code{\link{dms2deg}} for more details.
 }
   \item{loc.type}{
-Character vector; specifies what type of location is being provided. The first element specifies the coordinate type for \option{loc} and the second element is the coordinate type for \option{box}. Either it is WCS in degrees [RA,Dec] / asec ('coord') or  pixel [x,y] of the \option{image} ('image').  
+Character vector; specifies what type of location is being provided. The first element specifies the coordinate type for \option{loc} and the second element is the coordinate type for \option{box}. Either it is WCS in degrees [RA,Dec] / asec ('coord') or  pixel [x,y] of the \option{image} ('image'). If only one element is provided then the same coordinate type is used for both \option{loc} and \option{box}.
 }
 \item{approx.map}{
 Logical; should an approximate coordinate mapping scheme be computed? This should be left as the default FALSE if saving the cut down object, and only TRUE if you are experimenting with the image cutouts within the same R session.
