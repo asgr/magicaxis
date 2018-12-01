@@ -1,5 +1,5 @@
 magaxis <-
-function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unlog='auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, ...){
+function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unlog='auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, lwd.axis=1, lwd.ticks=lwd.axis, ...){
 dots=list(...)
 dotskeepaxis=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'tick')
 dotskeepmtext=c('cex.lab', 'col.lab', 'font.lab')
@@ -50,10 +50,12 @@ if(hersh & family=='sans'){par(family='HersheySans')}
 if(hersh==F & family=='serif'){par(family='serif')}
 if(hersh==F & family=='sans'){par(family='sans')}
 
-lwd=par()$lwd
+if(missing(lwd.axis)){lwd.axis=par()$lwd}
+if(missing(lwd.ticks)){lwd.ticks=par()$lwd}
+
 if(usepar){
-  tcl=par()$tcl
-  mgp=par()$mgp
+  if(missing(tcl)){tcl=par()$tcl}
+  if(missing(mgp)){mgp=par()$mgp}
 }
 
 for(i in 1:length(side)){
@@ -142,16 +144,16 @@ for(i in 1:length(side)){
     }
 
  		if(logged){
- 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd),dotsaxis))
+ 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,lwd=lwd.axis,lwd.ticks=lwd.ticks),dotsaxis))
  		}else{
- 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd),dotsaxis))
+ 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,mgp=mgp,lwd=lwd.axis,lwd.ticks=lwd.ticks),dotsaxis))
  		}
  		
     if(labels){
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp,lwd=lwd,lwd.ticks=lwd),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp,lwd=lwd.axis,lwd.ticks=lwd.ticks),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,lwd=lwd,lwd.ticks=lwd),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,lwd=lwd.axis,lwd.ticks=lwd.ticks),dotsaxis))
       }
     }
     
@@ -159,9 +161,9 @@ for(i in 1:length(side)){
       minors = minors[-c(1,length(minors))]
       minor.ticks = c(outer(minors, major.ticks, `+`))
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp,lwd=lwd.axis,lwd.ticks=lwd.ticks),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp,lwd=lwd,lwd.ticks=lwd),dotsaxis))
+        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,mgp=mgp,lwd=lwd.axis,lwd.ticks=lwd.ticks),dotsaxis))
       }
     }
   }

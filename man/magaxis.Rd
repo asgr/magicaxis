@@ -12,7 +12,7 @@ magaxis(side = 1:2, majorn = 5, minorn = 'auto', tcl = 0.5, ratio = 0.5, labels 
 unlog = 'auto', mgp = c(2,0.5,0), mtline = 2, xlab = NULL, ylab = NULL, crunch = TRUE,
 logpretty = TRUE, prettybase = 10, powbase = 10, hersh = FALSE, family = 'sans',
 frame.plot = FALSE, usepar = FALSE, grid = FALSE, grid.col = 'grey', grid.lty = 1,
-grid.lwd = 1, ...)
+grid.lwd = 1, lwd.axis = 1, lwd.ticks = lwd.axis, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -85,6 +85,12 @@ The line type of the grid to be drawn.
 }
   \item{grid.lwd}{
 The line width of the grid to be drawn.
+}
+  \item{lwd.axis}{
+The line width of the axis to be drawn. This is passed to \option{lwd} argument in \code{\link{axis}}.
+}
+  \item{lwd.ticks}{
+The line width of the ticks to be drawn. This is passed to \option{lwd.ticks} argument in \code{\link{axis}}.
 }
   \item{\dots}{
 Other arguments to be passed to base \code{\link{axis}} and \code{\link{mtext}} functions as relevant. options for axis are as described in \code{\link{axis}}, but note \option{cex.lab}, \option{col.lab} and \option{font.lab} are parsed as \option{cex}, \option{col} and \option{font} into \code{\link{mtext}} as required.

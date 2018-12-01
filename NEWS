@@ -205,6 +205,10 @@ xlab and ylab now follow side (feature suggestion by Roberto Canteri).
 
 Minor bug fixes.
 
+v 2.0.5
+
+Added lwd.axis and lwd.ticks options that offer better control of the axes.
+
 TO DO:
 
 FEATURE: Add better in-plot legends.
