@@ -18,12 +18,24 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
       if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
     }
   }
+  
   if(!missing(z)){
     if(is.matrix(z)){
       if(missing(x)){x=seq(0.5,dim(z)[1]-0.5)}
       if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
     }
   }
+  
+  if(is.vector(z) & !missing(x)){
+    z=matrix(z, nrow=length(x))
+    if(missing(y)){y=seq(0.5,dim(z)[2]-0.5)}
+  }
+  
+  if(is.vector(z) & !missing(y)){
+    z=matrix(z, ncol=length(y))
+    if(missing(x)){x=seq(0.5,dim(z)[1]-0.5)}
+  }
+  
   if(missing(xlim) & length(x)==dim(z)[1]){
     xlim=range(x, na.rm=TRUE)+c(-0.5,0.5)*diff(range(x, na.rm=TRUE))/(dim(z)[1]-1)
   }
