@@ -12,7 +12,7 @@ magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 'auto', tcl 
 ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2, xlab = '',
 ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase = 10, hersh = FALSE,
 family = "sans", frame.plot = TRUE, usepar = FALSE, grid = FALSE, grid.col = 'grey',
-grid.lty = 1, grid.lwd = 1, axes = TRUE, xlim = NULL, ylim = NULL, lwd.axis = 1, 
+grid.lty = 1, grid.lwd = 1, axes = TRUE, xlim = NULL, ylim = NULL, lwd = 1, lwd.axis = 1, 
 lwd.ticks = lwd.axis, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -108,6 +108,9 @@ Vector; range of data to display. Default of NULL shows the full range. If lengt
 }
   \item{ylim}{
 Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}. If this is set to 'auto' then the limits will be estimated from the data dynamically.
+}
+  \item{lwd}{
+The width of plot lines to be drawn. This has different behaviour depending on the plot type.
 }
   \item{lwd.axis}{
 The line width of the axis to be drawn. This is passed to \option{lwd} argument in \code{\link{axis}}.
