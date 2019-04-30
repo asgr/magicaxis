@@ -40,16 +40,18 @@ magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction =
     dim_out=c(NAXIS1, NAXIS2)
   }
   
+  if(interpolation=='nearest'){warpoffset=0.5}else{warpoffset=0} #seems to be needed because of how imager rounds pixel values
+  
   .warpfunc_in2out=function(x, y){
     radectemp=xy2radec(x, y, header=header_in, CRVAL1 = CRVAL1_in, CRVAL2 = CRVAL2_in, CRPIX1 = CRPIX1_in, CRPIX2 = CRPIX2_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
     xy_out=radec2xy(radectemp, header=header_out, CRVAL1 = CRVAL1_out, CRVAL2 = CRVAL2_out, CRPIX1 = CRPIX1_out, CRPIX2 = CRPIX2_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
-    return=list(x=xy_out[,1], y=xy_out[,2])
+    return=list(x=xy_out[,1]+warpoffset, y=xy_out[,2]+warpoffset)
   }
 
   .warpfunc_out2in=function(x, y){
     radectemp=xy2radec(x, y, header=header_out, CRVAL1 = CRVAL1_out, CRVAL2 = CRVAL2_out, CRPIX1 = CRPIX1_out, CRPIX2 = CRPIX2_out, CD1_1 = CD1_1_out, CD1_2 = CD1_2_out, CD2_1 = CD2_1_out, CD2_2 = CD2_2_out)
     xy_out=radec2xy(radectemp, header=header_in, CRVAL1 = CRVAL1_in, CRVAL2 = CRVAL2_in, CRPIX1 = CRPIX1_in, CRPIX2 = CRPIX2_in, CD1_1 = CD1_1_in, CD1_2 = CD1_2_in, CD2_1 = CD2_1_in, CD2_2 = CD2_2_in)
-    return=list(x=xy_out[,1], y=xy_out[,2])
+    return=list(x=xy_out[,1]+warpoffset, y=xy_out[,2]+warpoffset)
   }
 
   # Looks like I keep changing this initialisation to NA, but this does not work due to how imwarp function maps (it maps 0 outside bounds). Leave as 0 for now!
@@ -61,7 +63,7 @@ magwarp=function(image_in, header_out=NULL, header_in=NULL, dim_out, direction =
   if(doscale){
     scale=pixscale_out^2/pixscale_in^2
   }else{
-    scale=1
+    scale=1L
   }
   
   if(direction=='auto'){

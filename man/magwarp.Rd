@@ -137,6 +137,13 @@ magwarp(VISTA_K, VST_r$hdr, plot=TRUE)
 
 magwarp(GALEX_NUV, VISTA_K$hdr, plot=TRUE)
 magwarp(VST_r, VISTA_K$hdr, plot=TRUE)
+
+#Check we can warp forwards and backwards correctly:
+
+magimageWCS(GALEX_NUV)
+magwarp(GALEX_NUV, GALEX_NUV$hdr, plot=TRUE)
+magwarp(magwarp(GALEX_NUV, VST_r$hdr, interpolation='nearest'),
+        GALEX_NUV$hdr, interpolation='nearest', plot=TRUE)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

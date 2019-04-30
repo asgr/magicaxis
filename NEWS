@@ -217,6 +217,10 @@ v 2.0.7
 
 Fixed issue with passing lwd through magplot.
 
+v 2.0.8
+
+Fixed subtle offset issue between magwarp when using nearest or cubic interpolation. Seems imager::imwarp introduced a half pixel offset mapping difference.
+
 TO DO:
 
 FEATURE: Add better in-plot legends.
