@@ -8,7 +8,7 @@ Magical sigma clipping
 This function does intelligent autoamtic sigma-clipping of data. This is optionally used by \code{\link{magplot}} and \code{\link{maghist}}.
 }
 \usage{
-magclip(x, sigma = 'auto', clipiters = 5, sigmasel = 1, estimate = 'both')
+magclip(x, sigma = 'auto', clipiters = 5, sigmasel = 1, estimate = 'both', extra = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,6 +26,9 @@ The quantile to use when trying to estimate the true standard-deviation of the N
 }
   \item{estimate}{
 Character; determines which side/s of the distribution are used to estimate Normal properties. The default is to use both sides (both) giving better S/N, but if you know that your contamination only comes from positive flux sources (e.g., astronomical data when trying to select sky pixels) then you should only use the lower side to determine Normal statistics (lo). Similarly if the contamination is on the low side then you should use the higher side to determine Normal statistics (hi).
+}
+  \item{extra}{
+Logical; if TRUE then \option{clip} and \option{range} are computed and returns, else these are set to NA to reduce computation and memory.  
 }
 }
 \details{
