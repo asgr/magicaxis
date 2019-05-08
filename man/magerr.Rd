@@ -5,7 +5,7 @@
 Error bar plotting
 }
 \description{
-A function to dd x and y error bars to plots. Low and high error bars can be generated.
+A function to add x and y error bars to plots. Low and high error bars can be generated.
 }
 \usage{
 magerr(x, y, xlo, ylo, xhi = xlo, yhi = ylo, corxy, length = 0.02,
@@ -14,31 +14,31 @@ col = 'black', fill = FALSE, poly = FALSE, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-x location of data.
+Numeric vector; x location of data.
 }
   \item{y}{
-y location of data.
+Numeric vector; y location of data.
 }
   \item{xlo}{
-Error on the low side for x values. This can be positive or negative- the absolute vaue is used.
+Numeric vector; error on the low side for x values. This can be positive or negative- the absolute vaue is used. If length 1, then will be repeated length(\option{x}) times.
 }
   \item{ylo}{
-Error on the low side for y values. This can be positive or negative- the absolute vaue is used.
+Numeric vector; error on the low side for y values. This can be positive or negative- the absolute vaue is used. If length 1, then will be repeated length(\option{x}) times.
 }
   \item{xhi}{
-Error on the high side for x values. This can be positive or negative- the absolute vaue is used. By default this will inherit the xlo value.
+Numeric vector; error on the high side for x values. This can be positive or negative- the absolute vaue is used. By default this will inherit the xlo value. If length 1, then will be repeated length(\option{x}) times.
 }
   \item{yhi}{
-Error on the high side for y values. This can be positive or negative- the absolute vaue is used. By default this will inherit the ylo value.
+Numeric vector; error on the high side for y values. This can be positive or negative- the absolute vaue is used. By default this will inherit the ylo value. If length 1, then will be repeated length(\option{x}) times.
 }
   \item{corxy}{
-If this paramter exists then error ellipses will be drawn instead of error bars. It takes the value of the sigma_x sigma_y correlation, i.e. corxy=covxy/(xlo*ylo).  
+Numeric vector; if this parameter exists then error ellipses will be drawn instead of error bars. It takes the value of the sigma_x sigma_y correlation, i.e. corxy=covxy/(xlo*ylo). If length 1, then will be repeated length(\option{x}) times.
 }
   \item{length}{
-Length of error bar ends.
+Numeric vector; length of error bar ends. If length 1, then will be repeated length(\option{x}) times.
 }
   \item{col}{
-Either the colour of the error bars or the outline colour of the error ellipses.  
+Either the colour of the error bars or the outline colour of the error ellipses.  If length 1, then will be repeated length(\option{x}) times.
 }
   \item{fill}{
 Logical; if TRUE then the error ellipses will be filled, if FALSE then only the border will be drawn.
