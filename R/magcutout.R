@@ -38,8 +38,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
 	    if(ylo < 1) ylo = 1
     }
   }
-  if(!paddim && !shiftloc)
-  {
+  if(!paddim && !shiftloc) {
   	if(diffxlo < 0 && (-diffxlo > diffxhi)) xhi = xhi - max(diffxhi,0) + diffxlo
   	if(diffxhi > 0 && (-diffxlo < diffxhi)) xlo = xlo + diffxhi - min(diffxlo,0)
   	if(diffylo < 0 && (-diffylo > diffyhi)) yhi = yhi - max(diffyhi,0) + diffylo
@@ -47,8 +46,10 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   }
   xsel = as.integer(xlo:xhi)
   ysel = as.integer(ylo:yhi)
+  xsel=xsel[xsel>0]
+  ysel=ysel[ysel>0]
   
-  if(xsel[2]==0 | ysel[2]==0){
+  if(length(xsel)==0 | length(ysel)==0){
     image=matrix(NA,box[1],box[2])
   }else{
     image = image[xsel, ysel]
@@ -59,11 +60,15 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
     }
   }
   
-  if(shiftloc){
-    loc.diff = c(x=xlo-1, y=ylo-1)
+  if(paddim & shiftloc==FALSE){
+    loc=c(x=xcen-diffxlo,y=ycen-diffylo)
+  }else{
+    loc=c(x=xcen-xlo+1, y=ycen-ylo+1)
   }
+  loc.orig=c(x=xcen, y=ycen)
+  loc.diff=c(x=loc.orig[1]-loc[1], y=loc.orig[2]-loc[2])
   
-  output = list(image = image, loc = c(x=xcen-xlo+1, y=ycen-ylo+1), loc.orig = c(x=xcen, y=ycen), loc.diff = loc.diff, xsel = xsel, ysel = ysel)
+  output = list(image = image, loc=loc, loc.orig=loc.orig, loc.diff=loc.diff, xsel=xsel, ysel=ysel)
   if (plot) {
     if(all(is.na(image))){
       image[]=0
@@ -121,7 +126,7 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
     xlo = xcen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
     tempxy=magWCSradec2xy(loc[1]+box[1]/2/cos(loc[2]*pi/180), loc[2], header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
     xhi = xcen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
-    tempxy=radec2xy(loc[1], loc[2]-box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
+    tempxy=magWCSradec2xy(loc[1], loc[2]-box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
     ylo = ycen - sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
     tempxy=magWCSradec2xy(loc[1], loc[2]+box[2]/2, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
     yhi = ycen + sqrt((tempxy[1,1]-xcen)^2+(tempxy[1,2]-ycen)^2)
@@ -143,8 +148,6 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
   yhi = ylo+dim(cut_image)[2]-1
   xcen.new=xcen-xlo+1
   ycen.new=ycen-ylo+1
-  
-  
   
   pixscale=getpixscale(header=header, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2)
   loc.diff = c(xlo - 1, ylo - 1)
