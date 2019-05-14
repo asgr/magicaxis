@@ -39,6 +39,7 @@ magerr = function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='bla
       sel=which(yhidraw>0 & y<=0)
       y[sel]=1e-300
     }
+    
     xarrow=x[errbarsel]
     yarrow=y[errbarsel]
     xlodraw=xlodraw[errbarsel]
@@ -46,6 +47,12 @@ magerr = function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='bla
     ylodraw=ylodraw[errbarsel]
     yhidraw=yhidraw[errbarsel]
     colarrow=col[errbarsel]
+    
+    xlodraw[xlodraw == -Inf]=-1e300
+    xhidraw[xhidraw == Inf]=1e300
+    ylodraw[ylodraw == -Inf]=-1e300
+    yhidraw[yhidraw == Inf]=1e300
+    
     if(poly==FALSE){
       if(doxlo & any(is.finite(xlodraw))){
         finalsel=xarrow>xlodraw

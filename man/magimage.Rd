@@ -12,7 +12,7 @@ Magically pretty images
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
 useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
 range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
-clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', ...)
+clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE, ...)
 magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
 useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
 range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = "auto", bad = range[1],
@@ -94,6 +94,9 @@ Specify if a box be drawn around the image frame. Only happens if \option{add}=T
 }
   \item{sparse}{
 Determines whether the image pixels are sparse sampled to speed up plotting. If set to 2 it will only determine every 2nd pixel, and if 3 every 3rd etc. The default 'auto' means it will scale to produce a maximum number of 1,000 pixels on any side (on most monitors this is a fairly useful maximum, and ensures quick displaying of even very large images).
+}
+  \item{qdiff}{
+Logical; if the z axis being plotted, this will set all the various parameters that make for a visually useful difference plot, where -ve difference values become blue, 0 difference values are yellow, and +ve difference values are red.
 }
   \item{\dots}{
 Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). See \code{\link{image}} and \code{\link{magaxis}} for details.

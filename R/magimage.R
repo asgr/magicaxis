@@ -1,4 +1,4 @@
-magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', ...){ 
+magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE, useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE, range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto', bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', qdiff=FALSE, ...){ 
   dots=list(...)
   dotskeepimage=c('xaxs', 'yaxs', 'breaks', 'oldstyle')
   if(length(dots)>0){
@@ -59,6 +59,18 @@ magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FAL
     x=x[samplex]
     y=y[sampley]
     z=z[samplex,sampley]
+  }
+  if(qdiff){
+    col = rev(colorRampPalette(brewer.pal(9,'RdYlBu'))(100)) 
+    if(missing(hicut)){
+      maximg=max(abs(z),na.rm=TRUE)
+      locut=-maximg
+      hicut=maximg
+    }else{
+      locut=-hicut
+    }
+    type='num'
+    zlim=c(0,1)
   }
   if(magmap){
     if(type=='quan'){
