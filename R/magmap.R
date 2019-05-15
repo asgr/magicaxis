@@ -37,7 +37,7 @@ hireturn=hicut
 if(stretch=='log' & locut<=0){stop('locut <= 0 and stretch=\'log\'- this is not allowed!')}
 if(stretch=='log' & hicut<=0){stop('hicut <=0 and stretch=\'log\'- this is not allowed!')}
 if(locut>hicut){stop('locut>hicut is not allowed')}
-if(locut==hicut){data[good][1:length(data)]=(range[2]+range[1])/2}
+if(locut==hicut){data[good]=(range[2]+range[1])/2}
 if(locut<hicut){
   if(stretch=='lin'){
   #Nothing to see here...

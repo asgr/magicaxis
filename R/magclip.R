@@ -7,8 +7,8 @@ magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both', extr
     sel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
     clipx=sort(x[sel])
   }
-  if(clipiters>0){
-    clipx=sort(x[sel])
+  
+  if(clipiters>0 & length(x)>0){
     newlen=length(clipx)
     sigcut=pnorm(sigmasel)
     
@@ -49,12 +49,12 @@ magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both', extr
       cliplogic=TRUE
     }
   }
-  if(extra){
+  if(extra & length(clipx)>0){
     cliplogic[xord]=cliplogic
     range=range(clipx, na.rm = TRUE)
   }else{
     cliplogic=NA
     range=NA
   }
-  invisible(list(x=clipx, clip=cliplogic, range=range))
+  invisible(list(x=clipx, clip=cliplogic, range=range, clipiters=i))
 }

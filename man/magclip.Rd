@@ -19,7 +19,7 @@ Numeric; the values to be clipped. This can reasonably be a vector, a matrix or 
 The level of sigma clipping to be done. If set to default of 'auto' it will dynamically choose a sigma level to cut at based on the length of x (or the clipped version once iterations have started), i.e.: sigma=qnorm(1-2/length(x)). This have the effect of removing unlikely values based on the chance of them occurring, i.e. there is roughly a 50\% chance of a 3.5 / 4.6 sigma Normal fluctuation occurring when you have 10,000 / 10,000,000 values, hence choosing this value dynamically is usually the best option.
 }
   \item{clipiters}{
-The maximum number of sigma clipping iterations to attempt. It will break out sooner than this if the iterations have converged. The default of 5 is usually plenty (up to the contamination being towards the 50\% level).
+The maximum number of sigma clipping iterations to attempt. It will break out sooner than this if the iterations have converged. The default of 5 is usually plenty (up to the contamination being towards the 50\% level). The number of actual iterations is returns as \option{clipiters}.
 }
   \item{sigmasel}{
 The quantile to use when trying to estimate the true standard-deviation of the Normal distribution. if contamination is low then the default of 1 is about optimal in terms of S/N, but you might need to make the value lower when contamination is very high.
@@ -40,6 +40,7 @@ A list containing three items:
 \item{x}{Numeric vector; the cliped \option{x} values.}
 \item{clip}{Locial; logic of which values were clipped with the same type and shape attributes as the input \option{x} (i.e. if the original \option{x} was a matrix then \option{clip} would also be a matrix that matches element to element).}
 \item{range}{The data range of clipped \option{x} values returned.}
+\item{clipiters}{The number of iterations made, which might be less than the input \option{clipiters} since it might converge faster.}
 }
 \author{
 Aaron Robotham
@@ -61,6 +62,8 @@ lines(seq(-5,5,len=1e3),dnorm(seq(-5,5,len=1e3)),col='red')
 temp=c(rnorm(1e3),runif(500,0,10))
 magplot(density(magclip(temp)$x))
 lines(seq(-5,5,len=1e3),dnorm(seq(-5,5,len=1e3)),col='red')
+
+#Setting estimate to 'lo' in this case should work better:
 
 magplot(density(magclip(temp, estimate='lo')$x))
 lines(seq(-5,5,len=1e3),dnorm(seq(-5,5,len=1e3)),col='red')
