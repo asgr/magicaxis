@@ -29,7 +29,7 @@ loc.diff = c(0, 0))
 Numeric matrix; required, the image we want to decorate. If \option{image} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of these lists is parsed to \option{image} and the correct header part is parsed to \option{header}.
 }
   \item{header}{
-Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the astro package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
+Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the \code{astro} package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
 }
   \item{loc}{
 Numeric vector; the [x,y] (\code{magcutout}) or [x,y] / [RA,Dec] (\code{magcutoutWCS}) location where we want to cutout the image. For \code{magcutoutWCS} the unit type can be specified with the \option{loc.type} option. Either it is WCS in degrees [RA,Dec] (coord) or  pixel [x,y] of the \option{image} (image).
