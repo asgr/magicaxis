@@ -45,11 +45,11 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, tick=F
         if(sd(xtemp)==0){xtemp=xtemp+rnorm(samples,sd=1e-3)}
         plot(density(xtemp),axes=FALSE,main='',xlim=xrange)
         magaxis(1,grid=grid, grid.col = 'lightgrey',labels=FALSE,tick=tick)
-        abline(v=meanvec[i],lty=2,col='red')
+        abline(v=meanvec[i],lty=1,col='red')
         abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
         abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
         if(!is.null(refvals)){
-          abline(v=refvals[i], col='blue')
+          abline(v=refvals[i],lty=1, col='blue')
         }
         box()
         if(i==1){
@@ -68,11 +68,11 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, tick=F
           magcon(xtemp,ytemp,dobar=FALSE,doim=FALSE,add=TRUE,lty=c(2,1,3),xlim=xrange,ylim=yrange, h=c(diff(xrange),diff(yrange))/10, ...)
           points(meanvec[i],meanvec[j],col='red',pch=4,cex=2)
           box()
-          abline(v=meanvec[i],col='red')
+          abline(v=meanvec[i],lty=1,col='red')
           abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
           abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
           if(!is.null(refvals)){
-            abline(v=refvals[i], col='blue')
+            abline(v=refvals[i],lty=1, col='blue')
           }
           if(j==1){magaxis(1,xlab=chaincolnames[i])}
         }else{
