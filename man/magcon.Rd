@@ -8,11 +8,11 @@
 This function generates pretty images and contours that reflect the 2D quantile levels of the data. This means the user can immediately assess the 2D regime that contains an arbitrary percentage of the data. This function was designed particularly with the output of MCMC posteriors in mind, where visualising the location of the 68\% and 95\% 2D quantiles for covariant parameters is a necessary part of the post MCMC analysis.
 }
 \usage{
-magcon(x, y, h, doim = TRUE, docon = TRUE, dobar = TRUE, n = 100, add = FALSE,
+magcon(x, y, h, doim = TRUE, docon = TRUE, dobar = TRUE, ngrid = 100, add = FALSE,
 xlab = '', ylab = '', imcol = c(NA,rev(rainbow(1000, start = 0, end = 2/3))),
 conlevels = c(0.5, pnorm(1) - pnorm(-1), 0.95), barposition = "topright",
 barorient = "v",bartitle = "Contained \%", bartitleshift = 0, xlim = NULL, ylim = NULL,
-weights = NA,...)
+weights = NULL,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,8 +34,8 @@ Should contours be overlain.
   \item{dobar}{
 Should a magbar colour bar be added describing the image levels (doim must also be true for this to appear).
 }
-  \item{n}{
-The n to send to kde2d to determine the resolution of the smoothing.
+  \item{ngrid}{
+The ngrid to send to kde2d / sm.density to determine the resolution of the smoothing.
 }
   \item{add}{
 Should the output of this function be added to the current plot. If FALSE then a new plot is generated.

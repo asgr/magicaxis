@@ -1,16 +1,28 @@
 magerr = function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='black', fill=FALSE, poly=FALSE,...){
+  if(missing(x)){stop('Need x!')}
+  if(missing(y)){stop('Need y!')}
+  
+  x[is.infinite(x)]=1e300*sign(x[is.infinite(x)])
+  y[is.infinite(y)]=1e300*sign(y[is.infinite(y)])
+  x[!is.finite(x)]=NA
+  y[!is.finite(y)]=NA
+  
   if(length(col)==1){col=rep(col,length(x))}
   if(!missing(xlo)){
     if(length(xlo)==1){xlo=rep(xlo,length(x))}
+    xlo[!is.finite(xlo)]=1e300*sign(xlo[!is.finite(xlo)])
   }
   if(!missing(xhi)){
     if(length(xhi)==1){xhi=rep(xhi,length(x))}
+    xhi[!is.finite(xhi)]=1e300*sign(xhi[!is.finite(xhi)])
   }
   if(!missing(ylo)){
     if(length(ylo)==1){ylo=rep(ylo,length(x))}
+    ylo[!is.finite(ylo)]=1e300*sign(ylo[!is.finite(ylo)])
   }
   if(!missing(yhi)){
     if(length(yhi)==1){yhi=rep(yhi,length(x))}
+    yhi[!is.finite(yhi)]=1e300*sign(yhi[!is.finite(yhi)])
   }
   if(!missing(corxy)){
     errbarsel=which(xlo==0 | ylo==0)

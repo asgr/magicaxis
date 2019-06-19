@@ -5,10 +5,11 @@
 High level triangle plotting code for MCMC chains
 }
 \description{
-A very high level (minimal options) MCMC chain triangle plot function. The default is deliberately spartan in terms of options, but the result should be a clear set of covariance plots that should give quick insight into the stationary sampling quality of a set of MCMC posterior chains.
+A very high level (minimal options) MCMC chain triangle (AKA corner) plot function. The default is deliberately spartan in terms of options, but the result should be a clear set of covariance plots that should give quick insight into the stationary sampling quality of a set of MCMC posterior chains.
 }
 \usage{
-magtri(chains, samples, samptype = "end", grid = FALSE, tick = FALSE)
+magtri(chains, samples = 1000, thin = 1, samptype = 'end', grid = FALSE, tick = FALSE,
+refvals = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,16 +17,25 @@ magtri(chains, samples, samptype = "end", grid = FALSE, tick = FALSE)
 A matrix or data.frame of the posterior chains, arranged so that the columns are the parameters and rows are the individual chain samples. The column names are inherited as the parameter names from the input to \code{chains}.
 }
   \item{samples}{
-Specify the number of sub-samples desired. To speed up plotting it is often a good idea not to plot all chain samples (the reduced set is plotted as the top-left points and used to generate the bottom-right contours). The default (empty) will plot all samples provided by \option{chains}.
+Specify the number of sub-samples desired. To speed up plotting it is often a good idea not to plot all chain samples (the reduced set is plotted as the top-left points and used to generate the bottom-right contours). The default plot 1000 samples.
+}
+  \item{thin}{
+Specify the thinning of chain samples, default (1) processes the whole chain.
 }
   \item{samptype}{
-Specifies whether to take all of the samples from the end of the supplied \code{chains} ('end', the default since samples are usually better towards the end of a set of psoterior chain samples) or randomly selected ('ran', should only be used if you are confident the posterior chains supplied are true stationary samples).
+Specifies whether to take all of the samples from the end of the supplied \code{chains} ('end', the default since samples are usually better towards the end of a set of psoterior chain samples), randomly selected ('ran', should only be used if you are confident the posterior chains supplied are true stationary samples) or evenly selected ('thin', which behaves much like thinning except we specify the target number of outputs, not the fraction of samples kept).
 }
   \item{grid}{
 Should a background grid be added to the sub-panels? See \code{\link{magaxis}} for details.  
 }
   \item{tick}{
 Should tick marks be added to every sub-panel? 
+}
+  \item{refvals}{
+Numeric vector; this gives reference values to overdraw. If provided it must be the same length as dim(chains)[2], i.e. this would usually be the number of parameters being compared in the triangle plot.
+}
+  \item{\dots}{
+Extra arguments are passed to \option{\link{magcon}} for plotting.  
 }
 }
 \details{
