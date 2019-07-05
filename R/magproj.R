@@ -84,6 +84,9 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
         if(crunch==TRUE){text(temp,labels = paste(deg2dms(latpretty,type='mat')[,1],'\u00B0',sep=''))}
       }
     }
+  }else{
+    xlim=par()$usr[1:2]
+    ylim=par()$usr[3:4]
   }
   
   if(type=='p'){
@@ -99,6 +102,10 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
   }
   
   if(type=='pl'){
+    long=ifelse(long < longlim[1],longlim[1],long)
+    long=ifelse(long > longlim[2],longlim[2],long)
+    lat=ifelse(lat < latlim[1],latlim[1],lat)
+    lat=ifelse(lat > latlim[2],latlim[2],lat)
     checklims=diff(long)
     if(any(abs(checklims)>180)){
       lolong=which(abs(long-longlim[1])<=180)
@@ -111,7 +118,13 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
           templolonglong=approxfun(seq(0,1,len=length(templolonglong)), templolonglong)(seq(0,1,len=length(templolonglong)*upres))
           templolonglat=approxfun(seq(0,1,len=length(templolonglat)), templolonglat)(seq(0,1,len=length(templolonglat)*upres))
           temp=mapproject(templolonglong, templolonglat)
-          polygon(temp, ...)
+          temp$x=ifelse(temp$x < min(xlim), min(xlim), temp$x)
+          temp$x=ifelse(temp$x > max(xlim), max(xlim), temp$x)
+          temp$y=ifelse(temp$y < min(ylim), min(ylim), temp$y)
+          temp$y=ifelse(temp$y > max(ylim), max(ylim), temp$y)
+          if(length(unique(temp$x))>1 | length(unique(temp$y))>1){
+            polygon(temp, ...)
+          }
           temphilonglong=long[hilong]
           temphilonglat=lat[hilong]
           temphilonglong=c(temphilonglong,longlim[2]-1e-9,longlim[2]-1e-9,temphilonglong[1])
@@ -119,7 +132,13 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
           temphilonglong=approxfun(seq(0,1,len=length(temphilonglong)), temphilonglong)(seq(0,1,len=length(temphilonglong)*upres))
           temphilonglat=approxfun(seq(0,1,len=length(temphilonglat)), temphilonglat)(seq(0,1,len=length(temphilonglat)*upres))
           temp=mapproject(temphilonglong, temphilonglat)
-          polygon(temp, ...)
+          temp$x=ifelse(temp$x < min(xlim), min(xlim), temp$x)
+          temp$x=ifelse(temp$x > max(xlim), max(xlim), temp$x)
+          temp$y=ifelse(temp$y < min(ylim), min(ylim), temp$y)
+          temp$y=ifelse(temp$y > max(ylim), max(ylim), temp$y)
+          if(length(unique(temp$x))>1 | length(unique(temp$y))>1){
+            polygon(temp, ...)
+          }
         }
         if(1 %in% hilong){
           templolonglong=long[lolong]
@@ -129,7 +148,13 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
           templolonglong=approxfun(seq(0,1,len=length(templolonglong)), templolonglong)(seq(0,1,len=length(templolonglong)*upres))
           templolonglat=approxfun(seq(0,1,len=length(templolonglat)), templolonglat)(seq(0,1,len=length(templolonglat)*upres))
           temp=mapproject(templolonglong, templolonglat)
-          polygon(temp, ...)
+          temp$x=ifelse(temp$x < min(xlim), min(xlim), temp$x)
+          temp$x=ifelse(temp$x > max(xlim), max(xlim), temp$x)
+          temp$y=ifelse(temp$y < min(ylim), min(ylim), temp$y)
+          temp$y=ifelse(temp$y > max(ylim), max(ylim), temp$y)
+          if(length(unique(temp$x))>1 | length(unique(temp$y))>1){
+            polygon(temp, ...)
+          }
           temphilonglong=long[hilong]
           temphilonglat=lat[hilong]
           temphilonglong=c(temphilonglong,longlim[2]-1e-9,longlim[2]-1e-9,temphilonglong[1])
@@ -137,13 +162,25 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
           temphilonglong=approxfun(seq(0,1,len=length(temphilonglong)), temphilonglong)(seq(0,1,len=length(temphilonglong)*upres))
           temphilonglat=approxfun(seq(0,1,len=length(temphilonglat)), temphilonglat)(seq(0,1,len=length(temphilonglat)*upres))
           temp=mapproject(temphilonglong, temphilonglat)
-          polygon(temp, ...)
+          temp$x=ifelse(temp$x < min(xlim), min(xlim), temp$x)
+          temp$x=ifelse(temp$x > max(xlim), max(xlim), temp$x)
+          temp$y=ifelse(temp$y < min(ylim), min(ylim), temp$y)
+          temp$y=ifelse(temp$y > max(ylim), max(ylim), temp$y)
+          if(length(unique(temp$x))>1 | length(unique(temp$y))>1){
+            polygon(temp, ...)
+          }
         }
     }else{
     long=approxfun(seq(0,1,len=length(long)), long)(seq(0,1,len=length(long)*upres))
     lat=approxfun(seq(0,1,len=length(lat)), lat)(seq(0,1,len=length(lat)*upres))
     temp=mapproject(long, lat)
-    polygon(temp, ...)
+    temp$x=ifelse(temp$x < min(xlim), min(xlim), temp$x)
+    temp$x=ifelse(temp$x > max(xlim), max(xlim), temp$x)
+    temp$y=ifelse(temp$y < min(ylim), min(ylim), temp$y)
+    temp$y=ifelse(temp$y > max(ylim), max(ylim), temp$y)
+    if(length(unique(temp$x))>1 | length(unique(temp$y))>1){
+      polygon(temp, ...)
+    }
     }
   }
   
