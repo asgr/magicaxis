@@ -53,6 +53,7 @@ magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both', extr
     cliplogic[xord]=cliplogic
     range=range(clipx, na.rm = FALSE)
   }else{
+    i=0
     cliplogic=NA
     range=NA
   }
