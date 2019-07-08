@@ -1,14 +1,14 @@
 magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both', extra=TRUE){
   if(extra){
     xord=order(x)
-    sel = !is.na(x[xord]) & !is.nan(x[xord]) & !is.null(x[xord]) & is.finite(x[xord])
+    sel = is.finite(x[xord])
     clipx=x[xord][sel]
   }else{
-    sel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+    sel = is.finite(x)
     clipx=sort(x[sel])
   }
   
-  if(clipiters>0 & length(x)>0){
+  if(clipiters>0 & length(clipx)>0){
     newlen=length(clipx)
     sigcut=pnorm(sigmasel)
     
@@ -51,7 +51,7 @@ magclip=function(x, sigma='auto', clipiters=5, sigmasel=1, estimate='both', extr
   }
   if(extra & length(clipx)>0){
     cliplogic[xord]=cliplogic
-    range=range(clipx, na.rm = TRUE)
+    range=range(clipx, na.rm = FALSE)
   }else{
     cliplogic=NA
     range=NA
