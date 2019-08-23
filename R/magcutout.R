@@ -3,6 +3,7 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   xcen = loc[1]
   ycen = loc[2]
   loc = ceiling(loc)
+  box = ceiling(box)
   if(length(box)==1){box=rep(box,2)}
   xlo = ceiling(loc[1] - (box[1]/2 - 0.5))
   xhi = ceiling(loc[1] + (box[1]/2 - 0.5))
