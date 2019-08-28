@@ -27,13 +27,13 @@ Locations of grid lines at which the values in z are measured. These must be fin
 A numeric or logical matrix containing the values to be plotted (NAs are allowed). Note that x can be used instead of z for convenience.
 }
   \item{R}{
-A numeric or logical matrix containing the red colour values to be plotted (NAs are allowed). Note that a 3D array x can be used instead of R for convenience, where R=x[,,1].
+A numeric or logical matrix containing the red colour values to be plotted (NAs are allowed). Note that \option{x} can be a 3D array or list (containing elements R/G/B) instead of R for convenience, where R=x[,,1].
 }
   \item{G}{
-A numeric or logical matrix containing the green colour values to be plotted (NAs are allowed). Note that a 3D array x can be used instead of G for convenience, where G=x[,,2].
+A numeric or logical matrix containing the green colour values to be plotted (NAs are allowed).  Note that \option{x} can be a 3D array or list (containing elements R/G/B) instead of G for convenience, where G=x[,,2].
 }
   \item{B}{
-A numeric or logical matrix containing the blue colour values to be plotted (NAs are allowed). Note that a 3D array x can be used instead of B for convenience, where B=x[,,3].
+A numeric or logical matrix containing the blue colour values to be plotted (NAs are allowed).  Note that \option{x} can be a 3D array or list (containing elements R/G/B) instead of B for convenience, where B=x[,,3].
 }
   \item{saturation}{
 The visual saturation of the colours, a bit like the dial on a TV. 1 is native, 0 is black and white, 2 is very intense nigh-on trippy.   
@@ -60,10 +60,10 @@ The y/x aspect ratio
 If TRUE then \code{\link{magmap}} scaling is applied to the z dimension (default), if FALSE then it is not.
 }
   \item{locut}{
-The low limit to clip the z data at (what this means varies depending on the 'type' option). This can be a single value (used for R, G and B) or a vector of length 3 (used for R, G and B respectively). See \code{\link{magmap}} for more information.
+The low limit to clip the z data at (what this means varies depending on the 'type' option). For \code{magimageRGB} this can be a single value (used for \option{R}, \option{G} and \option{B}) or a vector of length 3 (used for \option{R}, \option{G} and \option{B} respectively). See \code{\link{magmap}} for more information.
 }
   \item{hicut}{
-The high limit to clip the z data at (what this means varies depending on the 'type' option). This can be a single value (used for R, G and B) or a vector of length 3 (used for R, G and B respectively). See \code{\link{magmap}} for more information.
+The high limit to clip the z data at (what this means varies depending on the 'type' option). For \code{magimageRGB} this can be a single value (used for \option{R}, \option{G} and \option{B}) or a vector of length 3 (used for \option{R}, \option{G} and \option{B} respectively). See \code{\link{magmap}} for more information.
 }
   \item{flip}{
 Should the z scaling be flipped. This allows numbers from 0 to 10 to be mapped from 1 to 0 (so ordered back to front with respect to the input). See \code{\link{magmap}} for more information.
@@ -78,7 +78,7 @@ The type of z mapping attempted. Options are 'quan' (default), 'num', 'sig' and 
 stretch='lin' gives linear mapping. stretch='log' gives logarithmic mapping. stretch='atan' gives atan mapping. stretch='asinh' gives asinh mapping. stretch='sqrt' gives sqrt mapping. See \code{\link{magmap}} for more information.
 }
   \item{stretchscale}{
-A number to multiply the z data by before applying the stretch. This only has a user impact for stretch='atan' and stretch='asinh' since it controls what parts of the data is in the linear or logarithmic regime of the stretch procedure. If set to 'auto' (the default) it uses 1/median(abs(data)) to find a useful scale.See \code{\link{magmap}} for more information.
+A number to multiply the z data by before applying the stretch. This only has a user impact for stretch='atan' and stretch='asinh' since it controls what parts of the data is in the linear or logarithmic regime of the stretch procedure. If set to 'auto' (the default) it uses 1/median(abs(data)) to find a useful scale.See \code{\link{magmap}} for more information. For \code{magimageRGB} this can be a single value (used for \option{R}, \option{G} and \option{B}) or a vector of length 3 (used for \option{R}, \option{G} and \option{B} respectively). See \code{\link{magmap}} for more information.
 }
   \item{bad}{
 Sets the value that NA, NaN and infinite input z data should be set to in the final map output. This should be thought of in the context of the range argument, i.e. if bad=range[1] then bad values will be the low range value and if bad=range[2] bad values will be the high range value. See \code{\link{magmap}} for more information. For \code{magimageRGB} bad is set to range[1] by default since this removes RGB conversion errors that would be experiences with NA values (i.e. negative values when \option{stretch}='log').

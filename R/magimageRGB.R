@@ -61,12 +61,13 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
   if(missing(zlim)){
     zlim=c(0,length(R))
   }
-  if(length(locut)<3){locut=rep(locut,3)}
-  if(length(hicut)<3){hicut=rep(hicut,3)}
+  if(length(locut)<3){locut=rep(locut[1],3)}
+  if(length(hicut)<3){hicut=rep(hicut[1],3)}
+  if(length(stretchscale)<3){stretchscale=rep(stretchscale[1],3)}
   if(magmap){
-    R=magmap(data=R, locut=locut[1], hicut=hicut[1], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
-    G=magmap(data=G, locut=locut[2], hicut=hicut[2], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
-    B=magmap(data=B, locut=locut[3], hicut=hicut[3], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
+    R=magmap(data=R, locut=locut[1], hicut=hicut[1], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale[1], bad=bad, clip=clip)$map
+    G=magmap(data=G, locut=locut[2], hicut=hicut[2], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale[2], bad=bad, clip=clip)$map
+    B=magmap(data=B, locut=locut[3], hicut=hicut[3], flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale[3], bad=bad, clip=clip)$map
   }
   
   if(saturation!=1){
