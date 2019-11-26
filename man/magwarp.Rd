@@ -5,7 +5,7 @@
 Remap Image WCS via Warping
 }
 \description{
-Remaps an input Tan Gnomonic or Sine Orthographic projection projection system to a different target WCS.
+Remaps an input Tan Gnomonic or Sine Orthographic projection system to a different target WCS.
 }
 \usage{
 magwarp(image_in, header_out = NULL, header_in = NULL, dim_out, direction = "auto",

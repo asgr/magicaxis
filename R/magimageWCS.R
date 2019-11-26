@@ -260,7 +260,7 @@ magimageWCSCompass=function(header, position='topright', com.col='green', com.le
     magWCSxy2radec(xlo, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, CTYPE1=CTYPE1, CTYPE2=CTYPE2, loc.diff=loc.diff),
     magWCSxy2radec(xlo, yhi, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, CTYPE1=CTYPE1, CTYPE2=CTYPE2, loc.diff=loc.diff),
     magWCSxy2radec(xhi, ylo, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, CTYPE1=CTYPE1, CTYPE2=CTYPE2, loc.diff=loc.diff),
-    magWCSxy2radec(xhi, yhi, header = header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, CTYPE1=CTYPE1, CTYPE2=CTYPE2, loc.diff=loc.diff)
+    magWCSxy2radec(xhi, yhi, header=header, CRVAL1=CRVAL1, CRVAL2=CRVAL2, CRPIX1=CRPIX1, CRPIX2=CRPIX2, CD1_1=CD1_1, CD1_2=CD1_2, CD2_1=CD2_1, CD2_2=CD2_2, CTYPE1=CTYPE1, CTYPE2=CTYPE2, loc.diff=loc.diff)
   )
   rarange=range(coordlims[,1])
   decrange=range(coordlims[,2])

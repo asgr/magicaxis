@@ -30,13 +30,13 @@ if(type=='quan'){
 	hicut=length(data[good])
 	data[good][order(data[good])]=locut:hicut
 }else{
-  stop(type,'is not a valid type option!')
+  stop(type,' is not a valid type option!')
 }
 loreturn=locut
 hireturn=hicut
 if(stretch=='log' & locut<=0){stop('locut <= 0 and stretch=\'log\'- this is not allowed!')}
 if(stretch=='log' & hicut<=0){stop('hicut <=0 and stretch=\'log\'- this is not allowed!')}
-if(locut>hicut){stop('locut>hicut is not allowed')}
+if(locut>hicut){stop('locut > hicut is not allowed')}
 if(locut==hicut){data[good]=(range[2]+range[1])/2}
 if(locut<hicut){
   if(stretch=='lin'){
@@ -63,7 +63,7 @@ if(locut<hicut){
     hicut=cdf(hicut)
     data[good]=cdf(data[good])
   }else{
-	  stop(paste(stretch,'is not a valid stretch option!'))
+	  stop(stretch,' is not a valid stretch option!')
 	}
   losel=data<locut & good; hisel=data>hicut & good
 	data[losel]=locut; data[hisel]=hicut
