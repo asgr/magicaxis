@@ -221,6 +221,10 @@ v 2.0.8
 
 Fixed subtle offset issue between magwarp when using nearest or cubic interpolation. Seems imager::imwarp introduced a half pixel offset mapping difference.
 
+v 2.0.13
+
+On disk fst support for magcutout and magcutoutWCS.
+
 TO DO:
 
 FEATURE: Add better in-plot legends.

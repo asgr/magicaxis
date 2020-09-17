@@ -26,7 +26,7 @@ loc.diff = c(0, 0))
 }
 \arguments{
   \item{image}{
-Numeric matrix; required, the image we want to decorate. If \option{image} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of these lists is parsed to \option{image} and the correct header part is parsed to \option{header}.
+Numeric matrix; required, the image we want to decorate. If \option{image} is a list as created by \code{readFITS}, \code{read.fits} of \code{\link{magcutoutWCS}} then the image part of these lists is parsed to \option{image} and the correct header part is parsed to \option{header}. If \option{image} is a path to an \code{fst} format file then the cutout can be done on disk directly.
 }
   \item{header}{
 Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the \code{astro} package; the \option{hdr} output of \code{readFITS} in the \code{FITSio} package or the \option{header} output of \code{magcutoutWCS}. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.

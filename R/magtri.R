@@ -1,4 +1,4 @@
-magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, tick=FALSE, refvals=NULL, ...){
+magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, tick=FALSE, refvals=NULL, lab=NULL, ...){
   chains=as.data.frame(chains)
   chaincolnames=colnames(chains)
   Nsamp=dim(chains)[1]
@@ -54,7 +54,16 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, tick=F
         box()
         if(i==1){
           plot.window(xlim=xrange,ylim=yrange)
-          magaxis(1:2,xlab=chaincolnames[i],ylab=chaincolnames[j])
+          if(is.null(lab)){
+            magaxis(1,xlab=chaincolnames[i])
+          }else{
+            magaxis(1,xlab=lab[[i]])
+          }
+          if(is.null(lab)){
+            magaxis(2,ylab=chaincolnames[j])
+          }else{
+            magaxis(2,ylab=lab[[j]])
+          }
         }
       }else{
         if(i>j){
@@ -74,7 +83,13 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, tick=F
           if(!is.null(refvals)){
             abline(v=refvals[i],lty=1, col='blue')
           }
-          if(j==1){magaxis(1,xlab=chaincolnames[i])}
+          if(j==1){
+            if(is.null(lab)){
+              magaxis(1,xlab=chaincolnames[i])
+            }else{
+              magaxis(1,xlab=lab[[i]])
+            }
+          }
         }else{
           plot.new()
           plot.window(xlim=xrange,ylim=yrange)
@@ -82,12 +97,18 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, tick=F
           points(chains[usesamps,c(i,j)],pch='.',col='darkgrey')
           points(meanvec[i],meanvec[j],col='red',pch=4,cex=2)
           box()
-          if(i==1){magaxis(2,ylab=chaincolnames[j])}
+          if(i==1){
+            if(is.null(lab)){
+              magaxis(2,ylab=chaincolnames[j])
+            }else{
+              magaxis(2,ylab=lab[[j]])
+            }
+          }
         }
       }
     }
   }
   output=cbind(mean=meanvec, sd=sdvec)
   rownames(output)=chaincolnames
-  return=output
+  return(invisible(output))
 }
