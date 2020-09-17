@@ -16,6 +16,7 @@ hexcount = function(x, y, xlim=NULL, ylim=NULL, step=diff(xlim)/50, k=1e3, dustl
       if(dim(x)[2]>=2){y=x[,2];x=x[,1]}
     }
   }
+  use=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
   if(is.null(xlim)){xlim=range(x[use],na.rm=TRUE)}
   if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
   grid = hexgrid(xlim, ylim, step)
@@ -50,14 +51,14 @@ hexcount = function(x, y, xlim=NULL, ylim=NULL, step=diff(xlim)/50, k=1e3, dustl
   return(output)
 }
 
-plot.hexcount = function(x, ...){
+plot.hexcount = function(x, colramp=terrain.colors(1e4), ...){
   x$hexbins = x$hexbins[x$hexbins[,3]>x$dustlim,]
-  colvec= magmap(x$hexbins[,3], stretch='log', bad=NA, flip=TRUE)$map
+  colmap = magmap(x$hexbins[,3], stretch='log', bad=NA, range=c(1,length(colramp)))$map
   magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, asp=1, grid=T)
   for(i in 1:dim(x$hexbins)[1]){
-    if(!is.na(colvec[i])){
+    if(!is.na(colmap[i])){
       if(x$hexbins[i,3] > x$dustlim){
-        drawhex(x$hexbins[i,1], x$hexbins[i,2], unitcell=x$step, col=hsv(colvec[i]), border=NA)
+        drawhex(x$hexbins[i,1], x$hexbins[i,2], unitcell=x$step, col=colramp[colmap[i]], border=NA)
       }
     }
   }
@@ -66,16 +67,17 @@ plot.hexcount = function(x, ...){
   }
 }
 
-maghex = function(x, y, xlim=NULL, ylim=NULL, step=diff(xlim)/50, k=1e3, dustlim=1, exacthex=FALSE){
+maghex = function(x, y, xlim=NULL, ylim=NULL, step=diff(xlim)/50, k=1e3, dustlim=1, exacthex=FALSE, colramp=terrain.colors(1e4)){
   if(missing(y)){
     if(!is.null(dim(x))){
       if(dim(x)[2]>=2){y=x[,2];x=x[,1]}
     }
   }
+  use=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
   if(is.null(xlim)){xlim=range(x[use],na.rm=TRUE)}
   if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
   hexout = hexcount(x=x, y=y, xlim=xlim, ylim=ylim, step=step, k=k, dustlim=dustlim, exacthex=exacthex)
-  plot(hexout)
+  plot(hexout, colramp=colramp)
   return(invisible(hexout))
 }
 
