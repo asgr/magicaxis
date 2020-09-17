@@ -33,13 +33,13 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     }
     
     outsum=summary(xtemp)
-    sd1q2q=c(as.numeric(sd(xtemp)), as.numeric(diff(quantile(xtemp,pnorm(c(-1,1)),na.rm = TRUE)))/2, as.numeric(diff(quantile(xtemp,pnorm(c(-2,2)),na.rm = TRUE)))/2)
+    sdmad1q2q=c(as.numeric(sd(xtemp)), as.numeric(mad(xtemp)), as.numeric(diff(quantile(xtemp,pnorm(c(-1,1)),na.rm = TRUE)))/2, as.numeric(diff(quantile(xtemp,pnorm(c(-2,2)),na.rm = TRUE)))/2)
     
     if(verbose){
       print('Summary of used sample:')
       print(outsum)
-      print('sd / 1-sig / 2-sig range:')
-      print(sd1q2q)
+      print('sd / MAD / 1-sig / 2-sig range:')
+      print(sdmad1q2q)
       if(!is.null(xlim)){
         print(paste('Using ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<min(xlim))),' < xlo & ',length(which(x>max(xlim))),' > xhi)',sep=''))
       }else{
@@ -182,7 +182,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     out$density=10^out$density
   }
   if(!class(x)=='histogram'){
-    out=c(out, summary=list(outsum), ranges=list(sd1q2q))
+    out=c(out, summary=list(outsum), ranges=list(sdmad1q2q))
     class(out)='histogram'
   }else{
     out=out
