@@ -51,8 +51,13 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
       dustlim = ceiling(quantile(hexcounts[hexcounts>0],dustlim))
     }
     if(dustlim > 0 & is.null(z)){
-      dust = use[unique(output$nn.idx[hexcounts <= dustlim,])]
-      dust = dust[-which(is.na(dust))]
+      dustsel = use[unique(output$nn.idx[hexcounts <= dustlim,])]
+      dustsel = dustsel[-which(is.na(dustsel))]
+      if(is.null(z)){
+        dust = data.frame(x=x[dustsel], y=y[dustsel])
+      }else{
+        dust = data.frame(x=x[dustsel], y=y[dustsel], z=z[distsel])
+      }
     }else{
       dust = NULL
     }
@@ -71,7 +76,7 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
     hexcounts[tempagg[,1]] = tempagg[,2]
   }
   
-  output = list(hexbins=cbind(grid, hexcounts), dust=data.frame(x=x[dust], y=y[dust]),
+  output = list(hexbins=cbind(grid, hexcounts), dust=dust,
                 xlim=xlim, ylim=ylim, step=step, dustlim=dustlim, groups=groups)
   class(output) = 'hexcount'
   return(output)
@@ -103,7 +108,12 @@ plot.hexcount = function(x, colramp=terrain.colors(1e4), stretch='log', ...){
     }
   }
   if(!is.null(x$dust)){
-    points(x$dust$x, x$dust$y, pch='.')
+    if(is.null(x$dust$z)){
+      points(x$dust$x, x$dust$y, pch='.')
+    }else{
+      colmap = do.call("magmap", c(list(data=x$dust$z, stretch=stretch, range=c(1,length(colramp)), bad=NA), dotsmap))
+      points(x$dust$x, x$dust$y, pch='.', col=colramp[colmap$map])
+    }
   }
   magbar('topleft', range=colmap$datalim, log=stretch=='log', col=colramp)
 }
