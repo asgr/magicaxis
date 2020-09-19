@@ -1,4 +1,4 @@
-hexgrid = function(xlim=c(0,100), ylim=c(0,100), step=1){
+.hexgrid = function(xlim=c(0,100), ylim=c(0,100), step=1){
   xvec1 = seq(xlim[1], xlim[2], by=step)
   xvec2 = seq(xlim[1]+step/2, xlim[2]-step/2, by=step)
   
@@ -10,7 +10,14 @@ hexgrid = function(xlim=c(0,100), ylim=c(0,100), step=1){
   return(rbind(grid1, grid2))
 }
 
-hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clustering=10, dustlim=NA, exacthex=TRUE, funstat=median){
+.squaregrid = function(xlim=c(0,100), ylim=c(0,100), step=1){
+  xvec = seq(xlim[1], xlim[2], by=step)
+  yvec = seq(ylim[1], ylim[2], by=step)
+  grid = expand.grid(x=xvec, y=yvec)
+  return(grid)
+}
+
+.magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clustering=10, dustlim=NA, shape='hex', exactcount=TRUE, funstat=median){
   if(missing(y)){
     if(!is.null(dim(x))){
       if(dim(x)[2]>=2){y=x[,2];x=x[,1]}
@@ -19,11 +26,14 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
   use = which(!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y))
   if(is.null(xlim)){xlim=range(x[use],na.rm=TRUE)}
   if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
-  grid = hexgrid(xlim, ylim, step)
-  if(exacthex){
-    searchrad = 1.154701*step/2
+  if(shape=='hex'){grid = .hexgrid(xlim, ylim, step)}
+  if(shape=='square'){grid = .squaregrid(xlim, ylim, step)}
+  if(exactcount){
+    if(shape=='hex'){searchrad = 1.154701*step/2}
+    if(shape=='square'){searchrad = 1.414214*step/2}
   }else{
-    searchrad = 1.050075*step/2 #slightly smaller radius so on average we do not overcount statistically
+    if(shape=='hex'){searchrad = 1.050075*step/2} #slightly smaller radius so on average we do not overcount statistically
+    if(shape=='square'){searchrad = 1.27324*step/2}
   }
   ktry = ceiling(clustering * length(x) / dim(grid)[1])
   output = nn2(cbind(x[use],y[use]), grid, searchtype='radius', radius=searchrad, k=ktry)
@@ -33,8 +43,13 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
   }
   output$nn.dists[output$nn.dists>1.34e154]=NA
   output$nn.idx[output$nn.idx==0] = NA
-  if(exacthex){
-    overlap = output$nn.idx[output$nn.dists>0.845299*step/2 & output$nn.idx>0]
+  if(exactcount){
+    if(shape=='hex'){
+      overlap = output$nn.idx[output$nn.dists>0.845299*step/2 & output$nn.idx>0]
+    }
+    if(shape=='square'){
+      overlap = output$nn.idx[output$nn.dists>0.72676*step/2 & output$nn.idx>0]
+    }
     findclash = duplicated(overlap, incomparables=0)
     resolve = unique(overlap[findclash])
     allclashIDs = which(output$nn.idx %in% resolve)
@@ -44,14 +59,14 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
       output$nn.idx[allclashIDs][sel[-minsel]] = NA
     }
   }
-  hexcount = ktry - rowSums(is.na(output$nn.idx))
+  bincount = ktry - rowSums(is.na(output$nn.idx))
   
   if(!is.na(dustlim)){
     if(dustlim > 0 & dustlim < 1){
-      dustlim = ceiling(quantile(hexcount[hexcount>0],dustlim))
+      dustlim = ceiling(quantile(bincount[bincount>0],dustlim))
     }
     if(dustlim > 0){
-      dustsel = use[unique(output$nn.idx[hexcount <= dustlim,])]
+      dustsel = use[unique(output$nn.idx[bincount <= dustlim,])]
       dustsel = dustsel[-which(is.na(dustsel))]
       if(is.null(z)){
         dust = data.frame(x=x[dustsel], y=y[dustsel])
@@ -65,25 +80,25 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
     dust = NULL
   }
   
-  hexrefs = rep.int(1:dim(output$nn.idx)[1],times=ktry)
+  refs = rep.int(1:dim(output$nn.idx)[1],times=ktry)
   groups = rep(NA,length(x))
   replace = which(!is.na(output$nn.idx))
-  groups[use][output$nn.idx[replace]] = hexrefs[replace]
+  groups[use][output$nn.idx[replace]] = refs[replace]
   
-  hexzstat = rep(NA, length(hexcount))
+  binzstat = rep(NA, length(bincount))
   
   if(!is.null(z)){
     tempagg = aggregate(z, by=list(groups), FUN=funstat)
-    hexzstat[tempagg[,1]] = tempagg[,2]
+    binzstat[tempagg[,1]] = tempagg[,2]
   }
   
-  output = list(hexbins=data.frame(grid, count=hexcount, zstat=hexzstat), dust=dust,
-                xlim=xlim, ylim=ylim, step=step, dustlim=dustlim, groups=groups)
-  class(output) = 'hexcount'
+  output = list(bins=data.frame(grid, count=bincount, zstat=binzstat), dust=dust,
+                xlim=xlim, ylim=ylim, step=step, dustlim=dustlim, groups=groups, shape=shape)
+  class(output) = 'magbin'
   return(output)
 }
 
-plot.hexcount = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log', colref='count', sizeref='none', ...){
+plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log', colref='count', sizeref='none', ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
   if(length(dots)>0){
@@ -93,23 +108,33 @@ plot.hexcount = function(x, colramp=terrain.colors(1e4), colstretch='log', sizes
     dotsmap={}
   }
   if(!is.na(x$dustlim)){
-    x$hexbins = x$hexbins[x$hexbins[,'count']>x$dustlim,]
+    x$bins = x$bins[x$bins[,'count']>x$dustlim,]
   }
-  colmap = do.call("magmap", c(list(data=x$hexbins[,colref], stretch=colstretch, range=c(1,length(colramp)), bad=NA), dotsmap))
+  colmap = do.call("magmap", c(list(data=x$bins[,colref], stretch=colstretch, range=c(1,length(colramp)), bad=NA), dotsmap))
   if(sizeref=='none'){
-    sizemap = rep(1,dim(x$hexbins)[1])
+    sizemap = rep(1,dim(x$bins)[1])
   }else{
-    sizemap = do.call("magmap", c(list(data=x$hexbins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA), dotsmap))$map
+    sizemap = do.call("magmap", c(list(data=x$bins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA), dotsmap))$map
   }
-  #colmap = magmap(x$hexbins[,3], stretch=stretch, bad=NA, range=c(1,length(colramp)))
+  #colmap = magmap(x$bins[,3], stretch=stretch, bad=NA, range=c(1,length(colramp)))
   do.call("magplot", c(list(NA, NA, xlim=x$xlim, ylim=x$ylim), dots))
   #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
-  for(i in 1:dim(x$hexbins)[1]){
+  for(i in 1:dim(x$bins)[1]){
     if(!is.na(colmap$map[i])){
       if(is.na(x$dustlim)){
-        drawhex(x$hexbins[i,'x'], x$hexbins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
-      }else if(x$hexbins[i,'count'] > x$dustlim){
-        drawhex(x$hexbins[i,'x'], x$hexbins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
+        if(x$shape=='hex'){
+          .drawhex(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
+        }
+        if(x$shape=='square'){
+          .drawsquare(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
+        }
+      }else if(x$bins[i,'count'] > x$dustlim){
+        if(x$shape=='hex'){
+          .drawhex(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
+        }
+        if(x$shape=='square'){
+          .drawsquare(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
+        }
       }
     }
   }
@@ -129,7 +154,7 @@ plot.hexcount = function(x, colramp=terrain.colors(1e4), colstretch='log', sizes
 }
 
 maghex = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clustering=10,
-                  dustlim=0.1, exacthex=FALSE, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log', colref='count', sizeref='none', funstat=median, ...){
+                  dustlim=0.1, shape='hex', exactcount=FALSE, plot=TRUE, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log', colref='count', sizeref='none', funstat=median, ...){
   
   if(missing(y)){
     if(!is.null(dim(x))){
@@ -139,14 +164,16 @@ maghex = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, cluste
   use=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
   if(is.null(xlim)){xlim=range(x[use],na.rm=TRUE)}
   if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
-  hexout = hexcount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, step=step,
-                    clustering=clustering, dustlim=dustlim, exacthex=exacthex,
-                    funstat=funstat)
-  plot(hexout, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, ...)
-  return(invisible(hexout))
+  bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, step=step,
+                    clustering=clustering, dustlim=dustlim, shape=shape,
+                    exactcount=exactcount, funstat=funstat)
+  if(plot){
+    plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, ...)
+  }
+  return(invisible(bincount))
 }
 
-drawhex = function (x, y, unitcell = 1, col = NA, border = "black"){
+.drawhex = function (x, y, unitcell = 1, col = NA, border = "black"){
   polygon(
     x = c(0, 1, 1, 1, 0, -1, -1, -1, 0)*unitcell/2 + x,
     y = c(1.154701, 0.5773502, 0, -0.5773502, -1.154701, -0.5773502, 0, 0.5773502, 1.154701)*unitcell/2 + y,
@@ -155,7 +182,12 @@ drawhex = function (x, y, unitcell = 1, col = NA, border = "black"){
   )
 }
 
-passdots=function(func, dots){
-  funcargs = formalArgs(func)
-  
+.drawsquare = function (x, y, unitcell = 1, col = NA, border = "black"){
+  polygon(
+    x = c(1,1,-1,-1,1)*unitcell/2 + x,
+    y = c(1,-1,-1,1,1)*unitcell/2 + y,
+    col = col,
+    border = border
+  )
 }
+
