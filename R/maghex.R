@@ -44,19 +44,19 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
       output$nn.idx[allclashIDs][sel[-minsel]] = NA
     }
   }
-  hexcounts = ktry - rowSums(is.na(output$nn.idx))
+  hexcount = ktry - rowSums(is.na(output$nn.idx))
   
   if(!is.na(dustlim)){
-    if(dustlim > 0 & dustlim < 1 & is.null(z)){
-      dustlim = ceiling(quantile(hexcounts[hexcounts>0],dustlim))
+    if(dustlim > 0 & dustlim < 1){
+      dustlim = ceiling(quantile(hexcount[hexcount>0],dustlim))
     }
-    if(dustlim > 0 & is.null(z)){
-      dustsel = use[unique(output$nn.idx[hexcounts <= dustlim,])]
+    if(dustlim > 0){
+      dustsel = use[unique(output$nn.idx[hexcount <= dustlim,])]
       dustsel = dustsel[-which(is.na(dustsel))]
       if(is.null(z)){
         dust = data.frame(x=x[dustsel], y=y[dustsel])
       }else{
-        dust = data.frame(x=x[dustsel], y=y[dustsel], z=z[distsel])
+        dust = data.frame(x=x[dustsel], y=y[dustsel], z=z[dustsel])
       }
     }else{
       dust = NULL
@@ -70,19 +70,20 @@ hexcount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clus
   replace = which(!is.na(output$nn.idx))
   groups[use][output$nn.idx[replace]] = hexrefs[replace]
   
+  hexzstat = rep(NA, length(hexcount))
+  
   if(!is.null(z)){
     tempagg = aggregate(z, by=list(groups), FUN=funstat)
-    hexcounts[] = NA
-    hexcounts[tempagg[,1]] = tempagg[,2]
+    hexzstat[tempagg[,1]] = tempagg[,2]
   }
   
-  output = list(hexbins=cbind(grid, hexcounts), dust=dust,
+  output = list(hexbins=data.frame(grid, count=hexcount, zstat=hexzstat), dust=dust,
                 xlim=xlim, ylim=ylim, step=step, dustlim=dustlim, groups=groups)
   class(output) = 'hexcount'
   return(output)
 }
 
-plot.hexcount = function(x, colramp=terrain.colors(1e4), stretch='log', ...){
+plot.hexcount = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log', colref='count', sizeref='none', ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
   if(length(dots)>0){
@@ -92,34 +93,43 @@ plot.hexcount = function(x, colramp=terrain.colors(1e4), stretch='log', ...){
     dotsmap={}
   }
   if(!is.na(x$dustlim)){
-    x$hexbins = x$hexbins[x$hexbins[,3]>x$dustlim,]
+    x$hexbins = x$hexbins[x$hexbins[,'count']>x$dustlim,]
   }
-  colmap = do.call("magmap", c(list(data=x$hexbins[,3], stretch=stretch, range=c(1,length(colramp)), bad=NA), dotsmap))
+  colmap = do.call("magmap", c(list(data=x$hexbins[,colref], stretch=colstretch, range=c(1,length(colramp)), bad=NA), dotsmap))
+  if(sizeref=='none'){
+    sizemap = rep(1,dim(x$hexbins)[1])
+  }else{
+    sizemap = do.call("magmap", c(list(data=x$hexbins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA), dotsmap))$map
+  }
   #colmap = magmap(x$hexbins[,3], stretch=stretch, bad=NA, range=c(1,length(colramp)))
   do.call("magplot", c(list(NA, NA, xlim=x$xlim, ylim=x$ylim), dots))
   #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
   for(i in 1:dim(x$hexbins)[1]){
     if(!is.na(colmap$map[i])){
       if(is.na(x$dustlim)){
-        drawhex(x$hexbins[i,1], x$hexbins[i,2], unitcell=x$step, col=colramp[colmap$map[i]], border=NA)
-      }else if(x$hexbins[i,3] > x$dustlim){
-        drawhex(x$hexbins[i,1], x$hexbins[i,2], unitcell=x$step, col=colramp[colmap$map[i]], border=NA)
+        drawhex(x$hexbins[i,'x'], x$hexbins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
+      }else if(x$hexbins[i,'count'] > x$dustlim){
+        drawhex(x$hexbins[i,'x'], x$hexbins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
       }
     }
   }
   if(!is.null(x$dust)){
     if(is.null(x$dust$z)){
-      points(x$dust$x, x$dust$y, pch='.')
+      points(x$dust$x, x$dust$y, pch='.', col=colramp[1])
     }else{
-      colmap = do.call("magmap", c(list(data=x$dust$z, stretch=stretch, range=c(1,length(colramp)), bad=NA), dotsmap))
-      points(x$dust$x, x$dust$y, pch='.', col=colramp[colmap$map])
+      if(colref=='zstat'){
+        colmapdust = do.call("magmap", c(list(data=x$dust$z, locut=colmap$datalim[1],hicut=colmap$datalim[2], type='num', stretch=colstretch, range=c(1,length(colramp)), bad=NA), dotsmap))$map
+        points(x$dust$x, x$dust$y, pch='.', col=colramp[colmapdust])
+      }else{
+        points(x$dust$x, x$dust$y, pch='.', col=colramp[1])
+      }
     }
   }
-  magbar('topleft', range=colmap$datalim, log=stretch=='log', col=colramp)
+  magbar('topleft', range=colmap$datalim, log=colstretch=='log', col=colramp)
 }
 
 maghex = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, clustering=10,
-                  dustlim=0.1, exacthex=FALSE, colramp=terrain.colors(1e4), stretch='log', funstat=median, ...){
+                  dustlim=0.1, exacthex=FALSE, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log', colref='count', sizeref='none', funstat=median, ...){
   
   if(missing(y)){
     if(!is.null(dim(x))){
@@ -132,7 +142,7 @@ maghex = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=diff(xlim)/50, cluste
   hexout = hexcount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, step=step,
                     clustering=clustering, dustlim=dustlim, exacthex=exacthex,
                     funstat=funstat)
-  plot(hexout, colramp=colramp, stretch=stretch, ...)
+  plot(hexout, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, ...)
   return(invisible(hexout))
 }
 
