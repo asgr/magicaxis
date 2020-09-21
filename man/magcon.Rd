@@ -65,10 +65,10 @@ Title to use for magbar.
 Control of how far the magbar title is shifted away from its default position.
 }
   \item{xlim}{
-The x limits to use for the data. Default of NULL caculates the range based on the provided x data vector. Data will be clipped between the extremes given. If xlim[1]>xlim[2] plotted axes will be flipped compared to default.
+The x limits to use for the data. Default of NULL calculates the range based on the provided x data vector. Data will be clipped between the extremes given. If xlim[1]>xlim[2] plotted axes will be flipped compared to default.
 }
   \item{ylim}{
-The y limits to use for the data. Default of NULL caculates the range based on the provided y data vector. Data will be clipped between the extremes given. If ylim[1]>ylim[2] plotted axes will be flipped compared to default.
+The y limits to use for the data. Default of NULL calculates the range based on the provided y data vector. Data will be clipped between the extremes given. If ylim[1]>ylim[2] plotted axes will be flipped compared to default.
 }
   \item{weights}{
 A vector of weights to pass onto sm.density (that does the 2D density estimate). This must be the same length as the x and y vectors if specified.
