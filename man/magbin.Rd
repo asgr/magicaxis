@@ -65,7 +65,7 @@ Character scalar; colour reference for call, either it should be based on the co
 Character scalar; colour reference for call, either it should be ignored (none, so all are the same size and closely packed), based on the counts (count) or the z-axis statistic (zstat)?
 }
   \item{funstat}{
-Function; function to use to compute a statistic over the \option{z} axis.
+Function; function to use to compute a statistic over the \option{z} axis. The default is \code{\link{median}}, but other good options might be \code{\link{mean}}, \code{\link{sd}}, \code{\link{mad}}.
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}} and \code{\link{magmap}} for colouring bin mapping only.
@@ -96,6 +96,11 @@ magbin(xydata, shape='square')
 magbin(xydata, shape='triangle')
 
 magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count')
+
+magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count',
+funstat=mad)
+magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count',
+funstat=function(x){quantile(x,0.9)})
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
