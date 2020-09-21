@@ -90,9 +90,11 @@ List of class 'magbin' containing:
 \code{\link{plot.magbin}}, \code{\link{maghist}}
 }
 \examples{
-magbin(rnorm(1e4), rnorm(1e4), xlab='x', ylab='y')
-
 xydata = cbind(rnorm(1e4), rnorm(1e4))
+magbin(xydata, shape='hexagon') #default
+magbin(xydata, shape='square')
+magbin(xydata, shape='triangle')
+
 magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

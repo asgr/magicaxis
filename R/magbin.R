@@ -68,9 +68,14 @@
 
 .magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(ylim)/50),
                         clustering=10, dustlim=NA, shape='hex', exactcount=TRUE, funstat=median){
+  if(is.null(z)){
+    if(!is.null(dim(x))){
+      if(dim(x)[2]==3){z=unlist(x[,3])}
+    }
+  }
   if(missing(y)){
     if(!is.null(dim(x))){
-      if(dim(x)[2]>=2){y=x[,2];x=x[,1]}
+      if(dim(x)[2]>=2){y=unlist(x[,2]); x=unlist(x[,1])}
     }
   }
   use = which(!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y))
@@ -222,7 +227,7 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(
                   colstretch='lin', sizestretch='log', colref='count', sizeref='none', funstat=median, ...){
   if(is.null(z)){
     if(!is.null(dim(x))){
-      if(dim(x)[2]==2){z=unlist(x[,3])}
+      if(dim(x)[2]==3){z=unlist(x[,3])}
     }
   }
   if(missing(y)){
