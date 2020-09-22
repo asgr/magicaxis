@@ -9,8 +9,8 @@ Plot 2D histogram counts or a third (z) axis summary statistic in 2D cells of di
 }
 \usage{
 \method{plot}{magbin}(x, colramp = terrain.colors(10000), colstretch = "lin",
-  sizestretch = "log", colref = "count", sizeref = "none", add = FALSE,
-  dobar = TRUE, ...)
+  sizestretch = "lin", colref = "count", sizeref = "none", add = FALSE,
+  dobar = TRUE, title = colref, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,10 +21,10 @@ Object of class 'magbin'.
 Vector; a colour scaling to use. Must be a vector and not a function.
 }
   \item{colstretch}{
-Character scalar; colour stretch, either linear (lin) or logarithmic (log).
+Character scalar; colour stretch, either linear (lin, default) or logarithmic (log, good for large dynamic ranges).
 }
   \item{sizestretch}{
-Character scalar; size stretch, either linear (lin) or logarithmic (log).
+Character scalar; size stretch, either linear (lin, default) or logarithmic (log, good for large dynamic ranges).
 }
   \item{colref}{
 Character scalar; colour reference for call, either it should be based on the counts (count) or the z-axis statistic (zstat)?
@@ -38,8 +38,11 @@ Logical; should bins be added to the current plot? If FALSE then a new plot will
   \item{dobar}{
 Logical; should a colour bar be added to the plot?  
 }
+  \item{title}{
+Character scalar; title to use for the \option{\link{magbar}} label.  
+}
   \item{\dots}{
-Dots to be passed to \code{\link{magplot}} and \code{\link{magmap}} for colouring bin mapping only.
+Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
 }
 }
 \value{

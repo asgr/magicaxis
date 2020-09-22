@@ -183,11 +183,11 @@
   return(output)
 }
 
-plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestretch='log',
-                       colref='count', sizeref='none', add=FALSE, dobar=TRUE, ...){
+plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestretch='lin',
+                       colref='count', sizeref='none', add=FALSE, dobar=TRUE, title=colref, ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
-  dotskeepbar=c("position", "orient", "scale", "inset", "labN", "title", "titleshift", "centrealign", "clip")
+  dotskeepbar=c("position", "orient", "scale", "inset", "labN", "titleshift", "centrealign", "clip")
   if(length(dots)>0){
     dotsmap = dots[names(dots) %in% dotskeepmap]
     dots = dots[!names(dots) %in% dotskeepmap]
@@ -252,13 +252,13 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
   }
   
   if(dobar){
-    do.call("magbar", c(list(range=colmap$datalim, log=colstretch=='log', col=colramp), dotsbar))
+    do.call("magbar", c(list(range=colmap$datalim, log=colstretch=='log', col=colramp, title=title), dotsbar))
   }
 }
 
 magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, clustering=10,
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=terrain.colors(1e4),
-                  colstretch='lin', sizestretch='log', colref='count', sizeref='none', funstat=median, ...){
+                  colstretch='lin', sizestretch='lin', colref='count', sizeref='none', funstat=median, ...){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}

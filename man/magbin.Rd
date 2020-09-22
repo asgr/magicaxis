@@ -10,7 +10,7 @@ Allows for 2D binning (counts) and summary statistics on 2D bins (medians etc).
 \usage{
 magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, step = NULL,
 clustering = 10, dustlim = 0.1, shape = "hex", plot = TRUE,
-colramp = terrain.colors(10000), colstretch = "lin", sizestretch = "log",
+colramp = terrain.colors(10000), colstretch = "lin", sizestretch = "lin",
 colref = "count", sizeref = "none", funstat = median, ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -52,10 +52,10 @@ Logical; create a plot? If FALSE then just the binning output list is created.
 Vector; a colour scaling to use. Must be a vector and not a function.
 }
   \item{colstretch}{
-Character scalar; colour stretch, either linear (lin, default) or logarithmic (log).
+Character scalar; colour stretch, either linear (lin, default) or logarithmic (log, good for large dynamic ranges).
 }
   \item{sizestretch}{
-Character scalar; size stretch, either linear (lin) or logarithmic (log, default).
+Character scalar; size stretch, either linear (lin, default) or logarithmic (log, good for large dynamic ranges).
 }
   \item{colref}{
 Character scalar; colour reference for call, either it should be based on the counts (count, default) or the z-axis statistic (zstat)?
