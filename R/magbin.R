@@ -1,9 +1,9 @@
 .hexgrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1)){
-  xvec1 = seq(xlim[1], xlim[2], by=step[1])
-  xvec2 = seq(xlim[1]+step[1]/2, xlim[2]-step[1]/2, by=step[1])
+  xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
+  xvec2 = seq(xlim[1]-step[1]/2, xlim[2]+step[1]*3/2, by=step[1])
   
-  yvec1 = seq(ylim[1], ylim[2], by=step[2]*sqrt(3))
-  yvec2 = seq(ylim[1]+step[2]*sqrt(3)/2, ylim[2]-step[2]*sqrt(3)/2, by=step[2]*sqrt(3))
+  yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2]*sqrt(3))
+  yvec2 = seq(ylim[1]-step[2]*sqrt(3)/2, ylim[2]+step[2]*sqrt(3)*3/2, by=step[2]*sqrt(3))
   
   grid1 = expand.grid(x=xvec1, y=yvec1)
   grid2 = expand.grid(x=xvec2, y=yvec2)
@@ -11,18 +11,18 @@
 }
 
 .squaregrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1)){
-  xvec = seq(xlim[1], xlim[2], by=step[1])
-  yvec = seq(ylim[1], ylim[2], by=step[2])
+  xvec = seq(xlim[1], xlim[2]+step[1], by=step[1])
+  yvec = seq(ylim[1], ylim[2]+step[2], by=step[2])
   grid = expand.grid(x=xvec, y=yvec)
   return(grid)
 }
 
 .trianglegrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1)){
-  xvec1 = seq(xlim[1], xlim[2], by=step[1])
-  xvec2 = seq(xlim[1]+step[1]/2, xlim[2]-step[1]/2, by=step[1])
+  xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
+  xvec2 = seq(xlim[1]-step[1]/2, xlim[2]+step[1]/2, by=step[1])
   
-  yvec1 = seq(ylim[1], ylim[2], by=step[2]*sqrt(3)/2)
-  yvec2 = seq(ylim[1]+step[2]*0.2886751, ylim[2]-step[2]*0.2886751, by=step[2]*sqrt(3)/2)
+  yvec1 = seq(ylim[1], ylim[2]+step[2]*sqrt(3)/2, by=step[2]*sqrt(3)/2)
+  yvec2 = seq(ylim[1]+step[2]*0.2886751-step[2]*sqrt(3)/2, ylim[2]-step[2]*0.2886751+step[2]*sqrt(3)/2, by=step[2]*sqrt(3)/2)
   
   grid1 = expand.grid(x=xvec1, y=yvec1)
   grid2 = expand.grid(x=xvec2, y=yvec2)
@@ -67,7 +67,7 @@
 }
 
 .magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(ylim)/50),
-                        clustering=10, dustlim=NA, shape='hex', exactcount=TRUE, funstat=median){
+                        clustering=10, dustlim=NA, shape='hex', funstat=median){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}
@@ -84,15 +84,15 @@
   if(shape=='hex' | shape=='hexagon'){grid = .hexgrid(xlim, ylim, step)}
   if(shape=='sq' | shape=='square'){grid = .squaregrid(xlim, ylim, step)}
   if(shape=='tri' | shape=='triangle'){grid = .trianglegrid(xlim, ylim, step)}
-  if(exactcount){
-    if(shape=='hex' | shape=='hexagon'){searchrad = 1.154701*step/2}
-    if(shape=='sq' | shape=='square'){searchrad = 1.414214*step/2}
-    if(shape=='tri' | shape=='triangle'){searchrad = 1.154701*step/2}
-  }else{
-    if(shape=='hex' | shape=='hexagon'){searchrad = 1.050075*step/2} #slightly smaller radius so on average we do not over-count statistically
-    if(shape=='sq' | shape=='square'){searchrad = 1.128379*step/2}
-    if(shape=='tri' | shape=='triangle'){searchrad = 0.7425152*step/2}
-  }
+  #if(exactcount){
+  if(shape=='hex' | shape=='hexagon'){searchrad = 1.154701*step[1]/2}
+  if(shape=='sq' | shape=='square'){searchrad = 1.414214*step[1]/2}
+  if(shape=='tri' | shape=='triangle'){searchrad = 1.154701*step[1]/2}
+  # }else{
+  #   if(shape=='hex' | shape=='hexagon'){searchrad = 1.050075*step[1]/2} #slightly smaller radius so on average we do not over-count statistically
+  #   if(shape=='sq' | shape=='square'){searchrad = 1.128379*step[1]/2}
+  #   if(shape=='tri' | shape=='triangle'){searchrad = 0.7425152*step[1]/2}
+  # }
   ktry = ceiling(clustering * length(x) / dim(grid)[1])
   output = nn2(cbind(x[use],y[use]*step[1]/step[2]), cbind(grid$x,grid$y*step[1]/step[2]), searchtype='radius', radius=searchrad, k=ktry)
   while(sum(output$nn.idx[,dim(output$nn.idx)[2]]) > 0){
@@ -101,25 +101,33 @@
   }
   output$nn.dists[output$nn.dists>1.34e154]=NA
   output$nn.idx[output$nn.idx==0] = NA
-  if(exactcount){
-    if(shape=='hex' | shape=='hexagon'){
-      overlap = output$nn.idx[output$nn.dists>0.845299*step[1]/2 & output$nn.idx>0]
-    }
-    if(shape=='sq' | shape=='square'){
-      overlap = output$nn.idx[output$nn.dists>0.72676*step[1]/2 & output$nn.idx>0]
-    }
-    if(shape=='tri' | shape=='triangle'){
-      overlap = output$nn.idx[output$nn.dists>0 & output$nn.idx>0]
-    }
-    findclash = duplicated(overlap, incomparables=0)
-    resolve = unique(overlap[findclash])
-    allclashIDs = which(output$nn.idx %in% resolve)
-    for(i in resolve){
-      sel = which(output$nn.idx[allclashIDs]==i)
-      minsel = which.min(output$nn.dists[allclashIDs][sel])
-      output$nn.idx[allclashIDs][sel[-minsel]] = NA
-    }
-  }
+  
+  distorder = order(output$nn.dists)
+  tempambig = output$nn.idx[distorder]
+  remdupe = duplicated(tempambig, incomparables=NA)
+  output$nn.idx[distorder][remdupe] = NA
+  output$output$nn.dists[distorder][remdupe] = NA
+  
+  # if(exactcount){
+  #   if(shape=='hex' | shape=='hexagon'){
+  #     overlap = output$nn.idx[output$nn.dists>0.845299*step[1]/2 & output$nn.idx>0]
+  #   }
+  #   if(shape=='sq' | shape=='square'){
+  #     overlap = output$nn.idx[output$nn.dists>0.72676*step[1]/2 & output$nn.idx>0]
+  #   }
+  #   if(shape=='tri' | shape=='triangle'){
+  #     overlap = output$nn.idx[output$nn.dists>0 & output$nn.idx>0]
+  #   }
+  #   findclash = duplicated(overlap, incomparables=0)
+  #   resolve = unique(overlap[findclash])
+  #   allclashIDs = which(output$nn.idx %in% resolve)
+  #   for(i in resolve){
+  #     sel = which(output$nn.idx[allclashIDs]==i)
+  #     minsel = which.min(output$nn.dists[allclashIDs][sel])
+  #     output$nn.idx[allclashIDs][sel[-minsel]] = NA
+  #   }
+  # }
+  
   bincount = ktry - rowSums(is.na(output$nn.idx))
   
   if(!is.na(dustlim)){
@@ -159,14 +167,19 @@
   return(output)
 }
 
-plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log', colref='count', sizeref='none', ...){
+plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log',
+                       colref='count', sizeref='none', add=FALSE, dobar=TRUE, ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
+  dotskeepbar=c("position", "orient", "scale", "inset", "labN", "title", "titleshift", "centrealign", "clip")
   if(length(dots)>0){
     dotsmap = dots[names(dots) %in% dotskeepmap]
     dots = dots[!names(dots) %in% dotskeepmap]
+    dotsbar = dots[names(dots) %in% dotskeepbar]
+    dots = dots[!names(dots) %in% dotskeepbar]
   }else{
     dotsmap={}
+    dotsbar={}
   }
   if(!is.na(x$dustlim)){
     x$bins = x$bins[x$bins[,'count']>x$dustlim,]
@@ -178,7 +191,9 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestr
     sizemap = do.call("magmap", c(list(data=x$bins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA)))$map
   }
   #colmap = magmap(x$bins[,3], stretch=stretch, bad=NA, range=c(1,length(colramp)))
-  do.call("magplot", c(list(NA, NA, xlim=x$xlim, ylim=x$ylim), dots))
+  if(add==FALSE){
+    do.call("magplot", c(list(NA, NA, xlim=x$xlim, ylim=x$ylim), dots))
+  }
   #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
   for(i in 1:dim(x$bins)[1]){
     if(!is.na(colmap$map[i])){
@@ -219,11 +234,14 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestr
       }
     }
   }
-  magbar('topleft', range=colmap$datalim, log=colstretch=='log', col=colramp)
+  
+  if(dobar){
+    do.call("magbar", c(list(range=colmap$datalim, log=colstretch=='log', col=colramp), dotsbar))
+  }
 }
 
 magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(ylim)/50), clustering=10,
-                  dustlim=0.1, shape='hex', exactcount=FALSE, plot=TRUE, colramp=terrain.colors(1e4),
+                  dustlim=0.1, shape='hex', plot=TRUE, colramp=terrain.colors(1e4),
                   colstretch='lin', sizestretch='log', colref='count', sizeref='none', funstat=median, ...){
   if(is.null(z)){
     if(!is.null(dim(x))){
@@ -240,7 +258,7 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(
   if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
   bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, step=step,
                     clustering=clustering, dustlim=dustlim, shape=shape,
-                    exactcount=exactcount, funstat=funstat)
+                    funstat=funstat)
   if(plot){
     plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, ...)
   }

@@ -9,10 +9,9 @@ Allows for 2D binning (counts) and summary statistics on 2D bins (medians etc).
 }
 \usage{
 magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, step = c(diff(xlim)/50,
-diff(ylim)/50), clustering = 10, dustlim = 0.1, shape = "hex",
-exactcount = FALSE, plot = TRUE, colramp = terrain.colors(10000),
-colstretch = "lin", sizestretch = "log", colref = "count", sizeref = "none",
-funstat = median, ...)
+diff(ylim)/50), clustering = 10, dustlim = 0.1, shape = "hex", plot = TRUE,
+colramp = terrain.colors(10000), colstretch = "lin", sizestretch = "log",
+colref = "count", sizeref = "none", funstat = median, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,9 +42,6 @@ Numeric scalar; if between 0 and 1 then the 2D bin count quantile to switch to s
   \item{shape}{
 Character scalar; type of binning, either hex/hexagon; sq/square or tri/triangle.
 }
-  \item{exactcount}{
-Logical; do the bins need to represent the exact bin counts. If set to TRUE then code is much slower, so visually the approximate counts are nearly always good enough.
-}
   \item{plot}{
 Logical; create a plot? If FALSE then just the binning output list is created.
 }
@@ -68,7 +64,7 @@ Character scalar; colour reference for call, either it should be ignored (none, 
 Function; function to use to compute a statistic over the \option{z} axis. The default is \code{\link{median}}, but other good options might be \code{\link{mean}}, \code{\link{sd}}, \code{\link{mad}}.
 }
   \item{\dots}{
-Dots to be passed to \code{\link{magplot}} and \code{\link{magmap}} for colouring bin mapping only.
+Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
 }
 }
 \details{

@@ -9,7 +9,8 @@ Plot 2D histogram counts or a third (z) axis summary statistic in 2D cells of di
 }
 \usage{
 \method{plot}{magbin}(x, colramp = terrain.colors(10000), colstretch = "log",
-  sizestretch = "log", colref = "count", sizeref = "none", ...)
+  sizestretch = "log", colref = "count", sizeref = "none", add = FALSE,
+  dobar = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,6 +31,12 @@ Character scalar; colour reference for call, either it should be based on the co
 }
   \item{sizeref}{
 Character scalar; colour reference for call, either it should be ignored (none, so all are the same size and closely packed), based on the counts (count) or the z-axis statistic (zstat)?
+}
+  \item{add}{
+Logical; should bins be added to the current plot? If FALSE then a new plot will be made.  
+}
+  \item{dobar}{
+Logical; should a colour bar be added to the plot?  
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}} and \code{\link{magmap}} for colouring bin mapping only.
