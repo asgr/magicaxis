@@ -66,7 +66,7 @@
   }
 }
 
-.magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(ylim)/50),
+.magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL,
                         clustering=10, dustlim=NA, shape='hex', funstat=median){
   if(is.null(z)){
     if(!is.null(dim(x))){
@@ -78,9 +78,25 @@
       if(dim(x)[2]>=2){y=unlist(x[,2]); x=unlist(x[,1])}
     }
   }
-  use = which(!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y))
+  use = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
   if(is.null(xlim)){xlim=range(x[use],na.rm=TRUE)}
   if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
+  if(is.null(zlim) & !is.null(z)){zlim=range(z[use],na.rm=TRUE)}
+  use = use & x > xlim[1]
+  use = use & x < xlim[2]
+  use = use & y > ylim[1]
+  use = use & y < ylim[2]
+  if(!is.null(z)){
+    use = use & z > zlim[1]
+    use = use & z < zlim[2]
+  }
+  use = which(use)
+  if(is.null(step)){
+    step = c(diff(xlim)/50,diff(ylim)/50)
+  }
+  if(length(step)==1){
+    step = rep(step,2)
+  }
   if(shape=='hex' | shape=='hexagon'){grid = .hexgrid(xlim, ylim, step)}
   if(shape=='sq' | shape=='square'){grid = .squaregrid(xlim, ylim, step)}
   if(shape=='tri' | shape=='triangle'){grid = .trianglegrid(xlim, ylim, step)}
@@ -167,7 +183,7 @@
   return(output)
 }
 
-plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestretch='log',
+plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestretch='log',
                        colref='count', sizeref='none', add=FALSE, dobar=TRUE, ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
@@ -240,7 +256,7 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='log', sizestr
   }
 }
 
-magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(ylim)/50), clustering=10,
+magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, clustering=10,
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=terrain.colors(1e4),
                   colstretch='lin', sizestretch='log', colref='count', sizeref='none', funstat=median, ...){
   if(is.null(z)){
@@ -253,10 +269,7 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, step=c(diff(xlim)/50,diff(
       if(dim(x)[2]>=2){y=unlist(x[,2]); x=unlist(x[,1])}
     }
   }
-  use=!is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x) & !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
-  if(is.null(xlim)){xlim=range(x[use],na.rm=TRUE)}
-  if(is.null(ylim)){ylim=range(y[use],na.rm=TRUE)}
-  bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, step=step,
+  bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, zlim=zlim, step=step,
                     clustering=clustering, dustlim=dustlim, shape=shape,
                     funstat=funstat)
   if(plot){

@@ -8,8 +8,8 @@
 Allows for 2D binning (counts) and summary statistics on 2D bins (medians etc).
 }
 \usage{
-magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, step = c(diff(xlim)/50,
-diff(ylim)/50), clustering = 10, dustlim = 0.1, shape = "hex", plot = TRUE,
+magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, step = NULL,
+clustering = 10, dustlim = 0.1, shape = "hex", plot = TRUE,
 colramp = terrain.colors(10000), colstretch = "lin", sizestretch = "log",
 colref = "count", sizeref = "none", funstat = median, ...)
 }
@@ -22,7 +22,7 @@ Numeric vector or matrix/data.frame; x values to 2D bin. If x is a two (or more)
 Numeric vector; the y coordinates of points in the plot, optional if \option{x} is an appropriate structure.
 }
   \item{z}{
-Numeric vector; the z coordinates of points in the plot, optional if \option{x} is an appropriate structure.
+Numeric vector; the z coordinates of points in the plot (optional), optional if \option{x} is an appropriate structure.
 }
   \item{xlim}{
 Numeric vector; the x limits to use for the data. Default of NULL calculates the range based on the provided \option{x} data vector.
@@ -30,8 +30,11 @@ Numeric vector; the x limits to use for the data. Default of NULL calculates the
   \item{ylim}{
 Numeric vector; the y limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector.
 }
+  \item{zlim}{
+Numeric vector; the z limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector.
+}
   \item{step}{
-Numeric vector; grid steps in x and y directions. If left at
+Numeric vector; grid steps in x and y directions. IF NULL then this is c(diff(xlim)/50, diff(ylim)/50). If length 1, then this value is repeated.
 }
   \item{clustering}{
 Numeric scalar; excess counts in densist bin relative to Uniform data. This is to optimise the binning, so can probably be ignored.
