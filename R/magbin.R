@@ -67,7 +67,7 @@
 }
 
 .magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL,
-                        clustering=10, dustlim=NA, shape='hex', funstat=median){
+                        clustering=10, dustlim=NA, shape='hex', funstat=function(x) median(x, na.rm=TRUE)){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}
@@ -188,6 +188,7 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
   dotskeepbar=c("position", "orient", "scale", "inset", "labN", "titleshift", "centrealign", "clip")
+  
   if(length(dots)>0){
     dotsmap = dots[names(dots) %in% dotskeepmap]
     dots = dots[!names(dots) %in% dotskeepmap]
@@ -258,7 +259,7 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
 
 magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, clustering=10,
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=terrain.colors(1e4),
-                  colstretch='lin', sizestretch='lin', colref='count', sizeref='none', funstat=median, ...){
+                  colstretch='lin', sizestretch='lin', colref='count', sizeref='none', funstat=function(x) median(x, na.rm=TRUE), ...){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}
