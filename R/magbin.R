@@ -208,8 +208,20 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
     sizemap = do.call("magmap", c(list(data=x$bins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA)))$map
   }
   #colmap = magmap(x$bins[,3], stretch=stretch, bad=NA, range=c(1,length(colramp)))
+  if('xlim' %in% names(dots)){
+    xlim = dots$xlim
+    dots = dots[!names(dots) %in% 'xlim']
+  }else{
+    xlim=x$xlim
+  }
+  if('ylim' %in% names(dots)){
+    ylim = dots$ylim
+    dots = dots[!names(dots) %in% 'ylim']
+  }else{
+    ylim=x$ylim
+  }
   if(add==FALSE){
-    do.call("magplot", c(list(NA, NA, xlim=x$xlim, ylim=x$ylim), dots))
+    do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim), dots))
   }
   #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
   for(i in 1:dim(x$bins)[1]){
