@@ -9,10 +9,10 @@ Allows for 2D binning (counts) and summary statistics on 2D bins (medians etc).
 }
 \usage{
 magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, step = NULL,
-clustering = 10, dustlim = 0.1, shape = "hex", plot = TRUE,
-colramp = terrain.colors(10000), colstretch = "lin", sizestretch = "lin",
-colref = "count", sizeref = "none", funstat = function(x) median(x, na.rm=TRUE),
-direction = 'h', ...)
+log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
+plot = TRUE, colramp = terrain.colors(10000), colstretch = "lin",
+sizestretch = "lin", colref = "count", sizeref = "none",
+funstat = function(x) median(x, na.rm=TRUE), direction = 'h', ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,16 +26,22 @@ Numeric vector; the y coordinates of points in the plot, optional if \option{x} 
 Numeric vector; the z coordinates of points in the plot (optional), optional if \option{x} is an appropriate structure.
 }
   \item{xlim}{
-Numeric vector; the x limits to use for the data. Default of NULL calculates the range based on the provided \option{x} data vector.
+Numeric vector; the x limits to use for the data. Default of NULL calculates the range based on the provided \option{x} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
   \item{ylim}{
-Numeric vector; the y limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector.
+Numeric vector; the y limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
   \item{zlim}{
-Numeric vector; the z limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector.
+Numeric vector; the z limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
   \item{step}{
 Numeric vector; grid steps in x and y directions. IF NULL then this is c(diff(xlim)/50, diff(ylim)/50). If length 1, then this value is repeated.
+}
+  \item{log}{
+Character scalar; log axis arguments to be passed to used. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes. For convenience you can specify the 'z' axis too, which somewhat replaces the \option{colstretch} argument. Note that in all cases the \option{x}/\option{y}/\option{z} data is explictly logged, which means the plotting window does not know it is in logged space (via the par()$xlag and par()$ylog structures). This means is you want to add points etc to the plot you will need to apply log10 yourself, so a point with coordinates [10^2,10^-3] should be plotted at [2,-3].
+}
+  \item{unlog}{
+Character scalar; determines if x/y axis labels should be unlogged (z is ignored here). By default inherits \option{log}, since that is usually what you would want.
 }
   \item{clustering}{
 Numeric scalar; excess counts in densist bin relative to Uniform data. This is to optimise the binning, so can probably be ignored.
@@ -104,6 +110,12 @@ magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count',
 funstat=mad)
 magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count',
 funstat=function(x){quantile(x,0.9)})
+
+xydata = cbind(10^rnorm(1e4), 10^rnorm(1e4))
+magbin(xydata, log='xy')
+magbin(xydata, z=xydata[,1]*xydata[,2], colref='zstat', sizeref='count',
+log='xyz')
+magbin(xydata, log='xy', unlog='xy', xlim=3, ylim=3)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

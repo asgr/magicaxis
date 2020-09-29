@@ -310,9 +310,10 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
   }
 }
 
-magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, clustering=10,
+magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, log='', unlog=log, clustering=10,
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=terrain.colors(1e4),
-                  colstretch='lin', sizestretch='lin', colref='count', sizeref='none', funstat=function(x) median(x, na.rm=TRUE), direction='h', ...){
+                  colstretch='lin', sizestretch='lin', colref='count', sizeref='none',
+                  funstat=function(x) median(x, na.rm=TRUE), direction='h', ...){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}
@@ -323,11 +324,52 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, clus
       if(dim(x)[2]>=2){y=unlist(x[,2]); x=unlist(x[,1])}
     }
   }
+  
+  logsplit = strsplit(log,'')[[1]]
+  if ('x' %in% logsplit) {
+    x = log10(x)
+    if(length(xlim) == 2){
+      xlim = log10(xlim)
+    }
+  }
+  if ('y' %in% logsplit) {
+    y = log10(y)
+    if(length(ylim) == 2){
+      ylim = log10(ylim)
+    }
+  }
+  if ('z' %in% logsplit) {
+    z = log10(z)
+    if(length(zlim) == 2){
+      zlim = log10(zlim)
+    }
+    if(missing(unlog)){
+      unlog = paste(logsplit[-which(logsplit == 'z')], collapse='')
+    }
+    if(missing(colstretch)){
+      colstretch = 'log'
+    }
+  }
+  
+  if (length(xlim) == 1) {
+    sel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+    xlim=magclip(x[sel], sigma=xlim)$range
+  }
+  if (length(ylim) == 1) {
+    sel = !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
+    ylim=magclip(y[sel], sigma=ylim)$range
+  }
+  if (length(zlim) == 1) {
+    sel = !is.na(z) & !is.nan(z) & !is.null(z) & is.finite(z)
+    zlim=magclip(z[sel], sigma=zlim)$range
+  }
+  
   bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, zlim=zlim, step=step,
                     clustering=clustering, dustlim=dustlim, shape=shape,
                     funstat=funstat, direction=direction)
+  
   if(plot){
-    plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, ...)
+    plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, unlog=unlog, ...)
   }
   return(invisible(bincount))
 }
