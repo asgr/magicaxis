@@ -12,7 +12,7 @@ magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, step = NULL,
 clustering = 10, dustlim = 0.1, shape = "hex", plot = TRUE,
 colramp = terrain.colors(10000), colstretch = "lin", sizestretch = "lin",
 colref = "count", sizeref = "none", funstat = function(x) median(x, na.rm=TRUE),
-...)
+direction = 'h', ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -66,6 +66,9 @@ Character scalar; colour reference for call, either it should be ignored (none, 
 }
   \item{funstat}{
 Function; function to use to compute a statistic over the \option{z} axis. The default is \code{\link{median}}, but other good options might be \code{\link{mean}}, \code{\link{sd}}, \code{\link{mad}}. Note, to change default arguments you might need to send through a new function, e.g. \option{funstat} = function(x) median(x, na.rm=TRUE) and similar, but if you are happy with the defaults then you can use the simpler \option{funstat} = mean etc.
+}
+  \item{direction}{
+Character scalar;  should there be a shape side aligned horizontally ('h', the default) or vertically ('v')? This is only relevant for hexagon and triangle bin shapes, and has the effect of leading the eye differently with some scatter structures.
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
