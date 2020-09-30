@@ -50,7 +50,7 @@ Numeric scalar; excess counts in densist bin relative to Uniform data. This is t
 Numeric scalar; if between 0 and 1 then the 2D bin count quantile to switch to showing the individual points (which visually look like 'dust'), if larger than 1 then the exact counts threshold. If this is NA or 0 then all cells are shown.
 }
   \item{shape}{
-Character scalar; type of binning, either hex/hexagon; sq/square or tri/triangle.
+Character scalar; type of binning, either hex/hexagon; sq/square; tri/triangle or trihex. 'trihex' is a triangle tessellation that is also arranged to have hexagonal packing (so 6 triangles can form a hexagon).
 }
   \item{plot}{
 Logical; create a plot? If FALSE then just the binning output list is created.
@@ -99,10 +99,16 @@ List of class 'magbin' containing:
 \code{\link{plot.magbin}}, \code{\link{maghist}}
 }
 \examples{
+set.seed(666)
 xydata = cbind(rnorm(1e4), rnorm(1e4))
 magbin(xydata, shape='hexagon') #default
 magbin(xydata, shape='square')
 magbin(xydata, shape='triangle')
+magbin(xydata, shape='trihex')
+magbin(xydata, shape='hexagon', direction='v')
+magbin(xydata, shape='triangle', direction='v')
+magbin(xydata, shape='trihex', direction='v')
+magbin(xydata, shape='hexagon', step=c(0.2,0.4)) #different aspect ratio hexagons
 
 magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count')
 

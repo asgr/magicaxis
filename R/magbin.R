@@ -4,11 +4,11 @@
     xvec2 = seq(xlim[1]-step[1]/2, xlim[2]+step[1]*3/2, by=step[1])
     
     yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2]*sqrt(3))
-    yvec2 = seq(ylim[1]-step[2]*sqrt(3)/2, ylim[2]+step[2]*sqrt(3)*3/2, by=step[2]*sqrt(3))
+    yvec2 = seq(ylim[1]-step[2]*0.8660254, ylim[2]+step[2]*sqrt(3)*3/2, by=step[2]*sqrt(3))
   }
   if(direction=='v'){
     xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1]*sqrt(3))
-    xvec2 = seq(xlim[1]-step[1]*sqrt(3)/2, xlim[2]+step[1]*sqrt(3)*3/2, by=step[1]*sqrt(3))
+    xvec2 = seq(xlim[1]-step[1]*0.8660254, xlim[2]+step[1]*sqrt(3)*3/2, by=step[1]*sqrt(3))
     
     yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2])
     yvec2 = seq(ylim[1]-step[2]/2, ylim[2]+step[2]*3/2, by=step[2])
@@ -18,24 +18,24 @@
   return(rbind(grid1, grid2))
 }
 
-.squaregrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1)){
+.sqgrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1)){
   xvec = seq(xlim[1], xlim[2]+step[1], by=step[1])
   yvec = seq(ylim[1], ylim[2]+step[2], by=step[2])
   grid = expand.grid(x=xvec, y=yvec)
   return(grid)
 }
 
-.trianglegrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h'){
+.trigrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h'){
   if(direction=='h'){
     xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
     xvec2 = seq(xlim[1]-step[1]/2, xlim[2]+step[1]/2, by=step[1])
     
-    yvec1 = seq(ylim[1], ylim[2]+step[2]*sqrt(3)/2, by=step[2]*sqrt(3)/2)
-    yvec2 = seq(ylim[1]+step[2]*0.2886751-step[2]*sqrt(3)/2, ylim[2]-step[2]*0.2886751+step[2]*sqrt(3)/2, by=step[2]*sqrt(3)/2)
+    yvec1 = seq(ylim[1], ylim[2]+step[2]*0.8660254, by=step[2]*0.8660254)
+    yvec2 = seq(ylim[1]+step[2]*0.2886751-step[2]*0.8660254, ylim[2]-step[2]*0.2886751+step[2]*0.8660254, by=step[2]*0.8660254)
   }
   if(direction=='v'){
-    xvec1 = seq(xlim[1], xlim[2]+step[1]*sqrt(3)/2, by=step[1]*sqrt(3)/2)
-    xvec2 = seq(xlim[1]+step[1]*0.2886751-step[1]*sqrt(3)/2, xlim[2]-step[1]*0.2886751+step[1]*sqrt(3)/2, by=step[1]*sqrt(3)/2)
+    xvec1 = seq(xlim[1], xlim[2]+step[1]*0.8660254, by=step[1]*0.8660254)
+    xvec2 = seq(xlim[1]+step[1]*0.2886751-step[1]*0.8660254, xlim[2]-step[1]*0.2886751+step[1]*0.8660254, by=step[1]*0.8660254)
     
     yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2])
     yvec2 = seq(ylim[1]-step[2]/2, ylim[2]+step[2]/2, by=step[2])
@@ -43,6 +43,34 @@
   grid1 = expand.grid(x=xvec1, y=yvec1)
   grid2 = expand.grid(x=xvec2, y=yvec2)
   return(rbind(cbind(grid1, type=1), cbind(grid2,type=2)))
+}
+
+.trihexgrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h'){
+  if(direction=='h'){
+    xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
+    xvec2 = seq(xlim[1], xlim[2]+step[1]/2, by=step[1])
+    
+    yvec1 = seq(ylim[1], ylim[2]+step[2]*0.8660254, by=2*step[2]*0.8660254)
+    yvec2 = seq(ylim[1]+step[2]*0.2886751-step[2]*0.8660254, ylim[2]-step[2]*0.2886751+step[2]*0.8660254, by=2*step[2]*0.8660254)
+    
+    grid1 = expand.grid(x=xvec1, y=yvec1)
+    grid2 = expand.grid(x=xvec2, y=yvec2)
+    grid3 = expand.grid(x=xvec1-step[1]/2, y=yvec1-step[2]*0.8660254)
+    grid4 = expand.grid(x=xvec2-step[1]/2, y=yvec2-step[2]*0.8660254)
+  }
+  if(direction=='v'){
+    xvec1 = seq(xlim[1], xlim[2]+step[1]*0.8660254, by=2*step[1]*0.8660254)
+    xvec2 = seq(xlim[1]+step[1]*0.2886751-step[1]*0.8660254, xlim[2]-step[1]*0.2886751+step[1]*0.8660254, by=2*step[1]*0.8660254)
+    
+    yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2])
+    yvec2 = seq(ylim[1], ylim[2]+step[2]/2, by=step[2])
+    
+    grid1 = expand.grid(x=xvec1, y=yvec1)
+    grid2 = expand.grid(x=xvec2, y=yvec2)
+    grid3 = expand.grid(x=xvec1-step[1]*0.8660254, y=yvec1-step[2]/2)
+    grid4 = expand.grid(x=xvec2-step[1]*0.8660254, y=yvec2-step[2]/2)
+  }
+  return(rbind(cbind(grid1, type=1), cbind(grid2,type=2), cbind(grid3, type=1), cbind(grid4, type=2)))
 }
 
 .drawhex = function (x, y, unitcell = c(1,1), col = NA, border = "black", direction='h'){
@@ -138,12 +166,13 @@
     step = rep(step,2)
   }
   if(shape=='hex' | shape=='hexagon'){grid = .hexgrid(xlim=xlim, ylim=ylim, step=step, direction=direction)}
-  if(shape=='sq' | shape=='square'){grid = .squaregrid(xlim=xlim, ylim=ylim, step=step)}
-  if(shape=='tri' | shape=='triangle'){grid = .trianglegrid(xlim=xlim, ylim=ylim, step=step, direction=direction)}
+  if(shape=='sq' | shape=='square'){grid = .sqgrid(xlim=xlim, ylim=ylim, step=step)}
+  if(shape=='tri' | shape=='triangle'){grid = .trigrid(xlim=xlim, ylim=ylim, step=step, direction=direction)}
+  if(shape=='trihex'){grid = .trihexgrid(xlim=xlim, ylim=ylim, step=step, direction=direction)}
   #if(exactcount){
   if(shape=='hex' | shape=='hexagon'){searchrad = 1.154701*step[1]/2}
   if(shape=='sq' | shape=='square'){searchrad = 1.414214*step[1]/2}
-  if(shape=='tri' | shape=='triangle'){searchrad = 1.154701*step[1]/2}
+  if(shape=='tri' | shape=='triangle' | shape=='trihex'){searchrad = 1.154701*step[1]/2}
   # }else{
   #   if(shape=='hex' | shape=='hexagon'){searchrad = 1.050075*step[1]/2} #slightly smaller radius so on average we do not over-count statistically
   #   if(shape=='sq' | shape=='square'){searchrad = 1.128379*step[1]/2}
@@ -274,7 +303,7 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
         if(x$shape=='sq' | x$shape=='square'){
           .drawsquare(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
         }
-        if(x$shape=='tri' | x$shape=='triangle'){
+        if(x$shape=='tri' | x$shape=='triangle' | x$shape=='trihex'){
           .drawtriangle(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, type=x$bins[i,'type'], direction=x$direction)
         }
       }else if(x$bins[i,'count'] > x$dustlim){
@@ -284,7 +313,7 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
         if(x$shape=='sq' | x$shape=='square'){
           .drawsquare(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
         }
-        if(x$shape=='tri' | x$shape=='triangle'){
+        if(x$shape=='tri' | x$shape=='triangle' | x$shape=='trihex'){
           .drawtriangle(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, type=x$bins[i,'type'], direction=x$direction)
         }
       }
