@@ -18,14 +18,41 @@
   return(rbind(grid1, grid2))
 }
 
-.sqgrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1)){
+.sqgrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h', offset=0, jitterseed=666){
+  
   xvec = seq(xlim[1], xlim[2]+step[1], by=step[1])
   yvec = seq(ylim[1], ylim[2]+step[2], by=step[2])
-  grid = expand.grid(x=xvec, y=yvec)
+  
+  if(direction=='h'){
+    if(offset[1]=='jitter'){
+      set.seed(jitterseed)
+      offset = runif(length(yvec))
+      offset = rep(offset, each=length(xvec))
+    }else{
+      yoff = rep(c(0,offset), length(yvec)/2)
+      if(length(yoff) < length(yvec)){yoff = c(yoff,0)}
+      offset = rep(yoff, each=length(xvec))
+    }
+    grid = expand.grid(x=xvec, y=yvec)
+    grid[,1] = grid[,1] + offset * step[1]
+  }
+  if(direction=='v'){
+    if(offset[1]=='jitter'){
+      set.seed(jitterseed)
+      offset = runif(length(xvec))
+      offset = rep(offset, length(yvec))
+    }else{
+      xoff = rep(c(0,offset), length(xvec)/2)
+      if(length(xoff) < length(xvec)){xoff = c(xoff,0)}
+      offset = rep(xoff, length(yvec))
+    }
+    grid = expand.grid(x=xvec, y=yvec)
+    grid[,2] = grid[,2] + offset * step[2]
+  }
   return(grid)
 }
 
-.trigrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h'){
+.trigrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h', offset=0){
   if(direction=='h'){
     xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
     xvec2 = seq(xlim[1]-step[1]/2, xlim[2]+step[1]/2, by=step[1])
@@ -40,37 +67,66 @@
     yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2])
     yvec2 = seq(ylim[1]-step[2]/2, ylim[2]+step[2]/2, by=step[2])
   }
-  grid1 = expand.grid(x=xvec1, y=yvec1)
-  grid2 = expand.grid(x=xvec2, y=yvec2)
+  
+  if(direction=='h'){
+    yoff1 = rep(c(0,offset), length(yvec1)/2)
+    if(length(yoff1) < length(yvec1)){yoff1 = c(yoff1,0)}
+    offset1 = rep(yoff1, each=length(xvec1))
+    
+    yoff2 = rep(c(offset,0), length(yvec2)/2)
+    if(length(yoff2) < length(yvec2)){yoff2 = c(yoff2,offset)}
+    offset2 = rep(yoff2, each=length(xvec2))
+
+    grid1 = expand.grid(x=xvec1, y=yvec1)
+    grid2 = expand.grid(x=xvec2, y=yvec2)
+    grid1[,1] = grid1[,1] + offset1 * step[1]
+    grid2[,1] = grid2[,1] + offset2 * step[1]
+  }
+  if(direction=='v'){
+    xoff1 = rep(c(0,offset), length(xvec1)/2)
+    if(length(xoff1) < length(xvec1)){xoff1= c(xoff1,0)}
+    offset1 = rep(xoff1, length(yvec1))
+    
+    xoff2 = rep(c(offset,0), length(xvec2)/2)
+    if(length(xoff2) < length(xvec2)){xoff2= c(xoff2,offset)}
+    offset2 = rep(xoff2, length(yvec2))
+  
+    grid1 = expand.grid(x=xvec1, y=yvec1)
+    grid2 = expand.grid(x=xvec2, y=yvec2)
+    grid1[,2] = grid1[,2] + offset1 * step[2]
+    grid2[,2] = grid2[,2] + offset2 * step[2]
+  }
+  
   return(rbind(cbind(grid1, type=1), cbind(grid2,type=2)))
 }
 
 .trihexgrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h'){
-  if(direction=='h'){
-    xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
-    xvec2 = seq(xlim[1], xlim[2]+step[1]/2, by=step[1])
-    
-    yvec1 = seq(ylim[1], ylim[2]+step[2]*0.8660254, by=2*step[2]*0.8660254)
-    yvec2 = seq(ylim[1]+step[2]*0.2886751-step[2]*0.8660254, ylim[2]-step[2]*0.2886751+step[2]*0.8660254, by=2*step[2]*0.8660254)
-    
-    grid1 = expand.grid(x=xvec1, y=yvec1)
-    grid2 = expand.grid(x=xvec2, y=yvec2)
-    grid3 = expand.grid(x=xvec1-step[1]/2, y=yvec1-step[2]*0.8660254)
-    grid4 = expand.grid(x=xvec2-step[1]/2, y=yvec2-step[2]*0.8660254)
-  }
-  if(direction=='v'){
-    xvec1 = seq(xlim[1], xlim[2]+step[1]*0.8660254, by=2*step[1]*0.8660254)
-    xvec2 = seq(xlim[1]+step[1]*0.2886751-step[1]*0.8660254, xlim[2]-step[1]*0.2886751+step[1]*0.8660254, by=2*step[1]*0.8660254)
-    
-    yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2])
-    yvec2 = seq(ylim[1], ylim[2]+step[2]/2, by=step[2])
-    
-    grid1 = expand.grid(x=xvec1, y=yvec1)
-    grid2 = expand.grid(x=xvec2, y=yvec2)
-    grid3 = expand.grid(x=xvec1-step[1]*0.8660254, y=yvec1-step[2]/2)
-    grid4 = expand.grid(x=xvec2-step[1]*0.8660254, y=yvec2-step[2]/2)
-  }
-  return(rbind(cbind(grid1, type=1), cbind(grid2,type=2), cbind(grid3, type=1), cbind(grid4, type=2)))
+  # if(direction=='h'){
+  #   xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
+  #   xvec2 = seq(xlim[1], xlim[2]+step[1]/2, by=step[1])
+  #   
+  #   yvec1 = seq(ylim[1], ylim[2]+step[2]*0.8660254, by=2*step[2]*0.8660254)
+  #   yvec2 = seq(ylim[1]+step[2]*0.2886751-step[2]*0.8660254, ylim[2]-step[2]*0.2886751+step[2]*0.8660254, by=2*step[2]*0.8660254)
+  #   
+  #   grid1 = expand.grid(x=xvec1, y=yvec1)
+  #   grid2 = expand.grid(x=xvec2, y=yvec2)
+  #   grid3 = expand.grid(x=xvec1-step[1]/2, y=yvec1-step[2]*0.8660254)
+  #   grid4 = expand.grid(x=xvec2-step[1]/2, y=yvec2-step[2]*0.8660254)
+  # }
+  # if(direction=='v'){
+  #   xvec1 = seq(xlim[1], xlim[2]+step[1]*0.8660254, by=2*step[1]*0.8660254)
+  #   xvec2 = seq(xlim[1]+step[1]*0.2886751-step[1]*0.8660254, xlim[2]-step[1]*0.2886751+step[1]*0.8660254, by=2*step[1]*0.8660254)
+  #   
+  #   yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2])
+  #   yvec2 = seq(ylim[1], ylim[2]+step[2]/2, by=step[2])
+  #   
+  #   grid1 = expand.grid(x=xvec1, y=yvec1)
+  #   grid2 = expand.grid(x=xvec2, y=yvec2)
+  #   grid3 = expand.grid(x=xvec1-step[1]*0.8660254, y=yvec1-step[2]/2)
+  #   grid4 = expand.grid(x=xvec2-step[1]*0.8660254, y=yvec2-step[2]/2)
+  # }
+  # return(rbind(cbind(grid1, type=1), cbind(grid2,type=2), cbind(grid3, type=1), cbind(grid4, type=2)))
+  .trigrid(xlim=xlim, ylim=ylim, step=step, direction=direction, offset=0.5)
 }
 
 .drawhex = function (x, y, unitcell = c(1,1), col = NA, border = "black", direction='h'){
@@ -135,7 +191,8 @@
 }
 
 .magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL,
-                        clustering=10, dustlim=NA, shape='hex', funstat=function(x) median(x, na.rm=TRUE), direction='h'){
+                        clustering=10, dustlim=NA, shape='hex', funstat=function(x) median(x, na.rm=TRUE),
+                        direction='h', offset=0, jitterseed=666){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}
@@ -166,8 +223,8 @@
     step = rep(step,2)
   }
   if(shape=='hex' | shape=='hexagon'){grid = .hexgrid(xlim=xlim, ylim=ylim, step=step, direction=direction)}
-  if(shape=='sq' | shape=='square'){grid = .sqgrid(xlim=xlim, ylim=ylim, step=step)}
-  if(shape=='tri' | shape=='triangle'){grid = .trigrid(xlim=xlim, ylim=ylim, step=step, direction=direction)}
+  if(shape=='sq' | shape=='square'){grid = .sqgrid(xlim=xlim, ylim=ylim, step=step, direction=direction, offset=offset, jitterseed=jitterseed)}
+  if(shape=='tri' | shape=='triangle'){grid = .trigrid(xlim=xlim, ylim=ylim, step=step, direction=direction, offset=offset)}
   if(shape=='trihex'){grid = .trihexgrid(xlim=xlim, ylim=ylim, step=step, direction=direction)}
   #if(exactcount){
   if(shape=='hex' | shape=='hexagon'){searchrad = 1.154701*step[1]/2}
@@ -342,7 +399,8 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
 magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, log='', unlog=log, clustering=10,
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=terrain.colors(1e4),
                   colstretch='lin', sizestretch='lin', colref='count', sizeref='none',
-                  funstat=function(x) median(x, na.rm=TRUE), direction='h', ...){
+                  funstat=function(x) median(x, na.rm=TRUE), direction='h',
+                  offset=0, jitterseed=666, ...){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}
@@ -395,7 +453,7 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, log=
   
   bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, zlim=zlim, step=step,
                     clustering=clustering, dustlim=dustlim, shape=shape,
-                    funstat=funstat, direction=direction)
+                    funstat=funstat, direction=direction, offset=offset, jitterseed=jitterseed)
   
   if(plot){
     plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, unlog=unlog, ...)

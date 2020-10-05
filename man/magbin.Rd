@@ -12,7 +12,8 @@ magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, step = NULL,
 log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
 plot = TRUE, colramp = terrain.colors(10000), colstretch = "lin",
 sizestretch = "lin", colref = "count", sizeref = "none",
-funstat = function(x) median(x, na.rm=TRUE), direction = 'h', ...)
+funstat = function(x) median(x, na.rm=TRUE), direction = 'h', offset = 0,
+jitterseed = 666, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -75,6 +76,12 @@ Function; function to use to compute a statistic over the \option{z} axis. The d
 }
   \item{direction}{
 Character scalar;  should there be a shape side aligned horizontally ('h', the default) or vertically ('v')? This is only relevant for hexagon and triangle bin shapes, and has the effect of leading the eye differently with some scatter structures.
+}
+  \item{offset}{
+Numeric/character scalar; only relevant for \option{shape}='sq' or \option{shape}='tri'. Either a numeric value specifying the offset (relative to \option{step}) to apply to alternating rows (\option{direction}='h') or columns (\option{direction}='v'); or 'jitter' which means the rows or columns are randomly jittered (only used for \option{shape}='sq' bins. This option is useful for visually breaking up strong patterns in certain types of data.
+}
+  \item{jitterseed}{
+Integer scalar; the random seed to use for jittering (means you can recreate your plots exactly if the seed is the same). This argument is only used for \option{shape}='sq' bins.
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
