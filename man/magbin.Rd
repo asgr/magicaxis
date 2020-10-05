@@ -89,6 +89,8 @@ Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link
 }
 \details{
 Mostly run for the side effect of making a nice plot, but the output bin statistics might also be useful.
+
+Re performance, \code{magbin} works pretty well on a modern computer for up to ~1e6 points, taking only a few seconds to run usually. Beyond this you might need to carefully tune the performance with \option{clutering} otherwise it might run very slower and/or you run out of memory.
 }
 \value{
 List of class 'magbin' containing:

@@ -310,7 +310,7 @@
 }
 
 plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestretch='lin',
-                       colref='count', sizeref='none', add=FALSE, dobar=TRUE, title=colref, ...){
+                       colref='count', sizeref='none', add=FALSE, dobar=TRUE, title=colref, colnorm=FALSE, ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
   dotskeepbar=c("position", "orient", "scale", "inset", "labN", "titleshift", "centrealign", "clip")
@@ -392,6 +392,12 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
   }
   
   if(dobar){
+    if(colnorm){
+      colmap$datalim = colmap$datalim/max(colmap$datalim, na.rm=TRUE)
+      if(missing(title)){
+        title = "norm"
+      }
+    }
     do.call("magbar", c(list(range=colmap$datalim, log=colstretch=='log', col=colramp, title=title), dotsbar))
   }
 }

@@ -10,7 +10,7 @@ Plot 2D histogram counts or a third (z) axis summary statistic in 2D cells of di
 \usage{
 \method{plot}{magbin}(x, colramp = terrain.colors(10000), colstretch = "lin",
   sizestretch = "lin", colref = "count", sizeref = "none", add = FALSE,
-  dobar = TRUE, title = colref, ...)
+  dobar = TRUE, title = colref, colnorm = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,6 +40,9 @@ Logical; should a colour bar be added to the plot?
 }
   \item{title}{
 Character scalar; title to use for the \option{\link{magbar}} label.  
+}
+  \item{colnorm}{
+Logical; should the colour bar be normalised so the maximum value equals 1?  
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
