@@ -13,7 +13,7 @@ log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
 plot = TRUE, colramp = terrain.colors(10000), colstretch = "lin",
 sizestretch = "lin", colref = "count", sizeref = "none",
 funstat = function(x) median(x, na.rm=TRUE), direction = 'h', offset = 0,
-jitterseed = 666, ...)
+jitterseed = 666, projden = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -82,6 +82,9 @@ Numeric/character scalar; only relevant for \option{shape}='sq' or \option{shape
 }
   \item{jitterseed}{
 Integer scalar; the random seed to use for jittering (means you can recreate your plots exactly if the seed is the same). This argument is only used for \option{shape}='sq' bins.
+}
+  \item{projden}{
+Logical; do you want projected density PDFs to be displayed above and to the side of the standard \code{plot.magbin} plot? If so you also need to pass the same \option{xdata} and \option{ydata} that you originally sent to \code{\link{magbin}}, since this is not stored in the object output from \code{\link{magbin}}. 
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.

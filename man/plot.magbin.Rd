@@ -10,7 +10,8 @@ Plot 2D histogram counts or a third (z) axis summary statistic in 2D cells of di
 \usage{
 \method{plot}{magbin}(x, colramp = terrain.colors(10000), colstretch = "lin",
   sizestretch = "lin", colref = "count", sizeref = "none", add = FALSE,
-  dobar = TRUE, title = colref, colnorm = FALSE, ...)
+  dobar = TRUE, title = colref, colnorm = FALSE, projden = FALSE, xdata = NULL, 
+  ydata = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,6 +44,15 @@ Character scalar; title to use for the \option{\link{magbar}} label.
 }
   \item{colnorm}{
 Logical; should the colour bar be normalised so the maximum value equals 1?  
+}
+  \item{projden}{
+Logical; do you want projected density PDFs to be displayed above and to the side of the standard \code{plot.magbin} plot? If so you also need to pass the same \option{xdata} and \option{ydata} that you originally sent to \code{\link{magbin}}, since this is not stored in the object output from \code{\link{magbin}}. 
+}
+ \item{xdata}{
+Numeric vector; the original x data sent to \code{\link{magbin}}. Only relevant if \option{projden}=TRUE.
+}
+ \item{ydata}{
+Numeric vector; the original y data sent to \code{\link{magbin}}. Only relevant if \option{projden}=TRUE.
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.

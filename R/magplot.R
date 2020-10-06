@@ -8,7 +8,14 @@ function(x, y, log='', main='', side = 1:2, majorn = 5, minorn = 'auto', tcl = 0
   
 if(class(x)[1]=='histogram'){
   dots=list(...)
-  do.call('maghist',c(list(x=x, xlim=xlim, ylim=ylim, log=log, side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd), dots))
+  do.call('maghist',c(list(x=x, xlim=xlim, ylim=ylim, log=log, side = side, 
+                           majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, 
+                           labels = labels, mgp = mgp, mtline = mtline, xlab = xlab, 
+                           ylab = ylab, crunch = crunch, logpretty = logpretty, 
+                           prettybase = prettybase, powbase=powbase, hersh = hersh, 
+                           family = family, frame.plot = frame.plot, usepar = usepar, 
+                           grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd), 
+                      dots))
 }else{
   
   if(missing(y)){
@@ -31,10 +38,28 @@ if(class(x)[1]=='histogram'){
           }
           ylim=magclip(x[sel,2], sigma=ylim)$range
         }
-        plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, panel.first = if(side[1] !=FALSE | axes==FALSE){magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, lwd=lwd, xlim=xlim, ylim=ylim, ...)
+        plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
+             panel.first = if(side[1] !=FALSE | axes==FALSE){
+               magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
+                       ratio = ratio, labels = labels, unlog = unlog, mgp = mgp,
+                       mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
+                       logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
+                       hersh = hersh, family = family, frame.plot = frame.plot, 
+                       usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
+                       grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
+             lwd=lwd, xlim=xlim, ylim=ylim, ...)
       }
     }else{
-      plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, panel.first = if(side[1] !=FALSE | axes==FALSE){magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, lwd=lwd, xlim=xlim, ylim=ylim, ...)
+      plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
+           panel.first = if(side[1] !=FALSE | axes==FALSE){
+             magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
+                     ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
+                     mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
+                     logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
+                     hersh = hersh, family = family, frame.plot = frame.plot, 
+                     usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
+                     grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)},
+           lwd=lwd, xlim=xlim, ylim=ylim, ...)
     }
   }else{
     if (length(xlim) == 1) {
@@ -51,7 +76,16 @@ if(class(x)[1]=='histogram'){
       }
       ylim=magclip(y[sel], sigma=ylim)$range
     }
-    plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  panel.first = if(side[1] !=FALSE | axes==FALSE){magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, logpretty = logpretty, prettybase = prettybase, powbase=powbase, hersh = hersh, family = family, frame.plot = frame.plot, usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, lwd=lwd, xlim=xlim, ylim=ylim, ...)
+    plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
+         panel.first = if(side[1] !=FALSE | axes==FALSE){
+           magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
+                   ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
+                   mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
+                   logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
+                   hersh = hersh, family = family, frame.plot = frame.plot, 
+                   usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
+                   grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
+         lwd=lwd, xlim=xlim, ylim=ylim, ...)
   }
 }
 }

@@ -310,7 +310,8 @@
 }
 
 plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestretch='lin',
-                       colref='count', sizeref='none', add=FALSE, dobar=TRUE, title=colref, colnorm=FALSE, ...){
+                       colref='count', sizeref='none', add=FALSE, dobar=TRUE, title=colref,
+                       colnorm=FALSE, projden=FALSE, xdata=NULL, ydata=NULL, ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
   dotskeepbar=c("position", "orient", "scale", "inset", "labN", "titleshift", "centrealign", "clip")
@@ -348,7 +349,27 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
   }
   
   if(add==FALSE){
-    do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim), dots))
+    if(projden & !is.null(xdata) & !is.null(ydata)){
+      layout(matrix(c(2,4,1,3),2), widths = c(0.9,0.1), heights = c(0.1,0.9))
+      par(oma=c(3.1,3.1,1.1,1.1))
+      #1 (topright)
+      plot.new()
+      #2 (topleft)
+      tempden = density(xdata, from=x$xlim[1], to=x$xlim[2], na.rm=TRUE)
+      par(mar=c(0,0,0,0))
+      magplot(tempden$x, tempden$y, xlim=x$xlim, type='l', side=c(1,2), labels=c(F,T), ylab='PDF',
+              majorn=c(5,2))
+      #3 (bottomleft)
+      tempden = density(ydata, from=x$ylim[1], to=x$ylim[2], na.rm=TRUE)
+      par(mar=c(0,0,0,0))
+      magplot(tempden$y, tempden$x, ylim=x$ylim, type='l', side=c(1,2), labels=c(T,F), xlab='PDF', 
+              majorn=c(2,5))
+      #4 (bottomright)
+      par(mar=c(0,0,0,0))
+      do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim, side=c(1,2,3,4), labels=c(T,T,F,F)), dots))
+    }else{
+      do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim), dots))
+    }
   }
   #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
   for(i in 1:dim(x$bins)[1]){
@@ -406,7 +427,7 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, log=
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=terrain.colors(1e4),
                   colstretch='lin', sizestretch='lin', colref='count', sizeref='none',
                   funstat=function(x) median(x, na.rm=TRUE), direction='h',
-                  offset=0, jitterseed=666, ...){
+                  offset=0, jitterseed=666, projden=FALSE, ...){
   if(is.null(z)){
     if(!is.null(dim(x))){
       if(dim(x)[2]==3){z=unlist(x[,3])}
@@ -462,7 +483,9 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, log=
                     funstat=funstat, direction=direction, offset=offset, jitterseed=jitterseed)
   
   if(plot){
-    plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch, colref=colref, sizeref=sizeref, unlog=unlog, ...)
+    plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch,
+         colref=colref, sizeref=sizeref, unlog=unlog, projden=projden, xdata=x,
+         ydata=y, ...)
   }
   return(invisible(bincount))
 }
