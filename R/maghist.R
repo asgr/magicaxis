@@ -1,6 +1,7 @@
 maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
                 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL,
-                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', scale=1, cumsum=FALSE, ...){
+                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', scale=1, cumsum=FALSE,
+                p.test=NULL, ...){
   
   if(!class(x)=='histogram'){
     if(!is.null(xlim)){
@@ -44,6 +45,9 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
         print(paste('Using ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<min(xlim))),' < xlo & ',length(which(x>max(xlim))),' > xhi)',sep=''))
       }else{
         print(paste('Using ',length(which(sel)),' out of ',length(x),sep=''))
+      }
+      if(!is.null(p.test)){
+        print(p.test(x[sel]))
       }
     }
     x=x[sel]

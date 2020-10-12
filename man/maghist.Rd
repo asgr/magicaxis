@@ -9,7 +9,8 @@ A fairly simple function that produces pretty histograms. The main difference to
 \usage{
 maghist(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL, ylim = NULL,
-plot = TRUE, verbose = TRUE, add = FALSE, log = '', scale = 1, cumsum = FALSE,  ...)
+plot = TRUE, verbose = TRUE, add = FALSE, log = '', scale = 1, cumsum = FALSE,
+p.test = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -71,6 +72,9 @@ Numeric scalar; an additional scaling parameter to apply to the frequnecy counts
 }
 \item{cumsum}{
 Logical; if FALSE (default) then \option{counts} and \option{density} are totals for the current bin (usual sense of a histogram), if TRUE then \option{counts} and \option{density} are cumulative totals of all counts up to and including the current bin (always from lowest \option{x} upwards).
+}
+\item{p.test}{
+Function; optionally the user can provide a standard (or custom) p-test to be computed on the display (i.e. trimmed) data. This might be e.g. a Normality test with the \code{\link{shapiro.test}} function etc. The results are printed to screen below the other standard summary information if \option{verbose}=TRUE.
 }
   \item{\dots}{
 Arguments to be parsed to \code{\link{magplot}}.

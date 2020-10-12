@@ -311,7 +311,7 @@
 
 plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestretch='lin',
                        colref='count', sizeref='none', add=FALSE, dobar=TRUE, title=colref,
-                       colnorm=FALSE, projden=FALSE, xdata=NULL, ydata=NULL, ...){
+                       colnorm=FALSE, projden=FALSE, xdata=NULL, ydata=NULL, pch.dust='.', cex.dust=1, ...){
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
   dotskeepbar=c("position", "orient", "scale", "inset", "labN", "titleshift", "centrealign", "clip")
@@ -399,15 +399,15 @@ plot.magbin = function(x, colramp=terrain.colors(1e4), colstretch='lin', sizestr
   }
   if(!is.null(x$dust)){
     if(is.null(x$dust$z)){
-      points(x$dust$x, x$dust$y, pch='.', col=colramp[1])
+      points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[1], cex=cex.dust)
     }else{
       if(colref=='zstat'){
         colmapdust = do.call("magmap", c(list(data=x$dust$z, locut=colmap$datalim[1],
                     hicut=colmap$datalim[2], type='num', stretch=colstretch,
                     range=c(1,length(colramp)), bad=NA)))$map
-        points(x$dust$x, x$dust$y, pch='.', col=colramp[colmapdust])
+        points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[colmapdust], cex=cex.dust)
       }else{
-        points(x$dust$x, x$dust$y, pch='.', col=colramp[1])
+        points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[1], cex=cex.dust)
       }
     }
   }

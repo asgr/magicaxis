@@ -11,7 +11,7 @@ Plot 2D histogram counts or a third (z) axis summary statistic in 2D cells of di
 \method{plot}{magbin}(x, colramp = terrain.colors(10000), colstretch = "lin",
   sizestretch = "lin", colref = "count", sizeref = "none", add = FALSE,
   dobar = TRUE, title = colref, colnorm = FALSE, projden = FALSE, xdata = NULL, 
-  ydata = NULL, ...)
+  ydata = NULL, pch.dust = '.', cex.dust = 1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -53,6 +53,12 @@ Numeric vector; the original x data sent to \code{\link{magbin}}. Only relevant 
 }
  \item{ydata}{
 Numeric vector; the original y data sent to \code{\link{magbin}}. Only relevant if \option{projden}=TRUE.
+}
+  \item{pch.dust}{
+Scalar; pch symbol to use for the dust points.
+}
+  \item{cex.dust}{
+Scalar; cex size to use for the dust points.
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
