@@ -1,6 +1,6 @@
 maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
                 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL,
-                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', scale=1, cumsum=FALSE,
+                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', unlog=log, scale=1, cumsum=FALSE,
                 p.test=NULL, ...){
   
   if(!class(x)=='histogram'){
@@ -115,7 +115,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
       }
     }
     if(add==FALSE){
-      magplot(x=1, y=1, type='n', xlim=xlim, ylim=ylim, unlog=log, ...)
+      magplot(x=1, y=1, type='n', xlim=xlim, ylim=ylim, unlog=unlog, ...)
       if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
         lims=par()$usr
         lims[3:4]=lims[3:4]-min(ylim)
