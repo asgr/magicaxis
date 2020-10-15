@@ -7,7 +7,7 @@ import('plotrix')
 import("sm")
 import("mapproj")
 
-importFrom("grDevices", "hsv", "rainbow", "grey", "rgb", "dev.cur", "extendrange", "colorRampPalette","terrain.colors")
+importFrom("grDevices", "hsv", "rainbow", "grey", "rgb", "dev.cur", "extendrange", "colorRampPalette", "hcl.colors")
 importFrom("graphics", "arrows", "axis", "box", "contour", "image", "mtext", "par",
            "plot", "plot.new", "plot.window", "rect", "text", "abline", "layout",
            "lines", "points", "polygon",  "hist")

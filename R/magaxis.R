@@ -1,7 +1,11 @@
-magaxis <-
-function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unlog='auto', mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, lwd.axis=1, lwd.ticks=lwd.axis, ...){
+magaxis =
+function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unlog='auto', 
+         mgp=c(2,0.5,0), mtline=2, xlab=NULL, ylab=NULL, crunch=TRUE, logpretty=TRUE, 
+         prettybase=10, powbase=10, hersh=FALSE, family='sans', frame.plot=FALSE, 
+         usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, lwd.axis=1, 
+         lwd.ticks=lwd.axis, ...){
 dots=list(...)
-dotskeepaxis=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'tick')
+dotskeepaxis=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks', 'tick', 'col')
 dotskeepmtext=c('cex.lab', 'col.lab', 'font.lab')
 if(length(dots)>0){
   dotsaxis=dots[names(dots) %in% dotskeepaxis]
@@ -29,10 +33,15 @@ if(length(logpretty)==1 & length(side)>1){logprettylist=rep(logpretty,length(sid
 if(length(prettybase)==1 & length(side)>1){prettybaselist=rep(prettybase,length(side))}
 if(length(powbase)==1 & length(side)>1){powbaselist=rep(powbase,length(side))}
 if(length(grid)==1 & length(side)>1){gridlist=rep(grid,length(side))}
-if(unlog[1]==''){unloglist=rep(FALSE,length(side))}
-if(unlog[1]=='x'){unloglist=rep(FALSE,length(side));unloglist[side %in% c(1,3)]=TRUE}
-if(unlog[1]=='y'){unloglist=rep(FALSE,length(side));unloglist[side %in% c(2,4)]=TRUE}
-if(unlog[1]=='xy' | unlog[1]=='yx'){unloglist=rep(TRUE,length(side))}
+
+if(!all(is.logical(unlog))){
+  unlogsplit = strsplit(unlog[1],'')[[1]]
+  unloglist=rep(FALSE,length(side))
+  if(unlog[1]==''){unloglist=rep(FALSE,length(side))}
+  if('x' %in% unlogsplit){unloglist[side %in% c(1,3)]=TRUE}
+  if('y' %in% unlogsplit){unloglist[side %in% c(2,4)]=TRUE}
+  #if(unlog[1]=='xy' | unlog[1]=='yx'){unloglist=rep(TRUE,length(side))}
+}
 
 if(length(majornlist) != length(side)){stop('Length of majorn vector mismatches number of axes!')}
 if(length(minornlist) != length(side)){stop('Length of minorn vector mismatches number of axes!')}

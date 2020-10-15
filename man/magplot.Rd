@@ -8,20 +8,24 @@ Magically pretty plots
 Makes scientific plots based on magaxis axes. Particularly designed for log plotting. Utilises base plot for the most part, but the axis drawing is replaced by a call to the magaxis fuction.
 }
 \usage{
-magplot(x, y, log = "", main = "", side = 1:2, majorn = 5, minorn = 'auto', tcl = 0.5,
-ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2, xlab = '',
-ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase = 10, hersh = FALSE,
-family = "sans", frame.plot = TRUE, usepar = FALSE, grid = TRUE, grid.col = 'grey90',
-grid.lty = 1, grid.lwd = 1, axes = TRUE, xlim = NULL, ylim = NULL, lwd = 1, lwd.axis = 1, 
-lwd.ticks = lwd.axis, ...) 
+magplot(x, y, z = NULL, log = "", main = "", side = 1:2, majorn = 5, minorn = 'auto',
+tcl = 0.5, ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2,
+xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase = 10,
+hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE, grid = TRUE,
+grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, axes = TRUE, xlim = NULL,
+ylim = NULL, lwd = 1, lwd.axis = 1, lwd.ticks = lwd.axis, zcol = hcl.colors(1e4),
+zstretch = 'lin', dobar = TRUE,  ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{	
-The x coordinates of points in the plot. Alternatively, a single plotting structure, function or any R object with a plot method can be provided.
+The x coordinates of points/lines in the plot. Alternatively, a single plotting structure, function or any R object with a plot method can be provided.
 }
   \item{y}{
-The y coordinates of points in the plot, optional if x is an appropriate structure.
+The y coordinates of points/lines in the plot, optional if x is an appropriate structure.
+}
+  \item{z}{
+The z coordinates for colour scaling of points in the plot. This will be passed through \code{\link{magmap}}, with dots passed as relevant.
 }
   \item{log}{
 Log axis arguments to be passed to plot. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes.
@@ -118,8 +122,17 @@ The line width of the axis to be drawn. This is passed to \option{lwd} argument 
   \item{lwd.ticks}{
 The line width of the ticks to be drawn. This is passed to \option{lwd.ticks} argument in \code{\link{axis}}.
 }
+  \item{zcol}{
+Vector; a colour palette to use for \option{z} mapped colours. Must be a vector and not a function.. Only relevant if data has been passed to \option{z}  
+}
+  \item{zstretch}{
+Character scalar; \option{z} colour stretch, either linear (lin, default) or logarithmic (log, good for large dynamic ranges).
+}
+  \item{dobar}{
+Logical; should a colour bar be added to the plot?  
+}
   \item{\dots}{
-Further arguments to be passed to base \code{\link{plot}} and also to \code{\link{magaxis}} -> \code{\link{axis}}.
+Further arguments to be passed to: base \code{\link{plot}}; \code{\link{magaxis}} -> \code{\link{axis}}; \code{\link{magmap}} and \code{\link{magbar}} if \option{z} scaling is being used.
 }
 }
 
@@ -170,6 +183,10 @@ temp=cbind(runif(10,8,12),runif(10,0,5))
 
 magplot(temp[,1:2], xlab=expression(M['\u0298']), ylab=expression(M['\u0298']/Yr), unlog='xy')
 
+#With z scaling
+
+z=sqrt(9:1)
+magplot(x,y,z,log='x',position='topleft')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

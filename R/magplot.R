@@ -1,10 +1,11 @@
 magplot =
-function(x, y, log='', main='', side = 1:2, majorn = 5, minorn = 'auto', tcl = 0.5,
+function(x, y, z=NULL, log='', main='', side = 1:2, majorn = 5, minorn = 'auto', tcl = 0.5,
          ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2,
          xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10,
          powbase = 10, hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE,
          grid = TRUE, grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, axes = TRUE,
-         xlim = NULL, ylim = NULL, lwd = 1, lwd.axis = 1, lwd.ticks = lwd.axis, ...){
+         xlim = NULL, ylim = NULL, lwd = 1, lwd.axis = 1, lwd.ticks = lwd.axis,
+         zcol = hcl.colors(1e4), zstretch = 'lin', dobar = TRUE, ...){
   
 if(class(x)[1]=='histogram'){
   dots=list(...)
@@ -18,6 +19,8 @@ if(class(x)[1]=='histogram'){
                       dots))
 }else{
   
+  logsplit = strsplit(log[1],'')[[1]]
+  
   if(missing(y)){
     if(is.data.frame(x) | is.matrix(x)){
       if(ncol(x)>2){
@@ -26,14 +29,14 @@ if(class(x)[1]=='histogram'){
       }else{
         if (length(xlim) == 1) {
           sel = !is.na(x[,1]) & !is.nan(x[,1]) & !is.null(x[,1]) & is.finite(x[,1])
-          if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
+          if ('x' %in% logsplit) {
             sel = sel & x[,1] > 0
           }
           xlim=magclip(x[sel,1], sigma=xlim)$range
         }
         if (length(ylim) == 1) {
           sel = !is.na(x[,2]) & !is.nan(x[,2]) & !is.null(x[,2]) & is.finite(x[,2])
-          if (log[1] == "y" | log[1] == "xy" | log[1] == "yx") {
+          if ('y' %in% logsplit) {
             sel = sel & x[,2] > 0
           }
           ylim=magclip(x[sel,2], sigma=ylim)$range
@@ -62,30 +65,80 @@ if(class(x)[1]=='histogram'){
            lwd=lwd, xlim=xlim, ylim=ylim, ...)
     }
   }else{
+    if(is.null(xlim) & !is.null(x)){xlim=range(x,na.rm=TRUE)}
     if (length(xlim) == 1) {
       sel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
-      if (log[1] == "x" | log[1] == "xy" | log[1] == "yx") {
+      if ('x' %in% logsplit) {
         sel = sel & x > 0
       }
       xlim=magclip(x[sel], sigma=xlim)$range
     }
+    if(is.null(ylim) & !is.null(y)){ylim=range(y,na.rm=TRUE)}
     if (length(ylim) == 1) {
       sel = !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
-      if (log[1] == "y" | log[1] == "xy" | log[1] == "yx") {
+      if ('y' %in% logsplit) {
         sel = sel & y > 0
       }
       ylim=magclip(y[sel], sigma=ylim)$range
     }
-    plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
-         panel.first = if(side[1] !=FALSE | axes==FALSE){
-           magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
-                   ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
-                   mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
-                   logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
-                   hersh = hersh, family = family, frame.plot = frame.plot, 
-                   usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
-                   grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
-         lwd=lwd, xlim=xlim, ylim=ylim, ...)
+    if(is.null(z)){
+      plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
+           panel.first = if(side[1] !=FALSE | axes==FALSE){
+             magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
+                     ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
+                     mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
+                     logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
+                     hersh = hersh, family = family, frame.plot = frame.plot, 
+                     usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
+                     grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
+           lwd=lwd, xlim=xlim, ylim=ylim, ...)
+    }else{
+      dots=list(...)
+      dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
+      dotskeepbar=c("position", "orient", "scale", "inset", "labN", "title", "titleshift", "centrealign")
+      
+      if(length(dots)>0){
+        dotsmap = dots[names(dots) %in% dotskeepmap]
+        dots = dots[!names(dots) %in% dotskeepmap]
+        dotsbar = dots[names(dots) %in% dotskeepbar]
+        dots = dots[!names(dots) %in% dotskeepbar]
+      }else{
+        dotsmap={}
+        dotsbar={}
+      }
+      if ('z' %in% logsplit & !is.null(z)) {
+        z = log10(z)
+        # if(length(zlim) == 2){
+        #   zlim = log10(zlim)
+        # }
+        if(missing(unlog)){
+          unlog = paste(logsplit[-which(logsplit == 'z')], collapse='')
+        }
+        if(missing(zcol)){
+          zstretch = 'log'
+        }
+      }
+      # if(is.null(zlim) & !is.null(z)){zlim=range(z,na.rm=TRUE)}
+      # if (length(zlim) == 1) {
+      #   sel = !is.na(z) & !is.nan(z) & !is.null(z) & is.finite(z)
+      #   zlim = magclip(z[sel], sigma=zlim)$range
+      # }
+      colmap = do.call("magmap", c(list(data=z, stretch=zstretch, range=c(1,length(zcol)), bad=NA), dotsmap))
+      plot(x=NA, y=NA, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
+           panel.first = if(side[1] !=FALSE | axes==FALSE){
+             magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
+                     ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
+                     mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
+                     logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
+                     hersh = hersh, family = family, frame.plot = frame.plot, 
+                     usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
+                     grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
+           lwd=lwd, xlim=xlim, ylim=ylim)
+      do.call("points", c(list(x=x,y=y, col=zcol[colmap$map]), dots))
+      if(dobar){
+        do.call("magbar", c(list(range=colmap$datalim, log=zstretch=='log', col=zcol), dotsbar))
+      }
+    }
   }
 }
 }
