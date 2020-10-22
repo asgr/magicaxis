@@ -1,6 +1,7 @@
 maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, right = TRUE,
                 density = NULL, angle = 45, col = NULL, border = NULL, xlim = NULL,
-                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', scale=1, cumsum=FALSE, ...){
+                ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', unlog=log, scale=1, cumsum=FALSE,
+                p.test=NULL, ...){
   
   if(!class(x)=='histogram'){
     if(!is.null(xlim)){
@@ -33,17 +34,20 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     }
     
     outsum=summary(xtemp)
-    sd1q2q=c(as.numeric(sd(xtemp)), as.numeric(diff(quantile(xtemp,pnorm(c(-1,1)),na.rm = TRUE)))/2, as.numeric(diff(quantile(xtemp,pnorm(c(-2,2)),na.rm = TRUE)))/2)
+    sdmad1q2q=c(as.numeric(sd(xtemp)), as.numeric(mad(xtemp)), as.numeric(diff(quantile(xtemp,pnorm(c(-1,1)),na.rm = TRUE)))/2, as.numeric(diff(quantile(xtemp,pnorm(c(-2,2)),na.rm = TRUE)))/2)
     
     if(verbose){
       print('Summary of used sample:')
       print(outsum)
-      print('sd / 1-sig / 2-sig range:')
-      print(sd1q2q)
+      print('sd / MAD / 1-sig / 2-sig range:')
+      print(sdmad1q2q)
       if(!is.null(xlim)){
         print(paste('Using ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<min(xlim))),' < xlo & ',length(which(x>max(xlim))),' > xhi)',sep=''))
       }else{
         print(paste('Using ',length(which(sel)),' out of ',length(x),sep=''))
+      }
+      if(!is.null(p.test)){
+        print(p.test(x[sel]))
       }
     }
     x=x[sel]
@@ -111,7 +115,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
       }
     }
     if(add==FALSE){
-      magplot(x=1, y=1, type='n', xlim=xlim, ylim=ylim, unlog=log, ...)
+      magplot(x=1, y=1, type='n', xlim=xlim, ylim=ylim, unlog=unlog, ...)
       if(log[1] == "y" | log[1] == "xy" | log[1] == "yx"){
         lims=par()$usr
         lims[3:4]=lims[3:4]-min(ylim)
@@ -182,7 +186,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     out$density=10^out$density
   }
   if(!class(x)=='histogram'){
-    out=c(out, summary=list(outsum), ranges=list(sd1q2q))
+    out=c(out, summary=list(outsum), ranges=list(sdmad1q2q))
     class(out)='histogram'
   }else{
     out=out

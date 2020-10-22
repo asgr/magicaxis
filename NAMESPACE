@@ -1,16 +1,17 @@
 exportPattern("^[[:alpha:]]+")
 
+S3method("plot", magbin)
+
 import('MASS')
 import('plotrix')
 import("sm")
 import("mapproj")
 
-importFrom("grDevices", "hsv", "rainbow", "grey", "rgb", "dev.cur", "extendrange", "colorRampPalette")
+importFrom("grDevices", "hsv", "rainbow", "grey", "rgb", "dev.cur", "extendrange", "colorRampPalette", "hcl.colors")
 importFrom("graphics", "arrows", "axis", "box", "contour", "image", "mtext", "par",
            "plot", "plot.new", "plot.window", "rect", "text", "abline", "layout",
            "lines", "points", "polygon",  "hist")
-importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm", "ecdf", "qnorm")
+importFrom("stats", "approxfun", "density", "median", "pnorm", "quantile", "sd", "rnorm", "ecdf", "qnorm", "mad", "aggregate", "runif")
 importFrom("celestial", "hms2deg", "dms2deg", "deg2hms", 'deg2dms', 'radec2xy', 'xy2radec', 'getpixscale')
 importFrom("RColorBrewer", "brewer.pal")
-
-
+importFrom("RANN", "nn2")
