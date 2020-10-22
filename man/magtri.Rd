@@ -9,7 +9,7 @@ A very high level (minimal options) MCMC chain triangle (AKA corner) plot functi
 }
 \usage{
 magtri(chains, samples = 1000, thin = 1, samptype = 'end', grid = FALSE, tick = FALSE,
-refvals = NULL, ...)
+refvals = NULL, lab = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,6 +33,9 @@ Should tick marks be added to every sub-panel?
 }
   \item{refvals}{
 Numeric vector; this gives reference values to overdraw. If provided it must be the same length as dim(chains)[2], i.e. this would usually be the number of parameters being compared in the triangle plot.
+}
+  \item{lab}{
+Character vector; optional over-ride for column names when plotting the grid of scatter plots.  
 }
   \item{\dots}{
 Extra arguments are passed to \option{\link{magcon}} for plotting.  
