@@ -7,5 +7,5 @@ Author: Aaron Robotham
 Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>
 Description: Functions to make useful (and pretty) plots for scientific plotting. Additional plotting features are added for base plotting, with particular emphasis on making attractive log axis plots.
 License: GPL-3
-Suggests: imager
+Suggests: imager, fst
 Imports: grDevices, graphics, stats, celestial (>= 1.4.1), MASS, plotrix, sm, mapproj, RColorBrewer, RANN
