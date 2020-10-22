@@ -186,7 +186,7 @@ magplot(temp[,1:2], xlab=expression(M['\u0298']), ylab=expression(M['\u0298']/Yr
 #With z scaling
 
 z=sqrt(9:1)
-magplot(x,y,z,log='x',position='topleft')
+magplot(x, y, z, log='x', position='topleft')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
