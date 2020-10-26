@@ -5,7 +5,7 @@ function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unl
          usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, axis.lwd=1, 
          ticks.lwd=axis.lwd, axis.col='black', do.tick=TRUE, ...){
 dots=list(...)
-dotskeepaxis=c('cex.axis', 'axis.col', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks')
+dotskeepaxis=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks')
 dotskeepmtext=c('cex.lab', 'col.lab', 'font.lab')
 if(length(dots)>0){
   dotsaxis=dots[names(dots) %in% dotskeepaxis]
@@ -34,7 +34,7 @@ if(length(prettybase)==1 & length(side)>1){prettybaselist=rep(prettybase,length(
 if(length(powbase)==1 & length(side)>1){powbaselist=rep(powbase,length(side))}
 if(length(grid)==1 & length(side)>1){gridlist=rep(grid,length(side))}
 
-if(!all(is.logical(unlog))){
+if(!all(is.logical(unlog)) & unlog[1]!='auto'){
   unlogsplit = strsplit(unlog[1],'')[[1]]
   unloglist=rep(FALSE,length(side))
   if(unlog[1]==''){unloglist=rep(FALSE,length(side))}
