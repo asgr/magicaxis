@@ -71,7 +71,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{magplot}},\code{\link{magaxis}},\code{\link{magerr}},\code{\link{magmap}},\code{\link{magrun}}
+\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{magerr}}, \code{\link{magmap}}, \code{\link{magrun}}
 }
 
 \examples{

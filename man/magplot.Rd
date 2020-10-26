@@ -13,8 +13,8 @@ tcl = 0.5, ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline 
 xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase = 10,
 hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE, grid = TRUE,
 grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, axes = TRUE, xlim = NULL,
-ylim = NULL, lwd = 1, lwd.axis = 1, lwd.ticks = lwd.axis, zcol = hcl.colors(1e4),
-zstretch = 'lin', dobar = TRUE,  ...) 
+ylim = NULL, lwd = 1, axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black',
+zcol = hcl.colors(1e4), zstretch = 'lin', dobar = TRUE,  ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -116,11 +116,14 @@ Vector; range of data to display. Default of NULL shows the full range. If lengt
   \item{lwd}{
 The width of plot lines to be drawn. This has different behaviour depending on the plot type.
 }
-  \item{lwd.axis}{
+  \item{axis.lwd}{
 The line width of the axis to be drawn. This is passed to \option{lwd} argument in \code{\link{axis}}.
 }
-  \item{lwd.ticks}{
-The line width of the ticks to be drawn. This is passed to \option{lwd.ticks} argument in \code{\link{axis}}.
+  \item{ticks.lwd}{
+The line width of the ticks to be drawn. This is passed to \option{ticks.lwd} argument in \code{\link{axis}}.
+}
+  \item{axis.col}{
+Colour argument to pass directly to \option{col} in axis. It is a bit clunky to have to specify this, but the option 'col' clashes too much with line and point colours.  
 }
   \item{zcol}{
 Vector; a colour palette to use for \option{z} mapped colours. Must be a vector and not a function.. Only relevant if data has been passed to \option{z}  
@@ -153,7 +156,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magerr}},\code{\link{magmap}},\code{\link{magrun}}
+\code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magerr}}, \code{\link{magmap}}, \code{\link{magrun}}
 }
 
 \examples{

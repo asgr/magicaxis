@@ -85,7 +85,7 @@ The number of items contributing to each running bin. This effectively produces 
 Aaron Robotham
 }
 \seealso{
-\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magerr}},\code{\link{magmap}}
+\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magerr}}, \code{\link{magmap}}
 }
 \examples{
 #Simple example

@@ -87,7 +87,7 @@ Called for the side effect of generating images and contours representing quanti
 Aaron Robotham
 }
 \seealso{
-\code{\link{magplot}},\code{\link{magaxis}},\code{\link{maglab}},\code{\link{magmap}},\code{\link{magrun}},\code{\link{magbar}}
+\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{magbar}}
 }
 \examples{
 temp=cbind(rnorm(1e3),rnorm(1e3))

@@ -4,7 +4,7 @@ function(x, y, z=NULL, log='', main='', side = 1:2, majorn = 5, minorn = 'auto',
          xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10,
          powbase = 10, hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE,
          grid = TRUE, grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, axes = TRUE,
-         xlim = NULL, ylim = NULL, lwd = 1, lwd.axis = 1, lwd.ticks = lwd.axis,
+         xlim = NULL, ylim = NULL, lwd = 1, axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black',
          zcol = hcl.colors(1e4), zstretch = 'lin', dobar = TRUE, ...){
   
 if(class(x)[1]=='histogram'){
@@ -49,7 +49,7 @@ if(class(x)[1]=='histogram'){
                        logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
                        hersh = hersh, family = family, frame.plot = frame.plot, 
                        usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
-                       grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
+                       grid.lwd=grid.lwd, axis.lwd=axis.lwd, ticks.lwd=ticks.lwd, axis.col=axis.col, ...)}, 
              lwd=lwd, xlim=xlim, ylim=ylim, ...)
       }
     }else{
@@ -61,7 +61,7 @@ if(class(x)[1]=='histogram'){
                      logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
                      hersh = hersh, family = family, frame.plot = frame.plot, 
                      usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
-                     grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)},
+                     grid.lwd=grid.lwd, axis.lwd=axis.lwd, ticks.lwd=ticks.lwd, axis.col=axis.col, ...)},
            lwd=lwd, xlim=xlim, ylim=ylim, ...)
     }
   }else{
@@ -90,7 +90,7 @@ if(class(x)[1]=='histogram'){
                      logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
                      hersh = hersh, family = family, frame.plot = frame.plot, 
                      usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
-                     grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
+                     grid.lwd=grid.lwd, axis.lwd=axis.lwd, ticks.lwd=ticks.lwd, axis.col=axis.col, ...)}, 
            lwd=lwd, xlim=xlim, ylim=ylim, ...)
     }else{
       dots=list(...)
@@ -132,7 +132,7 @@ if(class(x)[1]=='histogram'){
                      logpretty = logpretty, prettybase = prettybase, powbase=powbase, 
                      hersh = hersh, family = family, frame.plot = frame.plot, 
                      usepar = usepar, grid=grid, grid.col=grid.col, grid.lty=grid.lty, 
-                     grid.lwd=grid.lwd, lwd.axis=lwd.axis, lwd.ticks=lwd.ticks, ...)}, 
+                     grid.lwd=grid.lwd, axis.lwd=axis.lwd, ticks.lwd=ticks.lwd, axis.col=axis.col, ...)}, 
            lwd=lwd, xlim=xlim, ylim=ylim)
       do.call("points", c(list(x=x,y=y, col=zcol[colmap$map]), dots))
       if(dobar){
