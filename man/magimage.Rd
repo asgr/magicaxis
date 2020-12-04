@@ -12,7 +12,8 @@ Magically pretty images
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
 useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
 range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
-clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE, ...)
+clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE,
+rem_med = FALSE, ...)
 magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
 useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
 range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = "auto", bad = range[1],
@@ -97,6 +98,9 @@ Determines whether the image pixels are sparse sampled to speed up plotting. If 
 }
   \item{qdiff}{
 Logical; if the z axis being plotted, this will set all the various parameters that make for a visually useful difference plot, where -ve difference values become blue, 0 difference values are yellow, and +ve difference values are red.
+}
+  \item{rem_med}{
+Logical; should the \code{median} of the \option{image} be subtracted or not? This is often useful in conjunction with \option{qdiff} = TRUE.
 }
   \item{\dots}{
 Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). See \code{\link{image}} and \code{\link{magaxis}} for details.
