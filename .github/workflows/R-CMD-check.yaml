@@ -41,6 +41,25 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
+      - name: Install XQuartz
+        if: runner.os == 'macOS'
+        run: |
+          wget https://dl.bintray.com/xquartz/downloads/XQuartz-2.7.11.dmg
+          sudo hdiutil attach XQuartz-2.7.11.dmg
+          sudo installer -package /Volumes/XQuartz-2.7.11/XQuartz.pkg -target /
+          sudo hdiutil detach /Volumes/XQuartz-2.7.11
+          rm XQuartz-2.7.11.dmg
+        
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
+          sudo apt install xvfb
+          echo "{XVFB_RUN}={xvfb-run}" >> $GITHUB_ENV
+
       - name: Query dependencies
         run: |
           install.packages('remotes')

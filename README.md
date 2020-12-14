@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/asgr/magicaxis/workflows/R-CMD-check/badge.svg)](https://github.com/asgr/magicaxis/actions)
+![R-CMD-check](https://github.com/asgr/magicaxis/workflows/R-CMD-check/badge.svg)
 <!-- badges: end -->
 
 The goal of magicaxis is provide functions to make pretty axes (major
@@ -117,10 +117,10 @@ An example of using **maghist**:
 ``` r
 maghist(rnorm(1e4))
 #> [1] "Summary of used sample:"
-#>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> -3.92436 -0.69188 -0.02302 -0.01677  0.66278  3.66035 
+#>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+#> -3.347802 -0.680214  0.002396  0.006846  0.682562  3.731962 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.001466 1.006077 1.009919 1.982456
+#> [1] 1.004617 1.010325 1.006027 2.016355
 #> [1] "Using 10000 out of 10000"
 ```
 
@@ -130,10 +130,10 @@ maghist(rnorm(1e4))
 maghist(rnorm(1e4), xlim=c(-2,4))
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> -1.99754 -0.60632  0.02039  0.05656  0.67684  3.87627 
+#> -1.99729 -0.61235  0.03331  0.06389  0.69167  3.59493 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 0.9382852 0.9477177 0.9575367 1.8775850
-#> [1] "Using 9758 out of 10000 (97.58%) data points (242 < xlo & 0 > xhi)"
+#> [1] 0.9504591 0.9671921 0.9747294 1.8847496
+#> [1] "Using 9763 out of 10000 (97.63%) data points (237 < xlo & 0 > xhi)"
 ```
 
 <img src="man/figures/README-example2-2.png" width="100%" />
@@ -165,9 +165,9 @@ testdata=10^(runif(1e3,0,4))
 maghist(testdata)
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#>    1.005   10.666  108.729 1079.447 1063.772 9666.258 
+#>    1.005   10.600   97.882  970.827  842.495 9893.141 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 2019.6296  158.3374 1248.4168 4045.0531
+#> [1] 1888.6374  141.8079  972.3256 3684.0541
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -177,9 +177,9 @@ maghist(testdata)
 maghist(testdata,log='x')
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> 0.002284 1.028006 2.036161 2.003543 3.026847 3.985258 
+#> 0.001991 1.025305 1.990641 1.978397 2.925567 3.995334 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.163157 1.489855 1.407072 1.902096
+#> [1] 1.126441 1.407976 1.335352 1.878412
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -189,9 +189,9 @@ maghist(testdata,log='x')
 maghist(testdata,log='y')
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#>    1.005   10.666  108.729 1079.447 1063.772 9666.258 
+#>    1.005   10.600   97.882  970.827  842.495 9893.141 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 2019.6296  158.3374 1248.4168 4045.0531
+#> [1] 1888.6374  141.8079  972.3256 3684.0541
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -201,9 +201,9 @@ maghist(testdata,log='y')
 maghist(testdata,log='xy')
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> 0.002284 1.028006 2.036161 2.003543 3.026847 3.985258 
+#> 0.001991 1.025305 1.990641 1.978397 2.925567 3.995334 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.163157 1.489855 1.407072 1.902096
+#> [1] 1.126441 1.407976 1.335352 1.878412
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -214,9 +214,9 @@ maghist(testdata,log='xy')
 maghist(testdata,freq=FALSE)
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#>    1.005   10.666  108.729 1079.447 1063.772 9666.258 
+#>    1.005   10.600   97.882  970.827  842.495 9893.141 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 2019.6296  158.3374 1248.4168 4045.0531
+#> [1] 1888.6374  141.8079  972.3256 3684.0541
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -226,9 +226,9 @@ maghist(testdata,freq=FALSE)
 maghist(testdata,freq=FALSE,log='x')
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> 0.002284 1.028006 2.036161 2.003543 3.026847 3.985258 
+#> 0.001991 1.025305 1.990641 1.978397 2.925567 3.995334 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.163157 1.489855 1.407072 1.902096
+#> [1] 1.126441 1.407976 1.335352 1.878412
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -238,9 +238,9 @@ maghist(testdata,freq=FALSE,log='x')
 maghist(testdata,freq=FALSE,log='y')
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#>    1.005   10.666  108.729 1079.447 1063.772 9666.258 
+#>    1.005   10.600   97.882  970.827  842.495 9893.141 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 2019.6296  158.3374 1248.4168 4045.0531
+#> [1] 1888.6374  141.8079  972.3256 3684.0541
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -250,9 +250,9 @@ maghist(testdata,freq=FALSE,log='y')
 maghist(testdata,freq=FALSE,log='xy')
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> 0.002284 1.028006 2.036161 2.003543 3.026847 3.985258 
+#> 0.001991 1.025305 1.990641 1.978397 2.925567 3.995334 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.163157 1.489855 1.407072 1.902096
+#> [1] 1.126441 1.407976 1.335352 1.878412
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -265,9 +265,9 @@ maghist(testdata,freq=FALSE,log='xy')
 testhist=maghist(testdata,log='xy')
 #> [1] "Summary of used sample:"
 #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-#> 0.002284 1.028006 2.036161 2.003543 3.026847 3.985258 
+#> 0.001991 1.025305 1.990641 1.978397 2.925567 3.995334 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.163157 1.489855 1.407072 1.902096
+#> [1] 1.126441 1.407976 1.335352 1.878412
 #> [1] "Using 1000 out of 1000"
 ```
 
@@ -304,9 +304,9 @@ magplot(testhist,log='xy')
 maghist(rnorm(1e6), grid=TRUE)
 #> [1] "Summary of used sample:"
 #>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-#> -4.768956 -0.674841 -0.001585 -0.000377  0.675271  5.050840 
+#> -4.798760 -0.672827  0.000144  0.000752  0.675977  4.768394 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.000313 1.000866 1.000645 1.999022
+#> [1] 1.0001413 0.9998855 0.9993710 2.0024501
 #> [1] "Using 1000000 out of 1000000"
 ```
 
@@ -316,9 +316,9 @@ maghist(rnorm(1e6), grid=TRUE)
 maghist(rnorm(1e6), log='y', grid=TRUE)
 #> [1] "Summary of used sample:"
 #>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-#> -5.060669 -0.675340 -0.000620  0.000524  0.675740  4.801969 
+#> -4.568203 -0.672258  0.002986  0.001804  0.676802  5.046734 
 #> [1] "sd / MAD / 1-sig / 2-sig range:"
-#> [1] 1.001899 1.001504 1.001384 2.004430
+#> [1] 0.9998797 1.0001524 1.0000371 2.0002543
 #> [1] "Using 1000000 out of 1000000"
 ```
 
