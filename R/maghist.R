@@ -3,7 +3,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
                 ylim = NULL, plot = TRUE, verbose=TRUE, add=FALSE, log='', unlog=log, scale=1, cumsum=FALSE,
                 p.test=NULL, ...){
   
-  if(!class(x)=='histogram'){
+  if(!inherits(x,'histogram')){
     if(!is.null(xlim)){
       if(length(xlim)==1){
         sel= !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
@@ -185,7 +185,7 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     out$counts=10^out$counts
     out$density=10^out$density
   }
-  if(!class(x)=='histogram'){
+  if(!inherits(x,'histogram')){
     out=c(out, summary=list(outsum), ranges=list(sdmad1q2q))
     class(out)='histogram'
   }else{

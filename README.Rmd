@@ -1,0 +1,145 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# magicaxis
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/asgr/magicaxis/workflows/R-CMD-check/badge.svg)](https://github.com/asgr/magicaxis/actions)
+<!-- badges: end -->
+
+The goal of magicaxis is provide functions to make pretty axes (major and minor) on scientific plots. Particularly effort is made on producing nice log plot outputs. The core function produces pretty axis labelling in a number of circumstances that are often used in scientific plotting. There is a higher level interface to a generic plot function that will usually produce nice plots, even without much though on the users part.
+
+## Installation
+
+You can install the released version of magicaxis from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("magicaxis")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("asgr/magicaxis")
+```
+## Example
+
+An example of using **magplot**:
+
+```{r example1}
+library(magicaxis)
+## basic example code
+x=10^{1:9}
+y=1:9
+magplot(log10(x),y,unlog='x')
+magplot(x,y,log='x')
+
+#Not ideal to have two decades between major labels:
+
+magplot(x,y,log='x',majorn=c(10,5))
+magplot(x,y,log='xy',majorn=c(10,5,5,5),side=1:4)
+
+#Sometimes it is helpful to focus on where most of the data actually is.
+#Using a single value for xlim and ylim sigma clips the data to that range.
+#Here a value of 2 means we only show the inner 2-sigma (2% to 98%) range.
+#The 'auto' option allows magclip to dynamically estimate a clip value.
+
+temp=cbind(rt(1e3,1.5),rt(1e3,1.5))
+magplot(temp)
+magplot(temp, xlim=2, ylim=2)
+magplot(temp, xlim='auto', ylim='auto')
+
+#Some astronomy related examples (and how to display the solar symbol):
+
+temp=cbind(runif(10,8,12),runif(10,0,5))
+
+magplot(temp[,1:2], xlab=expression(M['\u0298']), ylab=expression(M['\u0298']/Yr), unlog='xy')
+
+#With z scaling
+
+z=sqrt(9:1)
+magplot(x, y, z, log='x', position='topleft')
+```
+
+An example of using **maghist**:
+
+```{r example2}
+maghist(rnorm(1e4))
+maghist(rnorm(1e4), xlim=c(-2,4))
+
+#Notice the x-limits are close to -3/3, since  if we ask for xlim=3 (a 3-sigma range)
+
+maghist(rnorm(1e4), xlim=3, verbose = FALSE)
+
+#The 'auto' option allows magclip to dynamically estimate a clip value (which is similar
+#in this case, but need not be in general).
+
+maghist(rnorm(1e4), xlim='auto', verbose = FALSE)
+
+#Test of log histograms:
+
+testdata=10^(runif(1e3,0,4))
+maghist(testdata)
+maghist(testdata,log='x')
+maghist(testdata,log='y')
+maghist(testdata,log='xy')
+
+maghist(testdata,freq=FALSE)
+maghist(testdata,freq=FALSE,log='x')
+maghist(testdata,freq=FALSE,log='y')
+maghist(testdata,freq=FALSE,log='xy')
+
+#Test of plotting histogram objects:
+
+testhist=maghist(testdata,log='xy')
+maghist(testhist)
+maghist(testhist,log='x')
+magplot(testhist,log='y')
+magplot(testhist,log='xy')
+
+#Nice to see a grid with large ranges:
+
+maghist(rnorm(1e6), grid=TRUE)
+maghist(rnorm(1e6), log='y', grid=TRUE)
+```
+
+An example of using **magbin**:
+
+```{r example3}
+set.seed(666)
+xydata = cbind(rnorm(1e4), rnorm(1e4))
+magbin(xydata, shape='hexagon') #default
+magbin(xydata, shape='square')
+magbin(xydata, shape='triangle')
+magbin(xydata, shape='trihex')
+magbin(xydata, shape='hexagon', direction='v')
+magbin(xydata, shape='triangle', direction='v')
+magbin(xydata, shape='trihex', direction='v')
+magbin(xydata, shape='hexagon', step=c(0.2,0.4)) #different aspect ratio hexagons
+
+magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count')
+
+magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count',
+funstat=mad)
+magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count',
+funstat=function(x){quantile(x,0.9)})
+
+xydata = cbind(10^rnorm(1e4), 10^rnorm(1e4))
+magbin(xydata, log='xy')
+magbin(xydata, z=xydata[,1]*xydata[,2], colref='zstat', sizeref='count',
+log='xyz')
+magbin(xydata, log='xy', unlog='xy', xlim=3, ylim=3)
+```
