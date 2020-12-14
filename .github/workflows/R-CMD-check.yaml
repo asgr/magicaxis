@@ -49,7 +49,8 @@ jobs:
           sudo installer -package /Volumes/XQuartz-2.7.11/XQuartz.pkg -target /
           sudo hdiutil detach /Volumes/XQuartz-2.7.11
           rm XQuartz-2.7.11.dmg
-        
+      
+      - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
