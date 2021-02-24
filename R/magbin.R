@@ -353,6 +353,7 @@ plot.magbin = function(x, colramp=hcl.colors(1e4), colstretch='lin', sizestretch
       layout(matrix(c(2,4,1,3),2), widths = c(0.9,0.1), heights = c(0.1,0.9))
       par(oma=c(3.1,3.1,1.1,1.1))
       #1 (topright)
+      par(mar=c(0,0,0,0))
       plot.new()
       #2 (topleft)
       tempden = density(xdata, from=x$xlim[1], to=x$xlim[2], na.rm=TRUE)
