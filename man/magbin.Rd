@@ -68,7 +68,7 @@ Character scalar; size stretch, either linear (lin, default) or logarithmic (log
 Character scalar; colour reference for call, either it should be based on the counts (count, default) or the z-axis statistic (zstat)?
 }
   \item{sizeref}{
-Character scalar; colour reference for call, either it should be ignored (none, so all are the same size and closely packed), based on the counts (count) or the z-axis statistic (zstat)?
+Character scalar; size reference for call, either it should be ignored (none, so all are the same size and closely packed), based on the counts (count) or the z-axis statistic (zstat)?
 }
   \item{funstat}{
 Function; function to use to compute a statistic over the \option{z} axis. The default is \code{\link{median}}, but other good options might be \code{\link{mean}}, \code{\link{sd}}, \code{\link{mad}}. Note, to change default arguments you might need to send through a new function, e.g. \option{funstat} = function(x) median(x, na.rm=TRUE) and similar, but if you are happy with the defaults then you can use the simpler \option{funstat} = mean etc.
