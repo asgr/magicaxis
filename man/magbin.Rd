@@ -104,6 +104,7 @@ List of class 'magbin' containing:
 \item{step }{\option{step} size}
 \item{dustlim}{\option{dustlim}}
 \item{shape}{\option{shape}}
+\item{direction}{\option{direction}}
 }
 
 \seealso{
