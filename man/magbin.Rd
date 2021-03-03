@@ -86,7 +86,7 @@ Integer scalar; the random seed to use for jittering (means you can recreate you
 Logical; do you want projected density PDFs to be displayed above and to the side of the standard \code{plot.magbin} plot? If so you also need to pass the same \option{xdata} and \option{ydata} that you originally sent to \code{\link{magbin}}, since this is not stored in the object output from \code{\link{magbin}}. 
 }
   \item{\dots}{
-Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
+Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magbar}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
 }
 }
 \details{
