@@ -12,17 +12,20 @@ Functions to subset both raw images and images with associated WCS systems.
 }
 \usage{
 magcutout(image, loc = dim(image)/2, box = c(100, 100), shiftloc = FALSE, paddim = TRUE,
-plot = FALSE, ...)
+  padval = NA, plot = FALSE, ...)
+  
 magcutoutWCS(image, header, loc, box = c(100, 100), shiftloc = FALSE, paddim = TRUE,
-plot = FALSE, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1, coord.type = "deg", sep = ":", loc.type=c('coord','coord'),
-approx.map = FALSE, ...)
+  padval = NA, plot = FALSE, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
+  CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, coord.type = "deg", sep = ":",
+  loc.type=c('coord','coord'), approx.map = FALSE, ...)
+  
 magWCSradec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN',
-loc.diff = c(0, 0), coord.type = "deg", sep = ":")
+  CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN',
+  loc.diff = c(0, 0), coord.type = "deg", sep = ":")
+  
 magWCSxy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN',
-loc.diff = c(0, 0))
+  CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN',
+  loc.diff = c(0, 0))
 }
 \arguments{
   \item{image}{
@@ -56,7 +59,10 @@ The pixel offset to apply. Only relevant if the image being plotted is a cutout 
 Logical; should the cutout centre shift from \option{loc} away from the \option{image} edge if the desired \option{box} size extends beyond the edge of the \option{image}?
 }
 	\item{paddim}{
-Logical; should the cutout be padded with \option{image} data until it meets the desired \option{box} size (if \option{shiftloc} is TRUE) or padded with NAs for data outside the \option{image} boundary otherwise?
+Logical; should the cutout dimensions be padded with with value of \option{padval} for data outside the \option{image} boundary (TRUE)? If FALSE the dimensions will truncate when the edge of the input \option{image} has been reached.
+}
+	\item{padval}{
+Numeric scalar; the value to use for padding if \option{paddim}=TRUE.
 }
   \item{plot}{
 Logical; should a \code{\link{magimage}} (\code{magcutout}) or \code{\link{magimageWCS}} (\code{magcutoutWCS}) plot of the output be generated?

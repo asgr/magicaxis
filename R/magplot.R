@@ -3,7 +3,7 @@ function(x, y, z=NULL, log='', main='', side = 1:2, majorn = 5, minorn = 'auto',
          ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2,
          xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10,
          powbase = 10, hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE,
-         grid = TRUE, grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, axes = TRUE,
+         grid = TRUE, grid.col = 'grey90', grid.lty = 1, grid.lwd = 1,
          xlim = NULL, ylim = NULL, lwd = 1, axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black',
          zcol = hcl.colors(1e4), zstretch = 'lin', dobar = TRUE, ...){
   
@@ -42,7 +42,7 @@ if(class(x)[1]=='histogram'){
           ylim=magclip(x[sel,2], sigma=ylim)$range
         }
         plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
-             panel.first = if(side[1] !=FALSE | axes==FALSE){
+             panel.first = if(side[1] !=FALSE){
                magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                        ratio = ratio, labels = labels, unlog = unlog, mgp = mgp,
                        mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
@@ -54,7 +54,7 @@ if(class(x)[1]=='histogram'){
       }
     }else{
       plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
-           panel.first = if(side[1] !=FALSE | axes==FALSE){
+           panel.first = if(side[1] !=FALSE){
              magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                      ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
                      mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
@@ -83,7 +83,7 @@ if(class(x)[1]=='histogram'){
     }
     if(is.null(z)){
       plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
-           panel.first = if(side[1] !=FALSE | axes==FALSE){
+           panel.first = if(side[1] !=FALSE){
              magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                      ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
                      mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 
@@ -125,7 +125,7 @@ if(class(x)[1]=='histogram'){
       # }
       colmap = do.call("magmap", c(list(data=z, stretch=zstretch, range=c(1,length(zcol)), bad=NA), dotsmap))
       plot(x=NA, y=NA, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
-           panel.first = if(side[1] !=FALSE | axes==FALSE){
+           panel.first = if(side[1] !=FALSE){
              magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                      ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
                      mtline = mtline, xlab = xlab, ylab = ylab, crunch = crunch, 

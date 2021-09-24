@@ -1,4 +1,5 @@
-magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE, paddim=TRUE, plot = FALSE, ...){
+magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE, paddim=TRUE,
+                   padval=NA, plot = FALSE, ...){
   
   if(length(image)==1){
     if(is.character(image) & 'fst' %in% .packages()){
@@ -60,11 +61,11 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   ysel=ysel[ysel>0]
   
   if(length(xsel)==0 | length(ysel)==0){
-    image=matrix(NA,box[1],box[2])
+    image=matrix(padval,box[1],box[2])
   }else{
     image = as.matrix(image[xsel, ysel])
     if(paddim && !shiftloc && any(c(diffxlo,-diffxhi,diffylo,-diffyhi) < 0)) {
-    	padded = matrix(NA,box[1],box[2])
+    	padded = matrix(padval,box[1],box[2])
     	padded[xsel-diffxlo,ysel-diffylo] = image
     	image = padded
     }
@@ -90,7 +91,10 @@ magcutout=function(image, loc = dim(image)/2, box = c(100, 100), shiftloc=FALSE,
   invisible(output)
 }
 
-magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, paddim=TRUE, plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':', loc.type=c('coord','coord'), approx.map=FALSE, ...){
+magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, paddim=TRUE,
+                      padval=NA, plot = FALSE, CRVAL1=0, CRVAL2=0, CRPIX1=0, CRPIX2=0,
+                      CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1, coord.type='deg', sep=':',
+                      loc.type=c('coord','coord'), approx.map=FALSE, ...){
   if(length(loc.type)==1){loc.type=rep(loc.type,2)}
   if(length(box)==1){box=rep(box,2)}
   if(!missing(image)){
@@ -150,7 +154,7 @@ magcutoutWCS=function(image, header, loc, box = c(100, 100), shiftloc=FALSE, pad
   }else{
     # Do nothing!
   }
-  cutout = magcutout(image, loc = c(xcen,ycen), box = box, shiftloc=shiftloc, paddim=paddim, plot = FALSE)
+  cutout = magcutout(image, loc = c(xcen,ycen), box = box, shiftloc=shiftloc, paddim=paddim, padval=padval, plot = FALSE)
   cut_image = cutout$image
   xlo = cutout$loc.diff[1]+1
   xhi = xlo+dim(cut_image)[1]-1

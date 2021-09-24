@@ -12,9 +12,9 @@ magplot(x, y, z = NULL, log = "", main = "", side = 1:2, majorn = 5, minorn = 'a
 tcl = 0.5, ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2,
 xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase = 10,
 hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE, grid = TRUE,
-grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, axes = TRUE, xlim = NULL,
-ylim = NULL, lwd = 1, axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black',
-zcol = hcl.colors(1e4), zstretch = 'lin', dobar = TRUE,  ...) 
+grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, xlim = NULL, ylim = NULL, lwd = 1,
+axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black', zcol = hcl.colors(1e4),
+zstretch = 'lin', dobar = TRUE,  ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,7 +34,7 @@ Log axis arguments to be passed to plot. E.g. use 'x', 'y', 'xy' or 'yx' as appr
 Title for the plot. Default is no title.
 }
   \item{side}{
-The side to be used for axis labelling in the same sense as the base axis function (1=bottom, 2=left, 3=top, 4=right). A vector of multiple entries is allowed. By default, bottom and left axes are drawn (i.e. side 1 and 2). If \option{side}=FALSE (or \option{axes}=FALSE) then no sides or labels will be drawn.
+The side to be used for axis labelling in the same sense as the base axis function (1=bottom, 2=left, 3=top, 4=right). A vector of multiple entries is allowed. By default, bottom and left axes are drawn (i.e. side 1 and 2). If \option{side}=FALSE then no sides or labels will be drawn.
 
 }
   \item{majorn}{
@@ -103,9 +103,6 @@ The line type of the grid to be drawn.
 }
   \item{grid.lwd}{
 The line width of the grid to be drawn.
-}
-  \item{axes}{
-If \option{axes}=FALSE (or \option{side}=FALSE) then no sides or labels will be drawn.
 }
   \item{xlim}{
 Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}. If this is set to 'auto' then the limits will be estimated from the data dynamically.
