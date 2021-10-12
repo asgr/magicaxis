@@ -41,7 +41,7 @@ if(class(x)[1]=='histogram'){
         if (length(ylim) == 1) {
           ylim=magclip(x[ysel,2], sigma=ylim)$range
         }
-        plot(x=x[xsel & ysel,], axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
+        plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
              panel.first = if(side[1] !=FALSE){
                magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                        ratio = ratio, labels = labels, unlog = unlog, mgp = mgp,
@@ -82,7 +82,7 @@ if(class(x)[1]=='histogram'){
       ylim=magclip(y[ysel], sigma=ylim)$range
     }
     if(is.null(z)){
-      plot(x=x[xsel & ysel], y=y[xsel & ysel], axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
+      plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
            panel.first = if(side[1] !=FALSE){
              magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                      ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
