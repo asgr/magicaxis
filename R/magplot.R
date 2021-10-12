@@ -27,21 +27,21 @@ if(class(x)[1]=='histogram'){
         x=as.data.frame(x)
         plot(x, ...)
       }else{
+        xsel = !is.na(x[,1]) & !is.nan(x[,1]) & !is.null(x[,1]) & is.finite(x[,1])
+        if ('x' %in% logsplit) {
+          xsel = xsel & x[,1] > 0
+        }
+        ysel = !is.na(x[,2]) & !is.nan(x[,2]) & !is.null(x[,2]) & is.finite(x[,2])
+        if ('y' %in% logsplit) {
+          ysel = ysel & x[,2] > 0
+        }
         if (length(xlim) == 1) {
-          sel = !is.na(x[,1]) & !is.nan(x[,1]) & !is.null(x[,1]) & is.finite(x[,1])
-          if ('x' %in% logsplit) {
-            sel = sel & x[,1] > 0
-          }
-          xlim=magclip(x[sel,1], sigma=xlim)$range
+          xlim=magclip(x[xsel,1], sigma=xlim)$range
         }
         if (length(ylim) == 1) {
-          sel = !is.na(x[,2]) & !is.nan(x[,2]) & !is.null(x[,2]) & is.finite(x[,2])
-          if ('y' %in% logsplit) {
-            sel = sel & x[,2] > 0
-          }
-          ylim=magclip(x[sel,2], sigma=ylim)$range
+          ylim=magclip(x[ysel,2], sigma=ylim)$range
         }
-        plot(x=x, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
+        plot(x=x[xsel & ysel,], axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE, 
              panel.first = if(side[1] !=FALSE){
                magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                        ratio = ratio, labels = labels, unlog = unlog, mgp = mgp,
@@ -65,24 +65,24 @@ if(class(x)[1]=='histogram'){
            lwd=lwd, xlim=xlim, ylim=ylim, ...)
     }
   }else{
-    if(is.null(xlim) & !is.null(x)){xlim=range(x,na.rm=TRUE)}
-    if (length(xlim) == 1) {
-      sel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
-      if ('x' %in% logsplit) {
-        sel = sel & x > 0
-      }
-      xlim=magclip(x[sel], sigma=xlim)$range
+    xsel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
+    if ('x' %in% logsplit) {
+      xsel = xsel & x > 0
     }
-    if(is.null(ylim) & !is.null(y)){ylim=range(y,na.rm=TRUE)}
+    if(is.null(xlim)){xlim=range(x[xsel],na.rm=TRUE)}
+    if (length(xlim) == 1) {
+      xlim=magclip(x[xsel], sigma=xlim)$range
+    }
+    ysel = !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
+    if ('y' %in% logsplit) {
+      ysel = ysel & y > 0
+    }
+    if(is.null(ylim)){ylim=range(y[ysel],na.rm=TRUE)}
     if (length(ylim) == 1) {
-      sel = !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
-      if ('y' %in% logsplit) {
-        sel = sel & y > 0
-      }
-      ylim=magclip(y[sel], sigma=ylim)$range
+      ylim=magclip(y[ysel], sigma=ylim)$range
     }
     if(is.null(z)){
-      plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
+      plot(x=x[xsel & ysel], y=y[xsel & ysel], axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
            panel.first = if(side[1] !=FALSE){
              magaxis(side = side, majorn = majorn, minorn = minorn, tcl = tcl, 
                      ratio = ratio, labels = labels, unlog = unlog, mgp = mgp, 
