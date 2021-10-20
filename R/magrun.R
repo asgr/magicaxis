@@ -44,12 +44,11 @@ if(binaxis=='y'){checkvec=y}
   Nbins=c(Nbins,Nbin)
 #First running average stuff
 	if(type=='median'){
-	    xmtemp=median(x[binsel],na.rm=TRUE)
-            ymtemp=median(y[binsel])
-	}
-        if(type=='mean'){
-	    xmtemp=mean(x[binsel],na.rm=TRUE)
-            ymtemp=mean(y[binsel],na.rm=TRUE)
+    xmtemp=median(x[binsel],na.rm=TRUE)
+    ymtemp=median(y[binsel],na.rm=TRUE)
+	}if(type=='mean'){
+    xmtemp=mean(x[binsel],na.rm=TRUE)
+    ymtemp=mean(y[binsel],na.rm=TRUE)
 	}
 	if(type=='mode'){
 	    tempdenx=density(x[binsel],na.rm=TRUE)
