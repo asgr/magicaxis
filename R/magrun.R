@@ -12,9 +12,21 @@ if(missing(xcut)==F){xsel=x>=xcut[1] & x<=xcut[2]}
 if(missing(ycut)==F){ysel=y>=ycut[1] & y<=ycut[2]}
 x=x[xsel & ysel];y=y[xsel & ysel]
 if(missing(log)==F){
-    if(log=='x'){x=log10(x[x>0])}
-    if(log=='y'){y=log10(y[y>0])}
-    if(log=='xy' | log=='yx'){x=log10(x[x>0 & y>0]);y=log10(y[x>0 & y>0])}
+    if(log=='x'){
+      sel = which(x > 0)
+      x = log10(x[sel])
+      y = y[sel]
+    }
+    if(log=='y'){
+      sel = which(y > 0)
+      x = x[sel]
+      y = log10(y[sel])
+    }
+    if(log=='xy' | log=='yx'){
+      sel = which(x > 0 & y > 0)
+      x = log10(x[sel])
+      y = log10(y[sel])
+    }
 }
 
 if(binaxis=='x'){checkvec=x}
@@ -46,7 +58,8 @@ if(binaxis=='y'){checkvec=y}
 	if(type=='median'){
     xmtemp=median(x[binsel],na.rm=TRUE)
     ymtemp=median(y[binsel],na.rm=TRUE)
-	}if(type=='mean'){
+	}
+  if(type=='mean'){
     xmtemp=mean(x[binsel],na.rm=TRUE)
     ymtemp=mean(y[binsel],na.rm=TRUE)
 	}

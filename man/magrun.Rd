@@ -40,7 +40,7 @@ A two element vector containing optional lower and upper x limits to apply to th
 A two element vector containing optional lower and upper y limits to apply to the data.
 }
   \item{log}{
-Specify axes that should be logged. Allowed arguments are 'x'
+Specify axes that should be logged. Allowed arguments are 'x', 'y' and 'xy'
 }
   \item{Nscale}{
 Sets whether the quantile ranges and standard deviations calculated are reduced with respect to the median by the square-root of the number of contributing data within each bin. The result of setting Nscale to TRUE is to scale the data like you are calculating the error-in-the-mean, rather than the scatter. For describing the 'significance' of trends in scatter data this is often what you want to show.
