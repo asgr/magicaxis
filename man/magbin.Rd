@@ -10,7 +10,7 @@ Allows for 2D binning (counts) and summary statistics on 2D bins (medians etc).
 \usage{
 magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, step = NULL,
 log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
-plot = TRUE, colramp = hcl.colors(1e4), colstretch = "lin", sizestretch = "lin",
+plot = TRUE, colramp = hcl.colors(21), colstretch = "lin", sizestretch = "lin",
 colref = "count", sizeref = "none", funstat = function(x) median(x, na.rm=TRUE),
 direction = 'h', offset = 0, jitterseed = 666, projden = FALSE, ...)
 }

@@ -8,7 +8,7 @@ Plot 2D Histogram or Bin Data
 Plot 2D histogram counts or a third (z) axis summary statistic in 2D cells of different shapes.
 }
 \usage{
-\method{plot}{magbin}(x, colramp = hcl.colors(10000), colstretch = "lin",
+\method{plot}{magbin}(x, colramp = hcl.colors(21), colstretch = "lin",
   sizestretch = "lin", colref = "count", sizeref = "none", add = FALSE,
   dobar = TRUE, title = colref, colnorm = FALSE, projden = FALSE, xdata = NULL, 
   ydata = NULL, pch.dust = '.', cex.dust = 1, ...)
