@@ -69,18 +69,47 @@ if(class(x)[1]=='histogram'){
     if ('x' %in% logsplit) {
       xsel = xsel & x > 0
     }
-    if(is.null(xlim)){xlim=range(x[xsel],na.rm=TRUE)}
-    if (length(xlim) == 1) {
-      xlim=magclip(x[xsel], sigma=xlim)$range
-    }
     ysel = !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
     if ('y' %in% logsplit) {
       ysel = ysel & y > 0
     }
-    if(is.null(ylim)){ylim=range(y[ysel],na.rm=TRUE)}
-    if (length(ylim) == 1) {
-      ylim=magclip(y[ysel], sigma=ylim)$range
+    
+    sel = xsel & ysel
+    
+    if(length(which(sel)) > 1){
+      if(is.null(xlim)){
+        xlim = range(x[sel],na.rm=TRUE)
+        man_xlim = FALSE
+      }else{
+        man_xlim = TRUE
+      }
+      if (length(xlim) == 1) {
+        xlim = magclip(x[sel], sigma=xlim)$range
+        man_xlim = FALSE
+      }
+      
+      if(is.null(ylim)){
+        ylim = range(y[sel],na.rm=TRUE)
+        man_ylim = FALSE
+      }else{
+        man_ylim = TRUE
+      }
+      if (length(ylim) == 1) {
+        ylim = magclip(y[sel], sigma=ylim)$range
+        man_ylim = FALSE
+      }
+    }else{
+      man_xlim = TRUE
+      man_ylim = TRUE
     }
+    
+    if(man_xlim == FALSE){
+      xlim = range(x[sel][y[sel] >= ylim[1] & y[sel] <= ylim[2]],na.rm=TRUE)
+    }
+    if(man_ylim == FALSE){
+      ylim = range(y[sel][x[sel] >= xlim[1] & x[sel] <= xlim[2]],na.rm=TRUE)
+    }
+    
     if(is.null(z)){
       plot(x=x, y=y, axes=FALSE, xlab='', ylab='', main=main, log=log, frame.plot=FALSE,  
            panel.first = if(side[1] !=FALSE){
