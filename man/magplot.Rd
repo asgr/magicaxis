@@ -9,12 +9,12 @@ Makes scientific plots based on magaxis axes. Particularly designed for log plot
 }
 \usage{
 magplot(x, y, z = NULL, log = "", main = "", side = 1:2, majorn = 5, minorn = 'auto',
-tcl = 0.5, ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2,
-xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase = 10,
-hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE, grid = TRUE,
-grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, xlim = NULL, ylim = NULL, lwd = 1,
-axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black', zcol = hcl.colors(1e4),
-zstretch = 'lin', dobar = TRUE,  ...) 
+  tcl = 0.5, ratio = 0.5, labels = TRUE, unlog = "auto", mgp = c(2,0.5,0), mtline = 2,
+  xlab = '', ylab = '', crunch = TRUE, logpretty = TRUE, prettybase = 10, powbase = 10,
+  hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE, grid = TRUE,
+  grid.col = 'grey90', grid.lty = 1, grid.lwd = 1, xlim = NULL, ylim = NULL, lwd = 1,
+  axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black', zcol = hcl.colors(21),
+  zstretch = 'lin', dobar = TRUE,  ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -5,7 +5,7 @@ function(x, y, z=NULL, log='', main='', side = 1:2, majorn = 5, minorn = 'auto',
          powbase = 10, hersh = FALSE, family = "sans", frame.plot = TRUE, usepar = FALSE,
          grid = TRUE, grid.col = 'grey90', grid.lty = 1, grid.lwd = 1,
          xlim = NULL, ylim = NULL, lwd = 1, axis.lwd = 1, ticks.lwd = axis.lwd, axis.col = 'black',
-         zcol = hcl.colors(1e4), zstretch = 'lin', dobar = TRUE, ...){
+         zcol = hcl.colors(21), zstretch = 'lin', dobar = TRUE, ...){
   
 if(class(x)[1]=='histogram'){
   dots=list(...)

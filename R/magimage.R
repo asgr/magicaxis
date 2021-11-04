@@ -1,4 +1,4 @@
-magimage<-function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE,
+magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE,
                    useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE,
                    range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto',
                    bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', qdiff=FALSE, rem_med=FALSE, ...){ 
