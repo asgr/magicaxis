@@ -68,7 +68,7 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
     z=z[samplex,sampley]
   }
   if(qdiff){
-    col = rev(colorRampPalette(brewer.pal(9,'RdYlBu'))(100)) 
+    col = hcl.colors(100, 'RdYlBu', rev=TRUE)
     if(missing(hicut)){
       maximg=max(abs(z),na.rm=TRUE)
       locut=-maximg
