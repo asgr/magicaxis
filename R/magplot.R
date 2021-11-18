@@ -104,10 +104,10 @@ if(class(x)[1]=='histogram'){
     }
     
     if(man_xlim == FALSE){
-      xlim = range(x[sel][y[sel] >= ylim[1] & y[sel] <= ylim[2]],na.rm=TRUE)
+      xlim = range(x[sel][y[sel] >= min(ylim, na.rm=TRUE) & y[sel] <= max(ylim, na.rm=TRUE)],na.rm=TRUE)
     }
     if(man_ylim == FALSE){
-      ylim = range(y[sel][x[sel] >= xlim[1] & x[sel] <= xlim[2]],na.rm=TRUE)
+      ylim = range(y[sel][x[sel] >= min(xlim, na.rm=TRUE) & x[sel] <= max(xlim, na.rm=TRUE)],na.rm=TRUE)
     }
     
     if(is.null(z)){
