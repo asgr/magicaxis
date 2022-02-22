@@ -15,6 +15,14 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
       if('z' %in% names(x)){z=x$z}
       if('x' %in% names(x)){x=x$x}
     }
+    if(is.array(x)){
+      dims = dim(x)
+      if(length(dims) == 3 & dims[3] == 1L){
+        x = as.matrix(x[,,1])
+      }else if(length(dims) == 4 & dims[3] == 1L & dims[4] == 1L){
+        x = as.matrix(x[,,1,1])
+      }
+    }
     if(is.matrix(x)){
       z=x
       x=seq(0.5,dim(z)[1]-0.5)
