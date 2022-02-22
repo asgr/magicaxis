@@ -62,14 +62,14 @@ if(length(check)>0){
     }
 }
 if(crunch){
-check=grep('1*x*',char)
-    if(length(check)>0){
-        if(hersh){
-            char[check]=sub('1\\mu','',char[check],fixed=T)
-        }else{
-            char[check]=sub('1*x*','',char[check],fixed=T)
-        }
+  check = grepl('1*x*',char) & (! grepl('.1*x*',char))
+  if(length(check)>0){
+    if(hersh){
+      char[check]=sub('1\\mu','',char[check],fixed=T)
+    }else{
+      char[check]=sub('1*x*','',char[check],fixed=T)
     }
+  }
 }
 if(hersh){exp=char}else{exp=parse(text=char)}
 return(list(tickat=tickloc,labat=labloc,exp=exp))
