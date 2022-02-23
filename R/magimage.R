@@ -2,6 +2,10 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
                    useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE,
                    range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto',
                    bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', qdiff=FALSE, rem_med=FALSE, ...){ 
+  if(is.list(x)){
+    message('x is a list, perhaps you want to pass a subset of this to magimage?')
+    print(str(x))
+  }
   dots=list(...)
   dotskeepimage=c('xaxs', 'yaxs', 'breaks', 'oldstyle')
   if(length(dots)>0){
