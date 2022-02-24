@@ -62,7 +62,7 @@ if(length(check)>0){
     }
 }
 if(crunch){
-  check = grepl('1*x*',char) & (! grepl('.1*x*',char))
+  check = grepl('1*x*',char, fixed=TRUE) & (! grepl('.1*x*',char, fixed=TRUE))
   if(length(check)>0){
     if(hersh){
       char[check]=sub('1\\mu','',char[check],fixed=T)
