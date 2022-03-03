@@ -8,11 +8,11 @@
 Allows for 2D binning (counts) and summary statistics on 2D bins (medians etc).
 }
 \usage{
-magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, step = NULL,
-log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
-plot = TRUE, colramp = hcl.colors(21), colstretch = "lin", sizestretch = "lin",
-colref = "count", sizeref = "none", funstat = function(x) median(x, na.rm=TRUE),
-direction = 'h', offset = 0, jitterseed = 666, projden = FALSE, ...)
+magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, Nbin = 50, step = NULL,
+  log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
+  plot = TRUE, colramp = hcl.colors(21), colstretch = "lin", sizestretch = "lin",
+  colref = "count", sizeref = "none", funstat = function(x) median(x, na.rm=TRUE),
+  direction = 'h', offset = 0, jitterseed = 666, projden = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,8 +34,11 @@ Numeric vector; the y limits to use for the data. Default of NULL calculates the
   \item{zlim}{
 Numeric vector; the z limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
+  \item{Nbin}{
+Integer vector; The number of bins to (approximately) split the x/y axes into. If length 1 then this value is used by both (default is 50 bin in x/y), if length 2 then Nbin[1] is used for the x-axis and Nbin[2] is used for the y-axis.
+}
   \item{step}{
-Numeric vector; grid steps in x and y directions. IF NULL then this is c(diff(xlim)/50, diff(ylim)/50). If length 1, then this value is repeated.
+Numeric vector; grid steps in x and y directions. If NULL then this is c(diff(xlim), diff(ylim))/Nbin. If length 1, then this value is repeated. Overrides \option{Nbin} if supplied.
 }
   \item{log}{
 Character scalar; log axis arguments to be passed to used. E.g. use 'x', 'y', 'xy' or 'yx' as appropriate. Default '' assumes no logging of any axes. For convenience you can specify the 'z' axis too, which somewhat replaces the \option{colstretch} argument. Note that in all cases the \option{x}/\option{y}/\option{z} data is explictly logged, which means the plotting window does not know it is in logged space (via the par()$xlag and par()$ylog structures). This means is you want to add points etc to the plot you will need to apply log10 yourself, so a point with coordinates [10^2,10^-3] should be plotted at [2,-3].
@@ -114,12 +117,14 @@ List of class 'magbin' containing:
 set.seed(666)
 xydata = cbind(rnorm(1e4), rnorm(1e4))
 magbin(xydata, shape='hexagon') #default
+magbin(xydata, shape='hexagon', Nbin=25) #A bit coarser
 magbin(xydata, shape='square')
 magbin(xydata, shape='triangle')
 magbin(xydata, shape='trihex')
 magbin(xydata, shape='hexagon', direction='v')
 magbin(xydata, shape='triangle', direction='v')
 magbin(xydata, shape='trihex', direction='v')
+
 magbin(xydata, shape='hexagon', step=c(0.2,0.4)) #different aspect ratio hexagons
 
 magbin(xydata, z=xydata[,1]^2-xydata[,2]^2, colref='zstat', sizeref='count')

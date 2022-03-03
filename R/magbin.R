@@ -190,7 +190,7 @@
   }
 }
 
-.magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL,
+.magbincount = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, Nbin=50, step=NULL,
                         clustering=10, dustlim=NA, shape='hex', funstat=function(x) median(x, na.rm=TRUE),
                         direction='h', offset=0, jitterseed=666){
   if(is.null(z)){
@@ -217,7 +217,7 @@
   }
   use = which(use)
   if(is.null(step)){
-    step = c(diff(xlim)/50,diff(ylim)/50)
+    step = c(diff(xlim), diff(ylim))/Nbin
   }
   if(length(step)==1){
     step = rep(step,2)
@@ -425,7 +425,7 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
   }
 }
 
-magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, log='', unlog=log, clustering=10,
+magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, Nbin=50, step=NULL, log='', unlog=log, clustering=10,
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=hcl.colors(21),
                   colstretch='lin', sizestretch='lin', colref='count', sizeref='none',
                   funstat=function(x) median(x, na.rm=TRUE), direction='h',
@@ -480,7 +480,7 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, step=NULL, log=
     zlim=magclip(z[sel], sigma=zlim)$range
   }
   
-  bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, zlim=zlim, step=step,
+  bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, zlim=zlim, Nbin=Nbin, step=step,
                     clustering=clustering, dustlim=dustlim, shape=shape,
                     funstat=funstat, direction=direction, offset=offset, jitterseed=jitterseed)
   
