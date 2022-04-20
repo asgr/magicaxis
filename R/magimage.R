@@ -92,18 +92,22 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
     zlim=c(0,1)
   }
   if(magmap){
-    if(type=='quan'){
-      if(quantile(z,locut,na.rm=T) != quantile(z,hicut,na.rm=T)){
-        z=magmap(data=z, locut=locut, hicut=hicut, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
+    if(any(is.finite(z))){
+      if(type=='quan'){
+        if(quantile(z,locut,na.rm=T) != quantile(z,hicut,na.rm=T)){
+          z=magmap(data=z, locut=locut, hicut=hicut, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
+        }else{
+          print('Too many same valued pixels: turning off magmap scaling!')
+        }
       }else{
-        print('Too many same valued pixels: turning off magmap scaling!')
+        z=magmap(data=z, locut=locut, hicut=hicut, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
       }
-    }else{
-      z=magmap(data=z, locut=locut, hicut=hicut, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
-    }  
+    }
   }
-  if(missing(zlim)){
-    zlim=range(z, na.rm=TRUE)
+  if(missing(zlim) & any(is.finite(z))){
+    zlim = range(z, na.rm=TRUE)
+  }else{
+    zlim = c(0,1)
   }
   do.call('image',c(list(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
   if(add==FALSE){
