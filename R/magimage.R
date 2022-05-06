@@ -106,8 +106,12 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
       }
     }
   }
-  if(missing(zlim) & any(is.finite(z))){
-    zlim = range(z, na.rm=TRUE)
+  if(missing(zlim)){
+    if(any(is.finite(z))){
+      zlim = range(z, na.rm=TRUE)
+    }else{
+      zlim = c(0,1)
+    }
   }else{
     zlim = c(0,1)
   }
