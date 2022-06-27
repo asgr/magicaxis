@@ -12,8 +12,8 @@ Functions to make pretty axes (major and minor) on scientific plots. Particularl
 \tabular{ll}{
 Package: \tab magicaxis\cr
 Type: \tab Package\cr
-Version: \tab 2.3.5\cr
-Date: \tab 2022-05-06\cr
+Version: \tab 2.3.6\cr
+Date: \tab 2022-06-27\cr
 License: \tab GPL-3 \cr
 Depends: \tab R (>= 2.13)\cr
 Suggests: \tab imager, fst\cr

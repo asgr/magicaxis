@@ -34,12 +34,12 @@ magproj=function(long, lat, type='b', plottext, longlim=c(-180,180), latlim=c(-9
       latlim=range(lat)
       latlim=latlim+diff(latlim)*c(-0.1,0.1)
       if(projection!='gnomonic'){
-        orientation[1]=90-mean(latlim)
+        orientation[1]=90 + mean(latlim)
       }else{
-        orientation[1]=mean(latlim)
+        orientation[1] = mean(latlim)
       }
-      orientation[2]=mean(longlim)
-      labloc=c(longlim[1], latlim[1])
+      orientation[2] = mean(longlim)
+      labloc = c(longlim[1], latlim[1])
     }
       
     limgrid=expand.grid(seq(longlim[1],longlim[2],len=100),seq(latlim[1],latlim[2],len=100))
