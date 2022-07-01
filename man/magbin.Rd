@@ -12,7 +12,7 @@ magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, Nbin = 50, step = 
   log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
   plot = TRUE, colramp = hcl.colors(21), colstretch = "lin", sizestretch = "lin",
   colref = "count", sizeref = "none", funstat = function(x) median(x, na.rm=TRUE),
-  direction = 'h', offset = 0, jitterseed = 666, projden = FALSE, ...)
+  direction = 'h', offset = 0, jitterseed = 666, projden = FALSE, projsig = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -87,6 +87,9 @@ Integer scalar; the random seed to use for jittering (means you can recreate you
 }
   \item{projden}{
 Logical; do you want projected density PDFs to be displayed above and to the side of the standard \code{plot.magbin} plot? If so you also need to pass the same \option{xdata} and \option{ydata} that you originally sent to \code{\link{magbin}}, since this is not stored in the object output from \code{\link{magbin}}. 
+}
+  \item{projsig}{
+Logical; if \option{projden} = TRUE then this will optionally add lines to show the pseudo 1-sigma range (15.9\% to 84.1\% quantiles).
 }
   \item{\dots}{
 Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magbar}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.

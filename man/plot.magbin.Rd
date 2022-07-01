@@ -10,8 +10,8 @@ Plot 2D histogram counts or a third (z) axis summary statistic in 2D cells of di
 \usage{
 \method{plot}{magbin}(x, colramp = hcl.colors(21), colstretch = "lin",
   sizestretch = "lin", colref = "count", sizeref = "none", add = FALSE,
-  dobar = TRUE, title = colref, colnorm = FALSE, projden = FALSE, xdata = NULL, 
-  ydata = NULL, pch.dust = '.', cex.dust = 1, ...)
+  dobar = TRUE, title = colref, colnorm = FALSE, projden = FALSE, projsig = FALSE,
+  xdata = NULL, ydata = NULL, pch.dust = '.', cex.dust = 1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,6 +47,9 @@ Logical; should the colour bar be normalised so the maximum value equals 1?
 }
   \item{projden}{
 Logical; do you want projected density PDFs to be displayed above and to the side of the standard \code{plot.magbin} plot? If so you also need to pass the same \option{xdata} and \option{ydata} that you originally sent to \code{\link{magbin}}, since this is not stored in the object output from \code{\link{magbin}}. 
+}
+  \item{projsig}{
+Logical; if \option{projden} = TRUE then this will optionally add lines to show the pseudo 1-sigma range (15.9\% to 84.1\% quantiles).
 }
  \item{xdata}{
 Numeric vector; the original x data sent to \code{\link{magbin}}. Only relevant if \option{projden}=TRUE.
