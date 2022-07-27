@@ -156,7 +156,7 @@ magplot =
         }
         if (length(xlim) == 1) {
           xlim = magclip(x[sel], sigma = xlim)$range
-          man_xlim = FALSE
+          man_xlim = TRUE
         }
         
         if (is.null(ylim)) {
@@ -167,7 +167,7 @@ magplot =
         }
         if (length(ylim) == 1) {
           ylim = magclip(y[sel], sigma = ylim)$range
-          man_ylim = FALSE
+          man_ylim = TRUE
         }
       } else{
         man_xlim = TRUE

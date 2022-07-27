@@ -361,7 +361,7 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
       magplot(tempden$x, tempden$y, xlim=x$xlim, ylim=c(0,max(tempden$y)*1.04), type='l', ylab='',
               majorn=c(5,2), side=FALSE)
       if(projsig){
-        abline(v=quantile(xdata, pnorm(c(-1,2)), na.rm=TRUE), lty=3, col='darkgrey')
+        abline(v=quantile(xdata, pnorm(c(-1,1)), na.rm=TRUE), lty=3, col='darkgrey')
       }
       
       #3 (bottomleft)
@@ -370,7 +370,7 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
       magplot(tempden$y, tempden$x, xlim=c(0,max(tempden$y)*1.04), ylim=x$ylim, type='l', xlab='', 
               majorn=c(2,5), side=FALSE)
       if(projsig){
-        abline(h=quantile(ydata, pnorm(c(-1,2)), na.rm=TRUE), lty=3, col='darkgrey')
+        abline(h=quantile(ydata, pnorm(c(-1,1)), na.rm=TRUE), lty=3, col='darkgrey')
       }
       
       #4 (bottomright)
