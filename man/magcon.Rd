@@ -90,8 +90,10 @@ Aaron Robotham
 \code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{magbar}}
 }
 \examples{
-temp=cbind(rnorm(1e3),rnorm(1e3))
+\dontrun{
+temp = cbind(rnorm(1e3),rnorm(1e3))
 magcon(temp[,1],temp[,2])
+}
 }
 \keyword{quantile}
 \keyword{contour}

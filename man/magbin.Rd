@@ -32,7 +32,7 @@ Numeric vector; the x limits to use for the data. Default of NULL calculates the
 Numeric vector; the y limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
   \item{zlim}{
-Numeric vector; the z limits to use for the data. Default of NULL calculates the range based on the provided \option{y} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
+Numeric vector; the z limits to use for the data. Default of NULL calculates the range based on the provided \option{z} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
   \item{Nbin}{
 Integer vector; The number of bins to (approximately) split the x/y axes into. If length 1 then this value is used by both (default is 50 bin in x/y), if length 2 then Nbin[1] is used for the x-axis and Nbin[2] is used for the y-axis.

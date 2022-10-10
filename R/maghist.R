@@ -37,17 +37,21 @@ maghist=function(x, breaks = "Sturges", freq = TRUE, include.lowest = TRUE, righ
     sdmad1q2q=c(as.numeric(sd(xtemp)), as.numeric(mad(xtemp)), as.numeric(diff(quantile(xtemp,pnorm(c(-1,1)),na.rm = TRUE)))/2, as.numeric(diff(quantile(xtemp,pnorm(c(-2,2)),na.rm = TRUE)))/2)
     
     if(verbose){
-      print('Summary of used sample:')
+      message('Summary of used sample:')
       print(outsum)
-      print('sd / MAD / 1-sig / 2-sig range:')
-      print(sdmad1q2q)
+      message('Pop Std Dev: ',signif(sdmad1q2q[1],5))
+      message('MAD: ',signif(sdmad1q2q[2],5))
+      message('Half 16-84 Quan (1s): ',signif(sdmad1q2q[3],5))
+      message('Half 02-98 Quan (2s): ',signif(sdmad1q2q[4],5))
+      #print('sd / MAD / 1-sig / 2-sig range:')
+      #print(sdmad1q2q)
       if(!is.null(xlim)){
-        print(paste('Using ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<min(xlim))),' < xlo & ',length(which(x>max(xlim))),' > xhi)',sep=''))
+        message(paste('Using ',length(which(sel)),' out of ',length(x),' (',round(100*length(which(sel))/length(x),2),'%) data points (',length(which(x<min(xlim))),' < xlo & ',length(which(x>max(xlim))),' > xhi)',sep=''))
       }else{
-        print(paste('Using ',length(which(sel)),' out of ',length(x),sep=''))
+        message(paste('Using ',length(which(sel)),' out of ',length(x),sep=''))
       }
       if(!is.null(p.test)){
-        print(p.test(x[sel]))
+        message(p.test(x[sel]))
       }
     }
     x=x[sel]
