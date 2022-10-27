@@ -138,16 +138,16 @@ for(i in 1:length(side)){
     if(grid){
       if(currentside==1){
         if(logged){
-          abline(v=powbase^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+          abline(v=powbase^labloc, col=grid.col, lty=grid.lty, lwd=grid.lwd)
         }else{
-          abline(v=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+          abline(v=labloc, col=grid.col, lty=grid.lty, lwd=grid.lwd)
         }
       }
       if(currentside==2){
         if(logged){
-          abline(h=powbase^labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+          abline(h=powbase^labloc, col=grid.col, lty=grid.lty, lwd=grid.lwd)
         }else{
-          abline(h=labloc, col=grid.col, lty=grid.lty, lwd=grid.lty)
+          abline(h=labloc, col=grid.col, lty=grid.lty, lwd=grid.lwd)
         }
       }
     }
