@@ -9,10 +9,10 @@ This function generates pretty images and contours that reflect the 2D quantile 
 }
 \usage{
 magcon(x, y, h, doim = TRUE, docon = TRUE, dobar = TRUE, ngrid = 100, add = FALSE,
-xlab = '', ylab = '', imcol = c(NA,rev(rainbow(1000, start = 0, end = 2/3))),
-conlevels = c(0.5, pnorm(1) - pnorm(-1), 0.95), barposition = "topright",
-barorient = "v",bartitle = "Contained \%", bartitleshift = 0, xlim = NULL, ylim = NULL,
-weights = NULL,...)
+  xlab = '', ylab = '', imcol = c(NA,rev(rainbow(1000, start = 0, end = 2/3))),
+  conlevels = c(0.5, pnorm(1) - pnorm(-1), 0.95), barposition = "topright",
+  barorient = "v",bartitle = "Contained \%", bartitleshift = 0, xlim = NULL, ylim = NULL,
+  weights = NULL,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

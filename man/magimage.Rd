@@ -10,14 +10,15 @@ Magically pretty images
 }
 \usage{
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
-useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
-range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
-clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE,
-rem_med = FALSE, ...)
+  useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
+  range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
+  clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE,
+  rem_med = FALSE, ...)
+
 magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
-useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
-range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = "auto", bad = range[1],
-clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', ...) 
+  useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
+  range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = "auto",
+  bad = range[1], clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -117,7 +118,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{magimageWCS}}, \code{\link{image}}, \code{\link{magcutout}}, \code{\link{magmap}}, \code{\link{magaxis}}
+\code{\link{image}}, \code{\link{magcutout}}, \code{\link{magmap}}, \code{\link{magaxis}}
 }
 \examples{
 #Basic
