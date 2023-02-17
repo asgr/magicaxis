@@ -75,8 +75,21 @@
   return = temp
 }
 
+".Last.magroj"<-
+  local({
+    val <- list(
+      projection = "", 
+      parameters = NULL, 
+      orientation = NULL,
+      centre = NULL,
+      longlim = NULL,
+      latlim = NULL
+    )
+    function(new) if(!missing(new)) val <<- new else val
+  })
+
 magband=function(crosseq = 0, peaklat = 0, width=10, res=1000, ...){
-  longlo=.Last.projection()$longlim[1]
+  longlo=.Last.magproj()$longlim[1]
   loring = .ring(crosseq = crosseq, peaklat = peaklat, offset=-width/2, longlo=longlo, res=res)
   hiring = .ring(crosseq = crosseq, peaklat = peaklat, offset=width/2, longlo=longlo, res=res)
   temp=rbind(loring, hiring[order(hiring[,1],decreasing = T),],loring[1,])
@@ -84,19 +97,19 @@ magband=function(crosseq = 0, peaklat = 0, width=10, res=1000, ...){
 }
 
 magring=function(crosseq = 0, peaklat = 0, offset=0, res=1000, ...){
-  longlo=.Last.projection()$longlim[1]
+  longlo=.Last.magproj()$longlim[1]
   temp = .ring(crosseq = crosseq, peaklat = peaklat, offset=offset, longlo=longlo, res=res)
   magproj(temp, type='l', add=TRUE, upres=10, ...)
 }
 
 magecliptic=function(width=10, ...){
-  longlo=.Last.projection()$longlim[1]
+  longlo=.Last.magproj()$longlim[1]
   if(width>0){magband(0, 23.4, width=width, ...)}
   if(width==0){magring(0,23.4, ...)}
 }
 
 magMWplane=function(width=10, ...){
-  longlo=.Last.projection()$longlim[1]
+  longlo=.Last.magproj()$longlim[1]
   if(width>0){magband(76.75, 62.6, width=width, ...)}
   if(width==0){magring(76.75, 62.6, ...)}
 }
