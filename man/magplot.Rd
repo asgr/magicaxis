@@ -105,10 +105,10 @@ The line type of the grid to be drawn.
 The line width of the grid to be drawn.
 }
   \item{xlim}{
-Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}. If this is set to 'auto' then the limits will be estimated from the data dynamically.
+Vector; range of data to display. If this is set to NULL (default) then the limits will be estimated from the data dynamically. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
   \item{ylim}{
-Vector; range of data to display. Default of NULL shows the full range. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}. If this is set to 'auto' then the limits will be estimated from the data dynamically.
+Vector; range of data to display. If this is set to NULL (default) then the limits will be estimated from the data dynamically. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
 }
   \item{lwd}{
 The width of plot lines to be drawn. This has different behaviour depending on the plot type.
