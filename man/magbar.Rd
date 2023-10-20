@@ -10,7 +10,7 @@ This function is a high level interface to the plotrix 'color.legend' function. 
 \usage{
 magbar(position = "topright", range = c(0, 1), orient = "v", log = FALSE,
   col = hcl.colors(21), scale = c(1/4, 1/20), inset = 1/40, labN = 5, title = "",
-  titleshift = 0, centrealign = "rb", clip = '', cex=1, ...)
+  titleshift = 0, centrealign = "rb", clip = '', cex = 1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -54,7 +54,7 @@ Setting clip='bg' will set values outside the 'range' values to be blank on the 
 Character expansion factor for the labels.  
 }
   \item{\dots}{
-Other arguments to pass to the \code{\link{color.legend}} function.
+Other arguments to pass to the \code{\link{maglab}} function.
 }
 }
 \details{
