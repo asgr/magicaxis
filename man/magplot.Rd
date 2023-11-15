@@ -179,9 +179,11 @@ magplot(temp, xlim='auto', ylim='auto')
 
 #Some astronomy related examples (and how to display the solar symbol):
 
+\dontrun{
 temp=cbind(runif(10,8,12),runif(10,0,5))
 
 magplot(temp[,1:2], xlab=expression(M['\u0298']), ylab=expression(M['\u0298']/Yr), unlog='xy')
+}
 
 #With z scaling
 
