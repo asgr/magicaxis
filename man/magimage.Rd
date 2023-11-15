@@ -13,7 +13,7 @@ magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
   useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
   range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
   clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE,
-  rem_med = FALSE, ...)
+  rem_med = FALSE, doplot = TRUE, ...)
 
 magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
   useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
@@ -103,6 +103,9 @@ Logical; if the z axis being plotted, this will set all the various parameters t
   \item{rem_med}{
 Logical; should the \code{median} of the \option{image} be subtracted or not? This is often useful in conjunction with \option{qdiff} = TRUE.
 }
+  \item{doplot}{
+Logical; if TRUE then gnerates the image. If FALSE then just return the output below (with z scaled as request).  
+}
   \item{\dots}{
 Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). See \code{\link{image}} and \code{\link{magaxis}} for details.
 }
@@ -111,7 +114,7 @@ Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is c
 See \code{\link{image}}, \code{\link{magmap}} and \code{\link{magaxis}} for more details.
 }
 \value{
-Outputs the final image list containing x,y and z (magimage) or R/G/B (magimageRGB). Generally run for the side effect of producing rapid and well-scaled image plots.
+Outputs the final image list containing x,y and z (magimage) or R/G/B (magimageRGB). z is the scaled output (not the native input). Generally run for the side effect of producing rapid and well-scaled image plots.
 }
 \author{
 Aaron Robotham
@@ -138,7 +141,8 @@ magimage(matrix(10^(1:9),3),magmap=TRUE,stretch='log',zlim=c(0,0.5))
 
 \dontrun{
 #Some astro data:
-image=readFITS(system.file("extdata", 'VIKING/mystery_VIKING_Z.fits', package="ProFound"))
+library(Rfits)
+image = Rfits_read_image(system.file("extdata", 'image.fits', package = "Rfits"))
 
 #A monotone image:
 magimage(image$imDat)

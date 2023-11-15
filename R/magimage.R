@@ -1,7 +1,8 @@
 magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FALSE,
                    useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE,
                    range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto',
-                   bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', qdiff=FALSE, rem_med=FALSE, ...){ 
+                   bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', qdiff=FALSE,
+                   rem_med=FALSE, doplot=TRUE, ...){ 
   if(is.list(x)){
     if(!all(names(x) %in% c('x','y','z'))){
       message('x is a list (and not just x/y/z components), perhaps you want to pass a subset of this to magimage?')
@@ -107,6 +108,10 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
     }
   }
   
+  if(!doplot){
+    return(invisible(list(x=x, y=y, z=z)))
+  }
+  
   if(missing(zlim)){
     if(any(is.finite(z))){
       zlim = range(z, na.rm=TRUE)
@@ -116,11 +121,13 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
   }
   
   do.call('image',c(list(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
+  
   if(add==FALSE){
     if(axes){
       magaxis(...)
       if(frame.plot){box()}
     }
   }
-  return=list(x=x, y=y, z=z)
+  
+  return(invisible(list(x=x, y=y, z=z)))
 }
