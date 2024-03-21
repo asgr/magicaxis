@@ -40,7 +40,7 @@ Logical; should bins be added to the current plot? If FALSE then a new plot will
 Logical; should a colour bar be added to the plot?  
 }
   \item{title}{
-Character scalar; title to use for the \option{\link{magbar}} label.  
+Character scalar; title to use for the \code{\link{magbar}} label.  
 }
   \item{colnorm}{
 Logical; should the colour bar be normalised so the maximum value equals 1?  

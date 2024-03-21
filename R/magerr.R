@@ -1,5 +1,17 @@
 magerr = function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='black', fill=FALSE, poly=FALSE,...){
   if(missing(x)){stop('Need x!')}
+  
+  if (missing(y)) {
+    if (is.data.frame(x) | is.matrix(x)) {
+      if (ncol(x) == 2) {
+        y = x[, 2]
+        x = x[, 1]
+      }else{
+        stop('x can only be two columns if using to provide x and y data!')
+      }
+    }
+  }
+  
   if(missing(y)){stop('Need y!')}
   
   x[is.infinite(x)]=1e300*sign(x[is.infinite(x)])
