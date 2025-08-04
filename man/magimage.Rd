@@ -41,7 +41,7 @@ A numeric or logical matrix containing the blue colour values to be plotted (NAs
 The visual saturation of the colours, a bit like the dial on a TV. 1 is native, 0 is black and white, 2 is very intense nigh-on trippy.   
 }
   \item{zlim}{
-The z limit with respect to the output of magmap$map. If \option{magmap}=FALSE (default) \option{zlim} should be with respect to the provided z matrix (like base \code{image}). If \option{magmap}=TRUE \option{zlim} should be with respect to the \option{range} output of \code{magmap}. By default the \code{magmap} function scales between 0 and 1, so to only show the brighter pixels \option{zlim} could be set to c(0.5,1).
+The z limit with respect to the output of magmap$map. If \option{magmap}=FALSE \option{zlim} should be with respect to the provided z matrix (like base \code{image}). If \option{magmap}=TRUE \option{zlim} should be with respect to the \option{range} output of \code{magmap}. By default the \code{magmap} function scales between the lower and upper re-mapped values (usually 0 and 1), so to only show the brighter pixels \option{zlim} could be set to c(0.5,1). If you are fixing the scaling between plots, you almost certainly want to explictly set \option{zlim} so no dynamic range re-scaling happens.
 }
   \item{xlim, ylim}{
 Ranges for the plotted x and y values, defaulting to the ranges of x and y.

@@ -432,7 +432,8 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
   }
 }
 
-magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, Nbin=50, step=NULL, log='', unlog=log, clustering=10,
+magbin = function(x, y, z=NULL, xsup=NULL, ysup=NULL, xlim=NULL, ylim=NULL, zlim=NULL,
+                  Nbin=50, step=NULL, log='', unlog=log, clustering=10,
                   dustlim=0.1, shape='hex', plot=TRUE, colramp=hcl.colors(21),
                   colstretch='lin', sizestretch='lin', colref='count', sizeref='none',
                   funstat=function(x) median(x, na.rm=TRUE), direction='h',
@@ -442,21 +443,34 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, Nbin=50, step=N
       if(dim(x)[2]==3){z=unlist(x[,3])}
     }
   }
+  
   if(missing(y)){
     if(!is.null(dim(x))){
       if(dim(x)[2]>=2){y=unlist(x[,2]); x=unlist(x[,1])}
     }
   }
   
+  if(missing(ysup)){
+    if(!is.null(dim(xsup))){
+      if(dim(xsup)[2]>=2){ysup=unlist(xsup[,2]); xsup=unlist(xsup[,1])}
+    }
+  }
+  
   logsplit = strsplit(log,'')[[1]]
   if ('x' %in% logsplit) {
     x = log10(x)
+    if(!is.null(xsup)){
+      xsup = log10(xsup)
+    }
     if(length(xlim) == 2){
       xlim = log10(xlim)
     }
   }
   if ('y' %in% logsplit) {
     y = log10(y)
+    if(!is.null(ysup)){
+      ysup = log10(ysup)
+    }
     if(length(ylim) == 2){
       ylim = log10(ylim)
     }
@@ -476,25 +490,47 @@ magbin = function(x, y, z=NULL, xlim=NULL, ylim=NULL, zlim=NULL, Nbin=50, step=N
   
   if (length(xlim) == 1) {
     sel = !is.na(x) & !is.nan(x) & !is.null(x) & is.finite(x)
-    xlim=magclip(x[sel], sigma=xlim)$range
+    xlim = magclip(x[sel], sigma=xlim)$range
   }
   if (length(ylim) == 1) {
     sel = !is.na(y) & !is.nan(y) & !is.null(y) & is.finite(y)
-    ylim=magclip(y[sel], sigma=ylim)$range
+    ylim = magclip(y[sel], sigma=ylim)$range
   }
   if (length(zlim) == 1) {
     sel = !is.na(z) & !is.nan(z) & !is.null(z) & is.finite(z)
-    zlim=magclip(z[sel], sigma=zlim)$range
+    zlim = magclip(z[sel], sigma=zlim)$range
   }
   
-  bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, zlim=zlim, Nbin=Nbin, step=step,
-                    clustering=clustering, dustlim=dustlim, shape=shape,
-                    funstat=funstat, direction=direction, offset=offset, jitterseed=jitterseed)
-  
-  if(plot){
-    plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch,
-         colref=colref, sizeref=sizeref, unlog=unlog, projden=projden, projsig=projsig, xdata=x,
-         ydata=y, ...)
+  if(is.null(xsup) | is.null(ysup)){
+    bincount = .magbincount(x=x, y=y, z=z, xlim=xlim, ylim=ylim, zlim=zlim, Nbin=Nbin, step=step,
+                            clustering=clustering, dustlim=dustlim, shape=shape,
+                            funstat=funstat, direction=direction, offset=offset, jitterseed=jitterseed)
+    
+    if(plot){
+      plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch,
+           colref=colref, sizeref=sizeref, unlog=unlog, projden=projden, projsig=projsig, xdata=x,
+           ydata=y, ...)
+    }
+  }else{
+    bincount = .magbincount(x=xsup, y=ysup, xlim=xlim, ylim=ylim, zlim=zlim, Nbin=Nbin, step=step,
+                            clustering=clustering, dustlim=dustlim, shape=shape,
+                            funstat=funstat, direction=direction, offset=offset, jitterseed=jitterseed)
+    subcount = .magbincount(x=x, y=y, xlim=bincount$xlim, ylim=bincount$ylim, zlim=bincount$zlim, Nbin=Nbin, step=bincount$step,
+                            clustering=clustering, dustlim=dustlim, shape=shape,
+                            funstat=funstat, direction=direction, offset=offset, jitterseed=jitterseed)
+    bincount$bins$zstat = subcount$bins$count / bincount$bins$count
+    
+    if(missing(colref)){colref = 'zstat'}
+    if(missing(colramp)){colramp = c(hcl.colors(20), grey.colors(5))}
+    locut = 0
+    hicut = 1
+    type = 'num'
+    
+    if(plot){
+      plot(bincount, colramp=colramp, colstretch=colstretch, sizestretch=sizestretch,
+           colref=colref, sizeref=sizeref, unlog=unlog, projden=projden, projsig=projsig, xdata=x,
+           ydata=y, locut=locut, hicut=hicut, type=type, ...)
+    }
   }
   return(invisible(bincount))
 }

@@ -140,8 +140,6 @@ Further arguments to be passed to: base \code{\link{plot}}; \code{\link{magaxis}
 This is a simple function that just turns off most of the plotting output of base plot, and replaces where possible those present in magaxis.
 
 If \option{x} is a data.frame with more than 2 columns then the utility base \code{\link{plot}} data.frame plotting function is used to create a full plotting grid. This ignores \code{\link{magaxis}} settings entirely.
-
-Setting \option{xlim} and \option{ylim}
 }
 
 \value{

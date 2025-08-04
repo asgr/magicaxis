@@ -1,10 +1,12 @@
 Package: magicaxis
 Type: Package
 Title: Pretty Scientific Plotting with Minor-Tick and Log Minor-Tick Support
-Version: 2.4.5
-Date: 2024-03-21
-Author: Aaron Robotham
-Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>
+Version: 2.5.1
+Date: 2025-08-04
+Authors@R: person(given = "Aaron",
+                      family = "Robotham",
+                      role = c("aut", "cre"),
+                      email = "aaron.robotham@uwa.edu.au")
 Description: Functions to make useful (and pretty) plots for scientific plotting. Additional plotting features are added for base plotting, with particular emphasis on making attractive log axis plots.
 License: GPL-3
 Suggests: imager, fst
