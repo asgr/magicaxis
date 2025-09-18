@@ -88,14 +88,26 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
     rm(Ba)
   }
   
-  # R=R-min(R)
-  # R=R/max(R)
-  # G=G-min(G)
-  # G=G/max(G)
-  # B=B-min(B)
-  # B=B/max(B)
+  z = matrix(1:length(R),dim(R)[1])
+  col = rgb(R,G,B)
   
-  do.call('image',c(list(x=x, y=y, z=matrix(1:length(R),dim(R)[1]), zlim=zlim, xlim=xlim, ylim=ylim, col=rgb(R,G,B), add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
+  # if(interact){
+  #   if(!requireNamespace("plotly", quietly = TRUE)){
+  #     stop('The plotly package is needed for this function to work. Please install it from CRAN.', call. = FALSE)
+  #   }
+  #   fig = plotly::plot_ly(x=x, y=y, z=z, type = "heatmap", colors = col, transpose=TRUE)
+  #   
+  #   fig = plotly::layout(
+  #     p = fig,
+  #     xaxis = list(range = xlim, scaleanchor = "y"),  # Set x-axis limits and anchor to y-axis
+  #     yaxis = list(range = ylim)   # Set y-axis limits
+  #   )
+  #   
+  #   print(fig)
+  #   return(invisible(NULL))
+  # }
+  
+  do.call('image',c(list(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
   if(add==FALSE){
     if(axes){
       magaxis(...)

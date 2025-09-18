@@ -13,7 +13,7 @@ magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
   useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
   range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
   clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE,
-  rem_med = FALSE, doplot = TRUE, ...)
+  rem_med = FALSE, doplot = TRUE, interact = FALSE, ...)
 
 magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
   useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
@@ -105,6 +105,9 @@ Logical; should the \code{median} of the \option{image} be subtracted or not? Th
 }
   \item{doplot}{
 Logical; if TRUE then gnerates the image. If FALSE then just return the output below (with z scaled as request).  
+}
+  \item{interact}{
+Logical; if TRUE then an interactive \code{plotly} viewer will be displayed. You will need the \code{plotly} package from CRAN for this to work.
 }
   \item{\dots}{
 Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). See \code{\link{image}} and \code{\link{magaxis}} for details.

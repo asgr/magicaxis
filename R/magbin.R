@@ -304,7 +304,7 @@
   }
   
   output = list(bins=data.frame(grid, count=bincount, zstat=binzstat), dust=dust, groups=groups,
-                xlim=xlim, ylim=ylim, step=step, dustlim=dustlim, shape=shape, direction=direction)
+                xlim=xlim, ylim=ylim, step=step, dustlim=dustlim, shape=shape, direction=direction, use=use)
   class(output) = 'magbin'
   return(output)
 }
