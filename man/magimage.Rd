@@ -18,7 +18,8 @@ magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
 magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
   useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
   range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = "auto",
-  bad = range[1], clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', ...) 
+  bad = range[1], clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto',
+  interact = FALSE, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

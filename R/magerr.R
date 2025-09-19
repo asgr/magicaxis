@@ -48,20 +48,25 @@ magerr = function(x, y, xlo, ylo, xhi=xlo, yhi=ylo, corxy, length=0.02, col='bla
     if(!missing(ylo) | !missing(yhi)){yhidraw=y+abs(yhi);doyhi=TRUE}else{yhidraw=0;doyhi=FALSE}
     
     if(doxlo & par()$xlog){
-    	sel=which(xlodraw<=0)
-    	xlodraw[sel]=1e-300
+      sel = which(xlodraw <= 0)
+      xlodraw[sel] = 1e-300
     }
-    if(doxhi & par()$xlog){
-      sel=which(xhidraw>0 & x<=0)
-      x[sel]=1e-300
+    if (doxhi & par()$xlog){
+      sel = which(xhidraw > 0 & x <= 0)
+      x[sel] = 1e-300
+      sel = which(xhidraw < 0)
+      xhidraw[sel] = 1e-300
     }
-    if(doylo & par()$ylog){
-    	sel=which(ylodraw<=0)
-    	ylodraw[sel]=1e-300
+    if (doylo & par()$ylog){
+      sel = which(ylodraw <= 0)
+      ylodraw[sel] = 1e-300
     }
-    if(doyhi & par()$ylog){
-      sel=which(yhidraw>0 & y<=0)
-      y[sel]=1e-300
+    if (doyhi & par()$ylog){
+      sel = which(yhidraw > 0 & y <= 0)
+      y[sel] = 1e-300
+      sel = which(yhidraw < 0)
+      yhidraw[sel] = 1e-300
+      #Fix this!
     }
     
     xarrow=x[errbarsel]

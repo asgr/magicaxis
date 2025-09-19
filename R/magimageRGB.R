@@ -2,7 +2,7 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
                       useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995,
                       flip=FALSE, range=c(0,1), type = "quan", stretch="asinh",
                       stretchscale='auto', bad=range[1], clip="", axes=TRUE, frame.plot=TRUE,
-                      sparse='auto', ...){
+                      sparse='auto', interact=FALSE, ...){
   dots=list(...)
   dotskeepimage=c('xaxs', 'yaxs', 'breaks', 'oldstyle')
   if(length(dots)>0){
@@ -88,24 +88,27 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
     rm(Ba)
   }
   
+  if(interact){
+    if(!requireNamespace("plotly", quietly = TRUE)){
+      stop('The plotly package is needed for this function to work. Please install it from CRAN.', call. = FALSE)
+    }
+    if(!requireNamespace("abind", quietly = TRUE)){
+      stop('The abind package is needed for this function to work. Please install it from CRAN.', call. = FALSE)
+    }
+    fig = plotly::plot_ly(z=abind::abind(t(R*256), t(G*256), t(B*256), along=3), type = "image")
+    
+    fig = plotly::layout(
+      p = fig,
+      xaxis = list(range = xlim, scaleanchor = "y"),  # Set x-axis limits and anchor to y-axis
+      yaxis = list(range = ylim)   # Set y-axis limits
+    )
+    
+    print(fig)
+    return(invisible(NULL))
+  }
+  
   z = matrix(1:length(R),dim(R)[1])
   col = rgb(R,G,B)
-  
-  # if(interact){
-  #   if(!requireNamespace("plotly", quietly = TRUE)){
-  #     stop('The plotly package is needed for this function to work. Please install it from CRAN.', call. = FALSE)
-  #   }
-  #   fig = plotly::plot_ly(x=x, y=y, z=z, type = "heatmap", colors = col, transpose=TRUE)
-  #   
-  #   fig = plotly::layout(
-  #     p = fig,
-  #     xaxis = list(range = xlim, scaleanchor = "y"),  # Set x-axis limits and anchor to y-axis
-  #     yaxis = list(range = ylim)   # Set y-axis limits
-  #   )
-  #   
-  #   print(fig)
-  #   return(invisible(NULL))
-  # }
   
   do.call('image',c(list(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
   if(add==FALSE){
