@@ -101,31 +101,6 @@
 }
 
 .trihexgrid = function(xlim=c(0,100), ylim=c(0,100), step=c(1,1), direction='h'){
-  # if(direction=='h'){
-  #   xvec1 = seq(xlim[1], xlim[2]+step[1], by=step[1])
-  #   xvec2 = seq(xlim[1], xlim[2]+step[1]/2, by=step[1])
-  #   
-  #   yvec1 = seq(ylim[1], ylim[2]+step[2]*0.8660254, by=2*step[2]*0.8660254)
-  #   yvec2 = seq(ylim[1]+step[2]*0.2886751-step[2]*0.8660254, ylim[2]-step[2]*0.2886751+step[2]*0.8660254, by=2*step[2]*0.8660254)
-  #   
-  #   grid1 = expand.grid(x=xvec1, y=yvec1)
-  #   grid2 = expand.grid(x=xvec2, y=yvec2)
-  #   grid3 = expand.grid(x=xvec1-step[1]/2, y=yvec1-step[2]*0.8660254)
-  #   grid4 = expand.grid(x=xvec2-step[1]/2, y=yvec2-step[2]*0.8660254)
-  # }
-  # if(direction=='v'){
-  #   xvec1 = seq(xlim[1], xlim[2]+step[1]*0.8660254, by=2*step[1]*0.8660254)
-  #   xvec2 = seq(xlim[1]+step[1]*0.2886751-step[1]*0.8660254, xlim[2]-step[1]*0.2886751+step[1]*0.8660254, by=2*step[1]*0.8660254)
-  #   
-  #   yvec1 = seq(ylim[1], ylim[2]+step[2], by=step[2])
-  #   yvec2 = seq(ylim[1], ylim[2]+step[2]/2, by=step[2])
-  #   
-  #   grid1 = expand.grid(x=xvec1, y=yvec1)
-  #   grid2 = expand.grid(x=xvec2, y=yvec2)
-  #   grid3 = expand.grid(x=xvec1-step[1]*0.8660254, y=yvec1-step[2]/2)
-  #   grid4 = expand.grid(x=xvec2-step[1]*0.8660254, y=yvec2-step[2]/2)
-  # }
-  # return(rbind(cbind(grid1, type=1), cbind(grid2,type=2), cbind(grid3, type=1), cbind(grid4, type=2)))
   .trigrid(xlim=xlim, ylim=ylim, step=step, direction=direction, offset=0.5)
 }
 
@@ -306,7 +281,8 @@
   output = list(bins=data.frame(grid, count=bincount, zstat=binzstat), dust=dust, groups=groups,
                 xlim=xlim, ylim=ylim, step=step, dustlim=dustlim, shape=shape, direction=direction, use=use)
   class(output) = 'magbin'
-  return(output)
+  gc() #this seems to be need, not sure why!
+  return(invisible(output))
 }
 
 plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch='lin',
@@ -532,6 +508,7 @@ magbin = function(x, y, z=NULL, xsup=NULL, ysup=NULL, xlim=NULL, ylim=NULL, zlim
            ydata=y, locut=locut, hicut=hicut, type=type, ...)
     }
   }
+  gc() #this seems to be need, not sure why!
   return(invisible(bincount))
 }
 
