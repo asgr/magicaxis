@@ -54,10 +54,13 @@ if(length(powbaselist) != length(side)){stop('Length of powbase vector mismatche
 if(length(gridlist) != length(side)){stop('Length of grid vector mismatches number of axes!')}
 
 currentfamily=par('family')
-if(hersh & family=='serif'){par(family='HersheySerif')}
-if(hersh & family=='sans'){par(family='HersheySans')}
-if(hersh==F & family=='serif'){par(family='serif')}
-if(hersh==F & family=='sans'){par(family='sans')}
+if(grepl('Hershey', family, fixed=TRUE)) {
+  hersh = TRUE
+} else if(hersh) {
+  if(family == 'sans') family = 'HersheySans'
+  if(family == 'serif') family = 'HersheySerif'
+}
+par(family=family)
 
 if(missing(axis.lwd)){axis.lwd=par()$lwd}
 if(missing(ticks.lwd)){ticks.lwd=par()$lwd}
