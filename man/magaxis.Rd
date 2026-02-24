@@ -64,10 +64,10 @@ Set the base to use for logarithmic axes. Default is to use 10.
 }
   \item{hersh}{
 To determines whether all plot text should be passed using Hershey vector fonts. This applies to the axis labels (which are handled automatically) and the axis names. In the case of axis names the user must be careful to use the correct plot utils escape characters: http://www.gnu.org/software/plotutils/manual/en/html_node/Text-String-Format.html.
-magaxis will return back to the current plotting family after the function has executed.
+magaxis will return back to the current plotting family after the function has executed. Note: instead of setting \option{hersh=TRUE} together with \option{family}, you can pass the Hershey family name directly via \option{family} (e.g. \option{family='HersheySerif'} or \option{family='HersheySans'}).
 }
   \item{family}{
-Specifies the plotting family to be used. Allowed options are 'sans' and 'serif'. Depending on whether hersh is TRUE or FALSE these otions are either applied to the Hershey vector fonts (hersh=TRUE) or the default R Helvetica font (hersh=FALSE). magaxis will return back to the current plotting family after the function has executed.
+Specifies the plotting family to be used. The simplest usage is to pass the font family name directly, including Hershey vector fonts: allowed values include 'sans', 'serif', 'HersheySans', 'HersheySerif', or any other family recognised by \code{\link{par}}. When a Hershey family is specified (i.e. the name contains 'Hershey'), Hershey vector font rendering is activated automatically without needing to set \option{hersh=TRUE}. For backward compatibility, passing \option{hersh=TRUE} with \option{family='sans'} or \option{family='serif'} still maps to 'HersheySans' or 'HersheySerif' respectively. magaxis will return back to the current plotting family after the function has executed.
 }
   \item{frame.plot}{
 Logical indicating whether a box should be drawn around the plot.
