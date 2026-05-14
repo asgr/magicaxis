@@ -131,7 +131,6 @@ stretch='asinh')$map
 magplot(datastretch[,1],datastretch[,3],side=1)
 axis(2,asinhticks,labels=c(-10^(4:0),0,10^(0:4)))
 abline(h=magmap(0,lo=-1e4,hi=1e4,range=c(0,1),type='num',stretch='asinh')$map)
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

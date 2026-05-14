@@ -1,8 +1,8 @@
 Package: magicaxis
 Type: Package
 Title: Pretty Scientific Plotting with Minor-Tick and Log Minor-Tick Support
-Version: 2.5.3
-Date: 2025-02-24
+Version: 2.6.0
+Date: 2026-05-14
 Authors@R: person(given = "Aaron",
                       family = "Robotham",
                       role = c("aut", "cre"),

@@ -249,6 +249,17 @@ magtri(chains,
        refvals = c(1, -0.5, 2))
 ```
 
+### Few labels per sub-panel
+
+Supply `majorn` to reduce the number of labelled ticks.
+
+```{r magtri-majorn}
+magtri(chains,
+       samples = 300,
+       refvals = c(1, -0.5, 2),
+       majorn = 2)
+```
+
 ### Custom axis labels
 
 Use the `lab` argument to supply expression labels for each parameter:

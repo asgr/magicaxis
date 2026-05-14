@@ -46,7 +46,7 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
         xtemp=chains[usesamps,i]
         if(sd(xtemp)==0){xtemp=xtemp+rnorm(samples,sd=1e-3)}
         plot(density(xtemp),axes=FALSE,main='',xlim=xrange)
-        ParmOff(magaxis, dots, side=1, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick)
+        ParmOff(magaxis, dots, side=1, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick, .pass_dots=FALSE)
         abline(v=meanvec[i],lty=1,col='red')
         abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
         abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
@@ -57,14 +57,14 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
         if(i==1){
           plot.window(xlim=xrange,ylim=yrange)
           if(is.null(lab)){
-            ParmOff(magaxis, dots, side=1, xlab=chaincolnames[i])
+            ParmOff(magaxis, dots, side=1, xlab=chaincolnames[i], .pass_dots=FALSE)
           }else{
-            ParmOff(magaxis, dots, side=1, xlab=lab[[i]])
+            ParmOff(magaxis, dots, side=1, xlab=lab[[i]], .pass_dots=FALSE)
           }
           if(is.null(lab)){
-            ParmOff(magaxis, dots, side=2, ylab=chaincolnames[j])
+            ParmOff(magaxis, dots, side=2, ylab=chaincolnames[j], .pass_dots=FALSE)
           }else{
-            ParmOff(magaxis, dots, side=2, ylab=lab[[j]])
+            ParmOff(magaxis, dots, side=2, ylab=lab[[j]], .pass_dots=FALSE)
           }
         }
       }else{
@@ -75,9 +75,9 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
           ytemp=chains[usesamps,j]
           if(sd(xtemp)==0){xtemp=xtemp+rnorm(samples,sd=1e-3)}
           if(sd(ytemp)==0){ytemp=ytemp+rnorm(samples,sd=1e-3)}
-          ParmOff(magaxis, dots, side=1:2, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick)
-          ParmOff(magcon, dots, x=xtemp, y=ytemp, dobar=FALSE, doim=FALSE, add=TRUE, lty=c(2,1,3), xlim=xrange, ylim=yrange, h=c(diff(xrange),diff(yrange))/10)
-          ParmOff(points, dots, x=meanvec[i], y=meanvec[j], col='red', pch=4, cex=2)
+          ParmOff(magaxis, dots, side=1:2, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick, .pass_dots=FALSE)
+          ParmOff(magcon, dots, x=xtemp, y=ytemp, dobar=FALSE, doim=FALSE, add=TRUE, lty=c(2,1,3), xlim=xrange, ylim=yrange, h=c(diff(xrange),diff(yrange))/10, .pass_dots=FALSE)
+          ParmOff(points, dots, x=meanvec[i], y=meanvec[j], col='red', pch=4, cex=2, .pass_dots=FALSE)
           box()
           abline(v=meanvec[i],lty=1,col='red')
           abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
@@ -87,23 +87,23 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
           }
           if(j==1){
             if(is.null(lab)){
-              ParmOff(magaxis, dots, side=1, xlab=chaincolnames[i])
+              ParmOff(magaxis, dots, side=1, xlab=chaincolnames[i], .pass_dots=FALSE)
             }else{
-              ParmOff(magaxis, dots, side=1, xlab=lab[[i]])
+              ParmOff(magaxis, dots, side=1, xlab=lab[[i]], .pass_dots=FALSE)
             }
           }
         }else{
           plot.new()
           plot.window(xlim=xrange,ylim=yrange)
-          ParmOff(magaxis, dots, side=1:2, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick)
-          ParmOff(points, dots, x=chains[usesamps,i], y=chains[usesamps,j], pch='.', col='darkgrey')
-          ParmOff(points, dots, x=meanvec[i], y=meanvec[j], col='red', pch=4, cex=2)
+          dots_carry = ParmOff(magaxis, dots, side=1:2, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick, .pass_dots=FALSE, .return='func_args')$args_out$ignore_args
+          ParmOff(points.default, dots_carry, x=chains[usesamps,i], y=chains[usesamps,j], pch='.', col='darkgrey', .pass_dots=TRUE)
+          ParmOff(points.default, dots_carry, x=meanvec[i], y=meanvec[j], col='red', pch=4, cex=2, .pass_dots=TRUE)
           box()
           if(i==1){
             if(is.null(lab)){
-              ParmOff(magaxis, dots, side=2, ylab=chaincolnames[j])
+              ParmOff(magaxis, dots, side=2, ylab=chaincolnames[j], .pass_dots=FALSE)
             }else{
-              ParmOff(magaxis, dots, side=2, ylab=lab[[j]])
+              ParmOff(magaxis, dots, side=2, ylab=lab[[j]], .pass_dots=FALSE)
             }
           }
         }

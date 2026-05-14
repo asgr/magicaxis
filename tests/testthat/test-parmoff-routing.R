@@ -12,6 +12,8 @@ library(magicaxis)
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
+options(rgl.useNULL = TRUE)
+
 # Render to a null device so no on-screen window is opened.
 with_null_dev <- function(expr) {
   pdf(nullfile())

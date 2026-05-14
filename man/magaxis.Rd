@@ -129,7 +129,6 @@ magaxis(side=c(1,3),unlog=c(TRUE,FALSE))
 
 plot(x,y,axes=FALSE,log='x')
 magaxis()
-
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

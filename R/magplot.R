@@ -121,8 +121,7 @@ magplot =
                 grid.lwd = grid.lwd,
                 axis.lwd = axis.lwd,
                 ticks.lwd = ticks.lwd,
-                axis.col = axis.col,
-                ...
+                axis.col = axis.col
               )
             },
             lwd = lwd,
@@ -220,8 +219,7 @@ magplot =
               grid.lwd = grid.lwd,
               axis.lwd = axis.lwd,
               ticks.lwd = ticks.lwd,
-              axis.col = axis.col,
-              ...
+              axis.col = axis.col
             )
           },
           lwd = lwd,
