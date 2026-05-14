@@ -156,16 +156,16 @@ for(i in 1:length(side)){
     }
 
  		if(logged){
- 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+ 		  ParmOff(axis, c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
  		}else{
- 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+ 		  ParmOff(axis, c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
  		}
  		
     if(labels){
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
       }
     }
     
@@ -173,9 +173,9 @@ for(i in 1:length(side)){
       minors = minors[-c(1,length(minors))]
       minor.ticks = c(outer(minors, major.ticks, `+`))
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
       }else{
-        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
       }
     }
   }
@@ -184,10 +184,10 @@ for(i in 1:length(side)){
     names(dotsmtext)=c('cex', 'col', 'font')[match(names(dotsmtext), dotskeepmtext)]
   }
   if(is.null(xlab)==FALSE){
-    do.call("mtext", c(list(text=xlab, side=ifelse(side[1] %in% c(1,3), side[1], side[2]), line=mtline[1]), dotsmtext))
+    ParmOff(mtext, c(list(text=xlab, side=ifelse(side[1] %in% c(1,3), side[1], side[2]), line=mtline[1]), dotsmtext))
   }
   if(is.null(ylab)==FALSE){
-    do.call("mtext", c(list(text=ylab, side=ifelse(side[2] %in% c(2,4), side[2], side[1]), line=mtline[2]), dotsmtext))
+    ParmOff(mtext, c(list(text=ylab, side=ifelse(side[2] %in% c(2,4), side[2], side[1]), line=mtline[2]), dotsmtext))
   }
 
 if(frame.plot){box()}
