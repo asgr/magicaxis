@@ -387,9 +387,10 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
       .mag_call(points, .dots = .mag_defaults(list(pch = pch.dust, col = colramp[1], cex = cex.dust), dotspoints), x = x$dust$x, y = x$dust$y)
     }else{
       if(colref=='zstat'){
-        colmapdust = .mag_call(magmap, data=x$dust$z, locut=colmap$datalim[1],
+        dustmap = .mag_call(magmap, data=x$dust$z, locut=colmap$datalim[1],
                     hicut=colmap$datalim[2], type='num', stretch=colstretch,
-                    range=c(1,length(colramp)), bad=NA)$map
+                    range=c(1,length(colramp)), bad=NA)
+        colmapdust = dustmap$map
         .mag_call(points, .dots = .mag_defaults(list(pch = pch.dust, col = colramp[colmapdust], cex = cex.dust), dotspoints), x = x$dust$x, y = x$dust$y)
       }else{
         .mag_call(points, .dots = .mag_defaults(list(pch = pch.dust, col = colramp[1], cex = cex.dust), dotspoints), x = x$dust$x, y = x$dust$y)
@@ -511,4 +512,3 @@ magbin = function(x, y, z=NULL, xsup=NULL, ysup=NULL, xlim=NULL, ylim=NULL, zlim
   gc() #this seems to be need, not sure why!
   return(invisible(bincount))
 }
-
