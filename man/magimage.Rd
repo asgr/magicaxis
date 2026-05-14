@@ -111,7 +111,7 @@ Logical; if TRUE then gnerates the image. If FALSE then just return the output b
 Logical; if TRUE then an interactive \code{plotly} viewer will be displayed. You will need the \code{plotly} package from CRAN for this to work.
 }
   \item{\dots}{
-Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). See \code{\link{image}} and \code{\link{magaxis}} for details.
+Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). The same image-specific arguments can also be supplied with an \option{image.} prefix. See \code{\link{image}} and \code{\link{magaxis}} for details.
 }
 }
 \details{

@@ -39,37 +39,36 @@ magplot =
            ...) {
     if (class(x)[1] == 'histogram') {
       dots = list(...)
-      do.call('maghist', c(
-        list(
-          x = x,
-          xlim = xlim,
-          ylim = ylim,
-          log = log,
-          side = side,
-          majorn = majorn,
-          minorn = minorn,
-          tcl = tcl,
-          ratio = ratio,
-          labels = labels,
-          mgp = mgp,
-          mtline = mtline,
-          xlab = xlab,
-          ylab = ylab,
-          crunch = crunch,
-          logpretty = logpretty,
-          prettybase = prettybase,
-          powbase = powbase,
-          hersh = hersh,
-          family = family,
-          frame.plot = frame.plot,
-          usepar = usepar,
-          grid = grid,
-          grid.col = grid.col,
-          grid.lty = grid.lty,
-          grid.lwd = grid.lwd
-        ),
-        dots
-      ))
+      .mag_call(
+        maghist,
+        .dots = dots,
+        x = x,
+        xlim = xlim,
+        ylim = ylim,
+        log = log,
+        side = side,
+        majorn = majorn,
+        minorn = minorn,
+        tcl = tcl,
+        ratio = ratio,
+        labels = labels,
+        mgp = mgp,
+        mtline = mtline,
+        xlab = xlab,
+        ylab = ylab,
+        crunch = crunch,
+        logpretty = logpretty,
+        prettybase = prettybase,
+        powbase = powbase,
+        hersh = hersh,
+        family = family,
+        frame.plot = frame.plot,
+        usepar = usepar,
+        grid = grid,
+        grid.col = grid.col,
+        grid.lty = grid.lty,
+        grid.lwd = grid.lwd
+      )
       return(invisible(NULL))
     } else{
       logsplit = strsplit(log[1], '')[[1]]
@@ -243,18 +242,14 @@ magplot =
           "titleshift",
           "centrealign"
         )
-        
-        if (length(dots) > 0) {
-          dotsmap = dots[names(dots) %in% dotskeepmap]
-          dots = dots[!names(dots) %in% dotskeepmap]
-          dotsbar = dots[names(dots) %in% dotskeepbar]
-          dots = dots[!names(dots) %in% dotskeepbar]
-        } else{
-          dotsmap = {
-          }
-          dotsbar = {
-          }
-        }
+        dotssplit_map_pref = .mag_split_args(dots, use_args = dotskeepmap, prefix = 'magmap')
+        dotssplit_bar_pref = .mag_split_args(dotssplit_map_pref$rest, use_args = dotskeepbar, prefix = 'magbar')
+        dotssplit_points_pref = .mag_split_args(dotssplit_bar_pref$rest, prefix = 'points')
+        dotssplit_map = .mag_split_args(dotssplit_points_pref$rest, use_args = dotskeepmap)
+        dotssplit_bar = .mag_split_args(dotssplit_map$rest, use_args = dotskeepbar)
+        dotsmap = .mag_defaults(dotssplit_map$args, dotssplit_map_pref$args)
+        dotsbar = .mag_defaults(dotssplit_bar$args, dotssplit_bar_pref$args)
+        dotspoints = .mag_defaults(dotssplit_bar$rest, dotssplit_points_pref$args)
         if ('z' %in% logsplit & !is.null(z)) {
           z = log10(z)
           if (missing(unlog)) {
@@ -264,15 +259,7 @@ magplot =
             zstretch = 'log'
           }
         }
-        colmap = do.call("magmap", c(
-          list(
-            data = z,
-            stretch = zstretch,
-            range = c(1, length(zcol)),
-            bad = NA
-          ),
-          dotsmap
-        ))
+        colmap = .mag_call(magmap, .dots = dotsmap, data = z, stretch = zstretch, range = c(1, length(zcol)), bad = NA)
         plot(
           x = NA,
           y = NA,
@@ -317,18 +304,9 @@ magplot =
           xlim = xlim,
           ylim = ylim
         )
-        do.call("points", c(list(
-          x = x, y = y, col = zcol[colmap$map]
-        ), dots))
+        .mag_call(points, .dots = dotspoints, x = x, y = y, col = zcol[colmap$map])
         if (dobar) {
-          do.call("magbar", c(
-            list(
-              range = colmap$datalim,
-              log = zstretch == 'log',
-              col = zcol
-            ),
-            dotsbar
-          ))
+          .mag_call(magbar, .dots = dotsbar, range = colmap$datalim, log = zstretch == 'log', col = zcol)
         }
         return(invisible(NULL))
       }

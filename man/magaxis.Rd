@@ -100,7 +100,7 @@ Colour argument to pass directly to \option{col} in axis. It is a bit clunky to 
 Logical; should ticks be drawn? Passed to \code{\link{axis}} argument \option{tick}.  
 }
   \item{\dots}{
-Other arguments to be passed to base \code{\link{axis}} and \code{\link{mtext}} functions as relevant. Options for axis are as described in \code{\link{axis}}, but note \option{cex.lab}, \option{col.lab} and \option{font.lab} are parsed as \option{cex}, \option{col} and \option{font} into \code{\link{mtext}} as required.
+Other arguments to be passed to base \code{\link{axis}} and \code{\link{mtext}} functions as relevant. Options for axis are as described in \code{\link{axis}}, but note \option{cex.lab}, \option{col.lab} and \option{font.lab} are parsed as \option{cex}, \option{col} and \option{font} into \code{\link{mtext}} as required. The same arguments can also be supplied explicitly with \option{axis.} and \option{mtext.} prefixes (for example \option{axis.cex.axis} or \option{mtext.cex}).
 }
 }
 \details{

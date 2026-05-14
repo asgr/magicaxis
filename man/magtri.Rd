@@ -38,7 +38,7 @@ Numeric vector; this gives reference values to overdraw. If provided it must be 
 Character vector; optional over-ride for column names when plotting the grid of scatter plots.  
 }
   \item{\dots}{
-Extra arguments are passed to \option{\link{magcon}} for plotting.  
+Extra arguments are passed to \option{\link{magcon}} for plotting. Arguments can also be targeted explicitly to sub-components with \option{magaxis.}, \option{magcon.} and \option{points.} prefixes.  
 }
 }
 \details{

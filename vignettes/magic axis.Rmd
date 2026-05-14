@@ -1,0 +1,138 @@
+---
+title: "magic axis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{magic axis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 6,
+  fig.align = "center"
+)
+library(magicaxis)
+set.seed(1)
+```
+
+`magicaxis` extends base graphics with prettier scientific axes and a set of
+high-level helpers for common plotting tasks.
+
+## Axes and base plots
+
+```{r}
+x = 10^(seq(-1, 3, length.out = 200))
+y = sqrt(x)
+plot(x, y, log = "x", axes = FALSE, xlab = "", ylab = "", main = "magaxis on a base plot")
+lines(x, y, col = "steelblue", lwd = 2)
+magaxis(side = 1:2, xlab = "x", ylab = "sqrt(x)", grid = TRUE)
+box()
+```
+
+```{r}
+plot(log10(x), y, axes = FALSE, xlab = "", ylab = "", main = "Explicitly logged data with unlogged labels")
+lines(log10(x), y, col = "firebrick", lwd = 2)
+magaxis(side = 1:2, unlog = "x", xlab = "x", ylab = "sqrt(x)", grid = TRUE)
+box()
+```
+
+## Scatter plots with `magplot`
+
+```{r}
+xy = cbind(rt(2000, df = 4), rt(2000, df = 5))
+magplot(xy, xlim = 2.5, ylim = 2.5, xlab = "x", ylab = "y", pch = 16, cex = 0.4, col = rgb(0, 0, 0, 0.25))
+```
+
+```{r}
+z = sqrt((xy[, 1] - mean(xy[, 1]))^2 + (xy[, 2] - mean(xy[, 2]))^2)
+magplot(
+  xy[, 1], xy[, 2], z = z,
+  xlab = "x", ylab = "y", points.pch = 16, points.cex = 0.7,
+  magmap.locut = 0.05, magbar.position = "topleft"
+)
+```
+
+```{r}
+magplot(x, y, log = "xy", xlab = "x", ylab = "sqrt(x)", type = "l", lwd = 2)
+```
+
+## Histograms with `maghist`
+
+```{r}
+sample1 = rnorm(5000)
+maghist(sample1, xlab = "value", ylab = "count", col = "grey85", border = "grey30", verbose = FALSE)
+```
+
+```{r}
+sample2 = 10^(runif(4000, -1, 3))
+maghist(sample2, log = "xy", xlab = "value", ylab = "count", col = "grey85", border = "grey30", verbose = FALSE)
+```
+
+```{r}
+maghist(sample1, cumsum = TRUE, xlab = "value", ylab = "cumulative count", col = "grey80", border = "grey30", verbose = FALSE)
+```
+
+## Quantile images and contours with `magcon`
+
+```{r}
+theta = runif(4000, 0, 2 * pi)
+r = rnorm(4000, mean = 1.5, sd = 0.3)
+cx = r * cos(theta) + rnorm(4000, sd = 0.2)
+cy = r * sin(theta) + rnorm(4000, sd = 0.2)
+magcon(cx, cy, h = c(0.15, 0.15), xlab = "x", ylab = "y")
+```
+
+```{r}
+magplot(cx, cy, type = "n", xlab = "x", ylab = "y")
+magcon(cx, cy, h = c(0.2, 0.2), add = TRUE, dobar = FALSE, lty = c(2, 1, 3))
+points(cx[1:400], cy[1:400], pch = 16, cex = 0.3, col = rgb(0, 0, 0, 0.15))
+```
+
+## Binned displays with `magbin`
+
+```{r}
+xybin = cbind(rnorm(5000), rnorm(5000))
+magbin(xybin, shape = "hexagon", xlab = "x", ylab = "y")
+```
+
+```{r}
+zb = xybin[, 1]^2 - xybin[, 2]^2
+magbin(
+  xybin[, 1], xybin[, 2], z = zb,
+  colref = "zstat", sizeref = "count",
+  magbar.position = "bottomright", xlab = "x", ylab = "y"
+)
+```
+
+```{r}
+magbin(xybin, shape = "square", offset = "jitter", dustlim = 0.2, points.pch = 16, points.cex = 0.3, xlab = "x", ylab = "y")
+```
+
+## Image plotting
+
+```{r}
+grid_x = seq(-2, 2, length.out = 100)
+grid_y = seq(-2, 2, length.out = 100)
+zz = outer(grid_x, grid_y, function(a, b) cos(a^2 + b^2) * exp(-(a^2 + b^2) / 3))
+magimage(grid_x, grid_y, zz, xlab = "x", ylab = "y", stretch = "asinh")
+```
+
+```{r}
+rr = outer(grid_x, grid_y, function(a, b) exp(-((a - 0.7)^2 + b^2)))
+gg = outer(grid_x, grid_y, function(a, b) exp(-(a^2 + b^2)))
+bb = outer(grid_x, grid_y, function(a, b) exp(-((a + 0.7)^2 + b^2)))
+magimageRGB(grid_x, grid_y, rr, gg, bb, xlab = "x", ylab = "y", saturation = 1.2)
+```
+
+## Triangle plots
+
+```{r}
+Sigma = matrix(c(4, 2, -1, 2, 3, 1.2, -1, 1.2, 2), 3, 3)
+chains = MASS::mvrnorm(n = 1500, mu = c(0, 1, 2), Sigma = Sigma)
+colnames(chains) = c("alpha", "beta", "gamma")
+magtri(chains, samples = 600, grid = TRUE, points.pch = 16, points.cex = 0.4)
+```

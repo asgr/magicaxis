@@ -64,7 +64,7 @@ Scalar; pch symbol to use for the dust points.
 Scalar; cex size to use for the dust points.
 }
   \item{\dots}{
-Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magmap}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
+Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magbar}}. Relevant arguments are matched, so look in those functions for optional arguments to pass. Arguments can also be targeted explicitly with \option{magplot.}, \option{magmap.}, \option{magbar.} and \option{points.} prefixes.
 }
 }
 \value{

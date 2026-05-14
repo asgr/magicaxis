@@ -132,7 +132,7 @@ Character scalar; \option{z} colour stretch, either linear (lin, default) or log
 Logical; should a colour bar be added to the plot?  
 }
   \item{\dots}{
-Further arguments to be passed to: base \code{\link{plot}}; \code{\link{magaxis}} -> \code{\link{axis}}; \code{\link{magmap}} and \code{\link{magbar}} if \option{z} scaling is being used.
+Further arguments to be passed to: base \code{\link{plot}}; \code{\link{magaxis}} -> \code{\link{axis}}; \code{\link{magmap}} and \code{\link{magbar}} if \option{z} scaling is being used. When plotting with a \option{z} scale, arguments can be targeted explicitly with \option{magmap.}, \option{magbar.} and \option{points.} prefixes.
 }
 }
 

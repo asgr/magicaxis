@@ -99,7 +99,7 @@ Logical; do you want projected density PDFs to be displayed above and to the sid
 Logical; if \option{projden} = TRUE then this will optionally add lines to show the pseudo 1-sigma range (15.9\% to 84.1\% quantiles).
 }
   \item{\dots}{
-Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magbar}}. Relevant arguments are matched, so look in those functions for optional arguments to pass.
+Dots to be passed to \code{\link{magplot}}, \code{\link{magmap}} and \code{\link{magbar}}. Relevant arguments are matched, so look in those functions for optional arguments to pass. Arguments can also be targeted explicitly with \option{magplot.}, \option{magmap.}, \option{magbar.} and \option{points.} prefixes.
 }
 }
 \details{

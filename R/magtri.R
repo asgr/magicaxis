@@ -1,4 +1,11 @@
 magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tick=FALSE, refvals=NULL, lab=NULL, ...){
+  dots = list(...)
+  dotsaxis_split = .mag_split_args(dots, prefix = 'magaxis')
+  dotscon_split = .mag_split_args(dotsaxis_split$rest, prefix = 'magcon')
+  dotspoints_split = .mag_split_args(dotscon_split$rest, prefix = 'points')
+  dotsaxis = dotsaxis_split$args
+  dotscon = .mag_defaults(dotspoints_split$rest, dotscon_split$args)
+  dotspoints = dotspoints_split$args
   chains=as.data.frame(chains)
   chaincolnames=colnames(chains)
   Nsamp=dim(chains)[1]
@@ -44,7 +51,7 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
         xtemp=chains[usesamps,i]
         if(sd(xtemp)==0){xtemp=xtemp+rnorm(samples,sd=1e-3)}
         plot(density(xtemp),axes=FALSE,main='',xlim=xrange)
-        magaxis(1,grid=grid, grid.col = 'lightgrey',labels=FALSE,do.tick=do.tick)
+        .mag_call(magaxis, .dots = dotsaxis, side=1, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick)
         abline(v=meanvec[i],lty=1,col='red')
         abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
         abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
@@ -55,14 +62,14 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
         if(i==1){
           plot.window(xlim=xrange,ylim=yrange)
           if(is.null(lab)){
-            magaxis(1,xlab=chaincolnames[i])
+            .mag_call(magaxis, .dots = dotsaxis, side=1, xlab=chaincolnames[i])
           }else{
-            magaxis(1,xlab=lab[[i]])
+            .mag_call(magaxis, .dots = dotsaxis, side=1, xlab=lab[[i]])
           }
           if(is.null(lab)){
-            magaxis(2,ylab=chaincolnames[j])
+            .mag_call(magaxis, .dots = dotsaxis, side=2, ylab=chaincolnames[j])
           }else{
-            magaxis(2,ylab=lab[[j]])
+            .mag_call(magaxis, .dots = dotsaxis, side=2, ylab=lab[[j]])
           }
         }
       }else{
@@ -73,9 +80,9 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
           ytemp=chains[usesamps,j]
           if(sd(xtemp)==0){xtemp=xtemp+rnorm(samples,sd=1e-3)}
           if(sd(ytemp)==0){ytemp=ytemp+rnorm(samples,sd=1e-3)}
-          magaxis(1:2,grid=grid, grid.col = 'lightgrey',labels=FALSE,do.tick=do.tick)
-          magcon(xtemp,ytemp,dobar=FALSE,doim=FALSE,add=TRUE,lty=c(2,1,3),xlim=xrange,ylim=yrange, h=c(diff(xrange),diff(yrange))/10, ...)
-          points(meanvec[i],meanvec[j],col='red',pch=4,cex=2)
+          .mag_call(magaxis, .dots = dotsaxis, side=1:2, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick)
+          .mag_call(magcon, .dots = .mag_defaults(list(lty=c(2,1,3)), dotscon), x=xtemp, y=ytemp, dobar=FALSE, doim=FALSE, add=TRUE, xlim=xrange, ylim=yrange, h=c(diff(xrange),diff(yrange))/10)
+          .mag_call(points, .dots = .mag_defaults(list(col='red', pch=4, cex=2), dotspoints), x = meanvec[i], y = meanvec[j])
           box()
           abline(v=meanvec[i],lty=1,col='red')
           abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
@@ -85,23 +92,23 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
           }
           if(j==1){
             if(is.null(lab)){
-              magaxis(1,xlab=chaincolnames[i])
+              .mag_call(magaxis, .dots = dotsaxis, side=1, xlab=chaincolnames[i])
             }else{
-              magaxis(1,xlab=lab[[i]])
+              .mag_call(magaxis, .dots = dotsaxis, side=1, xlab=lab[[i]])
             }
           }
         }else{
           plot.new()
           plot.window(xlim=xrange,ylim=yrange)
-          magaxis(1:2,grid=grid, grid.col = 'lightgrey',labels=FALSE,do.tick=do.tick)
-          points(chains[usesamps,c(i,j)],pch='.',col='darkgrey')
-          points(meanvec[i],meanvec[j],col='red',pch=4,cex=2)
+          .mag_call(magaxis, .dots = dotsaxis, side=1:2, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick)
+          .mag_call(points, .dots = .mag_defaults(list(pch='.', col='darkgrey'), dotspoints), x = chains[usesamps,i], y = chains[usesamps,j])
+          .mag_call(points, .dots = .mag_defaults(list(col='red', pch=4, cex=2), dotspoints), x = meanvec[i], y = meanvec[j])
           box()
           if(i==1){
             if(is.null(lab)){
-              magaxis(2,ylab=chaincolnames[j])
+              .mag_call(magaxis, .dots = dotsaxis, side=2, ylab=chaincolnames[j])
             }else{
-              magaxis(2,ylab=lab[[j]])
+              .mag_call(magaxis, .dots = dotsaxis, side=2, ylab=lab[[j]])
             }
           }
         }

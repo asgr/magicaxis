@@ -12,7 +12,9 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
   dots = list(...)
   dotskeepimage = c('xaxs', 'yaxs', 'breaks', 'oldstyle')
   if(length(dots) > 0){
-    dotsimage = dots[names(dots) %in% dotskeepimage]
+    dotsimage_base = .mag_split_args(dots, use_args = dotskeepimage)
+    dotsimage_pref = .mag_split_args(dotsimage_base$rest, use_args = dotskeepimage, prefix = 'image')
+    dotsimage = .mag_defaults(dotsimage_base$args, dotsimage_pref$args)
   }else{
     dotsimage = {}
   }
@@ -137,7 +139,7 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
     }
   }
   
-  do.call('image',c(list(x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main=''), dotsimage))
+  .mag_call(image, .dots = dotsimage, x=x, y=y, z=z, zlim=zlim, xlim=xlim, ylim=ylim, col=col, add=add, useRaster=useRaster, axes=FALSE, asp=asp, xlab='', ylab='', main='')
   
   if(add==FALSE){
     if(axes){

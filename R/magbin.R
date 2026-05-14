@@ -291,35 +291,35 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
   dots=list(...)
   dotskeepmap=c("locut", "hicut", "flip", "type", "stretchscale", "clip" )
   dotskeepbar=c("position", "orient", "scale", "inset", "labN", "titleshift", "centrealign")
-  
-  if(length(dots)>0){
-    dotsmap = dots[names(dots) %in% dotskeepmap]
-    dots = dots[!names(dots) %in% dotskeepmap]
-    dotsbar = dots[names(dots) %in% dotskeepbar]
-    dots = dots[!names(dots) %in% dotskeepbar]
-  }else{
-    dotsmap={}
-    dotsbar={}
-  }
+  dotssplit_map_pref = .mag_split_args(dots, use_args = dotskeepmap, prefix = 'magmap')
+  dotssplit_bar_pref = .mag_split_args(dotssplit_map_pref$rest, use_args = dotskeepbar, prefix = 'magbar')
+  dotssplit_plot_pref = .mag_split_args(dotssplit_bar_pref$rest, prefix = 'magplot')
+  dotssplit_points_pref = .mag_split_args(dotssplit_plot_pref$rest, prefix = 'points')
+  dotssplit_map = .mag_split_args(dotssplit_points_pref$rest, use_args = dotskeepmap)
+  dotssplit_bar = .mag_split_args(dotssplit_map$rest, use_args = dotskeepbar)
+  dotsmap = .mag_defaults(dotssplit_map$args, dotssplit_map_pref$args)
+  dotsbar = .mag_defaults(dotssplit_bar$args, dotssplit_bar_pref$args)
+  dotsplot = .mag_defaults(dotssplit_bar$rest, dotssplit_plot_pref$args)
+  dotspoints = dotssplit_points_pref$args
   if(!is.na(x$dustlim)){
     x$bins = x$bins[x$bins[,'count']>x$dustlim,]
   }
-  colmap = do.call("magmap", c(list(data=x$bins[,colref], stretch=colstretch, range=c(1,length(colramp)), bad=NA), dotsmap))
+  colmap = .mag_call(magmap, .dots = dotsmap, data=x$bins[,colref], stretch=colstretch, range=c(1,length(colramp)), bad=NA)
   if(sizeref=='none'){
     sizemap = rep(1,dim(x$bins)[1])
   }else{
-    sizemap = do.call("magmap", c(list(data=x$bins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA)))$map
+    sizemap = .mag_call(magmap, data=x$bins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA)$map
   }
   #colmap = magmap(x$bins[,3], stretch=stretch, bad=NA, range=c(1,length(colramp)))
-  if('xlim' %in% names(dots)){
-    xlim = dots$xlim
-    dots = dots[!names(dots) %in% 'xlim']
+  if('xlim' %in% names(dotsplot)){
+    xlim = dotsplot$xlim
+    dotsplot = dotsplot[!names(dotsplot) %in% 'xlim']
   }else{
     xlim=x$xlim
   }
-  if('ylim' %in% names(dots)){
-    ylim = dots$ylim
-    dots = dots[!names(dots) %in% 'ylim']
+  if('ylim' %in% names(dotsplot)){
+    ylim = dotsplot$ylim
+    dotsplot = dotsplot[!names(dotsplot) %in% 'ylim']
   }else{
     ylim=x$ylim
   }
@@ -351,9 +351,9 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
       
       #4 (bottomright)
       par(mar=c(0,0,0,0))
-      do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim, side=c(1,2,3,4), labels=c(T,T,F,F)), dots))
+      .mag_call(magplot, .dots = dotsplot, x = NA, y = NA, xlim=xlim, ylim=ylim, side=c(1,2,3,4), labels=c(T,T,F,F))
     }else{
-      do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim), dots))
+      .mag_call(magplot, .dots = dotsplot, x = NA, y = NA, xlim=xlim, ylim=ylim)
     }
   }
   #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
@@ -384,15 +384,15 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
   }
   if(!is.null(x$dust)){
     if(is.null(x$dust$z)){
-      points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[1], cex=cex.dust)
+      .mag_call(points, .dots = .mag_defaults(list(pch = pch.dust, col = colramp[1], cex = cex.dust), dotspoints), x = x$dust$x, y = x$dust$y)
     }else{
       if(colref=='zstat'){
-        colmapdust = do.call("magmap", c(list(data=x$dust$z, locut=colmap$datalim[1],
+        colmapdust = .mag_call(magmap, data=x$dust$z, locut=colmap$datalim[1],
                     hicut=colmap$datalim[2], type='num', stretch=colstretch,
-                    range=c(1,length(colramp)), bad=NA)))$map
-        points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[colmapdust], cex=cex.dust)
+                    range=c(1,length(colramp)), bad=NA)$map
+        .mag_call(points, .dots = .mag_defaults(list(pch = pch.dust, col = colramp[colmapdust], cex = cex.dust), dotspoints), x = x$dust$x, y = x$dust$y)
       }else{
-        points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[1], cex=cex.dust)
+        .mag_call(points, .dots = .mag_defaults(list(pch = pch.dust, col = colramp[1], cex = cex.dust), dotspoints), x = x$dust$x, y = x$dust$y)
       }
     }
   }
@@ -404,7 +404,7 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
         title = "norm"
       }
     }
-    do.call("magbar", c(list(range=colmap$datalim, log=colstretch=='log', col=colramp, title=title), dotsbar))
+    .mag_call(magbar, .dots = dotsbar, range=colmap$datalim, log=colstretch=='log', col=colramp, title=title)
   }
 }
 
@@ -511,5 +511,4 @@ magbin = function(x, y, z=NULL, xsup=NULL, ysup=NULL, xlim=NULL, ylim=NULL, zlim
   gc() #this seems to be need, not sure why!
   return(invisible(bincount))
 }
-
 
