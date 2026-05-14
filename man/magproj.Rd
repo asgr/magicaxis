@@ -41,13 +41,13 @@ The longitude limits to use in the plot. Vector of length 2.
 The latitude limits to use in the plot. Vector of length 2.
 }
   \item{projection}{
-Map projection to use. This function directly uses \code{\link{mapproject}}, and all of the inputs allowed for the \option{projection} argument in that function are also allowed here.
+Map projection to use. This function directly uses \code{\link[mapproj]{mapproject}}, and all of the inputs allowed for the \option{projection} argument in that function are also allowed here.
 }
   \item{parameters}{
-Map parameters to use. For details see the \option{parameters} argument in \code{\link{mapproject}}.
+Map parameters to use. For details see the \option{parameters} argument in \code{\link[mapproj]{mapproject}}.
 }
   \item{centre}{
-For most popular projections this argument specifies the longitude and latitude that is centred in the plot. Strictly \option{orientation} in \code{\link{mapproject}} is set to \code{c(90+centre[2], centre[1], 0)}.
+For most popular projections this argument specifies the longitude and latitude that is centred in the plot. Strictly \option{orientation} in \code{\link[mapproj]{mapproject}} is set to \code{c(90+centre[2], centre[1], 0)}.
 }
   \item{add}{
 Should a fresh plot be drawn (\option{add=FALSE}), or should the new data be added to the current plot (\option{add=TRUE}).
@@ -92,7 +92,7 @@ The longitude and latitude at which labels should be drawn.
 Should the labels be drawn using degrees (deg) or colon delimited sexigesimal (sex).
 }
   \item{crunch}{
-If set to FALSE the full output of \code{\link{deg2hms}} and \code{\link{deg2dms}} is printed. If set to TRUE a simplified output is used, where only the hours and degrees parts are extracted and appended with a 'h' and a degree symbol respectively.
+If set to FALSE the full output of \code{\link[celestial]{deg2hms}} and \code{\link[celestial]{deg2dms}} is printed. If set to TRUE a simplified output is used, where only the hours and degrees parts are extracted and appended with a 'h' and a degree symbol respectively.
 }
   \item{\dots}{
 For magproj, Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}). For magprojgrid dots are pased to \code{\link{lines}} for drawing the grid lines. For magprojlabels dots are passed to \code{\link{text}} for adding text labels.
@@ -112,6 +112,7 @@ Aaron Robotham
 par(mar=c(0.1,0.1,0.1,0.1))
 magproj(c(129,141), c(-2,3), type='b', projection='aitoff', centre=c(180,0),
 fliplong=TRUE, labloc=c(90,-45), col='red', labeltype = 'sex', crunch=TRUE)
+magproj(c(174,186), c(-3,2), col='red', add=TRUE)
 magproj(c(211.5,223.5), c(-2,3), col='red', add=TRUE)
 magproj(c(30.2,38.8), c(-10.25,-3.72), col='red', add=TRUE)
 magproj(c(30.2,38.8), -6, type='l', add=TRUE, col='grey')
@@ -124,16 +125,18 @@ magMWplane(width=0,col='darkgrey')
 magMW(pch=16, cex=2, col='darkgrey')
 magsun(c(7,26), pch=16, cex=2, col='orange2') #An important date!
 
-magproj(c(174,186), c(-3,2), col='red', add=TRUE)
+#Plus WAVES:
+magproj(c(157.25,225.0), c(-3.95,3.95), border='blue', add=TRUE)
+magproj(c(-30,51.6), c(-35.6,-27.0), border='blue', add=TRUE)
 
 #Plus SDSS:
-magproj(c(110,260), c(-4,70), border='blue', add=TRUE)
+magproj(c(110,260), c(-4,70), border='darkgreen', add=TRUE)
 
 magproj(c(35,135,180,217.5,345), c(-3.72,3,2,3,-30)+10, type='t',
 plottext=c('G02','G09','G12','G15','G23'), add=TRUE)
 
-legend('topleft', legend=c('GAMA Regions','SDSS Main Survey'), col=c('red','blue'),
-pch=c(15,NA), lty=c(NA,1), bty='n')
+legend('topleft', legend=c('GAMA Regions', 'WAVES', 'SDSS Main Survey'),
+  col=c('red', 'blue', 'darkgreen'), pch=c(15,NA,NA), lty=c(NA,1,1), bty='n')
 legend('topright', legend=c('Ecliptic','MW Plane'), col=c(hsv(c(1/12,0), v=c(1,0),
 alpha=0.5)), pch=c(15,15), lty=c(1,1), bty='n')
 legend('bottomleft', legend=c('Sun', 'MW Centre'), col=c('orange2','darkgrey'), pch=16,

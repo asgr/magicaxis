@@ -8,22 +8,29 @@
 Allows for 2D binning (counts) and summary statistics on 2D bins (medians etc).
 }
 \usage{
-magbin(x, y, z = NULL, xlim = NULL, ylim = NULL, zlim = NULL, Nbin = 50, step = NULL,
-  log = '', unlog = log, clustering = 10, dustlim = 0.1, shape = "hex",
-  plot = TRUE, colramp = hcl.colors(21), colstretch = "lin", sizestretch = "lin",
-  colref = "count", sizeref = "none", funstat = function(x) median(x, na.rm=TRUE),
-  direction = 'h', offset = 0, jitterseed = 666, projden = FALSE, projsig = FALSE, ...)
+magbin(x, y, z = NULL, xsup = NULL, ysup = NULL, xlim = NULL, ylim = NULL, zlim = NULL,
+  Nbin = 50, step = NULL, log = '', unlog = log, clustering = 10, dustlim = 0.1,
+  shape = "hex", plot = TRUE, colramp = hcl.colors(21), colstretch = "lin",
+  sizestretch = "lin", colref = "count", sizeref = "none", funstat = function(x)
+  median(x, na.rm=TRUE), direction = 'h', offset = 0, jitterseed = 666, projden = FALSE,
+  projsig = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-Numeric vector or matrix/data.frame; x values to 2D bin. If x is a two (or more) column matrix or data.frame and y/z is missing as an argument, then the first column is used for x and the second/third column for y/z.
+Numeric vector or matrix/data.frame; x values to 2D bin. If \option{x} is a two (or more) column matrix or data.frame and \option{y}/\option{z} is missing as an argument, then the first column is used for \option{x} and the second/third column for \option{y}/\option{z}.
 }
   \item{y}{
 Numeric vector; the y coordinates of points in the plot, optional if \option{x} is an appropriate structure.
 }
   \item{z}{
 Numeric vector; the z coordinates of points in the plot (optional), optional if \option{x} is an appropriate structure.
+}
+  \item{xsup}{
+Numeric vector; a superset of potential x coordinates that \option{x} is effectively a subset off. When this is used the plot becomes a fraction plot, with value between 0 and 1 expected. If not specified differently, \option{colref} is set to 'zstat' in this scenario, since the zstat list item is now the fractional cell occupation we wish to plot. If \option{xsup} is a two column matrix or data.frame and \option{ysup} is missing as an argument, then the first column is used for \option{xsup} and the second column for \option{ysup}.
+}
+  \item{ysup}{
+Numeric vector; a superset of potential y coordinates that \option{y} is effectively a subset off. When this is used the plot becomes a fraction plot, with value between 0 and 1 expected. If not specified differently, \option{colref} is set to 'zstat' in this scenario, since the zstat list item is now the fractional cell occupation we wish to plot. Optional if \option{xsup} is an appropriate structure.
 }
   \item{xlim}{
 Numeric vector; the x limits to use for the data. Default of NULL calculates the range based on the provided \option{x} data vector. If length equals 1 then the argument is taken to mean the sigma range to select for plotting and the clipping is done by \code{\link{magclip}}.
@@ -142,6 +149,12 @@ magbin(xydata, log='xy')
 magbin(xydata, z=xydata[,1]*xydata[,2], colref='zstat', sizeref='count',
 log='xyz')
 magbin(xydata, log='xy', unlog='xy', xlim=3, ylim=3)
+
+# New superset option
+
+xydata_sub = cbind(rnorm(1e4), rnorm(1e4))
+xydata_sup = rbind(xydata_sub, cbind(rnorm(1e4, sd=2), rnorm(1e4, sd=2)))
+magbin(xydata_sub, xsup=xydata_sup, shape='hexagon', dust=5)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

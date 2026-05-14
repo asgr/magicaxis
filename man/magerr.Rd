@@ -47,7 +47,7 @@ Logical; if TRUE then the error ellipses will be filled, if FALSE then only the 
 Logical; is FALSE then error bars or ellipses will be drawn, if TRUE then approximate error polygon will be shown instead.
 }
   \item{\dots}{
-Further arguments to be passed to the \code{\link{arrows}} / \code{\link{draw.ellipse}} / \code{\link{polygon}} functions used to draw the error bars / error ellipses (\option{corxy} not missing) / error polygon (\option{poly}=TRUE).
+Further arguments to be passed to the \code{\link{arrows}} / \code{\link[plotrix]{draw.ellipse}} / \code{\link{polygon}} functions used to draw the error bars / error ellipses (\option{corxy} not missing) / error polygon (\option{poly}=TRUE).
 }
 }
 \details{
@@ -62,7 +62,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{arrows}}, \code{\link{draw.ellipse}}, \code{\link{polygon}}
+\code{\link{magplot}}, \code{\link{magaxis}}, \code{\link{maglab}}, \code{\link{magmap}}, \code{\link{magrun}}, \code{\link{arrows}}, \code{\link[plotrix]{draw.ellipse}}, \code{\link{polygon}}
 }
 
 \examples{

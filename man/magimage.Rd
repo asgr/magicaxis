@@ -13,12 +13,13 @@ magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
   useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
   range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = 'auto', bad = NA,
   clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', qdiff = FALSE,
-  rem_med = FALSE, doplot = TRUE, ...)
+  rem_med = FALSE, doplot = TRUE, interact = FALSE, ...)
 
 magimageRGB(x, y, R, G, B, saturation = 1, zlim, xlim, ylim, add = FALSE,
   useRaster = TRUE, asp = 1, magmap = TRUE, locut = 0.4, hicut = 0.995, flip = FALSE,
   range = c(0, 1), type = "quan", stretch = "asinh", stretchscale = "auto",
-  bad = range[1], clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto', ...) 
+  bad = range[1], clip = "", axes = TRUE, frame.plot = TRUE, sparse = 'auto',
+  interact = FALSE, ...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,7 +42,7 @@ A numeric or logical matrix containing the blue colour values to be plotted (NAs
 The visual saturation of the colours, a bit like the dial on a TV. 1 is native, 0 is black and white, 2 is very intense nigh-on trippy.   
 }
   \item{zlim}{
-The z limit with respect to the output of magmap$map. If \option{magmap}=FALSE (default) \option{zlim} should be with respect to the provided z matrix (like base \code{image}). If \option{magmap}=TRUE \option{zlim} should be with respect to the \option{range} output of \code{magmap}. By default the \code{magmap} function scales between 0 and 1, so to only show the brighter pixels \option{zlim} could be set to c(0.5,1).
+The z limit with respect to the output of magmap$map. If \option{magmap}=FALSE \option{zlim} should be with respect to the provided z matrix (like base \code{image}). If \option{magmap}=TRUE \option{zlim} should be with respect to the \option{range} output of \code{magmap}. By default the \code{magmap} function scales between the lower and upper re-mapped values (usually 0 and 1), so to only show the brighter pixels \option{zlim} could be set to c(0.5,1). If you are fixing the scaling between plots, you almost certainly want to explictly set \option{zlim} so no dynamic range re-scaling happens.
 }
   \item{xlim, ylim}{
 Ranges for the plotted x and y values, defaulting to the ranges of x and y.
@@ -105,6 +106,9 @@ Logical; should the \code{median} of the \option{image} be subtracted or not? Th
 }
   \item{doplot}{
 Logical; if TRUE then gnerates the image. If FALSE then just return the output below (with z scaled as request).  
+}
+  \item{interact}{
+Logical; if TRUE then an interactive \code{plotly} viewer will be displayed. You will need the \code{plotly} package from CRAN for this to work.
 }
   \item{\dots}{
 Arguments to be parsed to \code{image} and \code{magaxis} as relevant (this is checked for internally by argument name). See \code{\link{image}} and \code{\link{magaxis}} for details.

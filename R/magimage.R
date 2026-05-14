@@ -2,7 +2,7 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
                    useRaster=TRUE, asp=1, magmap=TRUE, locut=0.4, hicut=0.995, flip=FALSE,
                    range=c(0,1), type = "quan", stretch="asinh", stretchscale='auto',
                    bad=NA, clip="", axes=TRUE, frame.plot=TRUE, sparse='auto', qdiff=FALSE,
-                   rem_med=FALSE, doplot=TRUE, ...){ 
+                   rem_med=FALSE, doplot=TRUE, interact=FALSE, ...){ 
   if(is.list(x)){
     if(!all(names(x) %in% c('x','y','z'))){
       message('x is a list (and not just x/y/z components), perhaps you want to pass a subset of this to magimage?')
@@ -106,6 +106,23 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
         z = magmap(data=z, locut=locut, hicut=hicut, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
       }
     }
+  }
+  
+  if(interact){
+    if(!requireNamespace("plotly", quietly = TRUE)){
+      stop('The plotly package is needed for this function to work. Please install it from CRAN.', call. = FALSE)
+    }
+    
+    fig = plotly::plot_ly(x=x, y=y, z=z, type = "heatmap", colors = col, transpose=TRUE)
+    
+    fig = plotly::layout(
+      p = fig,
+      xaxis = list(range = xlim, scaleanchor = "y"),  # Set x-axis limits and anchor to y-axis
+      yaxis = list(range = ylim)   # Set y-axis limits
+    )
+    
+    print(fig)
+    return(invisible(NULL))
   }
   
   if(!doplot){
