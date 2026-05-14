@@ -1,8 +1,8 @@
 ---
-title: "magic axis"
+title: "magicaxis"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{magic axis}
+  %\VignetteIndexEntry{magicaxis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

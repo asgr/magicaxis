@@ -161,11 +161,11 @@ for(i in 1:length(side)){
       }
     }
 
-		if(logged){
-		  .mag_call(axis, .dots=dotsaxis, side=currentside, at=powbase^major.ticks, tcl=tcl, labels=FALSE, tick=do.tick, mgp=mgp, lwd=axis.lwd, lwd.ticks=ticks.lwd, col=axis.col)
-		}else{
-		  .mag_call(axis, .dots=dotsaxis, side=currentside, at=major.ticks, tcl=tcl, labels=FALSE, tick=do.tick, mgp=mgp, lwd=axis.lwd, lwd.ticks=ticks.lwd, col=axis.col)
-		}
+    if(logged){
+      .mag_call(axis, .dots=dotsaxis, side=currentside, at=powbase^major.ticks, tcl=tcl, labels=FALSE, tick=do.tick, mgp=mgp, lwd=axis.lwd, lwd.ticks=ticks.lwd, col=axis.col)
+    }else{
+      .mag_call(axis, .dots=dotsaxis, side=currentside, at=major.ticks, tcl=tcl, labels=FALSE, tick=do.tick, mgp=mgp, lwd=axis.lwd, lwd.ticks=ticks.lwd, col=axis.col)
+    }
 		
     if(labels){
       if(logged){
