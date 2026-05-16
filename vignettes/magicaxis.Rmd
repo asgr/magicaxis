@@ -140,7 +140,8 @@ and colour bar.
 
 ```{r magcon-basic}
 x <- rnorm(500); y <- x + rnorm(500, sd = 0.5)
-magcon(x, y, h = c(0.2, 0.2), xlab = "x", ylab = "y")
+magcon(x, y, h = c(0.2, 0.2), xlab = "x", ylab = "y", barposition = 'topleft',
+       bartitleshift = 0.5)
 ```
 
 Contours only (no background image):
