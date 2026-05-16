@@ -1,0 +1,276 @@
+---
+title: "magicaxis: Pretty Scientific Plotting"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{magicaxis: Pretty Scientific Plotting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 6
+)
+set.seed(42)
+library(magicaxis)
+```
+
+## Overview
+
+**magicaxis** provides functions for making pretty, publication-quality
+scientific plots with base R graphics. It handles minor tick marks, log-scale
+axes, 2-D density contours, image display, hexagonal binning, and triangle
+(corner) plots for MCMC chains.
+
+Since version 2.6.0, all internal argument dispatch uses
+[ParmOff](https://github.com/asgr/ParmOff) instead of `do.call`.  This lets
+extra `...` arguments be forwarded flexibly to each sub-function: unrecognised
+arguments are silently dropped, so callers no longer need to know exactly which
+parameters each inner function accepts.
+
+---
+
+## magaxis – pretty axis labelling
+
+`magaxis()` adds nicely formatted tick marks and labels to an existing plot.
+It supports log axes, minor ticks, Hershey fonts, and grid lines.
+
+```{r magaxis-basic}
+plot(10^(1:9), 1:9, log = "x", axes = FALSE, xlab = "", ylab = "")
+magaxis(side = 1:2, xlab = "x (log scale)", ylab = "y")
+```
+
+Styling arguments such as `cex.axis` and `col.axis` are forwarded via ParmOff
+to the underlying `axis()` call, while `cex.lab` and `col.lab` go to `mtext()`:
+
+```{r magaxis-styled}
+plot(1:10, (1:10)^2, axes = FALSE, xlab = "", ylab = "")
+magaxis(side = 1:2,
+        xlab = "x", ylab = expression(x^2),
+        cex.axis = 0.8, col.axis = "steelblue",
+        cex.lab  = 1.1, col.lab  = "darkred")
+```
+
+Grid lines can be toggled per axis:
+
+```{r magaxis-grid}
+plot(1:20, rnorm(20), axes = FALSE, xlab = "", ylab = "")
+magaxis(side = 1:2, grid = TRUE, grid.col = "grey80", grid.lty = 2,
+        xlab = "Index", ylab = "Value")
+```
+
+---
+
+## magplot – high-level scatter plots
+
+`magplot()` wraps `plot()` to produce pretty axes automatically.  For a simple
+scatter the axis labelling, grid, and limits are handled internally:
+
+```{r magplot-scatter}
+x <- 10^(1:9)
+y <- 1:9
+magplot(log10(x), y, unlog = "x", xlab = "x", ylab = "y")
+```
+
+Log axes on both sides:
+
+```{r magplot-loglog}
+magplot(x, y, log = "xy", xlab = "x", ylab = "y")
+```
+
+Sigma-clipping the axis limits to focus on where the data actually are:
+
+```{r magplot-clip}
+temp <- cbind(rt(500, df = 1.5), rt(500, df = 1.5))
+magplot(temp, xlim = 2, ylim = 2, xlab = "x", ylab = "y",
+        main = "2-sigma clipped")
+```
+
+### z-coloured scatter
+
+When a `z` vector is supplied, points are coloured by a colour map and an
+optional colour bar is added.  The `magmap` and `magbar` arguments are filtered
+via ParmOff, so unknown args are dropped cleanly:
+
+```{r magplot-z}
+n <- 300
+x <- rnorm(n); y <- rnorm(n); z <- x^2 + y^2
+magplot(x, y, z = z, xlab = "x", ylab = "y",
+        zcol = hcl.colors(21, "YlOrRd"), dobar = TRUE)
+```
+
+---
+
+## maghist – histogram with statistics
+
+`maghist()` prints a summary and draws a styled histogram.  It integrates
+naturally with `magplot()` because it returns a `histogram` object that
+`magplot()` detects:
+
+```{r maghist-basic}
+maghist(rnorm(1000), xlab = "Value", verbose = FALSE)
+```
+
+Log-y histogram:
+
+```{r maghist-logy}
+maghist(rnorm(1e4), log = "y", grid = TRUE, verbose = FALSE,
+        xlab = "Value", ylab = "Count (log)")
+```
+
+Pass the returned object back through `magplot()`:
+
+```{r maghist-replot}
+h <- maghist(10^runif(500, 0, 3), log = "x", verbose = FALSE)
+magplot(h, log = "y", xlab = "x (log)", ylab = "Count (log)")
+```
+
+---
+
+## magcon – 2-D density contours
+
+`magcon()` computes a 2-D kernel density estimate and draws contours at chosen
+probability levels (default 50%, 68%, 95%) together with an optional image
+and colour bar.
+
+```{r magcon-basic}
+x <- rnorm(500); y <- x + rnorm(500, sd = 0.5)
+magcon(x, y, h = c(0.2, 0.2), xlab = "x", ylab = "y", barposition = 'topleft',
+       bartitleshift = 0.5)
+```
+
+Contours only (no background image):
+
+```{r magcon-noim}
+magcon(x, y, h = c(0.2, 0.2), doim = FALSE, dobar = FALSE,
+       xlab = "x", ylab = "y")
+```
+
+---
+
+## magbin – 2-D binning
+
+`magbin()` bins 2-D data into hexagons, squares, or triangles and colours them
+by count or a user-supplied statistic:
+
+```{r magbin-hex}
+xy <- cbind(rnorm(2000), rnorm(2000))
+magbin(xy, shape = "hexagon", xlab = "x", ylab = "y")
+```
+
+Square bins with a z-statistic:
+
+```{r magbin-square-z}
+magbin(xy, shape = "square",
+       z = xy[, 1]^2 - xy[, 2]^2,
+       colref = "zstat", sizeref = "count",
+       xlab = "x", ylab = "y")
+```
+
+Log-log hexagonal bins:
+
+```{r magbin-loglog}
+xylog <- cbind(10^rnorm(2000), 10^rnorm(2000))
+magbin(xylog, log = "xy", xlab = "x (log)", ylab = "y (log)")
+```
+
+---
+
+## magimage – image display
+
+`magimage()` displays a matrix as an image with a colour map applied via
+`magmap()` and optional axes via `magaxis()`.  The internal `image()` call is
+dispatched through ParmOff:
+
+```{r magimage-basic}
+z <- outer(seq(-3, 3, len = 50), seq(-3, 3, len = 50),
+           function(x, y) exp(-(x^2 + y^2)))
+magimage(z, xlab = "x", ylab = "y")
+```
+
+Asinh stretch to reveal faint structure (the default `stretch = "asinh"` is
+well suited to images with a wide dynamic range):
+
+```{r magimage-stretch}
+z2 <- outer(seq(-3, 3, len = 50), seq(-3, 3, len = 50),
+            function(x, y) exp(-x^2) + 0.05 * exp(-y^2 / 0.1))
+magimage(z2, stretch = "asinh", xlab = "x", ylab = "y")
+```
+
+---
+
+## magtri – triangle (corner) plots for MCMC chains
+
+`magtri()` makes a triangle plot summarising posterior samples.  The diagonal
+shows marginal densities, the lower triangle shows 2-D density contours
+(`magcon`), and the upper triangle shows scatter plots.
+
+### Basic triangle plot
+
+```{r magtri-basic}
+chains <- data.frame(
+  alpha = rnorm(500, mean =  1, sd = 0.3),
+  beta  = rnorm(500, mean = -0.5, sd = 0.5),
+  gamma = rnorm(500, mean =  2,   sd = 0.8)
+)
+magtri(chains, samples = 300)
+```
+
+### Passing extra arguments via ParmOff
+
+Extra `...` arguments are now forwarded by ParmOff to `magaxis`, `magcon`,
+**and** `points`, so you can style each sub-function from the top-level call.
+Unrecognised arguments in one sub-function are silently dropped and not
+recycled, so there is no risk of "unused argument" errors:
+
+```{r magtri-styled}
+# cex.axis → magaxis (tick-label size)
+# lty      → magcon  (overrides contour line types)
+# col      → points  (overrides the red mean-marker colour)
+magtri(chains,
+       samples  = 300,
+       cex.axis = 0.7,
+       lty      = c(2, 1, 3),
+       col      = "purple")
+```
+
+### Reference values
+
+Supply `refvals` to mark known true (or reference) parameter values with a
+blue vertical line:
+
+```{r magtri-refvals}
+magtri(chains,
+       samples = 300,
+       refvals = c(1, -0.5, 2))
+```
+
+### Few labels per sub-panel
+
+Supply `majorn` to reduce the number of labelled ticks.
+
+```{r magtri-majorn}
+magtri(chains,
+       samples = 300,
+       refvals = c(1, -0.5, 2),
+       majorn = 2)
+```
+
+### Custom axis labels
+
+Use the `lab` argument to supply expression labels for each parameter:
+
+```{r magtri-labs}
+magtri(chains,
+       samples = 300,
+       lab = list(
+         expression(alpha),
+         expression(beta),
+         expression(gamma)
+       ))
+```

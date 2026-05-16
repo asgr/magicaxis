@@ -5,15 +5,8 @@ function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unl
          usepar=FALSE, grid=FALSE, grid.col='grey', grid.lty=1, grid.lwd=1, axis.lwd=1, 
          ticks.lwd=axis.lwd, axis.col='black', do.tick=TRUE, ...){
 dots=list(...)
-dotskeepaxis=c('cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks')
-dotskeepmtext=c('cex.lab', 'col.lab', 'font.lab')
-if(length(dots)>0){
-  dotsaxis=dots[names(dots) %in% dotskeepaxis]
-  dotsmtext=dots[names(dots) %in% dotskeepmtext]
-}else{
-  dotsaxis={}
-  dotsmtext={}
-}
+keepaxis = c('side', 'at', 'tcl', 'labels', 'tick', 'mgp', 'lwd', 'lwd.ticks', 'col', 'cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks')
+keepmtext = c('text', 'side', 'line', 'cex.lab', 'col.lab', 'font.lab')
 if(length(mtline)==1){mtline=rep(mtline,2)}
 majornlist=majorn
 minornlist=minorn
@@ -156,16 +149,16 @@ for(i in 1:length(side)){
     }
 
  		if(logged){
- 		  do.call("axis", c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+ 		  ParmOff(axis, c(list(side=currentside,at=powbase^major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dots), .use_args=keepaxis)
  		}else{
- 		  do.call("axis", c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+ 		  ParmOff(axis, c(list(side=currentside,at=major.ticks,tcl=tcl,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dots), .use_args=keepaxis)
  		}
  		
     if(labels){
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=powbase^labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dots), .use_args=keepaxis)
       }else{
-        do.call("axis", c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=labloc,tick=F,labels=uselabels,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dots), .use_args=keepaxis)
       }
     }
     
@@ -173,21 +166,18 @@ for(i in 1:length(side)){
       minors = minors[-c(1,length(minors))]
       minor.ticks = c(outer(minors, major.ticks, `+`))
       if(logged){
-        do.call("axis", c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=powbase^minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col), dots),.use_args=keepaxis)
       }else{
-        do.call("axis", c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dotsaxis))
+        ParmOff(axis, c(list(side=currentside,at=minor.ticks,tcl=tcl*ratio,labels=FALSE,tick=do.tick,mgp=mgp,lwd=axis.lwd,lwd.ticks=ticks.lwd,col=axis.col),dots), .use_args=keepaxis)
       }
     }
   }
 
-  if(length(dotsmtext)>0){
-    names(dotsmtext)=c('cex', 'col', 'font')[match(names(dotsmtext), dotskeepmtext)]
-  }
   if(is.null(xlab)==FALSE){
-    do.call("mtext", c(list(text=xlab, side=ifelse(side[1] %in% c(1,3), side[1], side[2]), line=mtline[1]), dotsmtext))
+    ParmOff(mtext, c(list(text=xlab, side=ifelse(side[1] %in% c(1,3), side[1], side[2]), line=mtline[1]), dots), .use_args = keepmtext)
   }
   if(is.null(ylab)==FALSE){
-    do.call("mtext", c(list(text=ylab, side=ifelse(side[2] %in% c(2,4), side[2], side[1]), line=mtline[2]), dotsmtext))
+    ParmOff(mtext, c(list(text=ylab, side=ifelse(side[2] %in% c(2,4), side[2], side[1]), line=mtline[2]), dots), .use_args = keepmtext)
   }
 
 if(frame.plot){box()}

@@ -42,7 +42,7 @@ function(x,y,h,doim=TRUE,docon=TRUE,dobar=TRUE,ngrid=100,add=FALSE,xlab='',ylab=
       usrlims=par()$usr
       rect(usrlims[1],usrlims[3],usrlims[2],usrlims[4],col=imcol[1])
     }
-    magimage(tempcon,col=imcol,axes=FALSE,add=TRUE,xlim=xlim,ylim=ylim,magmap=FALSE)
+    magimage(tempcon[c('x', 'y', 'z')],col=imcol,axes=FALSE,add=TRUE,xlim=xlim,ylim=ylim,magmap=FALSE)
   }
   if(doim & docon){contour(tempcon,levels=conlevels,add=TRUE,drawlabels=F,axes=FALSE,...)}
   if(doim==FALSE & docon){contour(tempcon,levels=conlevels,add=add,drawlabels=F,axes=FALSE,xlim=xlim,ylim=ylim,...);box()}

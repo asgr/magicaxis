@@ -304,11 +304,11 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
   if(!is.na(x$dustlim)){
     x$bins = x$bins[x$bins[,'count']>x$dustlim,]
   }
-  colmap = do.call("magmap", c(list(data=x$bins[,colref], stretch=colstretch, range=c(1,length(colramp)), bad=NA), dotsmap))
+  colmap = ParmOff(magmap, c(list(data=x$bins[,colref], stretch=colstretch, range=c(1,length(colramp)), bad=NA), dotsmap))
   if(sizeref=='none'){
     sizemap = rep(1,dim(x$bins)[1])
   }else{
-    sizemap = do.call("magmap", c(list(data=x$bins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA)))$map
+    sizemap = ParmOff(magmap, c(list(data=x$bins[,sizeref], stretch=sizestretch, range=c(0,1), bad=NA)))$map
   }
   #colmap = magmap(x$bins[,3], stretch=stretch, bad=NA, range=c(1,length(colramp)))
   if('xlim' %in% names(dots)){
@@ -351,9 +351,9 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
       
       #4 (bottomright)
       par(mar=c(0,0,0,0))
-      do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim, side=c(1,2,3,4), labels=c(T,T,F,F)), dots))
+      ParmOff(magplot, c(list(NA, NA, xlim=xlim, ylim=ylim, side=c(1,2,3,4), labels=c(T,T,F,F)), dots))
     }else{
-      do.call("magplot", c(list(NA, NA, xlim=xlim, ylim=ylim), dots))
+      ParmOff(magplot, c(list(NA, NA, xlim=xlim, ylim=ylim), dots))
     }
   }
   #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
@@ -387,7 +387,7 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
       points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[1], cex=cex.dust)
     }else{
       if(colref=='zstat'){
-        colmapdust = do.call("magmap", c(list(data=x$dust$z, locut=colmap$datalim[1],
+        colmapdust = ParmOff(magmap, c(list(data=x$dust$z, locut=colmap$datalim[1],
                     hicut=colmap$datalim[2], type='num', stretch=colstretch,
                     range=c(1,length(colramp)), bad=NA)))$map
         points(x$dust$x, x$dust$y, pch=pch.dust, col=colramp[colmapdust], cex=cex.dust)
@@ -404,7 +404,7 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
         title = "norm"
       }
     }
-    do.call("magbar", c(list(range=colmap$datalim, log=colstretch=='log', col=colramp, title=title), dotsbar))
+    ParmOff(magbar, c(list(range=colmap$datalim, log=colstretch=='log', col=colramp, title=title), dotsbar))
   }
 }
 

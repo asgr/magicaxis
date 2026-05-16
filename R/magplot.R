@@ -39,7 +39,7 @@ magplot =
            ...) {
     if (class(x)[1] == 'histogram') {
       dots = list(...)
-      do.call('maghist', c(
+      ParmOff(maghist, c(
         list(
           x = x,
           xlim = xlim,
@@ -121,8 +121,7 @@ magplot =
                 grid.lwd = grid.lwd,
                 axis.lwd = axis.lwd,
                 ticks.lwd = ticks.lwd,
-                axis.col = axis.col,
-                ...
+                axis.col = axis.col
               )
             },
             lwd = lwd,
@@ -220,8 +219,7 @@ magplot =
               grid.lwd = grid.lwd,
               axis.lwd = axis.lwd,
               ticks.lwd = ticks.lwd,
-              axis.col = axis.col,
-              ...
+              axis.col = axis.col
             )
           },
           lwd = lwd,
@@ -264,7 +262,7 @@ magplot =
             zstretch = 'log'
           }
         }
-        colmap = do.call("magmap", c(
+        colmap = ParmOff(magmap, c(
           list(
             data = z,
             stretch = zstretch,
@@ -317,11 +315,11 @@ magplot =
           xlim = xlim,
           ylim = ylim
         )
-        do.call("points", c(list(
+        ParmOff(points, c(list(
           x = x, y = y, col = zcol[colmap$map]
         ), dots))
         if (dobar) {
-          do.call("magbar", c(
+          ParmOff(magbar, c(
             list(
               range = colmap$datalim,
               log = zstretch == 'log',
