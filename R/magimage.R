@@ -6,7 +6,7 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
   if(is.list(x)){
     if(!all(names(x) %in% c('x','y','z'))){
       message('x is a list (and not just x/y/z components), perhaps you want to pass a subset of this to magimage?')
-      print(str(x))
+      str(x)
     }
   }
   dots = list(...)
@@ -100,7 +100,7 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
         if(quantile(z,locut,na.rm=T) != quantile(z,hicut,na.rm=T)){
           z = magmap(data=z, locut=locut, hicut=hicut, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map
         }else{
-          print('Too many same valued pixels: turning off magmap scaling!')
+          message('Too many same valued pixels: turning off magmap scaling!')
         }
       }else{
         z = magmap(data=z, locut=locut, hicut=hicut, flip=flip, range=range, type=type, stretch=stretch, stretchscale=stretchscale, bad=bad, clip=clip)$map

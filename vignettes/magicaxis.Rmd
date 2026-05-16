@@ -1,0 +1,136 @@
+---
+title: "Getting started with magicaxis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with magicaxis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+The `magicaxis` package extends base R graphics with prettier scientific
+axes, better defaults for log scaling, and a set of high-level helpers for
+common plotting tasks. The README focuses on `magplot()`, `maghist()`, and
+`magbin()`. This vignette adds examples for several other package features
+that are easy to miss when browsing the reference pages.
+
+## Core plotting workflow
+
+`magplot()` is the usual entry point for scatter plots and line plots, while
+`magaxis()` can be used directly when you need to customise axes on an
+existing plot.
+
+```{r}
+library(magicaxis)
+
+x = 10^(seq(-1, 3, length.out = 200))
+y = sqrt(x) + rnorm(length(x), sd = 2)
+
+magplot(x, y, log = "x", grid = TRUE, xlab = "Radius", ylab = "Signal")
+```
+
+If you already have a base plot, call `magaxis()` afterwards to redraw the
+axes with the same house style:
+
+```{r}
+plot(x, y, axes = FALSE, xlab = "", ylab = "", log = "x")
+magaxis(side = 1:2, unlog = "x", grid = TRUE, xlab = "Radius", ylab = "Signal")
+box()
+```
+
+## Running summaries for noisy trends
+
+`magrun()` is useful for summarising a noisy cloud of points before overlaying
+medians, means, or quantile ranges. The output works naturally with
+`magplot()` and `magerr()`.
+
+```{r}
+set.seed(1)
+xy = cbind(seq(0, 4, length.out = 2000), sin(seq(0, 4, length.out = 2000) * pi))
+xy[, 2] = xy[, 2] + rnorm(nrow(xy), sd = 0.25)
+
+run = magrun(xy, bins = 12, ranges = pnorm(c(-1, 1)))
+
+magplot(xy, col = rgb(0, 0, 0, 0.2), pch = 16, xlab = "x", ylab = "y")
+lines(run$x, run$y, col = "red", lwd = 2)
+magerr(run$x, run$y,
+  ylo = run$y - run$yquan[, 1],
+  yhi = run$yquan[, 2] - run$y,
+  col = "red", length = 0
+)
+```
+
+This is especially useful when you want to compare a fitted relation against
+the scatter in the data, or when you want equal-count bins via `equalN=TRUE`.
+
+## Image display and RGB composites
+
+`magimage()` adds `magmap()`-based scaling to image plots, while
+`magimageRGB()` combines separate channels into a colour composite. Both
+functions accept matrices directly, but they can also work with lists that
+contain `x`, `y`, and image components.
+
+```{r}
+img = outer(seq(-2, 2, length.out = 100), seq(-2, 2, length.out = 80), function(x, y) {
+  exp(-(x^2 + y^2)) + 0.2 * x
+})
+
+magimage(img, stretch = "asinh", axes = TRUE)
+```
+
+```{r}
+red = img
+green = img^0.8
+blue = img^0.6
+
+magimageRGB(R = red, G = green, B = blue, stretch = "sqrt", saturation = 1.2)
+```
+
+Useful options to explore are:
+
+- `stretch` and `stretchscale` for controlling contrast
+- `locut` and `hicut` for clipping the dynamic range
+- `qdiff=TRUE` in `magimage()` for signed difference images
+- `interact=TRUE` to switch to a `plotly` viewer when the optional dependency
+  is installed
+
+## Map and sky projections
+
+`magproj()` handles longitude/latitude plotting for astronomy and geography.
+It can create the projected panel, draw grids and labels, and then accept
+additional overlays with `add=TRUE`. Helpers such as `magband()` make it easy
+to add wide structures like survey regions or great-circle bands.
+
+```{r}
+magproj(c(120, 240), c(-20, 20),
+  type = "b", projection = "aitoff", centre = c(180, 0),
+  fliplong = TRUE, labloc = c(90, -45), labeltype = "sex"
+)
+
+magband(crosseq = 180, peaklat = 0, width = 15,
+  col = rgb(1, 0, 0, 0.2), border = NA
+)
+magproj(c(150, 180, 210), c(-10, 5, -10), type = "l", add = TRUE, col = "blue")
+```
+
+This workflow is handy when you need a publication-quality sky footprint plot
+without dropping down to lower-level map projection code.
+
+## Other helpers worth knowing about
+
+Several functions are designed to combine naturally:
+
+- `magcon()` for density contours on scatter plots
+- `magbar()` for colour bars that match `magmap()` scaling
+- `magcutout()` for extracting image subsets
+- `magtri()` for triangle-style summaries of MCMC chains
+
+The reference pages contain full argument details, but the examples above
+cover the main patterns for combining the plotting helpers in practice.

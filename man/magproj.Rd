@@ -95,7 +95,7 @@ Should the labels be drawn using degrees (deg) or colon delimited sexigesimal (s
 If set to FALSE the full output of \code{\link[celestial]{deg2hms}} and \code{\link[celestial]{deg2dms}} is printed. If set to TRUE a simplified output is used, where only the hours and degrees parts are extracted and appended with a 'h' and a degree symbol respectively.
 }
   \item{\dots}{
-For magproj, Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}). For magprojgrid dots are pased to \code{\link{lines}} for drawing the grid lines. For magprojlabels dots are passed to \code{\link{text}} for adding text labels.
+For magproj, extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}). For magprojgrid dots are passed to \code{\link{lines}} for drawing the grid lines. For magprojlabels dots are passed to \code{\link{text}} for adding text labels.
 }
 }
 \value{

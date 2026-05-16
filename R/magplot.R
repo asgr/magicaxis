@@ -37,7 +37,7 @@ magplot =
            zstretch = 'lin',
            dobar = TRUE,
            ...) {
-    if (class(x)[1] == 'histogram') {
+    if (inherits(x, 'histogram')) {
       dots = list(...)
       do.call('maghist', c(
         list(

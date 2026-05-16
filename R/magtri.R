@@ -4,7 +4,7 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
   Nsamp=dim(chains)[1]
   Npar=dim(chains)[2]
   if(!is.null(refvals)){
-    if(length(refvals) != Npar){stop('Length of refvales must be equal to number of parameters!')}
+    if(length(refvals) != Npar){stop('Length of refvals must be equal to number of parameters!')}
   }
   if(Npar<=1){stop('Need 2+ parameters!')}
   

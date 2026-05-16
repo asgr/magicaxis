@@ -19,10 +19,10 @@ Data x coordinates. This can be a 1D vector (in which case y is required) or a 2
 Data y coordinates, optional if x is an appropriate structure.
 }
   \item{bins}{
-If a single integer value, how many bins the data should be split into. If a vector is provoided then these values are treated as the explicit bin limits to use.
+If a single integer value, how many bins the data should be split into. If a vector is provided then these values are treated as the explicit bin limits to use.
 }
   \item{type}{
-The type of running average to determine. Options are 'median' (the default), 'mean', 'mode' and 'mode2d'. 'median' calculates the median for binned x and y values. 'mean' calculates the mean for binned x and y values. 'mode' uses the default R 'density' function, and finds the mode of the resulting smoothed 1D distributions for binned x and y values. 'mode2d' uses the MASS package 'kde2d' function, and finds the mode of the resulting smoothed 2d distribution for binned x and y values. 'cen' just calucates the geometric centre of the bin in x and y directions and is useful for using in conjuction with another 'type' option for plotting purposes. 'mean', 'mode' and 'mode2d' should be used with some thought if 'log' is used, since the central values will be determined for the logged data, which may or may not be desired.
+The type of running average to determine. Options are 'median' (the default), 'mean', 'mode' and 'mode2d'. 'median' calculates the median for binned x and y values. 'mean' calculates the mean for binned x and y values. 'mode' uses the default R 'density' function, and finds the mode of the resulting smoothed 1D distributions for binned x and y values. 'mode2d' uses the MASS package 'kde2d' function, and finds the mode of the resulting smoothed 2d distribution for binned x and y values. 'cen' just calculates the geometric centre of the bin in x and y directions and is useful for using in conjunction with another 'type' option for plotting purposes. 'mean', 'mode' and 'mode2d' should be used with some thought if 'log' is used, since the central values will be determined for the logged data, which may or may not be desired.
 }
   \item{ranges}{
 The quantile ranges desired, can set to NULL if quantiles are not desired. The default adds 1-sigma equivilant quantile ranges.
@@ -31,7 +31,7 @@ The quantile ranges desired, can set to NULL if quantiles are not desired. The d
 Which axis to bin across. Must be set to 'x' or 'y'.
 }
   \item{equalN}{
-Should the data be split into bins with equal numbers of objects (default, TRUE), or into regular spaces from min to max (FALSE). Only relevant if 'bins' paramter is set to a single integer value and 'magrun' is determining the explicit bin limits automatically.
+Should the data be split into bins with equal numbers of objects (default, TRUE), or into regular spaces from min to max (FALSE). Only relevant if 'bins' parameter is set to a single integer value and 'magrun' is determining the explicit bin limits automatically.
 }
   \item{xcut}{
 A two element vector containing optional lower and upper x limits to apply to the data.
@@ -46,7 +46,7 @@ Specify axes that should be logged. Allowed arguments are 'x', 'y' and 'xy'
 Sets whether the quantile ranges and standard deviations calculated are reduced with respect to the median by the square-root of the number of contributing data within each bin. The result of setting Nscale to TRUE is to scale the data like you are calculating the error-in-the-mean, rather than the scatter. For describing the 'significance' of trends in scatter data this is often what you want to show.
 }
   \item{diff}{
-Should the output quantiles and standard deviations be expressed as differences from the chosen type of running avergage (TRUE) or the actual values (default, FALSE). The advantage of the former is plotting the results as errorbars using magerr, which expects differences (so error like values). If set to TRUE then the output of 'xsd' and 'ysd' is a 1D vector rather than a data.frame with x/y-sd and x/y+sd columns. See the examples below for usage guidance.
+Should the output quantiles and standard deviations be expressed as differences from the chosen type of running average (TRUE) or the actual values (default, FALSE). The advantage of the former is plotting the results as errorbars using magerr, which expects differences (so error-like values). If set to TRUE then the output of 'xsd' and 'ysd' is a 1D vector rather than a data.frame with x/y-sd and x/y+sd columns. See the examples below for usage guidance.
 }
 }
 \details{

@@ -117,5 +117,5 @@ magimageRGB<-function(x, y, R, G, B, saturation=1, zlim, xlim, ylim, add = FALSE
       if(frame.plot){box()}
     }
   }
-  return=list(x=x, y=y, R=R, G=G, B=B)
+  return(invisible(list(x=x, y=y, R=R, G=G, B=B)))
 }

@@ -6,7 +6,7 @@
 Magically pretty images
 }
 \description{
-\code{magimage} is a level replacement for base image with hooks into magaxis for the tick marks and magmap for the image scaling. The default behavious is a bit different to base (e.g. x/y scales are automatically the number of pixels in the image matrix). \code{magimageRGB} is similar, but is for the creation colour images where the user can provide R G B input matrix chanels (or similar).
+\code{magimage} is a high-level replacement for base image with hooks into magaxis for the tick marks and magmap for the image scaling. The default behaviour is a bit different to base (e.g. x/y scales are automatically the number of pixels in the image matrix). \code{magimageRGB} is similar, but is for the creation of colour images where the user can provide R G B input matrix channels (or similar).
 }
 \usage{
 magimage(x, y, z, zlim, xlim, ylim, col = grey((0:1000)/1000), add = FALSE,
@@ -93,7 +93,7 @@ By default clipped z values inherit the nearest lo/hi value (depending on which 
 Specify if any axes be drawn on the image. If FALSE then only the pixels (with appropriate \code{magmap} scaling) are shown.
 }
   \item{frame.plot}{
-Specify if a box be drawn around the image frame. Only happens if \option{add}=TRUE and \option{axes}=TRUE.
+Specify if a box should be drawn around the image frame. Only happens if \option{add}=FALSE and \option{axes}=TRUE.
 }
   \item{sparse}{
 Determines whether the image pixels are sparse sampled to speed up plotting. If set to 2 it will only determine every 2nd pixel, and if 3 every 3rd etc. The default 'auto' means it will scale to produce a maximum number of 1,000 pixels on any side (on most monitors this is a fairly useful maximum, and ensures quick displaying of even very large images).
@@ -105,7 +105,7 @@ Logical; if the z axis being plotted, this will set all the various parameters t
 Logical; should the \code{median} of the \option{image} be subtracted or not? This is often useful in conjunction with \option{qdiff} = TRUE.
 }
   \item{doplot}{
-Logical; if TRUE then gnerates the image. If FALSE then just return the output below (with z scaled as request).  
+Logical; if TRUE then generates the image. If FALSE then just return the output below (with z scaled as requested).  
 }
   \item{interact}{
 Logical; if TRUE then an interactive \code{plotly} viewer will be displayed. You will need the \code{plotly} package from CRAN for this to work.
