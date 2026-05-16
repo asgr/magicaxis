@@ -6,7 +6,7 @@ magimage = function(x, y, z, zlim, xlim, ylim, col = grey((0:1e3)/1e3), add = FA
   if(is.list(x)){
     if(!all(names(x) %in% c('x','y','z'))){
       message('x is a list (and not just x/y/z components), perhaps you want to pass a subset of this to magimage?')
-      str(x)
+      message(paste(utils::capture.output(str(x)), collapse='\n'))
     }
   }
   dots = list(...)

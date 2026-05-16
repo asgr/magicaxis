@@ -25,7 +25,7 @@ If a single integer value, how many bins the data should be split into. If a vec
 The type of running average to determine. Options are 'median' (the default), 'mean', 'mode' and 'mode2d'. 'median' calculates the median for binned x and y values. 'mean' calculates the mean for binned x and y values. 'mode' uses the default R 'density' function, and finds the mode of the resulting smoothed 1D distributions for binned x and y values. 'mode2d' uses the MASS package 'kde2d' function, and finds the mode of the resulting smoothed 2d distribution for binned x and y values. 'cen' just calculates the geometric centre of the bin in x and y directions and is useful for using in conjunction with another 'type' option for plotting purposes. 'mean', 'mode' and 'mode2d' should be used with some thought if 'log' is used, since the central values will be determined for the logged data, which may or may not be desired.
 }
   \item{ranges}{
-The quantile ranges desired, can set to NULL if quantiles are not desired. The default adds 1-sigma equivilant quantile ranges.
+The quantile ranges desired, can set to NULL if quantiles are not desired. The default adds 1-sigma equivalent quantile ranges.
 }
   \item{binaxis}{
 Which axis to bin across. Must be set to 'x' or 'y'.
