@@ -80,7 +80,7 @@ magplot(log10(x), y, unlog = "x", xlab = "x", ylab = "y")
 Log axes on both sides:
 
 ```{r magplot-loglog}
-magplot(x, y, log = "x", xlab = "x", ylab = "y")
+magplot(x, y, log = "xy", xlab = "x", ylab = "y")
 ```
 
 Sigma-clipping the axis limits to focus on where the data actually are:
