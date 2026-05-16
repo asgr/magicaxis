@@ -173,9 +173,6 @@ for(i in 1:length(side)){
     }
   }
 
-  # if(length(dotsmtext)>0){
-  #   names(dotsmtext)=c('cex', 'col', 'font')[match(names(dotsmtext), dotskeepmtext)]
-  # }
   if(is.null(xlab)==FALSE){
     ParmOff(mtext, c(list(text=xlab, side=ifelse(side[1] %in% c(1,3), side[1], side[2]), line=mtline[1]), dots), .use_args = keepmtext)
   }
