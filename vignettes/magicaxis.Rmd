@@ -27,7 +27,7 @@ scientific plots with base R graphics. It handles minor tick marks, log-scale
 axes, 2-D density contours, image display, hexagonal binning, and triangle
 (corner) plots for MCMC chains.
 
-Since version 2.5.3, all internal argument dispatch uses
+Since version 2.6.0, all internal argument dispatch uses
 [ParmOff](https://github.com/asgr/ParmOff) instead of `do.call`.  This lets
 extra `...` arguments be forwarded flexibly to each sub-function: unrecognised
 arguments are silently dropped, so callers no longer need to know exactly which
