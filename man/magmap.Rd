@@ -5,7 +5,7 @@
 Value remapper
 }
 \description{
-This function allows the use to remap a vector of values onto a different system. For instance you might have values stretching from -10 to 100 which you want mapped from 0 to 2/3 so you can then sue the output as an input for point colour or size. It allows clipping of values, rejection of bad values, and log stretching.
+This function allows the use to remap a vector of values onto a different system. For instance you might have values stretching from -10 to 100 which you want mapped from 0 to 2/3 so you can then use the output as an input for point colour or size. It allows clipping of values, rejection of bad values, and log stretching.
 }
 \usage{
 magmap(data, locut = 0, hicut = 1, flip = FALSE, range = c(0, 2/3), type = "quan",

@@ -132,7 +132,164 @@ magplot(h, log = "y", xlab = "x (log)", ylab = "Count (log)")
 
 ---
 
-## magcon – 2-D density contours
+## magclip – automatic sigma-clipping
+
+`magclip()` iteratively removes outliers that are unlikely given a Normal
+distribution.  It is used internally by `magplot()`, `maghist()`, and `magbin()`
+when a scalar `xlim`/`ylim` is supplied, but it is also useful on its own:
+
+```{r magclip-basic}
+set.seed(42)
+x <- c(rnorm(500), runif(30, 5, 10))   # 500 Normal + 30 outliers
+result <- magclip(x, sigma = 3)
+cat("Before clipping:", length(x), "points\n")
+cat("After clipping:", length(result$x), "points\n")
+cat("Clipped range:", round(result$range, 2), "\n")
+```
+
+The `estimate` argument controls which tail is used to estimate the Normal
+dispersion.  Use `'lo'` when contamination is on the high side only:
+
+```{r magclip-lo}
+set.seed(43)
+x_hi <- c(rnorm(500), runif(40, 4, 8))
+r_both <- magclip(x_hi)
+r_lo   <- magclip(x_hi, estimate = 'lo')
+cat("Both sides kept:", length(r_both$x), "| Low-side only kept:", length(r_lo$x), "\n")
+```
+
+---
+
+## magrun – running statistics
+
+`magrun()` computes running medians (or means/modes) and scatter measures along
+a binned axis, ideal for overlaying a trend on noisy scatter data:
+
+```{r magrun-basic}
+set.seed(44)
+n  <- 1000
+xx <- seq(0, 2, len = n)
+yy <- xx + rnorm(n)
+magplot(xx, yy, col = "lightgrey", pch = ".", xlab = "x", ylab = "y")
+run <- magrun(cbind(xx, yy), bins = 10)
+lines(run$x, run$y, col = "red", lwd = 2)
+lines(run$x, run$yquan[, 1], lty = 2, col = "red")
+lines(run$x, run$yquan[, 2], lty = 2, col = "red")
+```
+
+The `Nscale = TRUE` flag divides the scatter by √N, giving error-in-the-mean
+intervals (useful for assessing the significance of a trend):
+
+```{r magrun-Nscale}
+set.seed(45)
+n  <- 500
+xx <- seq(0, 1, len = n)
+yy <- xx + rnorm(n)
+run_sd  <- magrun(cbind(xx, yy), bins = 8, Nscale = FALSE, diff = TRUE)
+run_sem <- magrun(cbind(xx, yy), bins = 8, Nscale = TRUE,  diff = TRUE)
+magplot(xx, yy, col = "lightgrey", pch = ".", xlab = "x", ylab = "y")
+magerr(run_sd$x,  run_sd$y,  ylo = run_sd$yquan[, 1],  yhi = run_sd$yquan[, 2],
+       col = "royalblue", length = 0, lty = 2)
+magerr(run_sem$x, run_sem$y, ylo = run_sem$yquan[, 1], yhi = run_sem$yquan[, 2],
+       col = "red")
+legend("topleft", legend = c("scatter (1σ)", "SEM (1σ)"),
+       col = c("royalblue", "red"), lty = c(2, 1), bty = "n")
+```
+
+---
+
+## magerr – error bars
+
+`magerr()` adds symmetric or asymmetric error bars in x and/or y to an
+existing plot.  Lower errors are supplied via `xlo`/`ylo` and upper errors
+via `xhi`/`yhi` (defaulting to the lower value if omitted):
+
+```{r magerr-basic}
+set.seed(46)
+n  <- 12
+x  <- sort(runif(n))
+y  <- 2 * x + rnorm(n, sd = 0.15)
+magplot(x, y, xlab = "x", ylab = "y")
+magerr(x, y, xlo = 0.04, ylo = 0.1, yhi = 0.2)
+```
+
+Error ellipses are drawn when `corxy` is supplied:
+
+```{r magerr-ellipse}
+set.seed(47)
+n <- 8
+x  <- runif(n, 0.1, 0.9)
+y  <- runif(n, 0.1, 0.9)
+sx <- runif(n, 0.03, 0.08)
+sy <- runif(n, 0.05, 0.12)
+rho <- runif(n, -0.7, 0.7)
+magplot(x, y, xlab = "x", ylab = "y", pch = 16)
+magerr(x, y, xlo = sx, ylo = sy, corxy = rho)
+```
+
+A shaded error polygon is produced with `poly = TRUE`:
+
+```{r magerr-poly}
+set.seed(48)
+x  <- seq(0, 2 * pi, len = 30)
+y  <- sin(x) + rnorm(30, sd = 0.1)
+magplot(x, y, type = "l", xlab = "x", ylab = "sin(x)")
+magerr(x, y, ylo = 0.15, yhi = 0.15, poly = TRUE, col = adjustcolor("steelblue", 0.3),
+       border = NA)
+```
+
+---
+
+## magcurve – draw a function curve
+
+`magcurve()` evaluates and plots any R expression over a range.  It is a
+drop-in replacement for `curve()` that uses `magplot()` for its base plot,
+giving pretty axes automatically:
+
+```{r magcurve-basic}
+magcurve(sin(x), from = 0, to = 2 * pi, xlab = "x", ylab = "sin(x)")
+magcurve(cos(x), add = TRUE, col = "steelblue")
+legend("topright", legend = c("sin", "cos"), col = c("black", "steelblue"),
+       lty = 1, bty = "n")
+```
+
+Log axes are supported:
+
+```{r magcurve-log}
+magcurve(x^2, from = 1, to = 100, log = "xy",
+         xlab = "x (log)", ylab = expression(x^2 ~ "(log)"))
+```
+
+---
+
+## magbar – colour bar legend
+
+`magbar()` adds a standalone colour bar to any existing plot.  The `position`
+argument accepts compass-style strings (`'topright'`, `'bottomleft'`, etc.);
+`orient` switches between vertical (`'v'`) and horizontal (`'h'`):
+
+```{r magbar-basic}
+n <- 300
+set.seed(49)
+x <- rnorm(n); y <- rnorm(n); z <- x^2 + y^2
+colramp <- hcl.colors(21, "YlOrRd")
+colvals <- magmap(z, range = c(1, length(colramp)))$map
+magplot(x, y, col = colramp[round(colvals)], pch = 16,
+        xlab = "x", ylab = "y")
+magbar(position = "topright", range = range(z), col = colramp,
+       orient = "v", title = expression(x^2 + y^2))
+```
+
+A horizontal bar at the bottom:
+
+```{r magbar-horizontal}
+magplot(x, y, col = colramp[round(colvals)], pch = 16,
+        xlab = "x", ylab = "y")
+magbar(position = "bottomleft", range = range(z), col = colramp,
+       orient = "h", title = "z")
+```
+
+---
 
 `magcon()` computes a 2-D kernel density estimate and draws contours at chosen
 probability levels (default 50%, 68%, 95%) together with an optional image

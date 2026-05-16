@@ -50,7 +50,7 @@ magmap = function( data,
     } else if (type == 'rank') {
       locut = 1
       hicut = length(data[good])
-      data[good][order(data[good])] = locut:hicut
+      data[good] <- rank(data[good], ties.method = 'average')
     } else{
       stop(type, ' is not a valid type option!')
     }

@@ -71,10 +71,10 @@ The standard deviations in the x bins. This is a two column data.frame if 'diff'
   \item{ysd}{
 The standard deviations in the y bins. This is a two column data.frame if 'diff' is set to FALSE, giving the y-sd and y+sd values, or a single vector if 'diff' is set to TRUE. If Nscale is set to TRUE then this is also divided by sqrt the contributing objects in each bin.
 }
-  \item{bincen}{
+  \item{bincens}{
 The bin centres used in the chosen binning direction.
 }
-  \item{binlim}{
+  \item{binlims}{
 The bin limits used in the chosen binning direction.
 }
   \item{Nbins}{

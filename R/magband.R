@@ -75,18 +75,6 @@
   return = temp
 }
 
-".Last.magroj"<-
-  local({
-    val <- list(
-      projection = "", 
-      parameters = NULL, 
-      orientation = NULL,
-      centre = NULL,
-      longlim = NULL,
-      latlim = NULL
-    )
-    function(new) if(!missing(new)) val <<- new else val
-  })
 
 magband=function(crosseq = 0, peaklat = 0, width=10, res=1000, ...){
   longlo=.Last.magproj()$longlim[1]

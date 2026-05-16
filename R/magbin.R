@@ -223,7 +223,7 @@
   tempambig = output$nn.idx[distorder]
   remdupe = duplicated(tempambig, incomparables=NA)
   output$nn.idx[distorder][remdupe] = NA
-  output$output$nn.dists[distorder][remdupe] = NA
+  output$nn.dists[distorder][remdupe] = NA
   
   # if(exactcount){
   #   if(shape=='hex' | shape=='hexagon'){
@@ -356,30 +356,21 @@ plot.magbin = function(x, colramp=hcl.colors(21), colstretch='lin', sizestretch=
       ParmOff(magplot, c(list(NA, NA, xlim=xlim, ylim=ylim), dots))
     }
   }
-  #magplot(NA, NA, xlim=x$xlim, ylim=x$ylim, ...)
-  for(i in 1:dim(x$bins)[1]){
-    if(!is.na(colmap$map[i])){
-      if(is.na(x$dustlim)){
-        if(x$shape=='hex' | x$shape=='hexagon'){
-          .drawhex(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, direction=x$direction)
-        }
-        if(x$shape=='sq' | x$shape=='square'){
-          .drawsquare(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
-        }
-        if(x$shape=='tri' | x$shape=='triangle' | x$shape=='trihex'){
-          .drawtriangle(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, type=x$bins[i,'type'], direction=x$direction)
-        }
-      }else if(x$bins[i,'count'] > x$dustlim){
-        if(x$shape=='hex' | x$shape=='hexagon'){
-          .drawhex(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, direction=x$direction)
-        }
-        if(x$shape=='sq' | x$shape=='square'){
-          .drawsquare(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
-        }
-        if(x$shape=='tri' | x$shape=='triangle' | x$shape=='trihex'){
-          .drawtriangle(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, type=x$bins[i,'type'], direction=x$direction)
-        }
-      }
+  # Determine the drawing function once outside the loop (shape is constant).
+  # After the dustlim filter above, all remaining bins already satisfy count > dustlim,
+  # so we only need to skip bins where the colour map produced NA.
+  draw_bins <- which(!is.na(colmap$map))
+  if(x$shape == 'hex' | x$shape == 'hexagon'){
+    for(i in draw_bins){
+      .drawhex(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, direction=x$direction)
+    }
+  }else if(x$shape == 'sq' | x$shape == 'square'){
+    for(i in draw_bins){
+      .drawsquare(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA)
+    }
+  }else if(x$shape == 'tri' | x$shape == 'triangle' | x$shape == 'trihex'){
+    for(i in draw_bins){
+      .drawtriangle(x$bins[i,'x'], x$bins[i,'y'], unitcell=x$step*sizemap[i], col=colramp[colmap$map[i]], border=NA, type=x$bins[i,'type'], direction=x$direction)
     }
   }
   if(!is.null(x$dust)){
