@@ -291,6 +291,8 @@ magbar(position = "bottomleft", range = range(z), col = colramp,
 
 ---
 
+## magcon – 2-D density contours
+
 `magcon()` computes a 2-D kernel density estimate and draws contours at chosen
 probability levels (default 50%, 68%, 95%) together with an optional image
 and colour bar.
