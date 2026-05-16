@@ -170,3 +170,12 @@ test_that("magtri with custom lab argument uses supplied labels", {
     expect_equal(nrow(result), 2)
   })
 })
+
+test_that("magtri with custom majorn", {
+  with_null_dev({
+    set.seed(12)
+    chains <- data.frame(a = rnorm(200), b = rnorm(200), c = rnorm(200), d = rnorm(200))
+    result <- magtri(chains, samples = 100, lab = list("Alpha", "Beta", 'Gamma', 'Delta'), majorn=2)
+    expect_equal(nrow(result), 4)
+  })
+})
