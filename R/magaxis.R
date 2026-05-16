@@ -7,13 +7,6 @@ function(side=1:2, majorn=5, minorn='auto', tcl=0.5, ratio=0.5, labels=TRUE, unl
 dots=list(...)
 keepaxis = c('side', 'at', 'tcl', 'labels', 'tick', 'mgp', 'lwd', 'lwd.ticks', 'col', 'cex.axis', 'col.axis', 'font.axis', 'xaxp', 'yaxp', 'tck', 'las', 'fg', 'xpd', 'xaxt', 'yaxt', 'col.ticks')
 keepmtext = c('text', 'side', 'line', 'cex.lab', 'col.lab', 'font.lab')
-# if(length(dots)>0){
-#   dotsaxis=dots[names(dots) %in% keepaxis]
-#   dotsmtext=dots[names(dots) %in% dotskeepmtext]
-# }else{
-#   dotsaxis={}
-#   dotsmtext={}
-# }
 if(length(mtline)==1){mtline=rep(mtline,2)}
 majornlist=majorn
 minornlist=minorn
