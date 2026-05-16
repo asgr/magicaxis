@@ -105,7 +105,7 @@ Logical; if the z axis being plotted, this will set all the various parameters t
 Logical; should the \code{median} of the \option{image} be subtracted or not? This is often useful in conjunction with \option{qdiff} = TRUE.
 }
   \item{doplot}{
-Logical; if TRUE then generates the image. If FALSE then just return the output below (with z scaled as requested).  
+Logical; if TRUE then generates the image. If FALSE then just return the output below (with z scaled as requested).
 }
   \item{interact}{
 Logical; if TRUE then an interactive \code{plotly} viewer will be displayed. You will need the \code{plotly} package from CRAN for this to work.
