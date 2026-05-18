@@ -1,15 +1,18 @@
 \name{magtri}
 \alias{magtri}
+\alias{magcorner}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-High level triangle plotting code for MCMC chains
+High level triangle (corner) plotting code for MCMC chains
 }
 \description{
-A very high level (minimal options) MCMC chain triangle (AKA corner) plot function. The default is deliberately spartan in terms of options, but the result should be a clear set of covariance plots that should give quick insight into the stationary sampling quality of a set of MCMC posterior chains.
+A very high level (minimal options) MCMC chain triangle (AKA corner) plot function. The default is deliberately spartan in terms of options, but the result should be a clear set of covariance plots that should give quick insight into the stationary sampling quality of a set of MCMC posterior chains. \code{magcorner} is just an alias to \code{magtri}, since these days such plots are more commonly called 'corner' plots, especially in Python-world.
 }
 \usage{
-magtri(chains, samples = 1000, thin = 1, samptype = 'end', grid = FALSE, do.tick = FALSE,
-refvals = NULL, lab = NULL, ...)
+magtri(chains, samples = 1000, thin = 1, samptype = 'end', grid = FALSE,
+  do.tick = FALSE, refvals = NULL, lab = NULL, draw.sig = FALSE, ...)
+magcorner(chains, samples = 1000, thin = 1, samptype = 'end', grid = FALSE,
+  do.tick = FALSE, refvals = NULL, lab = NULL, draw.sig = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,18 +40,21 @@ Numeric vector; this gives reference values to overdraw. If provided it must be 
   \item{lab}{
 Character vector; optional over-ride for column names when plotting the grid of scatter plots.  
 }
+  \item{draw.sig}{
+Logical; should vertical and horizontal sigma regions be overlaid on the scatter and contour panels.  
+}
   \item{\dots}{
 Extra arguments are passed to \option{\link{magcon}} for plotting.  
 }
 }
 \details{
-    This interface is deliberately very high level with few options. It is really designed to allow quick exploratory views of posterior samples from MCMC chains, and publication grade plots should be designed by the user. That said, in many situations the plots generated are of pleasant, clear and publishable quality.
+This interface is deliberately very high level with few options. It is really designed to allow quick exploratory views of posterior samples from MCMC chains, and publication grade plots should be designed by the user. That said, in many situations the plots generated are of pleasant, clear and publishable quality.
     
-    Other types of data can be plotted using this function of course, but the default setup is tuned towards being useful for MCMC posterior chain samples.
+Other types of data can be plotted using this function of course, but the default setup is tuned towards being useful for MCMC posterior chain samples.
     
-    The contour levels shown are the defaults for magcon, i.e. they contain 50\% (lty=2), 68\% (lty=1) and 95\% (lty=3) of the posterior chains.
+The contour levels shown are the defaults for magcon, i.e. they contain 50\% (lty=2), 68\% (lty=1) and 95\% (lty=3) of the posterior chains.
     
-    The red cross shows the mean for the sampled posterior chain. The red vertical dashed line traces this over the contour plots. The red dotted line shows the +/- SD range of the sampled posterior chain.
+The red cross shows the mean for the sampled posterior chain. The red vertical dashed line traces this over the contour plots. The red dotted line shows the +/- SD range of the sampled posterior chain.
 }
 \value{
   Outputs a two column matrix containing the means and standard deviations fo the parameters. Generally run for the side effect of producing nice projected plots.

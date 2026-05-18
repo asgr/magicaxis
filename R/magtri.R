@@ -1,4 +1,4 @@
-magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tick=FALSE, refvals=NULL, lab=NULL, ...){
+magtri = function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tick=FALSE, refvals=NULL, lab=NULL, draw.sig=FALSE, ...){
   chains=as.data.frame(chains)
   chaincolnames=colnames(chains)
   Nsamp=dim(chains)[1]
@@ -71,17 +71,22 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
         if(i>j){
           plot.new()
           plot.window(xlim=xrange,ylim=yrange)
-          xtemp=chains[usesamps,i]
-          ytemp=chains[usesamps,j]
+          xtemp = chains[usesamps,i]
+          ytemp = chains[usesamps,j]
           if(sd(xtemp)==0){xtemp=xtemp+rnorm(samples,sd=1e-3)}
           if(sd(ytemp)==0){ytemp=ytemp+rnorm(samples,sd=1e-3)}
           ParmOff(magaxis, dots, side=1:2, grid=grid, grid.col='lightgrey', labels=FALSE, do.tick=do.tick, .pass_dots=FALSE)
-          ParmOff(magcon, dots, x=xtemp, y=ytemp, dobar=FALSE, doim=FALSE, add=TRUE, lty=c(2,1,3), xlim=xrange, ylim=yrange, h=c(diff(xrange),diff(yrange))/10, .pass_dots=FALSE)
-          ParmOff(points, dots, x=meanvec[i], y=meanvec[j], col='red', pch=4, cex=2, .pass_dots=FALSE)
+          ParmOff(magcon, dots, x=xtemp, y=ytemp, dobar=FALSE, doim=FALSE, add=TRUE, lty=c(2,1,3), xlim=xrange, ylim=yrange, h=c(sdvec[i], sdvec[j])/5, .pass_dots=TRUE, .clash='last')
+          ParmOff(points.default, dots, x=meanvec[i], y=meanvec[j], col='red', pch=4, cex=2, .pass_dots=TRUE, .clash = 'last')
           box()
-          abline(v=meanvec[i],lty=1,col='red')
-          abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
-          abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
+          if(draw.sig){
+            abline(v=meanvec[i],lty=1,col='red')
+            abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
+            abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
+            abline(h=meanvec[j],lty=1,col='darkgreen')
+            abline(h=meanvec[j]-sdvec[j],lty=3,col='darkgreen')
+            abline(h=meanvec[j]+sdvec[j],lty=3,col='darkgreen')
+          }
           if(!is.null(refvals)){
             abline(v=refvals[i],lty=1, col='blue')
           }
@@ -99,6 +104,14 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
           ParmOff(points.default, dots_carry, x=chains[usesamps,i], y=chains[usesamps,j], pch='.', col='darkgrey', .pass_dots=TRUE)
           ParmOff(points.default, dots_carry, x=meanvec[i], y=meanvec[j], col='red', pch=4, cex=2, .pass_dots=TRUE)
           box()
+          if(draw.sig){
+            abline(v=meanvec[i],lty=1,col='red')
+            abline(v=meanvec[i]-sdvec[i],lty=3,col='red')
+            abline(v=meanvec[i]+sdvec[i],lty=3,col='red')
+            abline(h=meanvec[j],lty=1,col='darkgreen')
+            abline(h=meanvec[j]-sdvec[j],lty=3,col='darkgreen')
+            abline(h=meanvec[j]+sdvec[j],lty=3,col='darkgreen')
+          }
           if(i==1){
             if(is.null(lab)){
               ParmOff(magaxis, dots, side=2, ylab=chaincolnames[j], .pass_dots=FALSE)
@@ -114,3 +127,5 @@ magtri=function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tic
   rownames(output)=chaincolnames
   return(invisible(output))
 }
+
+magcorner = magtri
