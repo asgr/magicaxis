@@ -130,7 +130,7 @@ dust_getval_resolve_ipath <- function(ipath = NULL) {
 # Define a helper that maps a logical map name to its FITS file pair.
 dust_getval_map_files <- function(map, ipath) {
   # Store the north and south FITS filenames for each supported map.
-  map_files <- list(Ebv = c("SFD_dust_4096_ngp.fits", "SFD_dust_4096_sgp.fits"), I100 = c("SFD_i100_4096_ngp.fits", "SFD_i100_4096_sgp.fits"), X = c("SFD_xmap_ngp.fits", "SFD_xmap_sgp.fits"), T = c("SFD_temp_ngp.fits", "SFD_temp_sgp.fits"), mask = c("SFD_mask_4096_ngp.fits", "SFD_mask_4096_sgp.fits"))
+  map_files <- list(Ebv = c("SFD_dust_409_ngp.fits", "SFD_dust_409_sgp.fits"), I100 = c("SFD_i100_4096_ngp.fits", "SFD_i100_4096_sgp.fits"), X = c("SFD_xmap_ngp.fits", "SFD_xmap_sgp.fits"), T = c("SFD_temp_ngp.fits", "SFD_temp_sgp.fits"), mask = c("SFD_mask_4096_ngp.fits", "SFD_mask_4096_sgp.fits"))
 
   # Build the full paths to the required north and south FITS files.
   files <- file.path(ipath, map_files[[map]])
@@ -147,9 +147,9 @@ dust_getval_map_files <- function(map, ipath) {
   # Copy the FITS files locally when any path is too long for the native code.
   if (any(too_long)) {
     # Warn that the files are being copied to satisfy the legacy path limit.
-    warning(sprintf("Map file path exceeds the legacy C limit of 79 bytes: %s\nCopying maps to working directory.", files[[which(too_long)[1L]]]), call. = FALSE)
+    warning(sprintf("Map file path exceeds the legacy C limit of 79 bytes:\n%s\nCopying maps to working directory.", files[[which(too_long)[1L]]]), call. = FALSE)
     # Copy the FITS files into the current working directory.
-    system(paste("cp", files, "."))
+    system(paste("cp",paste(files,collapse=' '), "."))
     # Switch the map directory to the working directory after copying.
     ipath <- "./"
     # Rebuild the FITS file paths using the shorter local directory.
@@ -158,6 +158,7 @@ dust_getval_map_files <- function(map, ipath) {
     missing <- files[!file.exists(files)]
     # Stop when the attempted copy did not produce both files.
     if (length(missing)) {
+      print(missing)
       # Report the files that still could not be found after copying.
       stop(sprintf("Copy failed: %s", paste(basename(missing), collapse = ", ")), call. = FALSE)
     }
