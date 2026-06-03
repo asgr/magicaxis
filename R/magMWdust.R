@@ -3,7 +3,7 @@
 # File Name : magMWdust.R
 # Created By : awright
 # Creation Date : 03-06-2026
-# Last Modified : Wed Jun  3 12:50:43 2026
+# Last Modified : Wed Jun  3 13:40:13 2026
 #
 #=========================================
 
@@ -17,7 +17,7 @@ magMWdust <- function(type = "p", pch = 16, pt.cex = 0.5, dlon = 1, dlat = 1, op
   # Build an equatorial sky grid with the requested spacing.
   sky <- expand.grid(seq(0 + dlon, 360 - dlon, by = dlon), seq(-90 + dlat, 90 - dlat, by = dlat))
   # Convert the equatorial grid to galactic coordinates for dust lookups.
-  gal <- .eq2gal(sky[, 1], sky[, 2], eq = "B1950")
+  gal <- .eq2gal(sky[, 1], sky[, 2], equinox = "B1950")
   # Query the dust map and keep the original equatorial coordinates.
   dust_all <- cbind(ra = sky[, 1], dec = sky[, 2], dust_getval(gal[, 1], gal[, 2], map = "Ebv", interp = TRUE))
   # Map dust values onto an opacity scale for plotting.
@@ -51,7 +51,6 @@ magMWdust <- function(type = "p", pch = 16, pt.cex = 0.5, dlon = 1, dlat = 1, op
   if (equinox=='J2000') { 
     alpha0<-192.8595
     delta0<-27.1284
-    delta0<-45
     ell0<-122.9320
   } else if (equinox=='B1950') { 
     alpha0<-192.25
