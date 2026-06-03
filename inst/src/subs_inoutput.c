@@ -33,7 +33,7 @@ int inoutput_free_file_pointer_()
 {
    int retval = 0;
  
-   while(retval <= IO_FOPEN_MAX && pFILEfits[retval] != NULL) retval++;
+   while(retval < IO_FOPEN_MAX && pFILEfits[retval] != NULL) retval++;
    return retval;
 }
 
