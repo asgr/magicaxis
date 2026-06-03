@@ -59,7 +59,10 @@ plot opacity with \code{\link{magmap}}.
 
 When \code{type = "pl"} each retained grid cell is drawn as a projected
 four-corner polygon. Otherwise the retained cells are drawn as projected
-points.
+points. Polygon drawing is very slow when drawing to X11 (many minutes) except 
+with very low resolutions. Polygon drawing may nonetheless be preferable when 
+writing to file, where the operation is much faster and reduces aliasing effects 
+caused by over- (or under-)lapping points. 
 }
 \value{
 Returns \code{NULL} invisibly. The function is called for its plotting side
