@@ -272,7 +272,7 @@ dust_getval_compile_library <- function(code_dir, shared_object) {
     }
   }, add = TRUE)
   # Set the build flags required by the legacy C code.
-  Sys.setenv(PKG_CFLAGS = "-D__LINUX", PKG_LIBS = "-lm")
+  Sys.setenv(PKG_LIBS = "-lm")
 
   # Invoke R CMD SHLIB and capture its output.
   status <- system2(r_bin, args = args, stdout = TRUE, stderr = TRUE)
