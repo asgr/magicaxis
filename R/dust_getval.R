@@ -149,7 +149,7 @@ dust_getval_map_files <- function(map, ipath) {
     # Warn that the files are being copied to satisfy the legacy path limit.
     warning(sprintf("Map file path exceeds the legacy C limit of 79 bytes:\n%s\nCopying maps to working directory.", files[[which(too_long)[1L]]]), call. = FALSE)
     # Copy the FITS files into the current working directory.
-    system(paste("cp",paste(files,collapse=' '), "."))
+    file.copy(from = files, to = getwd(), overwrite = TRUE)
     # Switch the map directory to the working directory after copying.
     ipath <- "./"
     # Rebuild the FITS file paths using the shorter local directory.
