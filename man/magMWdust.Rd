@@ -10,12 +10,8 @@ constructed from the SFD dust map on an equatorial grid, and drawing the result 
 points or filled polygons.
 }
 \usage{
-magMWdust(dust.data = NULL, 
-  dlon = NULL, dlat = NULL, 
-  type = "p", pch = 16, pt.cex = 0.5,
-  opacity.range = c(0, 0.5),
-  whiteblack.percentile = c(0.5, 0.95),
-  stretch = "lin",
+magMWdust(dust.data = NULL, dlon = NULL, dlat = NULL, type = "p", pch = 16, pt.cex = 0.5,
+  opacity.range = c(0, 0.5), whiteblack.percentile = c(0.5, 0.95), stretch = "lin",
   min.opacity.plot = 0.01, show.status = TRUE, ...)
 }
 \arguments{
@@ -93,7 +89,10 @@ effects.
 \examples{
 magproj(0,0,type='n') #Construct a base magproj plot 
 magMWdust() #add MW dust map as points 
+
+#the below will take about a minute to generate
 \dontrun{
+magproj(0,0,type='n')
 magMWdust(type = "pl") #add MW dust map as polygons 
 }
 }
