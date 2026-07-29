@@ -13,7 +13,7 @@ magproj(long, lat, type = "b", plottext, longlim = c(-180, 180), latlim = c(-90,
   projection = "aitoff", parameters = NULL, centre = c(0, 0), add = FALSE,
   fliplong = FALSE, nlat = 6, nlong = 6, prettybase = 30, labels = TRUE, grid = TRUE,
   grid.col = "grey", grid.lty = 2, auto = FALSE, upres = 100, box = TRUE,
-  labloc = c(90, -45), labeltype = "deg", crunch = FALSE, ...)
+  labloc = c(90, -45), labeltype = "deg", crunch = FALSE, lab.cex = 1, ...)
   
 magprojgrid(nlat = 6, nlong = 6, prettybase = 30, box = TRUE, ...)
 
@@ -93,6 +93,9 @@ Should the labels be drawn using degrees (deg) or colon delimited sexigesimal (s
 }
   \item{crunch}{
 If set to FALSE the full output of \code{\link[celestial]{deg2hms}} and \code{\link[celestial]{deg2dms}} is printed. If set to TRUE a simplified output is used, where only the hours and degrees parts are extracted and appended with a 'h' and a degree symbol respectively.
+}
+  \item{lab.cex}{
+Character expansion factor for the coordinate labels. Default is 1. Passed as \option{cex} to the internal \code{\link{text}} calls that draw the longitude and latitude labels.
 }
   \item{\dots}{
 For magproj, Extra options that are either passed to \code{\link{points}} (\option{type='p'}), \code{\link{lines}} (\option{type='l'}), \code{\link{polygon}} (\option{type='pl'}), \code{\link{text}} (\option{type='t'}), or \code{\link{polygon}} (\option{type='b'}). For magprojgrid dots are pased to \code{\link{lines}} for drawing the grid lines. For magprojlabels dots are passed to \code{\link{text}} for adding text labels.

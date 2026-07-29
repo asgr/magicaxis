@@ -14,3 +14,4 @@ Imports: grDevices, graphics, stats, celestial (>= 1.4.1), MASS, plotrix, sm, ma
 Remotes: asgr/ParmOff
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+LazyData: true
