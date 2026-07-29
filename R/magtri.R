@@ -1,4 +1,6 @@
-magtri = function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.tick=FALSE, refvals=NULL, lab=NULL, draw.sig=FALSE, ...){
+magtri = function(chains, samples=1000, thin=1, samptype='end', quan_range = c(0,1),
+                  grid=FALSE, do.tick=FALSE,
+                  refvals=NULL, lab=NULL, draw.sig=FALSE, ...){
   chains=as.data.frame(chains)
   chaincolnames=colnames(chains)
   Nsamp=dim(chains)[1]
@@ -8,7 +10,7 @@ magtri = function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.t
   }
   if(Npar<=1){stop('Need 2+ parameters!')}
   
-  dots=list(...)
+  dots = list(...)
   
   if(thin>1){
     chains=chains[seq(1,Nsamp,by=thin),,drop=FALSE]
@@ -30,8 +32,8 @@ magtri = function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.t
   for(i in 1:Npar){
     for(j in 1:Npar){
       par(mar=c(0,0,0,0))
-      xrange=range(chains[usesamps,i])
-      yrange=range(chains[usesamps,j])
+      xrange = quantile(chains[usesamps,i], quan_range, na.rm=TRUE)
+      yrange = quantile(chains[usesamps,j], quan_range, na.rm=TRUE)
       if(xrange[1]==xrange[2]){
         val=xrange[1]
         xrange[1]=val-0.05
@@ -87,9 +89,6 @@ magtri = function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.t
             abline(h=meanvec[j]-sdvec[j],lty=3,col='darkgreen')
             abline(h=meanvec[j]+sdvec[j],lty=3,col='darkgreen')
           }
-          if(!is.null(refvals)){
-            abline(v=refvals[i],lty=1, col='blue')
-          }
           if(j==1){
             if(is.null(lab)){
               ParmOff(magaxis, dots, side=1, xlab=chaincolnames[i], .pass_dots=FALSE, .check=FALSE)
@@ -119,6 +118,9 @@ magtri = function(chains, samples=1000, thin=1, samptype='end', grid=FALSE, do.t
               ParmOff(magaxis, dots, side=2, ylab=lab[[j]], .pass_dots=FALSE, .check=FALSE)
             }
           }
+        }
+        if(!is.null(refvals)){
+          points(refvals[i], refvals[j], col='blue')
         }
       }
     }
